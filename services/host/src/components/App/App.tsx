@@ -5,9 +5,8 @@ import {shopRoutes} from '@packages/shared/src/routes/shop'
 // import AppLayout from '@packages/shared/src/components/Layout'
 
 
-// import MainHeader from '@packages/shared/src/components/MainHeader';
-
-
+import MainHeader from "@packages/shared/src/components/MainHeader"
+// import {UserCard} from "@packages/shared/src/components/UserCard";
 export const App = () => {
 
     return (
@@ -17,9 +16,10 @@ export const App = () => {
             {/*<br/>*/}
             {/*<Link to={shopRoutes.main}>SHOP</Link>*/}
             {/*<AppLayout />*/}
-            {/* <Outlet/> */}
+            <Outlet/>
             <h1>djjdjdjdj</h1>
-            {/* <MainHeader></MainHeader> */}
+            {/* <UserCard username={'FROM ADMIN'} /> */}
+            <MainHeader />
         </div>
     );
 };

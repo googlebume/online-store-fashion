@@ -9,6 +9,7 @@ const MainHeader = () => {
                 <HeaderCompanyLogo></HeaderCompanyLogo>
 
                 <HeaderMenuList></HeaderMenuList>
+                <h1> EXPORTED</h1>
             </div>
         </header>
     );

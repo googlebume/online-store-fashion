@@ -5,8 +5,6 @@ import shopRoutes from 'shop/Router';
 // @ts-ignore
 import adminRoutes from 'admin/Router';
 
-import MainHeader from '@packages/shared/src/components/MainHeader'
-
 export const router = createBrowserRouter([
     {
         path: "/",

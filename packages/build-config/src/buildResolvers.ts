@@ -4,10 +4,10 @@ import path from "path";
 
 export function buildResolvers(options: BuildOptions): Configuration['resolve'] {
     return {
-        extensions: ['.tsx', '.ts', '.js', '.jsx', '.scss', '.css'],
+        extensions: [".js", ".jsx", ".ts", ".tsx"],
         alias: {
             '@': options.paths.src,
-            '@packages': path.resolve(__dirname, '../../packages'), // Вказує на корінь `packages`
+            '@unitsPackages': path.resolve(__dirname, 'packages/shared/src/utils'),
         },
     }
 }

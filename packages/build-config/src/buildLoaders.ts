@@ -61,7 +61,7 @@ export function buildLoaders(options: BuildOptions): ModuleOptions['rules'] {
         // ts-loader умеет работать с JSX
         // Если б мы не использовали тайпскрипт: нужен был бы babel-loader
         exclude: /node_modules/,
-        test: /\.tsx?$/,
+        test: /\.(j|t)sx?$/,  // /\.tsx?$/
         use: [
             {
                 loader: 'ts-loader',

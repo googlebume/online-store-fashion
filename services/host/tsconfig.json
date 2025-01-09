@@ -4,8 +4,7 @@
     "outDir": "./dist/",
     "baseUrl": ".",
     "paths": {
-      "@/*": ["./src/*"],
-      "@packages/*": ["../../packages/*"] // Псевдонім для `packages`
+      "@/*": ["./src/*"]
     }
   }
 }
