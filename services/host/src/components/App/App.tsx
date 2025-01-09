@@ -4,6 +4,10 @@ import {adminRoutes} from '@packages/shared/src/routes/admin'
 import {shopRoutes} from '@packages/shared/src/routes/shop'
 // import AppLayout from '@packages/shared/src/components/Layout'
 
+
+// import MainHeader from '@packages/shared/src/components/MainHeader';
+
+
 export const App = () => {
 
     return (
@@ -13,8 +17,9 @@ export const App = () => {
             {/*<br/>*/}
             {/*<Link to={shopRoutes.main}>SHOP</Link>*/}
             {/*<AppLayout />*/}
-            <Outlet/>
+            {/* <Outlet/> */}
             <h1>djjdjdjdj</h1>
+            {/* <MainHeader></MainHeader> */}
         </div>
     );
 };
