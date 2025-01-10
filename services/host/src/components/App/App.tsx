@@ -5,8 +5,9 @@ import {shopRoutes} from '@packages/shared/src/routes/shop'
 // import AppLayout from '@packages/shared/src/components/Layout'
 
 
+
 import MainHeader from "@packages/shared/src/components/MainHeader"
-// import {UserCard} from "@packages/shared/src/components/UserCard";
+
 export const App = () => {
 
     return (
@@ -17,8 +18,7 @@ export const App = () => {
             {/*<Link to={shopRoutes.main}>SHOP</Link>*/}
             {/*<AppLayout />*/}
             <Outlet/>
-            <h1>djjdjdjdj</h1>
-            {/* <UserCard username={'FROM ADMIN'} /> */}
+
             <MainHeader />
         </div>
     );

@@ -1,0 +1,25 @@
+@use '@packages/shared/src/utils/styles/colorScheme' as colors;
+
+.header__menu {
+    display: flex;
+    align-items: center;
+
+    .menu__list {
+        list-style: none;
+        display: flex;
+        gap: 1.5rem;
+        margin: 0;
+        padding: 0;
+
+        .list__li {
+            font-size: 1rem;
+            color: colors.$gray;
+            text-decoration: none;
+            transition: color 0.3s;
+
+            &:hover {
+                color: colors.$yellow;
+            }
+        }
+    }
+}

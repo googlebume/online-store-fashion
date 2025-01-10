@@ -1,19 +1,27 @@
 import React from 'react';
 import { headerMenuItems } from "../../../utils/constants/headerMenuItems";
+import cl from './HeaderMenuList.scss'
 
 
 const HeaderMenuList = () => {
 
 
     return (
-        <nav className='header__menu'>
-            <ul className='menu__list'>
+        <nav className={cl.header__menu}>
+            <ul className={cl.menu__list}>
+
                 {
-                    headerMenuItems.map((item) =>{
-                        return (
-                            <a href={item.link}>{item.title}</a>
-                        )
-                    })
+                headerMenuItems.map((item, index) => (
+
+                    <li key={index} className={cl.menu__item}>
+
+                        <img className={cl.menu__icon} src={item.icon} alt={`${item.title} icon`} />
+                        
+                        <a className={cl.menu__link} href={item.link}>
+                            {item.title}
+                        </a>
+                    </li>
+                ))
                 }
             </ul>
         </nav>

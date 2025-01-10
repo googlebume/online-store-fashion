@@ -52,8 +52,10 @@ export function buildLoaders(options: BuildOptions): ModuleOptions['rules'] {
             cssLoaderWithModules,
             // Compiles Sass to CSS
             "sass-loader",
+            
         ],
     }
+    
 
 
 

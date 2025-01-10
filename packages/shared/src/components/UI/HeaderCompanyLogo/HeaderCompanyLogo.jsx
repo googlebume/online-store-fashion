@@ -1,13 +1,17 @@
 import React from 'react';
+import colours from '@packages/shared/src/utils/styles/colorScheme'
+import '@packages/shared/src/utils/styles/resetStyles'
+import cl from './HeaderCompanyLogo.scss'
+import shopLogo from "@packages/shared/src/images/logos/shopLogo.png";
 
 const HeaderCompanyLogo = () => {
     return (
-        <div className="header__company">
-            <div className='company__logo'>
-                <img src="" alt="companyLogo" />
+        <div className={cl.header__company}>
+            <div className={cl.company__logo}>
+                <img className={cl.logo__img} src={shopLogo} alt="companyLogo" />
             </div>
-            <div className='company__naming'>
-                <h3 className='company__name'>
+            <div className={cl.company__naming}>
+                <h3 className={cl.company__name}>
                     Fashion
                 </h3>
             </div>

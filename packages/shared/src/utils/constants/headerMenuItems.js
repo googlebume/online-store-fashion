@@ -1,6 +1,19 @@
 export const headerMenuItems = [
-    { id: 1, title: "Зв'язок", link: "#" },
-    { id: 2, title: "Покупцям", link: "#" },
-    { id: 3, title: "Знижки", link: "#" },
-  ];
+  {
+    title: "Знижки",
+    link: "/sale",
+    icon: "/images/icons/home-icon.png",
+  },
+  {
+    title: "Покупцям",
+    link: "/about",
+    icon: "/images/icons/about-icon.png",
+  },
+  {
+    title: "Зв'язок",
+    link: "/contact",
+    icon: "/images/icons/contact-icon.png",
+  },
+];
+
   

@@ -4,10 +4,9 @@ import path from "path";
 
 export function buildResolvers(options: BuildOptions): Configuration['resolve'] {
     return {
-        extensions: [".js", ".jsx", ".ts", ".tsx"],
+        extensions: [".js", ".jsx", ".ts", ".tsx", ".scss"],
         alias: {
             '@': options.paths.src,
-            '@unitsPackages': path.resolve(__dirname, 'packages/shared/src/utils'),
         },
     }
 }
