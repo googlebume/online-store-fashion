@@ -2,6 +2,7 @@ import React from 'react';
 import { headerMenuItems } from "../../../utils/constants/headerMenuItems";
 import cl from './HeaderMenuList.scss'
 
+import userIcon from '@packages/shared/src/assets/images/icons/userIcon.png'
 
 const HeaderMenuList = () => {
 
@@ -24,6 +25,15 @@ const HeaderMenuList = () => {
                 ))
                 }
             </ul>
+
+            <div className={cl.profile}>
+                <div className={cl.profile__icon}>
+                    <img src={userIcon} alt="userIcon" />
+                </div>
+                <div className={cl.profile__name}>
+                    <p className={cl.profile__naming}></p>
+                </div>
+            </div>
         </nav>
     );
 };
