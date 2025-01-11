@@ -1,5 +1,5 @@
 {
-  "name": "shop",
+  "name": "header",
   "version": "1.0.0",
   "dependencies": {
     "@packages/shared": "*",

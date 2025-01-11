@@ -2,7 +2,7 @@
   "name": "monorepo-module-federation",
   "version": "1.0.0",
   "scripts": {
-    "start": "concurrently -n admin,host,shop \"npm run start --workspace=services/admin\" \"npm run start --workspace=services/host\" \"npm run start --workspace=services/shop\""
+    "start": "concurrently -n admin,host,shop,header \"npm run start --workspace=services/admin\" \"npm run start --workspace=services/host\" \"npm run start --workspace=services/shop\" \"npm run start --workspace=services/header\""
   },
   "workspaces": [
     "packages/*",

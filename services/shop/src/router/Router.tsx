@@ -16,10 +16,6 @@ const routes = [
             {
                 path: '/second',
                 element: <Suspense fallback={'Loading...'}>
-                    <div style={{color: 'red'}}>
-                        <h1>second page</h1>
-                        <UserCard username={'FROM SHOP'} />
-                    </div>
                 </Suspense>
             },
         ]

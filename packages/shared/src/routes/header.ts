@@ -1,3 +1,3 @@
 export const headerRoutes = {
-    result: '/header',
+    result: '/header/about',
 }
