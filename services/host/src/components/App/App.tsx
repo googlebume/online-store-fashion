@@ -1,25 +1,24 @@
 import React, {useState} from 'react';
-import {Link, Outlet} from "react-router-dom";
+import {Routes, Route, Link, Outlet} from "react-router-dom";
 import {adminRoutes} from '@packages/shared/src/routes/admin'
 import {shopRoutes} from '@packages/shared/src/routes/shop'
-// import AppLayout from '@packages/shared/src/components/Layout'
+import Layout from '@packages/shared/src/components/Layout'
 
-
-
-import MainHeader from "@packages/shared/src/components/MainHeader"
+import ErrorNotFound from '@packages/shared/src/components/ErrorNotFound';
 
 export const App = () => {
 
     return (
-        <div data-testid={'App.DataTestId'}>
-            {/*<h1>PAGE</h1>*/}
-            {/*<Link to={adminRoutes.about}>ABOUT</Link>*/}
-            {/*<br/>*/}
-            {/*<Link to={shopRoutes.main}>SHOP</Link>*/}
-            {/*<AppLayout />*/}
-            <Outlet/>
+        <div>
 
-            <MainHeader />
+            <Routes>
+                <Route path='/' element={<Layout />}>
+                    <Route index element={<div>11111111111111111111111111111</div>} />
+                    <Route path='*' element={<ErrorNotFound />} />
+                </Route>
+            </Routes>
+
+
         </div>
     );
 };

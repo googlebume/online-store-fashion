@@ -8,5 +8,8 @@ export function buildDevServer(options: BuildOptions): DevServerConfiguration {
         // если раздавать статику через nginx То надо делать проксирование на Index.html
         historyApiFallback: true,
         hot: true,
+        headers: {
+            'Access-Control-Allow-Origin': '*', // Вирішення проблеми CORS
+        },
     }
 }

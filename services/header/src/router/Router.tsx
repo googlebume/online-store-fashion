@@ -5,19 +5,9 @@ import {Header} from "@/pages/Header";
 
 const routes = [
     {
-        path: "/",
+        path: "/header",
         element: <App />,
-        children: [
-            {
-                path: '/main',
-                element: <Suspense fallback={'Loading...'}><Header /></Suspense>
-            },
-            {
-                path: '/second',
-                element: <Suspense fallback={'Loading...'}>
-                </Suspense>
-            },
-        ]
+
     },
 ]
 

@@ -15,9 +15,10 @@ const MainHeader = () => {
                 color: "white", // Замість $white
               }}
             className="header__body">
-                <HeaderCompanyLogo></HeaderCompanyLogo>
+                    <HeaderCompanyLogo></HeaderCompanyLogo>
 
-                <HeaderMenuList></HeaderMenuList>
+                    <HeaderMenuList></HeaderMenuList>
+                
             </div>
         </header>
     );

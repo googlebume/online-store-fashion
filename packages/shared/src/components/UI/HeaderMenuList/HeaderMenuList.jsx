@@ -1,4 +1,6 @@
 import React from 'react';
+import {Routes, Route, Outlet, Link} from 'react-router-dom';
+
 import { headerMenuItems } from "../../../utils/constants/headerMenuItems";
 import cl from './HeaderMenuList.scss'
 
@@ -18,9 +20,9 @@ const HeaderMenuList = () => {
 
                         <img className={cl.menu__icon} src={item.icon} alt={`${item.title} icon`} />
                         
-                        <a className={cl.menu__link} href={item.link}>
+                        <Link className={cl.menu__link} to={item.link}>
                             {item.title}
-                        </a>
+                        </Link>
                     </li>
                 ))
                 }
