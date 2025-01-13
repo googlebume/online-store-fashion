@@ -2,7 +2,7 @@ import React from 'react';
 import {Routes, Route, Outlet, Link} from 'react-router-dom';
 
 import { headerMenuItems } from "../../../utils/constants/headerMenuItems";
-import cl from './HeaderMenuList.scss'
+import cl from './HeaderMenuList.module.scss'
 
 import userIcon from '@packages/shared/src/assets/images/icons/userIcon.png'
 
