@@ -1,0 +1,134 @@
+footer {
+    background-color: #151a1f;
+    color: white;
+    display: flex;
+    flex-wrap: wrap;
+    padding: 0 auto;
+}
+
+.footer__content {
+    margin: 0 auto;
+    max-width: 1440px;
+    padding: 16px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.content__info {
+    display: block;
+    padding: 30px 0px 30px 0px;
+    flex-wrap: wrap;
+    max-width: 100%;
+    margin-right: 15px;
+}
+.info__about {
+    display: flex;
+    max-height: max-content;
+    margin-bottom: 50px;
+
+    .about__logo {
+        object-fit: cover;
+        object-position: center;
+        display: flex;
+        flex-wrap: nowrap;
+        align-items: center;
+        margin-right: 50px;
+        .logo__img {
+            margin-right: 10px;
+            img {
+                width: 50px;
+                filter: invert(1);
+                transform: rotate(-15deg);
+            }
+        }
+        .logo__title {
+            font-size: 2.3rem;
+        }
+    }
+
+}
+
+
+
+.footer_info__other {
+    max-width: 40%;
+    align-items: end;
+}
+
+
+
+
+@media (max-width: 1320px) {
+    .footer__content {
+        .content__info {
+            padding: 30px 0px 30px 0px;
+        }
+    }
+}
+
+@media(max-width: 794px) {
+    .content__info {
+        margin-right: 0;
+    }
+    .footer_info__other {
+        width: 50%;
+        padding-left: 0px;
+        display: flex;
+        justify-content: start;
+        flex-direction: column;
+    }
+}
+@media(max-width: 794px) {
+    .footer_info__other {
+        width: 100%;
+        max-width: 100%;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+    }
+}
+
+
+@media(max-width: 581px){
+    .content__info {
+        padding-left: 0;
+    }
+    .footer_info__other {
+        padding-left: 0;
+        width: 100%;
+        max-width: 100%;
+    }
+    .footer__content{
+        .content__info {
+            padding: 30px 0px 30px 0px;
+        }
+    }
+}
+@media(max-width: 509px){
+    .footer_info__other {
+        display: block;
+    }
+}
+
+@media(max-width: 420px){
+    .content__info {
+        width: 100%;
+        .info__about {
+            flex-wrap: nowrap;
+            .about__logo {
+                margin: 0;
+                margin-bottom: 20px;
+            }
+        }
+    }
+}
+
+@media(max-width: 391px){
+    .content__info {
+        padding: 30px 20px 30px 20px;
+        .info__about {
+            flex-wrap: wrap;
+        }
+    }
+}

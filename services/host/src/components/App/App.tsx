@@ -5,6 +5,7 @@ import {shopRoutes} from '@packages/shared/src/routes/shop'
 import Layout from '@packages/shared/src/components/Layout'
 
 import ErrorNotFound from '@packages/shared/src/components/ErrorNotFound';
+import MainShop from '@packages/shared/src/components/MainShop';
 
 export const App = () => {
 
@@ -13,7 +14,7 @@ export const App = () => {
 
             <Routes>
                 <Route path='/' element={<Layout />}>
-                    <Route index element={<div>11111111111111111111111111111</div>} />
+                    <Route index element={<MainShop />} />
                     <Route path='*' element={<ErrorNotFound />} />
                 </Route>
             </Routes>

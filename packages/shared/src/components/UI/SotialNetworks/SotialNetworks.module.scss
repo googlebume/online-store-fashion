@@ -1,7 +1,6 @@
 @use '@packages/shared/src/utils/styles/colorScheme' as colors;
 
 .other__social_networks {
-    width: 100%;
     display: flex;
     justify-content: space-around;
     flex-wrap: nowrap;
@@ -14,7 +13,7 @@
         width: 60px;
         border-radius: 50%;
         border: solid 1px colors.$yellow;
-        padding: 5%;
+        padding: 16px;
         overflow: hidden;
         position: relative;
         cursor: pointer;
@@ -69,10 +68,16 @@
 
 @media (max-width: 794px) {
     .other__social-networks {
-        width: 50%;
+        width: 90%;
         margin: 0 0;
         justify-content: center;
 
+    }
+}
+
+@media (max-width: 663px) {
+    .sotial_networks__network {
+        padding: 10px;
     }
 }
 
@@ -83,13 +88,15 @@
 }
 
 
-@media(max-width: 509px){
-        .other__social-networks {
-            width: 100%;
-        }
-        .other__bunk {
-            margin: 0 auto;
-        }
+@media(max-width: 509px) {
+    .sotial_networks__network {
+        padding: 6px;
+    }
+
+    .other__bunk {
+        margin: 0 auto;
+    }
+
     .other__social-networks {
         .sotial-networks__network {
             padding: 15px;

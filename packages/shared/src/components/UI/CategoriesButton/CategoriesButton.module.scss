@@ -1,0 +1,20 @@
+@use '@packages/shared/src/utils/styles/colorScheme' as colors;
+
+.header__categories_catalog {
+    .categories_catalog__btn {
+        color: colors.$yellow;
+        font-size: 1rem;
+        font-weight: bold;
+        cursor: pointer;
+        padding: 0.5rem 1rem;
+        border: 2px solid colors.$yellow;
+        border-radius: 5px;
+        background-color: transparent;
+        transition: all 0.3s;
+
+        &:hover {
+            background-color: colors.$yellow;
+            color: colors.$black;
+        }
+    }
+}

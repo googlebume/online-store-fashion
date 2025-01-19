@@ -1,10 +1,10 @@
 import React from 'react';
 import colours from '@packages/shared/src/utils/styles/colorScheme'
 import '@packages/shared/src/utils/styles/resetStyles'
-import cl from './HeaderCompanyLogo.scss'
+import cl from './CompanyLogo.scss'
 import shopLogo from "@packages/shared/src/assets/images/logos/shopLogo.png";
 
-const HeaderCompanyLogo = () => {
+const CompanyLogo = () => {
     return (
         <div className={cl.header__company}>
             <div className={cl.company__logo}>
@@ -19,4 +19,4 @@ const HeaderCompanyLogo = () => {
     );
 };
 
-export default HeaderCompanyLogo;
+export default CompanyLogo;

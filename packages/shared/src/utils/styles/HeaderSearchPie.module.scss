@@ -1,0 +1,13 @@
+@use '@packages/shared/src/utils/styles/colorScheme' as colors;
+
+.header_second {
+    background-color: colors.$black;
+    color: colors.$white;
+    padding: 1rem;
+
+    .header__main {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+}

@@ -1,0 +1,26 @@
+@use '@packages/shared/src/utils/styles/colorScheme' as colors;
+
+.header__tools {
+    .tools__btn {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: colors.$white;
+      font-size: 1rem;
+      cursor: pointer;
+
+      .tool__img {
+        width: 20px;
+        height: 20px;
+        object-fit: cover;
+      }
+
+      &:hover {
+        color: colors.$yellow;
+
+        .tool__img {
+          filter: brightness(1.5);
+        }
+      }
+    }
+}

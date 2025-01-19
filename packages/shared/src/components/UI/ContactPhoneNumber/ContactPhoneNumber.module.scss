@@ -1,0 +1,15 @@
+.about__phone_number {
+    font-size: 1rem;
+    display: flex;
+    text-wrap: nowrap;
+    align-items: end;
+    .phone_number__numbers {
+
+    }
+}
+
+@media(max-width: 420px){
+    .about__phone-number {
+        margin: 0;
+    }
+}

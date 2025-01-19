@@ -1,0 +1,26 @@
+.other__bunk {
+    display: flex;
+    .bunk__logo {
+        margin: 0 15px 0 8px;
+        object-fit: cover;
+        object-position: center;
+        .logo__image {
+            filter: invert(1);
+        }
+    }
+}
+
+
+@media(max-width: 794px) {
+    .other__bunk {
+        max-width: max-content;
+        align-items: center;
+    }
+}
+
+@media(max-width: 509px){
+    .other__bunk {
+        width: 100%;
+        margin: 0 auto;
+    }
+}
