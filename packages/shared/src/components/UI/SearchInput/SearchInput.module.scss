@@ -1,16 +1,38 @@
 @use '@packages/shared/src/utils/styles/colorScheme' as colors;
 
 .header__search {
+  width: 40%;
+  margin: 0 12px;
+  flex: 5;
+  position: relative;
+  &::before {
+    content: '';
+    position: absolute;
+    background: url(@packages/shared/src/assets/images/icons/magnifyingGlass.png);
+    object-fit: cover;
+    object-position: center;
+    width: 24px;
+    left: 6px;
+    top: 6px;
+    z-index: 5;
+    height: 24px;
+  }
     .search__input {
-      padding: 0.5rem;
+      padding: 0.5rem 0.5rem 0.5rem 2.3rem;
       font-size: 1rem;
       border: 2px solid colors.$gray;
       border-radius: 5px;
-      color: colors.$black;
-
+      color: colors.$ashDarkened;
+      width: 100%;
       &:focus {
         border-color: colors.$yellow;
         outline: none;
       }
+    }
+  }
+
+  @media (max-width: 866px) {
+    .header__search {
+        flex: 8;
     }
   }

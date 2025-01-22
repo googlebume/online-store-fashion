@@ -1,20 +1,48 @@
 @use '@packages/shared/src/utils/styles/colorScheme' as colors;
 
 .header__categories_catalog {
+    flex: 2;
     .categories_catalog__btn {
+        max-width: 180px;
+        display: flex;
+        align-items: center;
+        flex-wrap: nowrap;
         color: colors.$yellow;
         font-size: 1rem;
         font-weight: bold;
         cursor: pointer;
         padding: 0.5rem 1rem;
-        border: 2px solid colors.$yellow;
-        border-radius: 5px;
         background-color: transparent;
         transition: all 0.3s;
 
         &:hover {
             background-color: colors.$yellow;
             color: colors.$black;
+        }
+        &:hover .catalog__btn_image {
+            filter: brightness(0.1);
+        }
+        .catalog__btn_image {
+            width: 24px;
+            display: inline-block;
+            margin-right: 8px;
+        }
+    }
+}
+
+@media (max-width: 866px) {
+    .categories_catalog__btn {
+        flex: 1;
+        width: 53px;
+        p {
+            display: none;
+        }
+        &:hover {
+            background-color: none;
+            color: none;
+        }
+        &:hover .catalog__btn_image {
+            filter: brightness(0);
         }
     }
 }

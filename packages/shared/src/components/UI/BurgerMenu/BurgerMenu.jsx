@@ -1,42 +1,70 @@
-import React from 'react';
-import {Routes, Route, Outlet, Link} from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 
-import { headerMenuItems } from "../../../utils/constants/headerMenuItems";
-import cl from './BurgerMenu.module.scss'
+import { headerMenuItems } from '../../../utils/constants/headerMenuItems';
+import cl from './BurgerMenu.module.scss';
 
-import userIcon from '@packages/shared/src/assets/images/icons/userIcon.png'
+import userIcon from '@packages/shared/src/assets/images/icons/userIcon.png';
 
 const BurgerMenu = () => {
+    const [isMenuOpen, setIsMenuOpen] = useState(false);
 
+    useEffect(() => {
+        if (isMenuOpen) {
+            document.body.style.overflow = 'hidden';
+        } else {
+            document.body.style.overflow = 'scroll';
+
+        }
+
+  
+    }, [isMenuOpen]);
+
+    const toggleMenu = () => {
+        setIsMenuOpen(!isMenuOpen);
+    };
 
     return (
-        <nav className={cl.header__menu}>
-            <ul className={cl.menu__list}>
+        <div className={cl.burgerMenu}>
+            <button
+                className={`${cl.burgerIcon} ${isMenuOpen ? cl.open : ''}`}
+                onClick={toggleMenu}
+            >
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
 
-                {
-                headerMenuItems.map((item, index) => (
+            <nav
+                className={`${cl.header__menu} ${isMenuOpen ? cl.menu__open : ''}`}
+            >
+                <ul className={cl.menu__list}>
+                    {headerMenuItems.map((item, index) => (
+                        <li key={index} className={cl.menu__item}>
+                            <img
+                                className={cl.menu__icon}
+                                src={item.icon}
+                                alt={`${item.title} icon`}
+                            />
+                            <Link className={cl.menu__link} to={item.link}>
+                                {item.title}
+                            </Link>
+                        </li>
+                    ))}
+                </ul>
 
-                    <li key={index} className={cl.menu__item}>
+                <span className={cl.burgerMenu__hr}></span>
 
-                        <img className={cl.menu__icon} src={item.icon} alt={`${item.title} icon`} />
-                        
-                        <Link className={cl.menu__link} to={item.link}>
-                            {item.title}
-                        </Link>
-                    </li>
-                ))
-                }
-            </ul>
-
-            <div className={cl.profile}>
-                <div className={cl.profile__icon}>
-                    <img src={userIcon} alt="userIcon" />
+                <div className={cl.profile}>
+                    <div className={cl.profile__icon}>
+                        <img src={userIcon} alt="userIcon" />
+                    </div>
+                    <div className={cl.profile__name}>
+                        <p className={cl.profile__naming}>Username</p>
+                    </div>
                 </div>
-                <div className={cl.profile__name}>
-                    <p className={cl.profile__naming}></p>
-                </div>
-            </div>
-        </nav>
+            </nav>
+        </div>
     );
 };
 

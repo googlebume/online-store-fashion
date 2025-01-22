@@ -1,13 +1,16 @@
 @use '@packages/shared/src/utils/styles/colorScheme' as colors;
 
 .header_second {
+    position: sticky;
     background-color: colors.$black;
     color: colors.$white;
-    padding: 1rem;
 
     .header__main {
+        max-width: 1440px;
         display: flex;
         justify-content: space-between;
         align-items: center;
+        padding: 8px 16px;
+        margin: 0 auto;
     }
 }

@@ -13,7 +13,7 @@ export const App = () => {
         <div>
 
             <Routes>
-                <Route path='/' element={<Layout />}>
+                <Route path='/shop' element={<Layout />}>
                     <Route index element={<MainShop />} />
                     <Route path='*' element={<ErrorNotFound />} />
                 </Route>
@@ -23,4 +23,3 @@ export const App = () => {
         </div>
     );
 };
-

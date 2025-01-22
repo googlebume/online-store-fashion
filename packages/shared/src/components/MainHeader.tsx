@@ -35,7 +35,8 @@ const MainHeader = () => {
                     padding: ".5rem 16px",
                     margin: "0 auto",
                     color: "white",
-                    maxWidth: "1440px"
+                    maxWidth: "1440px",
+                    position: "relative"
                 }}
                 className="header__body">
                 <HeaderCompanyLogo></HeaderCompanyLogo>
