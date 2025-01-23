@@ -10,11 +10,11 @@ const routes = [
         element: <App />,
         children: [
             {
-                path: 'shop/main',
+                path: '/shop/main',
                 element: <Suspense fallback={'Loading...'}><Shop /></Suspense>
             },
             {
-                path: 'shop/second',
+                path: '/shop/second',
                 element: <Suspense fallback={'Loading...'}>
                 </Suspense>
             },
