@@ -4,6 +4,8 @@
     position: sticky;
     background-color: colors.$black;
     color: colors.$white;
+    top: 0;
+    z-index: 9999;
 
     .header__main {
         max-width: 1440px;
