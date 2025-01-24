@@ -1,0 +1,20 @@
+.stage {
+    display: flex;
+    flex-wrap: nowrap;
+    max-width: 100%;
+    overflow: hidden;
+
+    .stage__item {
+        flex: 0 0 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        .stage__bannerImg {
+            width: 100%;
+            height: auto;
+            object-fit: cover;
+            object-position: center;
+        }
+    }
+}
