@@ -8,7 +8,6 @@
         margin: 0 16px;
         display: flex;
         gap: 0 3rem;
-        position: relative;
         overflow: hidden;
 
         .toConstructor__arrow {
@@ -16,6 +15,11 @@
             clip-path: polygon(30% 0%, 100% 50%, 30% 100%, 0% 100%, 65% 50%, 0% 0%);
             background-color: colors.$yellow;
             flex: 1;
+            @media (max-width: 768px) {
+                    flex: 0;
+                    display: none;
+                    width: 0;
+            }
         }
 
         .toConstructor__link {
@@ -30,8 +34,15 @@
             letter-spacing: 2px;
             word-spacing: 3px;
             flex: 15;
-            position: relative;
-            z-index: 10;
+
+            @media (max-width: 768px) {
+                padding: 14px;
+                font-size: 14px;
+            }
+            @media (max-width: 479px) {
+                padding: 12px;
+                font-size: 12px;
+            }
         }
 
         &:hover :not(.toConstructor__link):nth-child(1) {
@@ -126,51 +137,5 @@
     }
     100% {
         transform: translateX(-1727%);
-    }
-}
-
-/* Адаптація для різних розширень екрану */
-@media (max-width: 1200px) {
-    .toConstructor__body {
-        gap: 0 2rem;
-        .toConstructor__link {
-            font-size: 14px;
-            padding: 14px 0;
-        }
-    }
-}
-
-@media (max-width: 768px) {
-    .toConstructor__body {
-        gap: 0;
-
-        .toConstructor__arrow {
-            flex: 0;
-            display: none;
-            width: 0;
-        }
-
-        .toConstructor__link {
-            font-size: 12px;
-            padding: 12px 0;
-            flex: 1 1 100%;
-        }
-    }
-}
-
-@media (max-width: 480px) {
-    .toConstructor__body {
-        gap: 0.5rem;
-
-        .toConstructor__arrow {
-            width: 40px;
-            height: 40px;
-        }
-
-        .toConstructor__link {
-            font-size: 10px;
-            padding: 10px 0;
-            letter-spacing: 1px;
-        }
     }
 }

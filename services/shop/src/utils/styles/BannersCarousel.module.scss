@@ -1,11 +1,12 @@
 .stage {
     position: relative;
-    box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 6px;
+    align-content: center;
     .stage__body {
         display: flex;
         flex-wrap: nowrap;
         overflow: hidden;
         max-width: 100%;
+        box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 6px;
 
         .stage__item {
             flex: 0 0 100%;

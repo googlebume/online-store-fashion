@@ -8,7 +8,7 @@ const ShopPlaceholder = () => {
         <div style={{
             maxWidth: '1440px',
             padding: '0 16px',
-            margin: '0 auto 40px auto',
+            margin: '0 auto 12px auto',
         }}
             className='placeholder'>
                 
