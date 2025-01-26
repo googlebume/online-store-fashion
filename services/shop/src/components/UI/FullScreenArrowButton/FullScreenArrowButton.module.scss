@@ -1,0 +1,176 @@
+@use '@packages/shared/src/utils/styles/colorScheme' as colors;
+
+.toConstructor {
+    max-width: 1440px;
+    margin: 0 auto 8px;
+
+    .toConstructor__body {
+        margin: 0 16px;
+        display: flex;
+        gap: 0 3rem;
+        position: relative;
+        overflow: hidden;
+
+        .toConstructor__arrow {
+            display: inline-block;
+            clip-path: polygon(30% 0%, 100% 50%, 30% 100%, 0% 100%, 65% 50%, 0% 0%);
+            background-color: colors.$yellow;
+            flex: 1;
+        }
+
+        .toConstructor__link {
+            display: block;
+            clip-path: polygon(95% 0%, 100% 50%, 95% 100%, 0% 100%, 5% 50%, 0% 0%);
+            padding: 16px 0;
+            background-color: colors.$yellow;
+            color: colors.$white;
+            font-size: 16px;
+            font-weight: 500;
+            text-align: center;
+            letter-spacing: 2px;
+            word-spacing: 3px;
+            flex: 15;
+            position: relative;
+            z-index: 10;
+        }
+
+        &:hover :not(.toConstructor__link):nth-child(1) {
+            animation: slideArr1 600ms ease-in-out 100ms forwards;
+        }
+        &:hover :not(.toConstructor__link):nth-child(2) {
+            animation: slideArr2 600ms ease-in-out 200ms forwards;
+        }
+        &:hover :not(.toConstructor__link):nth-child(3) {
+            animation: slideArr3 600ms ease-in-out 300ms forwards;
+        }
+        &:hover :not(.toConstructor__link):last-child {
+            animation: slideArr4 600ms ease-in-out forwards;
+        }
+    }
+}
+
+/* Ключові кадри анімацій залишаються незмінними */
+
+@keyframes slideArr1 {
+    25% {
+        transform: translateX(164%);
+    }
+    50% {
+        transform: translateX(328%);
+    }
+    75% {
+        transform: translateX(1860%);
+    }
+    100% {
+        transform: translateX(2060%);
+    }
+}
+
+@keyframes slideArr2 {
+    25% {
+        transform: translateX(164%);
+    }
+    30% {
+        transform: translateX(1697%);
+    }
+    50% {
+        transform: translateX(1897%);
+    }
+    60% {
+        transform: translateX(-400%);
+    }
+    75% {
+        transform: translateX(-164%);
+    }
+    100% {
+        transform: translateX(0);
+    }
+}
+
+@keyframes slideArr3 {
+    15% {
+        transform: translateX(1600%);
+    }
+    25% {
+        transform: translateX(1732%);
+    }
+    30% {
+        transform: translateX(1832%);
+    }
+    40% {
+        transform: translateX(-364%);
+    }
+    50% {
+        transform: translateX(1897%);
+    }
+    51% {
+        transform: translateX(-424%);
+    }
+    100% {
+        transform: translateX(-324%);
+    }
+}
+
+@keyframes slideArr4 {
+    25% {
+        transform: translateX(150%);
+    }
+    26% {
+        transform: translateX(-2057%);
+    }
+    50% {
+        transform: translateX(-1892%);
+    }
+    75% {
+        transform: translateX(-1927%);
+    }
+    100% {
+        transform: translateX(-1727%);
+    }
+}
+
+/* Адаптація для різних розширень екрану */
+@media (max-width: 1200px) {
+    .toConstructor__body {
+        gap: 0 2rem;
+        .toConstructor__link {
+            font-size: 14px;
+            padding: 14px 0;
+        }
+    }
+}
+
+@media (max-width: 768px) {
+    .toConstructor__body {
+        gap: 0;
+
+        .toConstructor__arrow {
+            flex: 0;
+            display: none;
+            width: 0;
+        }
+
+        .toConstructor__link {
+            font-size: 12px;
+            padding: 12px 0;
+            flex: 1 1 100%;
+        }
+    }
+}
+
+@media (max-width: 480px) {
+    .toConstructor__body {
+        gap: 0.5rem;
+
+        .toConstructor__arrow {
+            width: 40px;
+            height: 40px;
+        }
+
+        .toConstructor__link {
+            font-size: 10px;
+            padding: 10px 0;
+            letter-spacing: 1px;
+        }
+    }
+}
