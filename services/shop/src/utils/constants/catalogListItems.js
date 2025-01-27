@@ -14,7 +14,7 @@ export const catalogListItems = [
             {href: "#", text: "Худі", icon: hoodIcon},
             {href: "#", text: "Світшоти", icon: sweatshirtIcon},
             {href: "#", text: "Штани", icon: trousersIcon},
-            {href: "#", text: "Рубашки", icon: shirtIcon},
+            {href: "#", text: "Сорочки", icon: shirtIcon},
         ]
     }
 ]

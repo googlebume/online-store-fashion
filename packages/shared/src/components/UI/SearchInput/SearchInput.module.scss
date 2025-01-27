@@ -1,39 +1,49 @@
 @use '@packages/shared/src/utils/styles/colorScheme' as colors;
 
 .header__search {
-  width: 40%;
-  margin: 0 12px;
-  flex: 5;
-  position: relative;
-  &::before {
-    content: '';
-    position: absolute;
-    background: url(@packages/shared/src/assets/images/icons/magnifyingGlass.png);
-    object-fit: cover;
-    object-position: center;
-    width: 24px;
-    right: 8px;
-    top: 6px;
-    z-index: 5;
-    height: 24px;
-    cursor: pointer;
-  }
-    .search__input {
-      padding: 0.5rem 0.5rem 0.5rem 2.3rem;
-      font-size: 1rem;
-      border: 2px solid colors.$gray;
-      border-radius: 5px;
-      color: colors.$ashDarkened;
-      width: 100%;
-      &:focus {
-        border-color: colors.$yellow;
-        outline: none;
-      }
-    }
-  }
+    margin: 0 12px;
+    flex: 3.5;
+    position: relative;
 
-  @media (max-width: 866px) {
+    &::before {
+        content: '';
+        position: absolute;
+        background: url(@packages/shared/src/assets/images/icons/magnifyingGlass.png);
+        object-fit: cover;
+        object-position: center;
+        width: 24px;
+        right: 8px;
+        top: 6px;
+        z-index: 5;
+        height: 24px;
+        cursor: pointer;
+        pointer-events: auto;
+        filter: grayscale(100%) brightness(1);
+        transition: filter 0.15s ease;
+    }
+
+    &:hover::before {
+        filter: grayscale(0) brightness(0);
+    }
+
+    .search__input {
+        padding: 0.5rem 2.3rem 0.5rem 0.5rem;
+        font-size: 1rem;
+        border: 2px solid colors.$gray;
+        border-radius: 5px;
+        color: colors.$ashDarkened;
+        width: 100%;
+
+        &:focus {
+            border-color: colors.$golden;
+            outline: none;
+        }
+    }
+}
+
+
+@media (max-width: 866px) {
     .header__search {
         flex: 8;
     }
-  }
+}
