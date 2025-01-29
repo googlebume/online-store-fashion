@@ -5,8 +5,9 @@ import ProductShopList from './ProductShopList';
 
 const ShopOverview = () => {
     return (
-        <div className={cl.overview}>
-            <div className={cl.overview__wrapper}>
+        <div className={cl.overview} style={{marginBottom: '12px'}}>
+            <div className={cl.overview__wrapper}
+            style={{display:'flex', flexWrap: 'nowrap'}}>
                 <FiltersStickyBar />
                 <ProductShopList />
             </div>
