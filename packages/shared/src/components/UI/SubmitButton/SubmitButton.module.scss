@@ -1,0 +1,16 @@
+@use '@packages/shared/src/utils/styles/colorScheme' as colors;
+
+.submit__button {
+    padding: 8px 10px;
+    border-radius: 8px;
+    font-weight: 500;
+    background-color: colors.$golden;
+    color: colors.$white;
+    transition: all 50ms ease;
+
+    &:hover {
+        background-color: colors.$yellow;
+        font-weight: 600;
+        transition: all 100ms ease;
+    }
+}

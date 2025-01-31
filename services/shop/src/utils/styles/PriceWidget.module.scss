@@ -1,6 +1,13 @@
 @use '@packages/shared/src/utils/styles/colorScheme' as colors;
 
 .price__widget {
+    .filters__title {
+        font-size: 1.125em;
+        font-weight: 600;
+        line-height: 1.125rem;
+        margin-bottom: .5rem;
+    }
+    
     .price__inputs {
     }
 }
