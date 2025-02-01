@@ -1,0 +1,28 @@
+@use '@packages/shared/src/utils/styles/colorScheme' as colors;
+.color__checkbox{
+    display: none;
+}
+.color__ditch{
+    display: flex;
+    flex-wrap: nowrap;
+    padding: 6px;
+    background-color: color-mix(in srgb, colors.$gray 50%, transparent);
+    align-items: center;
+    border-radius: 8px;
+    margin-right: 6px;
+    cursor: pointer;
+    transition: all 50ms ease;
+    &:hover {
+        background-color: color-mix(in srgb, colors.$gray 35%, transparent);
+        transition: all 100ms ease;
+    }
+    .ditch__shade {
+        width: 16px;
+        height: 16px;
+        border-radius: 50%;
+        margin-right: 4px;
+    }
+    .ditch__name {
+
+    }
+}

@@ -2,6 +2,7 @@ import React from 'react';
 
 import FilterCategorys from './FilterCategorys';
 import PriceWidget from './PriceWidget';
+import FilterColors from './FilterColors';
 
 const FiltersStickyBar = () => {
     return (
@@ -13,6 +14,7 @@ const FiltersStickyBar = () => {
         }}>
             <FilterCategorys />
             <PriceWidget />
+            <FilterColors />
         </aside>
     );
 };

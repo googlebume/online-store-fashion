@@ -39,7 +39,6 @@
 
     .header__menu {
         position: absolute;
-        z-index: 4;
         top: 0;
         right: -20px;
         height: 100vh;
@@ -52,6 +51,7 @@
         flex-direction: column;
         align-items: flex-start;
         padding: 3rem 2rem 2rem 2rem;
+        z-index: 9998;
 
         &.menu__open {
             display: flex;
