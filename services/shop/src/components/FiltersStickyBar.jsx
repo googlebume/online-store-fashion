@@ -8,8 +8,9 @@ const FiltersStickyBar = () => {
     return (
         <aside style={{
             minWidth: '292px',
+            maxHeight: 'max-content',
             position: 'sticky',
-            top: '0px',
+            top: '75px',
             margin: '0 8px 0 0'
         }}>
             <FilterCategorys />

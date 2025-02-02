@@ -1,7 +1,12 @@
 @use '@packages/shared/src/utils/styles/colorScheme' as colors;
-.color__checkbox{
+.color__checkbox {
     display: none;
 }
+
+.color__checkbox:checked + .color__ditch {
+    background-color: color-mix(in srgb, colors.$yellow, transparent 30%)
+}
+
 .color__ditch{
     display: flex;
     flex-wrap: nowrap;
