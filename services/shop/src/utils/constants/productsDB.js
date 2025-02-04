@@ -10,6 +10,12 @@ import tshirt_3_1 from '@/assets/images/products/tshirt_3_1.webp'
 import tshirt_4_1 from '@/assets/images/products/tshirt_4_1.webp'
 import tshirt_5_1 from '@/assets/images/products/tshirt_5_1.webp'
 
+import shirt_1_1 from '@/assets/images/products/shirt_1_1.webp'
+import shirt_2_1 from '@/assets/images/products/shirt_2_1.webp'
+import shirt_3_1 from '@/assets/images/products/shirt_3_1.webp'
+import shirt_4_1 from '@/assets/images/products/shirt_4_1.webp'
+import shirt_5_1 from '@/assets/images/products/shirt_5_1.webp'
+
 import sweatshirt_1_1 from '@/assets/images/products/sweatshirt_1_1.webp'
 import sweatshirt_2_1 from '@/assets/images/products/sweatshirt_2_1.webp'
 import sweatshirt_3_1 from '@/assets/images/products/sweatshirt_3_1.webp'
@@ -34,11 +40,14 @@ const productsDB = [
     //https://www.bezet.com.ua/product/turwearsvetr-varkor-turwear1993844?gad_source=4&gclid=Cj0KCQiAkoe9BhDYARIsAH85cDOHiJwRx30U3l4-1PUdVkV2xojvJl-YOCCnhLd8oAco1iMnPv4HB68aAvAREALw_wcB
   
     // Рубашки (Shirt) - 5 товарів
-    { name: "Formal Shirt", category: "male", type: "shirt", color: "white", price: 1500, discount: 18, image: "" },
-    { name: "Casual Shirt", category: "female", type: "shirt", color: "light blue", price: 1350, discount: 12, image: "" },
-    { name: "Linen Shirt", category: "male", type: "shirt", color: "olive", price: 1450, discount: 10, image: "" },
-    { name: "Denim Shirt", category: "female", type: "shirt", color: "blue", price: 1400, discount: 15, image: "" },
-    { name: "Plaid Shirt", category: "male", type: "shirt", color: "red", price: 1300, discount: 20, image: "" },
+    { name: "Formal Shirt", category: "male", type: "shirt", color: "white", price: 1500, discount: 18, image: shirt_1_1 },
+    //https://trendland.com.ua/ua/p2184340812-muzhskaya-rubashka-belaya.html?source=merchant_center&srsltid=AfmBOoqgH5jC19ymPoUUvZJ3MBqWCIWnZUynVY3tdB4380bVQHlAyvVy34c
+    { name: "Casual Shirt", category: "female", type: "shirt", color: "brown", price: 1350, discount: 12, image: shirt_2_1 },
+    //https://cooshwear.com/product/fitted-shirt-with-decorative-tie-belt-chocolate?srsltid=AfmBOoqDt6S7HyQhqENMZDgH13Tiz2Bpw3QtrbrdqPsoCQeSmQacq6HjsG8
+    { name: "Linen Shirt", category: "male", type: "shirt", color: "blue", price: 1450, discount: 10, image: shirt_3_1 },
+    //https://opshop.me/shirt-mtr0266
+    { name: "Denim Shirt", category: "male", type: "shirt", color: "yellow", price: 1400, discount: 15, image: shirt_4_1 },
+    { name: "Plaid Shirt", category: "female", type: "shirt", color: "white", price: 1300, discount: 20, image: shirt_5_1 },
   
     // Футболки (T-shirt) - 5 товарів
     { name: "Basic T-shirt", category: "female", type: "tshirt", color: "pink", price: 800, discount: 5, image: tshirt_1_1 },

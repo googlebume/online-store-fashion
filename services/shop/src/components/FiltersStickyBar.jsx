@@ -7,7 +7,7 @@ import FilterColors from './FilterColors';
 const FiltersStickyBar = () => {
     return (
         <aside style={{
-            minWidth: '292px',
+            maxWidth: '292px',
             maxHeight: 'max-content',
             position: 'sticky',
             top: '75px',
