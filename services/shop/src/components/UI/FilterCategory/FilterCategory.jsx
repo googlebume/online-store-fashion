@@ -16,7 +16,7 @@ const FilterCategory = ({ listTitle, nameAttr, lis }) => {
                             value={item.valueAttr} 
                             id={`${item.valueAttr}_${item.id}`}/>
                         <label
-                            for={`${item.valueAttr}_${item.id}`}
+                            htmlFor={`${item.valueAttr}_${item.id}`}
                             className={cl.filters__option}
                         > {item.categoryName}</label>
                     </div>

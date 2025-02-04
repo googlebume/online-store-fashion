@@ -11,7 +11,7 @@ const ProductShopList = () => {
             width: '100%'
         }}>
             {productsDB.map((card) => (
-                <ProductCard name={card.name} price={card.price} discount={card.discount}/>
+                <ProductCard name={card.name} price={card.price} discount={card.discount} image={card.image}/>
             ))}
             
         </section>
