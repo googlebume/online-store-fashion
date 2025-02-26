@@ -1,14 +1,18 @@
 {
-  "name": "monorepo-module-federation",
-  "version": "1.0.0",
-  "scripts": {
-    "start": "concurrently -n admin,host,shop,header \"npm run start --workspace=services/admin\" \"npm run start --workspace=services/host\" \"npm run start --workspace=services/shop\" \"npm run start --workspace=services/header\""
-  },
-  "workspaces": [
-    "packages/*",
-    "services/*"
-  ],
-  "devDependencies": {
-    "concurrently": "^9.1.2"
-  }
+    "name": "monorepo-module-federation",
+    "version": "1.0.0",
+    "scripts": {
+        "start:frontend": "concurrently -n admin,host,shop,header \"npm run start --workspace=services/admin\" \"npm run start --workspace=services/host\" \"npm run start --workspace=services/shop\" \"npm run start --workspace=services/header\"",
+        "start:gateway": "cd backend/gateway && npm run start:dev",
+        "start:cardRender": "cd backend/card-render-service && npm run start:dev",
+        "start:backend": "npm run start:gateway && npm run start:cardRender",
+        "start": "npm run start:frontend && npm run start:backend"
+    },
+    "workspaces": [
+        "packages/*",
+        "services/*"
+    ],
+    "devDependencies": {
+        "concurrently": "^9.1.2"
+    }
 }
