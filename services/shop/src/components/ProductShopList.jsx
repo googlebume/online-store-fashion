@@ -1,8 +1,19 @@
-import React from 'react';
-import productsDB from '@/utils/constants/productsDB.js'
+import React, { useEffect, useState } from 'react';
 import ProductCard from './ProductCard';
 
 const ProductShopList = () => {
+    const [products, setProducts] = useState([]);
+
+    useEffect(() => {
+        fetch('http://localhost:3004/shop')
+            .then(response => response.json())
+            .then(data => {
+                console.log(data); 
+                setProducts(data); // Оновлюємо стан
+            })
+            .catch(error => console.error('Error fetching products:', error));
+    }, []); // Виконувати тільки при монтуванні компонента
+
     return (
         <section style={{
             display: 'grid',
@@ -10,10 +21,9 @@ const ProductShopList = () => {
             gap: '8px 6px',
             width: '100%'
         }}>
-            {productsDB.map((card) => (
-                <ProductCard name={card.name} price={card.price} discount={card.discount} image={card.image}/>
+            {products.map((card) => (
+                <ProductCard key={card.name} name={card.name} price={card.price} discount={card.discount} image={card.image}/>
             ))}
-            
         </section>
     );
 };

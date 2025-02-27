@@ -1,8 +1,10 @@
 import { Injectable } from '@nestjs/common';
+import {productsDB} from './dto/productsDB'
 
 @Injectable()
 export class AppService {
-  getHello(): string {
-    return 'Hello World!';
+  getProducts (): object {
+    console.log('Request to productsDB');
+    return productsDB;
   }
 }

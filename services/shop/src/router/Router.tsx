@@ -15,8 +15,7 @@ const routes = [
             },
             {
                 path: '/shop/second',
-                element: <Suspense fallback={'Loading...'}>
-                </Suspense>
+                element: <Suspense fallback={'Loading...'}></Suspense>
             },
         ]
     },
