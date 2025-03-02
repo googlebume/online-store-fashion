@@ -1,7 +1,7 @@
 import React from 'react';
 import { filterColorDitchs } from '@/utils/constants/filterColorDitchs.js';
 import FilterColor from './UI/FilterColor/FilterColor';
-import cl from '@/utils/styles/FilterColors.module.scss'
+import cl from '../utils/styles/FilterColors.module.scss'
 
 const FilterColors = () => {
     return (
@@ -16,6 +16,5 @@ const FilterColors = () => {
     );
 };
 
-//className={cl.color__palette}
 
 export default FilterColors;
