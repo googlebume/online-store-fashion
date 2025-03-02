@@ -2,8 +2,11 @@
 
 .header__tools {
     flex: 2;
+    display: flex;
+    flex-direction: row-reverse;
 
     .tools__btn {
+        max-width: fit-content;
         display: flex;
         align-items: center;
         justify-content: end;
@@ -11,6 +14,21 @@
         color: colors.$white;
         font-size: 1rem;
         cursor: pointer;
+        margin-left: 20px;
+
+        &:last-child {
+            margin-left: 10px;
+            display: none;
+
+            @media (max-width: 1069px) {
+                margin-left: 30px;
+                display: flex;
+            }
+        }
+
+        @media (max-width: 866px) {
+            margin-left: 30px;
+        }
 
         .tool__img {
             width: 24px;
