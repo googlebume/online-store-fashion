@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import cl from "@/utils/styles/ShopOverview.module.scss";
-import FiltersStickyBar from "./FiltersStickyBar";
+import FiltersStickyBar from "@packages/shared/src/components/FiltersStickyBar";
 import ProductShopList from "./ProductShopList";
 
 const ShopOverview = () => {
