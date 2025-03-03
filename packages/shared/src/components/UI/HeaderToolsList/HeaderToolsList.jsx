@@ -25,7 +25,7 @@ const HeaderToolsList = ({ setIsOpen }) => {
             </div>
         </div>
 
-        {filterOpenStatus && <PopupFilterBar isOpen={filterOpenStatus}/>}
+        {filterOpenStatus && <PopupFilterBar isOpen={filterOpenStatus} setIsOpen={setFilterOpenStatus}/>}
 
 
         </>

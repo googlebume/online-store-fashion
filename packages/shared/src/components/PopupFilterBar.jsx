@@ -1,21 +1,30 @@
-import React from 'react';
+import React, { useEffect } from "react";
 import ReactDOM from "react-dom";
-import FiltersStickyBar from './FiltersStickyBar';
+import FiltersStickyBar from "./FiltersStickyBar";
+import cl from "../utils/styles/PopupFilterBar.module.scss"; // Стилі винесені в окремий файл
 
-const PopupFilterBar = ({isOpen}) => {
-
+const PopupFilterBar = ({ isOpen, setIsOpen }) => {
     if (!isOpen) return null;
-    return ReactDOM.createPortal (
-        <div style={{
-            // position: 'absolute',
-            // top: '50%',
-            // left: '50%',
-            // transform: 'translate(-50%, -50%)'
-        }}>
-            <FiltersStickyBar />
-            
+
+    useEffect(() => {
+        if (isOpen) {
+            document.body.style.overflow = 'hidden';
+        } else {
+            document.body.style.overflow = 'auto';
+        }
+
+        return () => {
+            document.body.style.overflow = 'auto'; // Завжди повертаємо нормальний скролл
+        };
+    }, [isOpen]);
+
+    return ReactDOM.createPortal(
+        <div className={cl.modalOverlay} onClick={e => { setIsOpen(false) }}>
+            <div className={cl.popupBar} onClick={(e) => e.stopPropagation()}>
+                <FiltersStickyBar />
+            </div>
         </div>,
-        document.getElementById("modal-root") // Рендеримо в спеціальний контейнер поза #root
+        document.getElementById("modal-root") // Рендеримо в портал
     );
 };
 
