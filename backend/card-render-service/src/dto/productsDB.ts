@@ -1,15 +1,15 @@
 export const productsDB = [
   // Худі (Hoodie) - 5 товарів
-  { name: "Oversize Hoodie", category: "male", type: "hoodie", color: "black", price: 1200, discount: 15, image: "http://localhost:3004/products/hoodie_1_1.webp" },
-  { name: "Casual Hoodie", category: "male", type: "hoodie", color: "white", price: 1100, discount: 10, image: "http://localhost:3004/products/hoodie_2_1.webp" },
-  { name: "Sporty Hoodie", category: "female", type: "hoodie", color: "white", price: 1300, discount: 20, image: "http://localhost:3004/products/hoodie_3_1.webp" },
-  { name: "Streetwear Hoodie", category: "male", type: "hoodie", color: "black", price: 1250, discount: 5, image: "http://localhost:3004/products/hoodie_4_1.webp" },
-  { name: "Minimalist Hoodie", category: "male", type: "hoodie", color: "yellow", price: 1150, discount: 10, image: "http://localhost:3004/products/hoodie_5_1.webp" },
+  { name: "Oversize Hoodie", category: "male", type: "hood", color: "black", price: 1200, discount: 15, image: "http://localhost:3004/products/hoodie_1_1.webp" },
+  { name: "Casual Hoodie", category: "male", type: "hood", color: "white", price: 1100, discount: 10, image: "http://localhost:3004/products/hoodie_2_1.webp" },
+  { name: "Sporty Hoodie", category: "female", type: "hood", color: "white", price: 1300, discount: 20, image: "http://localhost:3004/products/hoodie_3_1.webp" },
+  { name: "Streetwear Hoodie", category: "male", type: "hood", color: "black", price: 1250, discount: 5, image: "http://localhost:3004/products/hoodie_4_1.webp" },
+  { name: "Minimalist Hoodie", category: "male", type: "hood", color: "yellow", price: 1150, discount: 10, image: "http://localhost:3004/products/hoodie_5_1.webp" },
 
   // Світшоти (Sweatshirt) - 5 товарів
-  { name: "Classic Sweatshirt", category: "female", type: "sweatshirt", color: "black", price: 1000, discount: 12, image: "http://localhost:3004/products/sweatshirt_1_1.webp" },
-  { name: "Urban Sweatshirt", category: "male", type: "sweatshirt", color: "black", price: 1050, discount: 8, image: "http://localhost:3004/products/sweatshirt_2_1.webp" },
-  { name: "Vintage Sweatshirt", category: "male", type: "sweatshirt", color: "pink", price: 1100, discount: 15, image: "http://localhost:3004/products/sweatshirt_3_1.webp" },
+  { name: "Classic Sweatshirt", category: "male", type: "sweatshirt", color: "black", price: 1000, discount: 12, image: "http://localhost:3004/products/sweatshirt_1_1.webp" },
+  { name: "Urban Sweatshirt", category: "female", type: "sweatshirt", color: "black", price: 1050, discount: 8, image: "http://localhost:3004/products/sweatshirt_2_1.webp" },
+  { name: "Vintage Sweatshirt", category: "female", type: "sweatshirt", color: "pink", price: 1100, discount: 15, image: "http://localhost:3004/products/sweatshirt_3_1.webp" },
   { name: "Comfy Sweatshirt", category: "female", type: "sweatshirt", color: "white", price: 980, discount: 10, image: "http://localhost:3004/products/sweatshirt_4_1.webp" },
   { name: "Trendy Sweatshirt", category: "female", type: "sweatshirt", color: "black", price: 1020, discount: 7, image: "http://localhost:3004/products/sweatshirt_5_1.webp" },
 
