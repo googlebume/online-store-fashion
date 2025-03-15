@@ -1,40 +1,41 @@
-// let updatedCategories = [];
-
-// export const setUpdatedCategories = (categories) => {
-//     updatedCategories = categories;
-// };
-
-// export const getUpdatedCategories = () => updatedCategories;
-
-
-// import { useState } from "react";
-
-// let updatedCategories = [];
-
-// export const setUpdatedCategories = (newCategories) => {
-//     updatedCategories = newCategories;
-// };
-
-// export const getUpdatedCategories = () => {console.log("📢 Отримані категорії:", updatedCategories); return updatedCategories};
-
-
 let updatedCategories = [];
-let listeners = [];
+let categoryListeners = [];
+let colorListeners = [];
 
 export const setUpdatedCategories = (newCategories) => {
     updatedCategories = [...newCategories];
     console.log("✅ Категорії оновлені:", ...updatedCategories);
     
     // Оповіщаємо всі підписані компоненти про оновлення
-    listeners.forEach((callback) => callback(updatedCategories));
+    categoryListeners.forEach((callback) => callback(updatedCategories));
 };
+
 
 export const getUpdatedCategories = () => updatedCategories;
 
 export const subscribeToCategories = (callback) => {
-    listeners.push(callback);
+    categoryListeners.push(callback);
     return () => {
-        listeners = listeners.filter((cb) => cb !== callback);
+        categoryListeners = categoryListeners.filter((cb) => cb !== callback);
     };
 };
 
+
+let updatedColors = [];
+export const setUpdatedColors = (newColors) => {
+    updatedColors = [...newColors];
+    console.log("✅ Кольори оновлені:", ...updatedColors);
+    
+    // Оповіщаємо всі підписані компоненти про оновлення
+    colorListeners.forEach((callback) => callback(updatedColors));
+};
+
+
+export const getUpdatedColors = () => updatedColors;
+
+export const subscribeToColors = (callback) => {
+    colorListeners.push(callback);
+    return () => {
+        colorListeners = colorListeners.filter((cb) => cb !== callback);
+    };
+};

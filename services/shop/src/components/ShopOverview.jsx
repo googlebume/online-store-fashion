@@ -20,7 +20,7 @@ const ShopOverview = () => {
     }, []);
 
     useEffect(() => {
-        const timer = setTimeout(() => setShouldRender(true), 5);
+        const timer = setTimeout(() => setShouldRender(true), 100);
 
         return () => clearTimeout(timer);
     }, []);
