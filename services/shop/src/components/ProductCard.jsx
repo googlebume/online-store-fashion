@@ -6,6 +6,8 @@ import shoppingCardImage from '@packages/shared/src/assets/images/icons/shopping
 
 
 const ProductCard = ({...props}) => {
+    const discount = (+props.discount * +props.price)/100;
+    const price = Math.round(+props.price - discount);
     return (
         <article className={cl.product__card}>
             <div className={cl.product__img}>
@@ -14,7 +16,7 @@ const ProductCard = ({...props}) => {
             <div className={cl.product__description}>
                 <div className={cl.description__main}>
                     <div className={cl.description__price}>
-                        <span className={cl.price__discount}>{props.discount}</span>
+                        <span className={cl.price__discount}>{price}</span>
                         <span className={cl.price}>{props.price}</span>
                     </div>
                     <ButtonImage img={shoppingCardImage}/>

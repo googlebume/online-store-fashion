@@ -34,3 +34,5 @@
     }
 
 }
+
+.filter__input:checked + .filters__option{ color: colors.$golden;}

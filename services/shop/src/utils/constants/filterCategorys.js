@@ -3,8 +3,8 @@ export const filterCategorys = [
         listTitle: 'Категорія',
         nameAttr: 'category',
         lis: [
-            { id: 1, categoryName: 'Чоловіче', valueAttr: 'men', link: '' },
-            { id: 2, categoryName: 'Жіноче', valueAttr: 'women', link: '' },
+            { id: 1, categoryName: 'Чоловіче', valueAttr: 'male' },
+            { id: 2, categoryName: 'Жіноче', valueAttr: 'female' },
         ],
     },
     {

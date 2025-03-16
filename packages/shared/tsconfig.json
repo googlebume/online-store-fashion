@@ -9,7 +9,7 @@
     "moduleResolution": "node",
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
-    "composite": true,
+    "composite": false,
     "paths": {
             "@shop/*": ["../../services/shop/src/*"]
         }
