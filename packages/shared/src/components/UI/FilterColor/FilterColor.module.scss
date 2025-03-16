@@ -1,6 +1,6 @@
 @use '@packages/shared/src/utils/styles/colorScheme' as colors;
 .color__checkbox {
-    // display: none;
+    display: none;
 }
 
 .color__checkbox:checked + .color__ditch {

@@ -16,7 +16,7 @@
 
         .filters__filter {
             .filter__input {
-                // display: none;
+                display: none;
             }
 
             .filters__option {
@@ -34,3 +34,5 @@
     }
 
 }
+
+.filter__input:checked + .filters__option{ color: colors.$golden;}
