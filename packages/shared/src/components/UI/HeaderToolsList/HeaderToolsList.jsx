@@ -4,15 +4,16 @@ import shoppingCardImage from "@packages/shared/src/assets/images/icons/shopping
 import filterIcon from "@packages/shared/src/assets/images/icons/filterIcon.png";
 import FiltersStickyBar from "../../PopupFilterBar";
 import PopupFilterBar from "../../PopupFilterBar";
+import PopupBasket from '../../../../../../services/shop/src/components/PopupBasket'
 
 const HeaderToolsList = ({ setIsOpen }) => {
-
+    const [basketOpenStatus, setBasketOpenStatus] = useState(false);
     const [filterOpenStatus, setFilterOpenStatus] = useState(false);
     return (
 
         <>
         <div className={cl.header__tools}>
-            <div className={cl.tools__btn}>
+            <div className={cl.tools__btn} onClick={e => {setBasketOpenStatus(!basketOpenStatus)}}>
                 <img className={cl.tool__img} src={shoppingCardImage} alt="Кошик" />
                 <p>Кошик</p>
             </div>
@@ -26,8 +27,7 @@ const HeaderToolsList = ({ setIsOpen }) => {
         </div>
 
         {filterOpenStatus && <PopupFilterBar isOpen={filterOpenStatus} setIsOpen={setFilterOpenStatus}/>}
-
-
+        {basketOpenStatus && <PopupBasket setBasketOpenStatus={setBasketOpenStatus} basketOpenStatus={basketOpenStatus}/>}
         </>
     );
 };

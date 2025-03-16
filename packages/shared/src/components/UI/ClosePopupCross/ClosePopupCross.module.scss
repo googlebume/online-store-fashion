@@ -1,0 +1,40 @@
+@use '@packages/shared/src/utils/styles/colorScheme' as colors;
+
+.cross__overlay {
+    width: 32px;
+    height: 32px;
+    background-color: rgba(colors.$ash, 0.5);
+    backdrop-filter: blur(10px);
+    border-radius: 50%;
+    position: relative;
+    cursor: pointer;
+    margin-left: calc(100% - 32px);
+    margin-bottom: 4px;
+
+    .cross {
+        position: relative;
+        width: 24px;
+        height: 24px;
+        cursor: pointer;
+
+        &__line {
+            position: absolute;
+            display: block;
+            height: 2px;
+            width: 70%;
+            background-color: colors.$white;
+            top: 50%;
+            left: 14%;
+            margin-top: -1px;
+            border-radius: 1px;
+
+            &:first-child {
+                transform: rotate(45deg);
+            }
+
+            &:last-child {
+                transform: rotate(-45deg);
+            }
+        }
+    }
+}

@@ -57,16 +57,16 @@ export function buildBabelLoader({ mode }: BuildOptions) {
     }
 
     return {
-        test: /\.(j|t)sx?$/, // Додано підтримку .jsx та .tsx файлів
+        test: /\.(j|t)sx?$/,
         exclude: /node_modules/,
         use: {
             loader: "babel-loader",
             options: {
                 presets: [
-                    "@babel/preset-env", // Для сучасного JavaScript
-                    "@babel/preset-typescript", // Для TypeScript
+                    "@babel/preset-env",
+                    "@babel/preset-typescript",
                     [
-                        "@babel/preset-react", // Для React та JSX
+                        "@babel/preset-react",
                         {
                             runtime: isDev ? "automatic" : "classic",
                         },

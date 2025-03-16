@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import ReactDOM from "react-dom";
 import FiltersStickyBar from "./FiltersStickyBar";
-import cl from "../utils/styles/PopupFilterBar.module.scss"; // Стилі винесені в окремий файл
+import cl from "../utils/styles/PopupFilterBar.module.scss";
 
 const PopupFilterBar = ({ isOpen, setIsOpen }) => {
     if (!isOpen) return null;
@@ -14,7 +14,7 @@ const PopupFilterBar = ({ isOpen, setIsOpen }) => {
         }
 
         return () => {
-            document.body.style.overflow = 'auto'; // Завжди повертаємо нормальний скролл
+            document.body.style.overflow = 'auto';
         };
     }, [isOpen]);
 

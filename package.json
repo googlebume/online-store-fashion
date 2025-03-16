@@ -6,13 +6,13 @@
         "start:cardRender": "cd backend/card-render-service && npm run start:dev",
         "start:backend": "npm run start:cardRender",
         "start": "concurrently \"npm run start:frontend\" \"npm run start:backend\""
-
     },
     "workspaces": [
         "packages/*",
         "services/*"
     ],
     "devDependencies": {
+        "@types/node": "^22.13.10",
         "concurrently": "^9.1.2"
     }
 }

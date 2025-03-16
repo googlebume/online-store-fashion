@@ -4,7 +4,7 @@ import path from "path";
 
 export function buildResolvers(options: BuildOptions): Configuration['resolve'] {
     return {
-        extensions: [".js", ".jsx", ".ts", ".tsx", ".scss", '.png', '.jpg', '.jpeg', '.svg'],
+        extensions: ['.js', '.jsx', '.ts', '.tsx', '.scss', '.png', '.jpg', '.jpeg', '.svg'],
         alias: {
             '@': options.paths.src,
             "@shop": path.resolve(__dirname, "../../services/shop/src")

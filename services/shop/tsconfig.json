@@ -5,7 +5,8 @@
     "baseUrl": ".",
     "allowJs": true,
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": ["./src/*"],
+      "@shop/*": ["../../services/shop/src/*"]
     }
   }
 }
