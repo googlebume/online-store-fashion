@@ -3,6 +3,7 @@
 .product__card {
     display: flex;
     flex-direction: column;
+    max-height: 344px;
     background-color: colors.$white;
     border-radius: 12px;
     overflow: hidden;

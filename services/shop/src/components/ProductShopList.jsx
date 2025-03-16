@@ -27,7 +27,7 @@ const ProductShopList = () => {
         <section
             style={{
                 display: "grid",
-                gridTemplateColumns: "repeat(auto-fit, minmax(257px, 1fr))",
+                gridTemplateColumns: "repeat(auto-fill, minmax(257px, 1fr))",
                 gap: "8px 6px",
                 width: "100%",
             }}
