@@ -11,7 +11,8 @@
     "allowSyntheticDefaultImports": true,
     "composite": false,
     "paths": {
-            "@shop/*": ["../../services/shop/src/*"]
+            "@shop/*": ["../../services/shop/src/*"],
+            "@packages/*": ["../../packages/shared/src"]
         }
   },
 }

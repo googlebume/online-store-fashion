@@ -14,7 +14,7 @@ const PopupBasket: React.FC<PopupBasketProps> = ({ setBasketOpenStatus, basketOp
     useEffect(()=>{
         basketOpenStatus ? document.body.style.overflow = 'hidden' : document.body.style.overflow = 'auto';
         return () => {
-            document.body.style.overflow = ""; // Переконаємося, що скрол повертається при розмонтуванні
+            document.body.style.overflow = "";
         };
     },[basketOpenStatus])
 
