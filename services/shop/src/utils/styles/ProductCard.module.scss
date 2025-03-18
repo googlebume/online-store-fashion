@@ -46,24 +46,6 @@
     align-items: center;
 }
 
-.description__price {
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-}
-
-.price__discount {
-    font-size: 18px;
-    font-weight: bold;
-    color: colors.$black;
-}
-
-.price {
-    font-size: 16px;
-    color: colors.$ashDarkened;
-    text-decoration: line-through;
-}
-
 .toBasket {
     background-color: colors.$yellow;
     padding: 4px 8px;

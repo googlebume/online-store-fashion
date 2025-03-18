@@ -1,0 +1,20 @@
+@use '@packages/shared/src/utils/styles/colorScheme' as colors;
+
+
+.description__price {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.price__discount {
+    font-size: 18px;
+    font-weight: bold;
+    color: colors.$black;
+}
+
+.price {
+    font-size: 16px;
+    color: colors.$ashDarkened;
+    text-decoration: line-through;
+}
