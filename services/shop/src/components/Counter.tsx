@@ -11,9 +11,9 @@ const Counter = () => {
     }
 
     return (
-        <div>
+        <div style={{display: 'flex', alignItems: 'center'}}>
             <CountControl onClick={onMinus}> - </CountControl>
-            <span style={{padding: '0 8px'}}>{count}</span>
+            <span style={{padding: '0 8px', fontSize: '16px'}}>{count}</span>
             <CountControl onClick={onPlus}> + </CountControl>
         </div>
     );

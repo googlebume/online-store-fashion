@@ -6,7 +6,7 @@ const ButtonTrash = () => {
     return (
         <div className={cl.buttonTrash}>
             <img src={trashIcon} alt='Trash' className={cl.image}/>
-            <span className={cl.description}>Видалити</span>
+            <span className={cl.description}></span>
         </div>
     );
 };

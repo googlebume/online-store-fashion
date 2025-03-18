@@ -7,12 +7,17 @@ import DescriptionPrice from './UI/DescriptionPrice/DescriptionPrice';
 const BasketProductsCard = () => {
     return (
         <div className={cl.cartItem}>
-            <img className={cl.image} />
+            <div className={cl.productView}>
+                <img className={cl.image} />
+            </div>
+            
+            <h3 className={cl.name}>Дуже крута футболка брат </h3>
             <div className={cl.details}>
-                <h3 className={cl.name}></h3>
                 <Counter />
-                <DescriptionPrice discountT={12} priceT={1200} direction='column-reverse'/>
-                <ButtonTrach />
+                <div className={cl.price}>
+                    <DescriptionPrice discountT={12} priceT={1200} direction='column-reverse' />
+                    <ButtonTrach />
+                </div>
             </div>
         </div>
     );

@@ -1,12 +1,15 @@
 @use '@packages/shared/src/utils/styles/colorScheme' as colors;
 
-.buttonTrash{
+.buttonTrash {
     display: flex;
     align-items: center;
+    justify-content: end;
     cursor: pointer;
+
     .description {
         color: colors.$ashDarkened;
     }
+
     .image {
         width: 18px;
         height: 18px;
