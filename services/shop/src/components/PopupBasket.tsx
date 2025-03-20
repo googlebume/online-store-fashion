@@ -20,9 +20,8 @@ const PopupBasket: React.FC<PopupBasketProps> = ({ setBasketOpenStatus, basketOp
     }, [basketOpenStatus])
 
     return ReactDOM.createPortal(
-        <div className={cl.modalOverlay} onClick={e => { setBasketOpenStatus(false) }}>
+        <div className={cl.modalOverlay} style={{alignContent: 'center', padding: '0 12px'}} onClick={e => { setBasketOpenStatus(false) }}>
             <div className={cl.modalContent} style={{
-                margin: '0, auto',
                 width: '1000px',
                 height: '600px',
                 background: 'white',
@@ -30,12 +29,12 @@ const PopupBasket: React.FC<PopupBasketProps> = ({ setBasketOpenStatus, basketOp
                 padding: '24px',
                 display: 'grid',
                 gridTemplateColumns: '2fr 1fr',
+                position: 'relative'
             }} onClick={(e) => e.stopPropagation()}>
-
+                <ClosePopupCross setOpenStatus={setBasketOpenStatus} />
                 <BasketOverview />
                 <BasketDelivery />
             </div>
-            <ClosePopupCross setOpenStatus={setBasketOpenStatus} />
         </div>,
         document.getElementById("modal-root")!
     );

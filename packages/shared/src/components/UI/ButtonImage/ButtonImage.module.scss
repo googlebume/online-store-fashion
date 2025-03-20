@@ -4,6 +4,9 @@
     object-fit: cover;
     object-position: center;
     background: transparent;
+    &:active {
+        filter: hue-rotate(50deg);
+    }
     cursor: pointer;
     .button__image {
         object-fit: cover;

@@ -14,6 +14,7 @@ const DescriptionPrice: React.FC<DescriptionPriceProps> = ({discountT, priceT, d
 
     const discount = (+discountT * +priceT)/100;
     const price = Math.round(+priceT - +discount);
+
     return (
         <div className={cl.description__price} style={setDirectionStyle}>
             <span className={cl.price__discount}>{price}</span>

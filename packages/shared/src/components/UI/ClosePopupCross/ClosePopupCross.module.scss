@@ -6,9 +6,10 @@
     background-color: rgba(colors.$ash, 0.5);
     backdrop-filter: blur(10px);
     border-radius: 50%;
-    position: relative;
+    position: absolute;
+    right: 0;
+    top: -38px;
     cursor: pointer;
-    // margin-left: calc(100% - 32px);
     margin-bottom: 4px;
     margin-left: 4px;
 

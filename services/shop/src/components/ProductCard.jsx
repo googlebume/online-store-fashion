@@ -5,10 +5,12 @@ import ButtonImage from '../../../../packages/shared/src/components/UI/ButtonIma
 import shoppingCardImage from '@packages/shared/src/assets/images/icons/shoppingCardImage.png'
 import DescriptionPrice from '@/components/UI/DescriptionPrice/DescriptionPrice'
 
+import { exportProductData } from '@/state/targetProductData'
 
-const ProductCard = ({...props}) => {
-    // const discount = (+props.discount * +props.price)/100;
-    // const price = Math.round(+props.price - discount);
+
+const ProductCard = ({ ...props }) => {
+
+
     return (
         <article className={cl.product__card}>
             <div className={cl.product__img}>
@@ -16,8 +18,15 @@ const ProductCard = ({...props}) => {
             </div>
             <div className={cl.product__description}>
                 <div className={cl.description__main}>
-                    <DescriptionPrice discountT={props.discount} priceT={props.price}/>
-                    <ButtonImage img={shoppingCardImage}/>
+                    <DescriptionPrice discountT={props.discount} priceT={props.price} />
+                    <ButtonImage
+                        img={shoppingCardImage}
+                        onClick={() => exportProductData({
+                            image: props.image,
+                            discount: props.discount,
+                            price: props.price,
+                            name: props.name
+                        })} />
                 </div>
                 <div className={cl.description__details}>
                     <p>{props.name}</p>

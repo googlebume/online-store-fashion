@@ -4,18 +4,24 @@ import Counter from './Counter';
 import ButtonTrach from '@packages/shared/src/components/UI/ButtonTrash/ButtonTrash'
 import DescriptionPrice from './UI/DescriptionPrice/DescriptionPrice';
 
-const BasketProductsCard = () => {
+import { ProductType } from "@packages/shared/src/utils/types/prosuctData.type";
+interface BasketProductsCardProps {
+    data: ProductType;
+}
+const BasketProductsCard = ({data}: BasketProductsCardProps) => {
     return (
         <div className={cl.cartItem}>
             <div className={cl.productView}>
-                <img className={cl.image} />
+                <img 
+                    src={data.image}
+                    className={cl.image} />
             </div>
             
-            <h3 className={cl.name}>Дуже крута футболка брат </h3>
+            <h3 className={cl.name}>{data.name}</h3>
             <div className={cl.details}>
                 <Counter />
                 <div className={cl.price}>
-                    <DescriptionPrice discountT={12} priceT={1200} direction='column-reverse' />
+                    <DescriptionPrice discountT={data.discount} priceT={data.price} direction='column-reverse' />
                     <ButtonTrach />
                 </div>
             </div>
