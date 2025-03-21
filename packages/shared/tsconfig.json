@@ -3,7 +3,7 @@
     "outDir": "./dist/",
     "noImplicitAny": true,
     "module": "ESNext",
-    "target": "es5",
+    "target": "ES6",
     "jsx": "react-jsx",
     "allowJs": true,
     "moduleResolution": "node",
@@ -15,4 +15,5 @@
             "@packages/*": ["../../packages/shared/src"]
         }
   },
+  "include": ["src"]
 }

@@ -2,6 +2,7 @@ import React from 'react';
 import BasketProductsCard from './BasketProductsCard';
 
 import { getAllProducts } from '@/state/targetProductData';
+import EmptyBasket from './EmptyBasket';
 
 export type ProductType = {
     id: number;
@@ -18,16 +19,10 @@ const BasketOverview: React.FC = () => {
     const products: ProductType[] = getAllProducts();
 
     return (
-        <div style={{ borderRadius: '48px', marginRight: '4px', overflowY: 'auto' }}>
+        <div style={{ borderRadius: '12px', marginRight: '24px', borderLeft: '1px solid #ccc', borderRight: '1px solid #ccc', overflowY: 'auto' }}>
             {products.length ? products.map((product) => (
                 <BasketProductsCard key={product.id} data={product} />
-            )) : <div style={{
-                    textAlign: 'center', 
-                    height: '100%',
-                    display: 'flex', 
-                    justifyContent: 'center',
-                    alignItems: 'center',
-            }}> {`Тут поки нічого немає :(`} </div>}
+            )) : <EmptyBasket />}
         </div>
     );
 };
