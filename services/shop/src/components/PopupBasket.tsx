@@ -1,9 +1,10 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import ReactDOM from "react-dom";
 import cl from "../utils/styles/PopupBasket.module.scss";
 import ClosePopupCross from '@packages/shared/src/components/UI/ClosePopupCross/ClosePopupCross'
 import BasketOverview from './BasketOverview';
 import BasketDelivery from './BasketDelivery';
+import BasketSummary from './BasketSummary';
 
 // Типізація пропсів для PopupBasket
 interface PopupBasketProps {
@@ -19,6 +20,7 @@ const PopupBasket: React.FC<PopupBasketProps> = ({ setBasketOpenStatus, basketOp
         };
     }, [basketOpenStatus])
 
+    const [summaryRenderEvent, setSummaryRenderEvent] = useState(0)
     return ReactDOM.createPortal(
         <div className={cl.modalOverlay} style={{alignContent: 'center', padding: '0 12px'}} onClick={e => { setBasketOpenStatus(false) }}>
             <div className={cl.modalContent} style={{
@@ -29,11 +31,13 @@ const PopupBasket: React.FC<PopupBasketProps> = ({ setBasketOpenStatus, basketOp
                 padding: '24px',
                 display: 'grid',
                 gridTemplateColumns: '2fr 1fr',
+                gridTemplateRows: '1fr 0.1fr',
                 position: 'relative'
             }} onClick={(e) => e.stopPropagation()}>
                 <ClosePopupCross setOpenStatus={setBasketOpenStatus} />
-                <BasketOverview />
+                <BasketOverview setSummaryRenderEvent={setSummaryRenderEvent}/>
                 <BasketDelivery />
+                <BasketSummary summaryRenderEvent={summaryRenderEvent}/>
             </div>
         </div>,
         document.getElementById("modal-root")!

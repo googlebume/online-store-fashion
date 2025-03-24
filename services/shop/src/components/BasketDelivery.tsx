@@ -9,8 +9,6 @@ const BasketDelivery = () => {
                 <InputData type='text' placeholder='Іван Іванович' min={5} max={20} label="Ім'я замовника"/>
                 <InputData type='tel' placeholder='+380 ХХХ ХХХХ' max={15} label="Номер телефону"/>
                 <InputData type='text' placeholder='Вулиця, відділення' min={10} max={40} label="Адреса доставки"/>
-
-                <button type="submit" className="order-button">Оформити замовлення</button>
             </form>
         </div>
     );
