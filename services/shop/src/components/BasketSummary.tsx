@@ -10,7 +10,6 @@ const BasketSummary = (summaryRenderEvent:any) => {
     console.log(allPrices);
     useEffect(() => {
         console.warn('yesss')
-        // Перевіряємо, чи є елементи в об'єкті, а не довжину
         if (Object.keys(allPrices).length > 0) {
             const totalPrice = Object.values(allPrices).reduce((sum, price) => sum + price, 0);
             setFinalPrice(totalPrice);

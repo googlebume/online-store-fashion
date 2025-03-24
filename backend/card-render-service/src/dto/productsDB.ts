@@ -4,7 +4,7 @@ export const productsDB = [
   { id: "2", name: "Casual Hoodie", category: "male", type: "hood", color: "white", price: 1100, discount: 10, image: "http://localhost:3004/products/hoodie_2_1.webp" },
   { id: "3", name: "Sporty Hoodie", category: "female", type: "hood", color: "white", price: 1300, discount: 20, image: "http://localhost:3004/products/hoodie_3_1.webp" },
   { id: "4", name: "Streetwear Hoodie", category: "male", type: "hood", color: "black", price: 1250, discount: 5, image: "http://localhost:3004/products/hoodie_4_1.webp" },
-  { id: "5", name: "Minimalist Hoodie", category: "male", type: "hood", color: "yellow", price: 1150, discount: 10, image: "http://localhost:3004/products/hoodie_5_1.webp" },
+  { id: "5", name: "Minimalist Hoodie", category: "male", type: "hood", color: "brown", price: 1150, discount: 10, image: "http://localhost:3004/products/hoodie_5_1.webp" },
 
   // Світшоти (Sweatshirt) - 5 товарів
   { id: "6", name: "Classic Sweatshirt", category: "male", type: "sweatshirt", color: "black", price: 1000, discount: 12, image: "http://localhost:3004/products/sweatshirt_1_1.webp" },

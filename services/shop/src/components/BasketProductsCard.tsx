@@ -5,6 +5,7 @@ import ButtonTrach from '@packages/shared/src/components/UI/ButtonTrash/ButtonTr
 import DescriptionPrice from './UI/DescriptionPrice/DescriptionPrice';
 
 import { ProductType } from "@packages/shared/src/utils/types/prosuctData.type";
+import { setDeletedProducts } from '@/state/targetProductData';
 interface BasketProductsCardProps {
     data: ProductType;
     setSummaryRenderEvent: React.Dispatch<React.SetStateAction<number>>;
@@ -25,7 +26,7 @@ const BasketProductsCard: React.FC<BasketProductsCardProps> = ({ data, setSummar
                 <Counter productName={data.name} setSummaryRenderEvent={setSummaryRenderEvent}/>
                 <div className={cl.price}>
                     <DescriptionPrice discountT={data.discount} priceT={data.price} direction='column-reverse' />
-                    <ButtonTrach />
+                    <ButtonTrach onClick={() => setDeletedProducts(data.name)}/>
                 </div>
             </div>
         </div>
