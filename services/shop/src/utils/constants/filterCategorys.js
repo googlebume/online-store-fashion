@@ -12,7 +12,7 @@ export const filterCategorys = [
         nameAttr: 'type',
         lis: [
             { id: 1, categoryName: 'Футболки', valueAttr: 'tshirt', link: '' },
-            { id: 2, categoryName: 'Худі', valueAttr: 'hood', link: '' },
+            { id: 2, categoryName: 'Худі', valueAttr: 'hoodie', link: '' },
             { id: 3, categoryName: 'Світшоти', valueAttr: 'sweatshirt', link: '' },
             { id: 4, categoryName: 'Сорочки', valueAttr: 'shirt', link: '' },
         ],
