@@ -26,7 +26,7 @@ const BasketProductsCard: React.FC<BasketProductsCardProps> = ({ data, setSummar
                 <Counter productName={data.name} setSummaryRenderEvent={setSummaryRenderEvent}/>
                 <div className={cl.price}>
                     <DescriptionPrice discountT={data.discount} priceT={data.price} direction='column-reverse' />
-                    <ButtonTrach onClick={() => setDeletedProducts(data.name)}/>
+                    <ButtonTrach onClick={() => setDeletedProducts(data.name)} setSummaryRenderEvent={setSummaryRenderEvent}/>
                 </div>
             </div>
         </div>

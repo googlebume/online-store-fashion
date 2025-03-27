@@ -14,6 +14,7 @@ const Counter: React.FC<CounterType> = ({ productName, setSummaryRenderEvent }) 
 
     const [count, setCount] = useState(1);
 
+    exportAllPrices(product.name, +product.price)
     const onMinus = () => {
         if (count > 1 && product) {
             const updatedCount = count - 1;

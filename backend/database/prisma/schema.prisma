@@ -9,7 +9,7 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
+  provider = "sqlite"
   url      = env("DATABASE_URL")
 }
 
@@ -27,38 +27,38 @@ model Products {
 model Attributes {
   productsId Int             @id
   Products   Products?       @relation(fields: [productsId], references: [id])
-  type       ProductType
-  category   ProductCategory
-  color      ProductColor
-  size       Size
+  type       String
+  category   String
+  color      String
+  size       String
 }
 
-enum ProductType {
-  hoodie
-  sweatshirt
-  shirt
-  tshirt
-}
+// enum ProductType {
+//   hoodie
+//   sweatshirt
+//   shirt
+//   tshirt
+// }
 
-enum ProductCategory {
-  male
-  female
-}
+// enum ProductCategory {
+//   male
+//   female
+// }
 
-enum ProductColor {
-  black
-  white
-  yellow
-  pink
-  brown
-  blue
-}
+// enum ProductColor {
+//   black
+//   white
+//   yellow
+//   pink
+//   brown
+//   blue
+// }
 
-enum Size {
-  XS
-  S
-  M
-  L
-  XL
-  XXL
-}
+// enum Size {
+//   XS
+//   S
+//   M
+//   L
+//   XL
+//   XXL
+// }

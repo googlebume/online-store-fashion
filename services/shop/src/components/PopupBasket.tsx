@@ -14,13 +14,12 @@ interface PopupBasketProps {
 
 const PopupBasket: React.FC<PopupBasketProps> = ({ setBasketOpenStatus, basketOpenStatus }) => {
     useEffect(() => {
-        basketOpenStatus ? document.body.style.overflow = 'hidden' : document.body.style.overflow = 'auto';
         return () => {
             document.body.style.overflow = "";
         };
     }, [basketOpenStatus])
 
-    const [summaryRenderEvent, setSummaryRenderEvent] = useState(0)
+    const [summaryRenderEvent, setSummaryRenderEvent] = useState(0);
     return ReactDOM.createPortal(
         <div className={cl.modalOverlay} style={{alignContent: 'center', padding: '0 12px'}} onClick={e => { setBasketOpenStatus(false) }}>
             <div className={cl.modalContent} style={{

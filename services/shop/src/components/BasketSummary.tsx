@@ -2,22 +2,28 @@ import React, { useEffect, useState } from 'react';
 
 import cl from '@/utils/styles/BasketSummary.module.scss';
 import ButtonOrder from '@packages/shared/src/components/UI/ButtonOrder/ButtonOrder';
-import { getAllPrices } from '@/state/targetProductData';
+import { getAllPrices, getDeletedProducts } from '@/state/targetProductData';
 
 const BasketSummary = (summaryRenderEvent:any) => {
+
     const [finalPrice, setFinalPrice] = useState(0);
     const [allPrices, setAllPrices] = useState(getAllPrices());
+    const [deletedProductsList, setDeletedProductsList] = useState(getDeletedProducts());
     console.log(allPrices);
     useEffect(() => {
-        console.warn('yesss')
-        if (Object.keys(allPrices).length > 0) {
-            const totalPrice = Object.values(allPrices).reduce((sum, price) => sum + price, 0);
+        // Оновлюємо список цін при зміні списку видалених продуктів
+        const updatedPrices = getAllPrices();
+        setAllPrices(updatedPrices);
+        const updatedDelProd = getDeletedProducts();
+        setDeletedProductsList(updatedDelProd)
+
+        console.warn('yesss');
+            const totalPrice = Object.values(updatedPrices).reduce((sum, price) => sum + price, 0);
             setFinalPrice(totalPrice);
             console.log('final', totalPrice);
-        } else {
-            setFinalPrice(0);
-        }
-    }, [summaryRenderEvent]);
+
+    }, [deletedProductsList, allPrices, summaryRenderEvent]);
+
 
     return (
         <div className={cl.basketSummary}>
