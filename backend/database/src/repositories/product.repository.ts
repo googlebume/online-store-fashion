@@ -5,13 +5,13 @@ import { PrismaService } from '../prisma.service';
 export class ProductRepository {
   constructor(private readonly prisma: PrismaService) {}
 
-//   async findById(id: string) {
-//     return this.prisma.product.findUnique({ where: { id } });
-//   }
+  async findById(id: number) {
+    return this.prisma.products.findUnique({ where: { id } });
+  }
 
-//   async findAll() {
-//     return this.prisma.product.findMany();
-//   }
+  async findAll() {
+    return this.prisma.products.findMany();
+  }
 
 //   async createProduct(name: string, price: number) {
 //     return this.prisma.product.create({
