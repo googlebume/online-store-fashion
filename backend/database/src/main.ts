@@ -16,8 +16,8 @@ async function bootstrap() {
   const app = await NestFactory.createMicroservice<MicroserviceOptions>(
     DatabaseModule,
     {
-      transport: Transport.TCP,  // Використовуємо TCP
-      options: { host: 'localhost', port: 5001 }, // Порт для зв'язку
+      transport: Transport.TCP,
+      options: { host: 'localhost', port: 5001 },
     },
   );
   await app.listen();

@@ -9,10 +9,4 @@ export class CardsRenderController {
     getProducts() {
         return this.appService.getProducts();
     }
-    @Get('db')
-    async useDBBB() {
-        const result = await this.appService.useDB();
-        console.log('Отримані продукти:', result);
-        return result;
-    }
 }

@@ -10,9 +10,7 @@ export class DatabaseService {
   //   return this.productRepository.findAll();
   // }
   async getAllProducts() {
-    console.log('Запит до SQLite...');
     const products = await this.productRepository.findAll();
-    console.log('Отримано продукти:', products);
     return products;
   }
 
