@@ -13,6 +13,6 @@ async function bootstrap() {
   app.use('/products', express.static(join(__dirname, '..', 'products')));
 
   
-  await app.listen(process.env.PORT ?? 3004);
+  await app.listen(process.env.PORT ?? 4001);
 }
 bootstrap();
