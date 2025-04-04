@@ -9,15 +9,13 @@ const FilterColors = () => {
     const [SelectedColors, setSelectedColors] = useState([]);
 
     function getColorsValue({ value, checked }) {
-            setSelectedColors((prevColors) => {
-                const updatedColors = checked
-                    ? [...prevColors, value]
-                    : prevColors.filter((category) => category !== value);
-    
-                setUpdatedColors(updatedColors);
-                return updatedColors;
-            });
-        }
+        const updatedColors = checked
+          ? [...SelectedColors, value]
+          : SelectedColors.filter((category) => category !== value);
+      
+        setSelectedColors(updatedColors);          // ✅ React setState
+        setUpdatedColors(updatedColors);           // ✅ Зовнішня дія, ОК!
+      }
 
     return (
         <div className={cl.colors__group}>

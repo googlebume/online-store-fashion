@@ -40,14 +40,12 @@ const FilterCategorys = () => {
     const [selectedCategories, setSelectedCategories] = useState([]);
 
     function getCategoriesValue({ value, checked }) {
-        setSelectedCategories((prevCategories) => {
-            const updatedCategories = checked
-                ? [...prevCategories, value]
-                : prevCategories.filter((category) => category !== value);
-
-            setUpdatedCategories(updatedCategories);
-            return updatedCategories;
-        });
+        const updatedCategories = checked
+            ? [...selectedCategories, value]
+            : selectedCategories.filter((category) => category !== value);
+    
+        setSelectedCategories(updatedCategories);        // ✅ Безпечне оновлення локального стану
+        setUpdatedCategories(updatedCategories);         // ✅ Окрема дія після
     }
 
     return (

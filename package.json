@@ -4,7 +4,7 @@
     "scripts": {
         "start:frontend": "concurrently -n admin,host,shop,header \"npm run start --workspace=services/admin\" \"npm run start --workspace=services/host\" \"npm run start --workspace=services/shop\" \"npm run start --workspace=services/header\"",
         "start:cardRender": "cd backend/card-render-service && npm run start:dev",
-        "start:database": "cd backend/database && npm run start",
+        "start:database": "cd backend/database && npm run start:dev",
         "start:backend": "concurrently \"npm run start:database\" \"npm run start:cardRender\"",
         "start": "concurrently \"npm run start:backend\" \"npm run start:frontend\""
     },

@@ -10,7 +10,28 @@ export class ProductRepository {
   }
 
   async findAll() {
-    return this.prisma.products.findMany();
+    const products = await this.prisma.products.findMany();
+    const attributes = await this.prisma.attributes.findMany();
+    
+    const combined = products.map(product => {
+      const matchingAttribute = attributes.find(attr => attr.productsId === product.id);
+      
+      const attributesObject = matchingAttribute
+        ? Object.fromEntries([
+            ["type", matchingAttribute.type],
+            ["category", matchingAttribute.category],
+            ["color", matchingAttribute.color],
+            ["size", matchingAttribute.size]
+          ])
+        : {};
+      
+      return {
+        ...product,
+        attributes: attributesObject
+      };
+    });
+  
+    return combined;
   }
 
 //   async createProduct(name: string, price: number) {
