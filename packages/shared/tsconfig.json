@@ -1,19 +1,28 @@
 {
-  "compilerOptions": {
-    "outDir": "./dist/",
-    "noImplicitAny": true,
-    "module": "ESNext",
-    "target": "ES6",
-    "jsx": "react-jsx",
-    "allowJs": true,
-    "moduleResolution": "node",
-    "esModuleInterop": true,
-    "allowSyntheticDefaultImports": true,
-    "composite": false,
-    "paths": {
-            "@shop/*": ["../../services/shop/src/*"],
-            "@packages/*": ["../../packages/shared/src"]
+    "compilerOptions": {
+        "outDir": "./dist/",
+        "noImplicitAny": true,
+        "module": "ESNext",
+        "target": "ES6",
+        "jsx": "react-jsx",
+        "allowJs": true,
+        "moduleResolution": "node",
+        "esModuleInterop": true,
+        "allowSyntheticDefaultImports": true,
+        "composite": false,
+        "paths": {
+            "@shop/*": [
+                "../../services/product/src/*"
+            ],
+            "@product/*": [
+                "../../services/shop/src/*"
+            ],
+            "@packages/*": [
+                "../../packages/shared/src"
+            ]
         }
-  },
-  "include": ["src"]
+    },
+    // "include": [
+    //     "src"
+    // ]
 }

@@ -1,11 +1,11 @@
 import {createBrowserRouter} from "react-router-dom";
 import {App} from "@/components/App/App";
 import {Suspense} from "react";
-import {Header} from "@/pages/Header";
+import {Product} from "@/pages/Product";
 
 const routes = [
     {
-        path: "/header",
+        path: "/shop/product",
         element: <App />,
 
     },

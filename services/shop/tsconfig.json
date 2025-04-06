@@ -4,6 +4,7 @@
     "outDir": "./dist/",
     "baseUrl": ".",
     "allowJs": true,
+    "composite": false,
     "paths": {
       "@/*": ["./src/*"],
       "@shop/*": ["../../services/shop/src/*"]
