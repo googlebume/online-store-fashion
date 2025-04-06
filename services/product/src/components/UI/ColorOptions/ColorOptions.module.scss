@@ -1,0 +1,22 @@
+@use '@packages/shared/src/utils/styles/colorScheme' as colors;
+
+.colorOptions {
+    display: flex;
+    gap: 12px;
+
+    .colorButton {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      border: 2px solid colors.$white;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+
+      &.colorBlack { background: colors.$black; }
+      &.colorGray { background: #666; }
+      &.colorBrown { background: #4a2c2a; }
+      &.colorNavy { background: #1a3657; }
+      &.selected {
+        box-shadow: 0 0 0 2px colors.$white, 0 0 0 4px colors.$yellow;
+      }
+    }
+  }
