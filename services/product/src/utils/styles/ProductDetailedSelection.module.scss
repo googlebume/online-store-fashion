@@ -1,0 +1,56 @@
+@use '@packages/shared/src/utils/styles/colorScheme' as colors;
+
+.purchaseSection {
+  margin-bottom: 32px;
+  display: flex;
+
+  .quantityContainer {
+    display: flex;
+    align-items: center;
+    max-width: fit-content;
+  }
+
+  .actionButtons {
+    display: flex;
+    gap: 16px;
+
+    .addToCartButton {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: colors.$black;
+      color: colors.$white;
+      padding: 7px 32px;
+      border-radius: 4px;
+      font-weight: bold;
+      flex: 1;
+      max-width: 500px;
+
+      &:hover {
+        background: rgba(colors.$black, 0.9);
+      }
+
+      img {
+        display: inline-block;
+        margin-right: 8px;
+        width: 24px;
+      }
+    }
+
+    .wishlistButton,
+    .compareButton {
+      border: 1px solid colors.$black;
+      padding: 12px 24px;
+      border-radius: 4px;
+      font-weight: bold;
+
+      &:hover {
+        background: #f3f4f6;
+      }
+
+      i {
+        margin-right: 8px;
+      }
+    }
+  }
+}

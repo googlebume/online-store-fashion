@@ -1,0 +1,61 @@
+@use '@packages/shared/src/utils/styles/colorScheme' as colors;
+.reviewStats {
+    background: #f9fafb;
+    padding: 24px;
+    border-radius: 8px;
+
+    .ratingSummary {
+      display: flex;
+      align-items: center;
+      margin-bottom: 24px;
+
+      .averageRating {
+        font-size: 36px;
+        font-weight: bold;
+        margin-right: 16px;
+      }
+
+      .ratingDetails {
+        .ratingStars {
+          color: colors.$yellow;
+          margin-bottom: 4px;
+        }
+
+        .ratingLabel {
+          color: colors.$ashDarkened;
+        }
+      }
+    }
+
+    .ratingBars {
+      .ratingBar {
+        display: flex;
+        align-items: center;
+        margin-bottom: 8px;
+
+        span {
+          width: 32px;
+          font-size: 14px;
+        }
+
+        i {
+          color: colors.$yellow;
+          margin: 0 4px;
+        }
+
+        .barContainer {
+          flex: 1;
+          background: #e5e7eb;
+          height: 8px;
+          border-radius: 999px;
+          margin: 0 8px;
+
+          .barFill {
+            background: colors.$yellow;
+            height: 100%;
+            border-radius: 999px;
+          }
+        }
+      }
+    }
+  }

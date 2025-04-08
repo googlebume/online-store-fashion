@@ -1,0 +1,51 @@
+@use '@packages/shared/src/utils/styles/colorScheme' as colors;
+
+.sizeSelection {
+    margin-bottom: 24px;
+
+    .sizeHeader {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0px;
+
+      .sizeTitle {
+        font-weight: bold;
+        margin-top: 4px;
+      }
+
+      .sizeGuideLink {
+        font-size: 14px;
+        color: colors.$ashDarkened;
+        text-decoration: underline;
+
+        &:hover {
+          color: colors.$black;
+        }
+      }
+    }
+
+    .sizeOptions {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 8px;
+
+      .sizeButton {
+        padding: 8px;
+        border: 1px solid colors.$gray;
+        border-radius: 4px;
+        text-align: center;
+        transition: all 0.3s;
+
+        &:hover {
+          border-color: colors.$black;
+          transform: scale(1.05);
+        }
+
+        &.selected {
+          border-color: colors.$yellow;
+          background: rgba(colors.$yellow, 0.1);
+        }
+      }
+    }
+  }

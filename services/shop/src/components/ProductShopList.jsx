@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import ProductCard from "./ProductCard";
+import ProductCard from "@packages/shared/src/components/ProductCard";
 import { exportProducts, getFilteredProducts, subscribeToFilteredProducts } from "../state/productsData";
 
 const ProductShopList = () => {
@@ -35,9 +35,9 @@ const ProductShopList = () => {
             {(filteredProducts.length > 0 ? filteredProducts : products).map((card) => (
                 <ProductCard
                     key={card.name}
-                    name={card.name}
-                    price={card.price}
-                    discount={card.discount}
+                    name={`${card.name}`}
+                    price={`${card.price}`}
+                    discount={`${card.discount}`}
                     image={card.image}
                 />
             ))}

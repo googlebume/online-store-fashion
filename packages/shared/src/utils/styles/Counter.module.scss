@@ -1,0 +1,15 @@
+@use '@packages/shared/src/utils/styles/colorScheme' as colors;
+
+.quantityControls {
+    display: flex;
+    align-items: center;
+    border: 1px solid colors.$gray;
+    border-radius: 4px;
+    margin-right: 16px;
+
+    .quantityValue {
+      padding: 8px 16px;
+      border-left: 1px solid colors.$gray;
+      border-right: 1px solid colors.$gray;
+    }
+  }

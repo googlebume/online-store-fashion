@@ -1,0 +1,45 @@
+@use '@packages/shared/src/utils/styles/colorScheme' as colors;
+.reviewsList {
+    margin-top: 32px;
+
+    .reviewItem {
+        border-bottom: 1px solid #e5e7eb;
+        padding-bottom: 24px;
+        margin-bottom: 24px;
+
+        .reviewHeader {
+            margin-bottom: 8px;
+
+            .reviewRating {
+                color: colors.$yellow;
+                margin-bottom: 4px;
+            }
+
+            .reviewerName {
+                font-weight: bold;
+            }
+
+            .reviewDate {
+                color: colors.$ashDarkened;
+                font-size: 14px;
+            }
+        }
+
+        .reviewText {
+            color: colors.$ashDarkened;
+        }
+    }
+}
+
+.loadMoreButton {
+    border: 1px solid colors.$black;
+    padding: 8px 24px;
+    border-radius: 4px;
+    font-weight: bold;
+    margin: 0 auto;
+    display: block;
+
+    &:hover {
+        background: #f3f4f6;
+    }
+}

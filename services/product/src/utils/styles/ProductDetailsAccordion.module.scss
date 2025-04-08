@@ -1,0 +1,32 @@
+@use '@packages/shared/src/utils/styles/colorScheme' as colors;
+.detailsAccordion {
+    border-top: 1px solid #e5e7eb;
+    padding-top: 24px;
+
+    .accordionItem {
+      margin-bottom: 16px;
+
+      .accordionButton {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+        font-weight: bold;
+        font-size: 18px;
+      }
+
+      .accordionContent {
+        margin-top: 8px;
+        color: colors.$ashDarkened;
+
+        .detailsList {
+          list-style: disc;
+          padding-left: 20px;
+
+          li {
+            margin-bottom: 8px;
+          }
+        }
+      }
+    }
+  }

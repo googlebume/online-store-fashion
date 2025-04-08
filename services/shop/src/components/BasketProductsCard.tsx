@@ -1,6 +1,6 @@
 import React from 'react';
 import cl from '../utils/styles/BasketProductsCard.module.scss'
-import Counter from './Counter';
+import Counter from '../../../../packages/shared/src/components/Counter';
 import ButtonTrach from '@packages/shared/src/components/UI/ButtonTrash/ButtonTrash'
 import DescriptionPrice from './UI/DescriptionPrice/DescriptionPrice';
 

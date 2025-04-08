@@ -1,0 +1,56 @@
+@use '@packages/shared/src/utils/styles/colorScheme' as colors;
+.productDetails {
+    margin-bottom: 24px;
+
+    .productTitle {
+      font-size: 30px;
+      font-weight: bold;
+      margin-bottom: 8px;
+    }
+
+    .ratingContainer {
+      display: flex;
+      align-items: center;
+      margin-bottom: 8px;//16
+
+      .ratingStars {
+        color: colors.$yellow;
+        margin-right: 8px;
+      }
+
+      .ratingCount {
+        color: colors.$ashDarkened;
+      }
+    }
+
+    .priceContainer {
+      font-size: 24px;
+      font-weight: bold;
+      margin-bottom: 16px;
+
+      .currentPrice {
+        color: colors.$black;
+      }
+
+      .oldPrice {
+        color: colors.$ashDarkened;
+        text-decoration: line-through;
+        font-size: 18px;
+        margin-left: 8px;
+      }
+
+      .discountBadge {
+        background: colors.$yellow;
+        color: colors.$black;
+        font-size: 14px;
+        padding: 4px 8px;
+        border-radius: 4px;
+        margin-left: 8px;
+      }
+    }
+
+    .productDescription {
+      color: colors.$ashDarkened;
+      margin-bottom: 24px;
+    }
+  }

@@ -1,0 +1,23 @@
+.productGallery {
+    @media (min-width: 1024px) {
+      width: 50%;
+    }
+
+    .mainImageContainer {
+      position: relative;
+      margin-bottom: 16px;
+      border-radius: 8px;
+      overflow: hidden;
+      background: #f3f4f6;
+      height: 580px;
+
+      .mainImage {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+    }
+  }

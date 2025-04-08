@@ -8,7 +8,7 @@ export function buildResolvers(options: BuildOptions): Configuration['resolve'] 
         alias: {
             '@': options.paths.src,
             "@shop": path.resolve(__dirname, "../../services/shop/src"),
-            "@product/": path.resolve(__dirname, "../../services/product/src")
+            "@product/": path.resolve(__dirname, "../../services/product/src"),
         },
     }
 }
