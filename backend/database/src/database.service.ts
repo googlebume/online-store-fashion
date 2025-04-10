@@ -18,4 +18,8 @@ export class DatabaseService {
   async getProductById(id: number) {
     return this.productRepository.findById(id);
   }
+
+  async getProductByName(name: string) {
+    return this.productRepository.findByName(name);
+  }
 }

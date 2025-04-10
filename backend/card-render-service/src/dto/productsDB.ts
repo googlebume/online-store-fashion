@@ -1,3 +1,7 @@
+import { readdir } from 'fs/promises';
+import path, { join } from 'path';
+
+
 export const productsDB = [
   // Худі (Hoodie) - 5 товарів
   { id: 1, name: "Oversize Hoodie", category: "male", type: "hoodie", color: "black", price: 1200, discount: 15, image: "http://localhost:4001/products/hoodie_1_1.webp" },
@@ -27,3 +31,32 @@ export const productsDB = [
   { id: 19, name: "Slim Fit T-shirt", category: "male", type: "tshirt", color: "white", price: 880, discount: 8, image: "http://localhost:4001/products/tshirt_4_1.webp" },
   { id: 20, name: "Vintage T-shirt", category: "male", type: "tshirt", color: "black", price: 950, discount: 15, image: "http://localhost:4001/products/tshirt_5_1.webp" }
 ];
+
+
+
+// interface Product {
+//   image: string;
+//   [key: string]: any; // інші поля
+// }
+
+
+// async function parseImageUrl(): Promise<Product[]> {
+//   try {
+//     const dirEntries = await readdir(path.resolve(__dirname, '../../', 'products'), { withFileTypes: true });
+//     const fileNames = dirEntries
+//       .filter(entry => entry.isFile())
+//       .map(file => file.name);
+
+//     const updatedProducts = products.map((item, index) => {
+//       // Наприклад, зв'язуємо по індексу (або можна по назві)
+//       item.image = fileNames[index] || ''; // або fileNames.find(fn => fn.includes(item.name))
+//       return item;
+//     });
+
+//     return updatedProducts;
+
+//   } catch (err) {
+//     console.error('Помилка читання директорії:', err);
+//     return [];
+//   }
+// }

@@ -5,7 +5,7 @@ import {Product} from "@/pages/Product";
 
 const routes = [
     {
-        path: "/shop/product",
+        path: "/shop/product/*",
         element: <App />,
 
     },

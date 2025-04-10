@@ -16,4 +16,9 @@ export class DatabaseController {
   async getProductById(data: { id: number }) {
     return this.databaseService.getProductById(data.id);
   }
+
+  @MessagePattern('get_product_by_name')
+  async getProductByName(data: { name: string }) {
+    return this.databaseService.getProductByName(data.name);
+  }
 }
