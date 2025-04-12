@@ -1,0 +1,6 @@
+@use '@packages/shared/src/utils/styles/colorScheme' as colors;
+
+.productDescription {
+    color: colors.$ashDarkened;
+    margin-bottom: 24px;
+  }

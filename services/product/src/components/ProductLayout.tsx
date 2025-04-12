@@ -1,51 +1,53 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import ProductGallery from './ProductGallery';
-import ProductDetailedSelection from './ProductDetailedSelection';
-import ProductDetails from './ProductDetails';
-import ProductSizeSelection from './ProductSizeSelection';
-import ProductDetailsAccordion from './ProductDetailsAccordion';
-import ColorSelection from './ColorSelection';
+import ProductInfo from './ProductInfo';
 
+import { ProductType } from '@packages/shared/src/utils/types/prosuctData.type';
 import cl from '@/utils/styles/ProductLayout.module.scss'
+
 const ProductLayout = () => {
+    const [product, setProduct] = useState<ProductType>()
+
+    window.scrollTo(0, 0)
     useEffect(() => {
         let productURL = window.location.href;
         let productName = productURL.split('/').at(-1);
         console.log('Product Name for GET:', productName);
-        
+
         // POST запит
         try {
-            fetch(`http://localhost:4001/shop/product`, {  // Правильний URL без символа *
+            fetch(`http://localhost:5000/shop/product`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ productName }),  // Відправляємо productName як і очікує контролер
+                body: JSON.stringify({ productName }),
             })
-            .then(response => {
-                if (!response.ok) throw new Error('POST request failed');
-                return response.json();
-            })
-            .then(data => console.log('POST response:', data))
-            .catch(error => console.error('POST error:', error));
-        } catch (error) { 
+                .then(response => {
+                    if (!response.ok) throw new Error('POST request failed');
+                    return response.json();
+                })
+                .then(data => console.log('POST response:', data))
+                .catch(error => console.error('POST error:', error));
+        } catch (error) {
             console.log('Помилка відправки імені товару', error);
         }
 
         // GET запит
-        if (productName) { // Перевіряємо, що productName існує
+        if (productName) {
             try {
-                fetch(`http://localhost:4001/shop/product/${encodeURIComponent(productName)}`)
+                fetch(`http://localhost:5000/shop/product/${encodeURIComponent(productName)}`)
                     .then(response => {
                         if (!response.ok) throw new Error('GET request failed');
                         return response.json();
                     })
                     .then(data => {
-                        console.log(data);
+                        setProduct(data);
+                        console.log(data)
                     })
                     .catch(error => console.error('GET error:', error));
-            } catch (error) { 
+            } catch (error) {
                 console.log('Помилка отримання товару', error);
             }
         }
@@ -54,25 +56,13 @@ const ProductLayout = () => {
 
     return (
         <div className={cl.productLayout}>
-            {/* Product Gallery */}
-            <ProductGallery />
+            {product != null && (
+                <>
+                    <ProductGallery image={product.image} alt={product.name}/>
+                    <ProductInfo product={product}/>
+                </>
+            )}
 
-            {/* Product Info */}
-            <div className={cl.productInfo}>
-                <ProductDetails />
-
-                {/* Color Selection */}
-                <ColorSelection />
-
-                {/* Size Selection */}
-                <ProductSizeSelection />
-
-                {/* Quantity & Add to Cart          Тут треба щось рішать*/}
-                <ProductDetailedSelection />
-
-                {/* Product Details Accordion */}
-                <ProductDetailsAccordion />
-            </div>
         </div>
     );
 };

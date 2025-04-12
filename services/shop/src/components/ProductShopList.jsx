@@ -8,7 +8,7 @@ const ProductShopList = () => {
 
     // Завантаження всіх продуктів
     useEffect(() => {
-        fetch("http://localhost:4001/shop")
+        fetch("http://localhost:5000/shop")
             .then((response) => response.json())
             .then((data) => {
                 setProducts(data); 

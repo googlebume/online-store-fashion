@@ -1,0 +1,27 @@
+@use '@packages/shared/src/utils/styles/colorScheme' as colors;
+
+.priceContainer {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 16px;
+
+    .currentPrice {
+      color: colors.$black;
+    }
+
+    .oldPrice {
+      color: colors.$ashDarkened;
+      text-decoration: line-through;
+      font-size: 18px;
+      margin-left: 8px;
+    }
+
+    .discountBadge {
+      background: colors.$yellow;
+      color: colors.$black;
+      font-size: 14px;
+      padding: 4px 8px;
+      border-radius: 4px;
+      margin-left: 8px;
+    }
+  }
