@@ -1,5 +1,6 @@
 import React from 'react';
 import cl from './ColorOptions.module.scss';
+import { filterColorDitchs } from '../../../../../shop/src/utils/constants/filterColorDitchs';
 
 type Color = {
     id: number;
@@ -19,23 +20,31 @@ const ColorOptions = ({ colorsList, curentColor, setCurrentColor }: ColorOptions
 
     return (
         <div className={cl.colorOptions}>
-            {colorsList.map((color) => (
-                <React.Fragment key={color.id}>
-                    <input
-                        type="radio"
-                        id={`${color.id}`}
-                        name="colorSelection"
-                        className={cl.hiddenInput}
-                        onChange={() => {setCurrentColor(color.color)}}
-                        checked={curentColor === color.color}
-                    />
-                    <label
-                        style={{ background: color.color || '#000' }}
-                        htmlFor={`${color.id}`}
-                        className={cl.colorButton}
-                    ></label>
-                </React.Fragment>
-            ))}
+            {colorsList.map((color) => {
+                const matchedColor = filterColorDitchs.find(
+                    (ditch) => ditch.colorTxt.toLowerCase() === color.color.toLowerCase()
+                );
+
+                const bgColor = matchedColor?.color || '#000';
+
+                return (
+                    <React.Fragment key={color.id}>
+                        <input
+                            type="radio"
+                            id={`${color.id}`}
+                            name="colorSelection"
+                            className={cl.hiddenInput}
+                            onChange={() => setCurrentColor(color.color)}
+                            checked={curentColor === color.color}
+                        />
+                        <label
+                            style={{ background: bgColor }}
+                            htmlFor={`${color.id}`}
+                            className={cl.colorButton}
+                        ></label>
+                    </React.Fragment>
+                );
+            })}
         </div>
     );
 };

@@ -25,12 +25,16 @@ model Products {
 }
 
 model Attributes {
-  productsId Int             @id
-  Products   Products?       @relation(fields: [productsId], references: [id])
-  type       String
-  category   String
-  color      String
-  size       String
+  productsId      Int       @id
+  Products        Products? @relation(fields: [productsId], references: [id])
+  type            String
+  category        String
+  color           String
+  size            String
+  brand           String?
+  material        String? 
+  countryOfOrigin String?
+  weight          Float?
 }
 
 // enum ProductType {

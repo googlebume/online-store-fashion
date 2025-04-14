@@ -34,7 +34,7 @@ const ProductInfo: React.FC<ProductInfoType> = ({product, colorsList, curentColo
             <ProductDetailedSelection />
 
             {/* Product Details Accordion */}
-            <ProductDetailsAccordion />
+            <ProductDetailsAccordion product={product}/>
         </div>
     );
 };

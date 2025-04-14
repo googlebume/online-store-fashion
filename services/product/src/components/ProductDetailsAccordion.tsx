@@ -1,34 +1,54 @@
 import React from 'react';
-import cl from '@/utils/styles/ProductDetailsAccordion.module.scss'
+import cl from '@/utils/styles/ProductDetailsAccordion.module.scss';
+import { ProductType } from '@packages/shared/src/utils/types/prosuctData.type';
 
-const ProductDetailsAccordion = () => {
+type DetailsType = {
+    product: ProductType;
+};
+
+const ProductDetailsAccordion: React.FC<DetailsType> = ({ product }) => {
     return (
         <div className={cl.detailsAccordion}>
             <div className={cl.accordionItem}>
-                <button className={cl.accordionButton}>
-                    <span>Деталі товару</span>
+                <div className={cl.accordionTitle}>
+                    <span>Про товар</span>
                     <i className="fas fa-chevron-down"></i>
-                </button>
+                </div>
                 <div className={cl.accordionContent}>
                     <ul className={cl.detailsList}>
-                        <li>Матеріал: 100% натуральна шкіра</li>
-                        <li>Підкладка: 100% бавовна</li>
-                        <li>Країна виробництва: Італія</li>
-                        <li>Застібка: блискавка + ґудзики</li>
-                        <li>Кишені: 2 зовнішні, 2 внутрішні</li>
-                        <li>Вага: 1.2 кг</li>
+                        {product.attributes.map((attr, index) => (
+                            <React.Fragment key={index}>
+                                <li>
+                                    <div className={cl.row}>
+                                        <span className={cl.label}>Матеріал:</span>
+                                        <div className={cl.dash}></div>
+                                        <span className={cl.value}>{attr.material || 'Невідомо'}</span>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div className={cl.row}>
+                                        <span className={cl.label}>Країна виробництва:</span>
+                                        <div className={cl.dash}></div>
+                                        <span className={cl.value}>{attr.countryOfOrigin || 'Невідомо'}</span>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div className={cl.row}>
+                                        <span className={cl.label}>Бренд:</span>
+                                        <div className={cl.dash}></div>
+                                        <span className={cl.value}>{attr.brand || 'Невідомо'}</span>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div className={cl.row}>
+                                        <span className={cl.label}>Вага:</span>
+                                        <div className={cl.dash}></div>
+                                        <span className={cl.value}>{attr.weight || 'Невідомо'}</span>
+                                    </div>
+                                </li>
+                            </React.Fragment>
+                        ))}
                     </ul>
-                </div>
-            </div>
-            <div className={cl.accordionItem}>
-                <button className={cl.accordionButton}>
-                    <span>Доставка та повернення</span>
-                    <i className="fas fa-chevron-down"></i>
-                </button>
-                <div className={cl.accordionContent}>
-                    <p>Безкоштовна доставка при замовленні від ₴2000.</p>
-                    <p>Термін доставки: 1-3 робочих дні.</p>
-                    <p>Можливість повернення протягом 14 днів після отримання.</p>
                 </div>
             </div>
         </div>

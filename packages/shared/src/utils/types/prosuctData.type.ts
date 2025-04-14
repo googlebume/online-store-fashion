@@ -8,7 +8,7 @@ export type ProductType = {
     price: number;
     discount?: number;
     description: string;
-    attributes: object[];
+    attributes: ProductAttrType[];
 };
 
 export type ProductAttrType = {
@@ -17,4 +17,8 @@ export type ProductAttrType = {
     category: String;
     color: String;
     size: String;
+    brand: String;
+    material: String; 
+    countryOfOrigin: String
+    weight: number
 }
