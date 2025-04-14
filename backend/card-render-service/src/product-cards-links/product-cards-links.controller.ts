@@ -6,7 +6,7 @@ export class ProductCardsLinksController {
     constructor(private readonly productCardsLinksService: ProductCardsLinksService) { }
 
     @Post()
-    receiveProductName(@Body() requestBody: { productName: string }) {  // Змінено name на productName
+    receiveProductName(@Body() requestBody: { productName: string }) {
         const { productName } = requestBody;
         return { success: true, productName };
     }
@@ -17,7 +17,6 @@ export class ProductCardsLinksController {
             const product = await this.productCardsLinksService.getProductByName(name);
             return product;
         } catch (error) {
-            // Обробка помилки
             console.error('Error fetching product:', error);
             return { error: 'Could not fetch product', message: error.message };
         }

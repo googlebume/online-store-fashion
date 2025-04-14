@@ -3,68 +3,92 @@ import React, { useEffect, useState } from 'react';
 import ProductGallery from './ProductGallery';
 import ProductInfo from './ProductInfo';
 
-import { ProductType } from '@packages/shared/src/utils/types/prosuctData.type';
+import { ProductType, ProductAttrType } from '@packages/shared/src/utils/types/prosuctData.type';
 import cl from '@/utils/styles/ProductLayout.module.scss'
 
-const ProductLayout = () => {
-    const [product, setProduct] = useState<ProductType>()
 
-    window.scrollTo(0, 0)
+const ProductLayout = () => {
+    const [product, setProduct] = useState<ProductType | null>(null);
+    const [allResponce, setAllResponce] = useState<ProductType[] | null>(null);
+    const [colorsList, setColorsList] = useState(null);
+    const [currentColor, setCurrentColor] = useState<String>()
+    const [currentImage, setCurrentImage] = useState<string>()
+
     useEffect(() => {
-        let productURL = window.location.href;
-        let productName = productURL.split('/').at(-1);
+        window.scrollTo(0, 0);
+        const productURL = window.location.href;
+        const productName = productURL.split('/').at(-1);
+
         console.log('Product Name for GET:', productName);
 
-        // POST запит
-        try {
-            fetch(`http://localhost:5000/shop/product`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ productName }),
-            })
+        if (productName) {
+            fetch(`http://localhost:5000/shop/product/${encodeURIComponent(productName)}`)
                 .then(response => {
-                    if (!response.ok) throw new Error('POST request failed');
+                    if (!response.ok) throw new Error('GET request failed');
                     return response.json();
                 })
-                .then(data => console.log('POST response:', data))
-                .catch(error => console.error('POST error:', error));
-        } catch (error) {
-            console.log('Помилка відправки імені товару', error);
-        }
-
-        // GET запит
-        if (productName) {
-            try {
-                fetch(`http://localhost:5000/shop/product/${encodeURIComponent(productName)}`)
-                    .then(response => {
-                        if (!response.ok) throw new Error('GET request failed');
-                        return response.json();
-                    })
-                    .then(data => {
-                        setProduct(data);
-                        console.log(data)
-                    })
-                    .catch(error => console.error('GET error:', error));
-            } catch (error) {
-                console.log('Помилка отримання товару', error);
-            }
+                .then(data => {
+                    if (Array.isArray(data) && data.length > 0) {
+                        setProduct(data[0]);
+                        console.log('GET response:', data);
+                        
+                        setAllResponce(data);
+                        console.log('data', data);
+                    } else {
+                        console.warn('Продукт не знайдено');
+                    }
+                })
+                .catch(error => console.error('GET error:', error));
         }
     }, []);
 
+    useEffect(() => {
+        if (allResponce) {
+            const colors = allResponce.flatMap((product: ProductType) =>
+                product.attributes.map((attribute: ProductAttrType) => ({
+                    id: product.id,
+                    color: attribute.color
+                }))
+            );
+            setColorsList(colors);
+            console.log(colors)
+        }
+    }, [allResponce, product]);
+
+
+    useEffect(() => {
+        setCurrentColor((product?.attributes?.[0] as ProductAttrType)?.color)
+    },[product])
+
+    useEffect(() => {
+        if (!allResponce) return;
+    
+        const findProductWithUpdatedImage = allResponce.find((product) =>
+            (product?.attributes?.[0] as ProductAttrType)?.color === currentColor
+        );
+    
+        if (findProductWithUpdatedImage) {
+            setCurrentImage(findProductWithUpdatedImage.image);
+        }
+    }, [allResponce, currentColor]);
+    
 
     return (
         <div className={cl.productLayout}>
-            {product != null && (
+            {product && (
                 <>
-                    <ProductGallery image={product.image} alt={product.name}/>
-                    <ProductInfo product={product}/>
+                    <ProductGallery image={currentImage || product.image} alt={product.name} />
+                    <ProductInfo
+                        product={product}
+                        colorsList={colorsList}
+                        curentColor={currentColor} 
+                        setCurrentColor={setCurrentColor}
+                    />
                 </>
             )}
-
         </div>
     );
 };
+
 
 export default ProductLayout;

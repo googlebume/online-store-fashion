@@ -10,32 +10,48 @@ export class ProductRepository {
     }
 
     async findByName(name: string) {
-        let parsedName: string = name.split('-').join(' ')
-        console.log('parsedName ', parsedName)
-        const product = await this.prisma.products.findUnique({ where: { name: parsedName } });
-
-        if (!product) {
-            throw new Error('Product not found');
-        }
-
-        const productAttr = await this.prisma.attributes.findUnique({
-            where: { productsId: product.id }
+        const parsedName: string = name.split('-').slice(0, 2).join(' ');
+        console.log('parsedName:', parsedName);
+    
+        const products = await this.prisma.products.findMany({
+            where: {
+                name: {
+                    startsWith: parsedName
+                }
+            }
         });
-
-        const attributesObject = productAttr
-            ? Object.fromEntries([
-                ["type", productAttr.type],
-                ["category", productAttr.category],
-                ["color", productAttr.color],
-                ["size", productAttr.size]
-            ])
-            : {};
-
-        return {
-            ...product,
-            attributes: attributesObject
-        };
+    
+        if (!products.length) {
+            throw new Error('Products not found');
+        }
+    
+        const productIds = products.map(p => p.id);
+    
+        const attributes = await this.prisma.attributes.findMany({
+            where: {
+                productsId: {
+                    in: productIds
+                }
+            }
+        });
+    
+        const attributesMap = attributes.reduce((acc, attr) => {
+            if (!acc[attr.productsId]) acc[attr.productsId] = [];
+            acc[attr.productsId].push(attr);
+            return acc;
+        }, {} as Record<number, any[]>);
+    
+        return products.map(product => {
+            console.log('product.id', product.id);
+            console.log('attributesMap', attributesMap[product.id]);
+            return {
+                ...product,
+                attributes: attributesMap[product.id]
+            };
+        });
     }
+    
+    
 
     async findAll() {
         const products = await this.prisma.products.findMany();
@@ -44,21 +60,14 @@ export class ProductRepository {
         const combined = products.map(product => {
             const matchingAttribute = attributes.find(attr => attr.productsId === product.id);
 
-            const attributesObject = matchingAttribute
-                ? Object.fromEntries([
-                    ["type", matchingAttribute.type],
-                    ["category", matchingAttribute.category],
-                    ["color", matchingAttribute.color],
-                    ["size", matchingAttribute.size]
-                ])
-                : {};
+            const attributesObject = this.changeArrToObj(matchingAttribute);
+            
 
             return {
                 ...product,
                 attributes: attributesObject
             };
         });
-
         return combined;
     }
 
@@ -78,4 +87,19 @@ export class ProductRepository {
     //   async deleteProduct(id: string) {
     //     return this.prisma.product.delete({ where: { id } });
     //   }
+
+
+
+
+    changeArrToObj(arr) {
+        const attributesObject = arr
+            ? Object.fromEntries([
+                ["type", arr.type],
+                ["category", arr.category],
+                ["color", arr.color],
+                ["size", arr.size]
+            ])
+            : {};
+            return attributesObject
+    }
 }

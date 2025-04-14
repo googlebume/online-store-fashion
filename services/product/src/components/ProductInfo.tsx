@@ -9,16 +9,23 @@ import ColorSelection from './ColorSelection';
 import { ProductType } from '@packages/shared/src/utils/types/prosuctData.type';
 import cl from '@/utils/styles/ProductInfo.module.scss'
 
-type ProductInfoType = {
-    product: ProductType
+type Color = {
+    id: number;
+    color: string;
 }
-const ProductInfo: React.FC<ProductInfoType> = ({product}) => {
+type ProductInfoType = {
+    product: ProductType;
+    colorsList: Color[];
+    curentColor: String;
+    setCurrentColor: React.Dispatch<React.SetStateAction<string>>;
+}
+const ProductInfo: React.FC<ProductInfoType> = ({product, colorsList, curentColor, setCurrentColor}) => {
     return (
         <div className={cl.productInfo}>
             <ProductDetails title={product.name} discoint={product.discount} price={product.price} description={product.description}/>
 
             {/* Color Selection */}
-            <ColorSelection />
+            <ColorSelection colorsList={colorsList} curentColor={curentColor} setCurrentColor={setCurrentColor}/>
 
             {/* Size Selection */}
             <ProductSizeSelection />

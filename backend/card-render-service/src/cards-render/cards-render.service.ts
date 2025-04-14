@@ -19,7 +19,7 @@ export class CardsRenderService {
             const foundProduct = productsDB.find(p => p.id === product.id);
             return {
                 ...product,
-                image: foundProduct ? foundProduct.image : "https://surl.li/msfwst" // Якщо немає — ставимо заглушку
+                image: foundProduct ? foundProduct.image : "https://surl.li/msfwst"
             };
         });
 

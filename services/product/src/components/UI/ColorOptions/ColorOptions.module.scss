@@ -1,22 +1,26 @@
 @use '@packages/shared/src/utils/styles/colorScheme' as colors;
 
+.hiddenInput:checked + .colorButton{
+  box-shadow: 0 0 0 2px colors.$white, 0 0 0 4px colors.$yellow;
+  transition: all 100ms ease;
+}
+
 .colorOptions {
     display: flex;
     gap: 12px;
 
     .colorButton {
+      display: inline-block;
       width: 50px;
       height: 28px;
       border-radius: 20px;
       border: 2px solid colors.$white;
       box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-
-      &.colorBlack { background: colors.$black; }
-      &.colorGray { background: #666; }
-      &.colorBrown { background: #4a2c2a; }
-      &.colorNavy { background: #1a3657; }
-      &.selected {
-        box-shadow: 0 0 0 2px colors.$white, 0 0 0 4px colors.$yellow;
-      }
+      transition: all 50ms ease;
+      cursor: pointer;
+      
+    }
+    .hiddenInput{
+      display: none;
     }
   }

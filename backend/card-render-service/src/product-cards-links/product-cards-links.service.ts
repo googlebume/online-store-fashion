@@ -7,6 +7,7 @@ export class ProductCardsLinksService {
     async getProductByName(name: string) {
         try {
             const product = await lastValueFrom(databaseClient.send('get_product_by_name',  {name} ));
+            
             return product;
         } catch (error) {
             console.error('Microservice error:', error);
