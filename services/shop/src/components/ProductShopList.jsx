@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import {api} from '@packages/shared/src/routes/api'
 import ProductCard from "@packages/shared/src/components/ProductCard";
 import { exportProducts, getFilteredProducts, subscribeToFilteredProducts } from "../state/productsData";
 
@@ -8,7 +9,7 @@ const ProductShopList = () => {
 
     // Завантаження всіх продуктів
     useEffect(() => {
-        fetch("http://localhost:5000/shop")
+        fetch(`http://localhost:5000/${api}/shop`)
             .then((response) => response.json())
             .then((data) => {
                 setProducts(data); 

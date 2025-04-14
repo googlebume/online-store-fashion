@@ -1,5 +1,6 @@
 import {createBrowserRouter} from "react-router-dom";
 import {App} from "@/components/App/App";
+import {api} from '@packages/shared/src/routes/api'
 
 // @ts-ignore
 import productRoutes from 'product/Router';
@@ -13,7 +14,7 @@ import adminRoutes from 'admin/Router';
 
 export const router = createBrowserRouter([
     {
-        path: "/",
+        path: `/`,
         element: <App />,
         children: [
             ...productRoutes,

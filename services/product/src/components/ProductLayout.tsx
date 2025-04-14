@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import {api} from '@packages/shared/src/routes/api'
 
 import ProductGallery from './ProductGallery';
 import ProductInfo from './ProductInfo';
@@ -22,7 +23,7 @@ const ProductLayout = () => {
         console.log('Product Name for GET:', productName);
 
         if (productName) {
-            fetch(`http://localhost:5000/shop/product/${encodeURIComponent(productName)}`)
+            fetch(`http://localhost:5000/${api}/shop/product/${encodeURIComponent(productName)}`)
                 .then(response => {
                     if (!response.ok) throw new Error('GET request failed');
                     return response.json();

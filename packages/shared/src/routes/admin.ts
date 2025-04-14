@@ -1,3 +1,4 @@
+import {api} from './api'
 export const adminRoutes = {
-    about: '/admin/about',
+    about: `${api}/admin/about`,
 }

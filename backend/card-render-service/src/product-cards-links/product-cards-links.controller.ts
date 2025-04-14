@@ -1,7 +1,7 @@
 import { Controller, Post, Body, Get, Param } from '@nestjs/common';
 import { ProductCardsLinksService } from './product-cards-links.service';
 
-@Controller(`shop/product`)
+@Controller(`fashion/shop/product`)
 export class ProductCardsLinksController {
     constructor(private readonly productCardsLinksService: ProductCardsLinksService) { }
 

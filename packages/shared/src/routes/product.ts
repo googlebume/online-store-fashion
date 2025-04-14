@@ -1,3 +1,4 @@
+import {api} from './api'
 export const productRoutes = {
-    result: '/shop/product',
+    result: `${api}/shop/product`,
 }
