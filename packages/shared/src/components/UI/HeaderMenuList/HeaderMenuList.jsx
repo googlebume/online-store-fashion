@@ -1,5 +1,6 @@
 import React from 'react';
-import {Routes, Route, Outlet, Link} from 'react-router-dom';
+import { api } from '../../../routes/api'
+import { Routes, Route, Outlet, Link } from 'react-router-dom';
 
 import { headerMenuItems } from "../../../utils/constants/headerMenuItems";
 import cl from './HeaderMenuList.module.scss'
@@ -14,29 +15,31 @@ const HeaderMenuList = () => {
             <ul className={cl.menu__list}>
 
                 {
-                headerMenuItems.map((item, index) => (
+                    headerMenuItems.map((item, index) => (
 
-                    <li key={index} className={cl.menu__item}>
+                        <li key={index} className={cl.menu__item}>
 
-                        <img className={cl.menu__icon} src={item.icon} alt={`${item.title} icon`} />
-                        
-                        <Link className={cl.menu__link} to={item.link}>
-                            {item.title}
-                        </Link>
-                    </li>
-                ))
+                            <img className={cl.menu__icon} src={item.icon} alt={`${item.title} icon`} />
+
+                            <Link className={cl.menu__link} to={item.link}>
+                                {item.title}
+                            </Link>
+                        </li>
+                    ))
                 }
             </ul>
 
-            <div className={cl.profile}>
-                <div className={cl.profile__icon}>
-                    <img src={userIcon} alt="userIcon" />
+            <Link to={`/${api}/register`}>
+                <div className={cl.profile}>
+                    <div className={cl.profile__icon}>
+                        <img src={userIcon} alt="userIcon" />
+                    </div>
+                    <div className={cl.profile__name}>
+                        <p className={cl.profile__naming}></p>
+                    </div>
                 </div>
-                <div className={cl.profile__name}>
-                    <p className={cl.profile__naming}></p>
-                </div>
-            </div>
-        </nav>
+            </Link>
+        </nav >
     );
 };
 

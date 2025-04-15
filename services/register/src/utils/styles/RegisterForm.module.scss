@@ -1,0 +1,60 @@
+@use '@packages/shared/src/utils/styles/colorScheme' as colors;
+
+.formContainer {
+    width: 100%;
+    max-width: 28rem;
+    padding: 2rem 1.5rem;
+    background-color: colors.$white;
+    border-radius: 1rem;
+    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+  }
+  
+  .googleButton {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.75rem 1rem;
+    border: 1px solid colors.$gray;
+    border-radius: 0.5rem;
+    font-weight: 500;
+    color: colors.$black;
+    transition: background-color 0.2s ease;
+  
+    &:hover {
+      background-color: #f8f8f8;
+    }
+  }
+  
+  .googleIcon {
+    width: 1.25rem;
+    height: 1.25rem;
+    margin-right: 0.75rem;
+  }
+  
+  .form {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .label {
+    font-size: 0.875rem;
+    font-weight: 500;
+    margin-bottom: 0.25rem;
+    color: colors.$black;
+  }
+
+  
+  .icon {
+    position: absolute;
+    right: 0.75rem;
+    top: 0.75rem;
+    color: colors.$ash;
+  }
+  
+  .passwordToggle {
+    @extend .icon;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+  }

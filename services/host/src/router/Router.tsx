@@ -9,7 +9,8 @@ import shopRoutes from 'shop/Router';
 // @ts-ignore
 import adminRoutes from 'admin/Router';
 // @ts-ignore
-// import productPageRoutes from '@packages/shared/src/routes/productPage';
+import registerRoutes from 'register/Router'
+
 
 
 export const router = createBrowserRouter([
@@ -20,7 +21,7 @@ export const router = createBrowserRouter([
             ...productRoutes,
             ...shopRoutes,
             ...adminRoutes,
-            // ...productPageRoutes,
+            ...registerRoutes,
         ]
     },
 ]);

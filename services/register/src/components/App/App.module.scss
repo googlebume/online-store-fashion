@@ -1,0 +1,11 @@
+@use '@packages/shared/src/utils/styles/colorScheme' as colors;
+
+.registerWrapper{
+  max-width: 1440px;
+  height: calc(100vh - 54px);
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+}

@@ -1,0 +1,31 @@
+@use '@packages/shared/src/utils/styles/colorScheme' as colors;
+
+.terms {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 16px;
+  }
+  
+  .checkbox {
+    margin-top: 0.25rem;
+    width: 1rem;
+    height: 1rem;
+    border-radius: 0.25rem;
+    border: 1px solid colors.$gray;
+    accent-color: colors.$golden;
+  }
+  
+  .termsText {
+    margin-left: 0.5rem;
+    font-size: 0.875rem;
+    color: colors.$ashDarkened;
+  
+    a {
+      color: colors.$golden;
+      text-decoration: none;
+  
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }

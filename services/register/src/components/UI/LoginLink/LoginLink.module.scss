@@ -1,0 +1,17 @@
+@use '@packages/shared/src/utils/styles/colorScheme' as colors;
+
+.loginLink {
+    text-align: center;
+    margin-top: 1.5rem;
+    font-size: 0.875rem;
+    color: colors.$ashDarkened;
+
+    a {
+        color: colors.$golden;
+        font-weight: 500;
+
+        &:hover {
+            text-decoration: underline;
+        }
+    }
+}

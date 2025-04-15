@@ -1,0 +1,25 @@
+// {
+//   "extends": "../tsconfig.base.json",
+//   "compilerOptions": {
+//     "outDir": "./dist/",
+//     "baseUrl": ".",
+//     "paths": {
+//       "@/*": ["./src/*"],
+//     }
+//   }
+// }
+
+{
+  "extends": "../tsconfig.base.json",
+  "compilerOptions": {
+    "outDir": "./dist/",
+    "baseUrl": ".",
+    "allowJs": true,
+    "composite": false,
+    "paths": {
+      "@/*": ["./src/*"],
+      "@shop/*": ["../../services/shop/src/*"],
+      "@product/*": ["../../services/product/src/*"],
+    }
+  }
+}

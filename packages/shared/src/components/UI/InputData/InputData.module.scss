@@ -4,27 +4,25 @@
     margin-bottom: 16px;
 }
 .input {
-    width: 100%;
-    padding: 8px 12px;
-    font-size: 14px;
-    color: colors.$ash;
-    border: 2px solid colors.$gray;
-    border-radius: 8px;
-    outline: none;
-    transition: all 0.3s ease-in-out;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: 1px solid colors.$gray;
+  border-radius: 0.5rem;
+  outline: none;
+
+  &:focus {
+    border-color: colors.$golden;
+    box-shadow: 0 0 0 1px colors.$golden;
   }
+
+  padding-right: 2.5rem;
+}
   
-  .input:focus {
-    border-color: colors.$yellow;
-    box-shadow: 0 4px 8px color-mix(in srgb, colors.$golden 40%, transparent 60%);
-  }
-  
-  .label {
-    font-size: 14px;
-    font-weight: 600;
-    color: colors.$black;
-    margin-bottom: 6px;
-    display: block;
-  }
+.label {
+  display: inline-block;
+  font-size: 0.875rem;
+  font-weight: 500;
+  margin-bottom: 0.25rem;
+  color: colors.$black;
+}
   

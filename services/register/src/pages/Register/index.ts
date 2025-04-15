@@ -1,0 +1,1 @@
+export {LazyRegister as Register} from './Register.lazy'

@@ -1,0 +1,15 @@
+@use '@packages/shared/src/utils/styles/colorScheme' as colors;
+
+.submitButton {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    background-color: colors.$yellow;
+    color: colors.$black;
+    font-weight: bold;
+    border-radius: 0.5rem;
+    transition: background-color 0.3s ease;
+  
+    &:hover {
+      background-color: color-mix(in srgb, colors.$yellow 90%, transparent 10%);
+    }
+  }
