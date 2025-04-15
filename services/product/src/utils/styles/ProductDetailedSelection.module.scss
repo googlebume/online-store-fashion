@@ -3,11 +3,17 @@
 .purchaseSection {
   margin-bottom: 32px;
   display: flex;
+  @media(max-width: 495px) {
+    flex-wrap: wrap;
+  }
 
   .quantityContainer {
     display: flex;
     align-items: center;
     max-width: fit-content;
+    @media(max-width: 495px) {
+      margin-bottom: 8px;
+    }
   }
 
   .actionButtons {

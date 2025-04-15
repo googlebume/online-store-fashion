@@ -1,0 +1,45 @@
+@use '@packages/shared/src/utils/styles/colorScheme' as colors;
+.reviewItem {
+    border-bottom: 1px solid #e5e7eb;
+    padding-bottom: 24px;
+    margin-bottom: 24px;
+
+    .reviewHeader {
+        margin-bottom: 8px;
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 12px;
+
+        .reviewRating {
+            display: flex;
+            gap: 2px;
+            
+            .star {
+                color: #d1d5db;
+                font-size: 18px;
+                transition: all 0.2s ease;
+                cursor: default;
+                
+                &.filled {
+                    color: colors.$yellow;
+                }
+            }
+        }
+
+        .reviewerName {
+            font-weight: bold;
+        }
+
+        .reviewDate {
+            color: colors.$ashDarkened;
+            font-size: 14px;
+            margin-left: auto;
+        }
+    }
+
+    .reviewText {
+        color: colors.$ashDarkened;
+        line-height: 1.5;
+    }
+}

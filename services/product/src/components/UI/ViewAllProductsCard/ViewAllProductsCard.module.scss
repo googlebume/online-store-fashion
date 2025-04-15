@@ -1,0 +1,45 @@
+@use '@packages/shared/src/utils/styles/colorScheme' as colors;
+
+.viewAllProductsCard{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+    .arrow{
+        width: 100px;
+        height: 100px;
+        background-color: colors.$gray;
+        position: relative;
+        display: flex;
+        border-radius: 50%;
+        transition: all 100ms ease-in;
+        cursor: pointer;
+        &:hover {
+            transition: all 100ms ease-in;
+            background-color: color-mix(in srgb, colors.$gray 90%, transparent 10%);
+        }
+        
+        .arrowPart1, .arrowPart2 {
+            display: block;
+            position: absolute;
+            background: transparent;
+            width: 3px;
+            height: 40px;
+            background-color: #fff;
+            border-radius: 2px;
+            position: absolute;
+        }
+        
+        .arrowPart1 {
+            transform: rotate(45deg);
+            right: 44px;
+            bottom: 17px;
+        }
+        
+        .arrowPart2 {
+            transform: rotate(-45deg);
+            right: 44px;
+            top: 17px;
+        }
+    }
+}

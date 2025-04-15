@@ -39,12 +39,17 @@
         margin-bottom: 8px;
       }
 
+      .textareaInput {
+        max-width: 520px;
+        max-height: 100px;
+      }
       .textInput,
       .textareaInput {
         width: 100%;
         border: 1px solid colors.$gray;
         border-radius: 4px;
         padding: 8px 12px;
+
 
         &:focus {
           outline: none;

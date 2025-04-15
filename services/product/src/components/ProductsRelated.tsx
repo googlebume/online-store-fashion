@@ -4,6 +4,7 @@ import cl from '@/utils/styles/ProductsRelated.module.scss'
 import ProductCard from '@packages/shared/src/components/ProductCard'
 import { ProductType } from '@packages/shared/src/utils/types/prosuctData.type';
 import { useLocation, useParams } from 'react-router-dom';
+import ViewAllProductsCard from './UI/ViewAllProductsCard/ViewAllProductsCard';
 
 const ProductsRelated = () => {
 
@@ -36,6 +37,7 @@ const ProductsRelated = () => {
                         image={product.image}
                         prevLocation={prevLocation}/>
                 ))}
+                <ViewAllProductsCard />
             </div>
         </section>
     );

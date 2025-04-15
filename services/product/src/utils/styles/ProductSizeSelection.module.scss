@@ -1,52 +1,62 @@
 @use '@packages/shared/src/utils/styles/colorScheme' as colors;
 
 .sizeSelection {
-    margin-bottom: 24px;
+  margin-bottom: 24px;
 
-    .sizeHeader {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 12px;
+  .sizeHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
 
-      .sizeTitle {
-        font-size: 16px;
-        font-weight: bold;
-        margin-top: 4px;
-      }
-
-      .sizeGuideLink {
-        font-size: 14px;
-        color: colors.$ashDarkened;
-        text-decoration: underline;
-
-        &:hover {
-          color: colors.$black;
-        }
-      }
+    .sizeTitle {
+      font-size: 16px;
+      font-weight: bold;
+      margin-top: 4px;
     }
 
-    .sizeOptions {
-      display: grid;
-      grid-template-columns: repeat(5, 1fr);
-      gap: 8px;
+    .sizeGuideLink {
+      font-size: 14px;
+      color: colors.$ashDarkened;
+      text-decoration: underline;
 
-      .sizeButton {
-        padding: 8px;
-        border: 1px solid colors.$gray;
-        border-radius: 4px;
-        text-align: center;
-        transition: all 0.3s;
-
-        &:hover {
-          border-color: colors.$black;
-          transform: scale(1.05);
-        }
-
-        &.selected {
-          border-color: colors.$yellow;
-          background: rgba(colors.$yellow, 0.1);
-        }
+      &:hover {
+        color: colors.$black;
       }
     }
   }
+
+  .sizeOptions {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 8px;
+
+    .sizeLabel {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 12px;
+      border: 1px solid colors.$gray;
+      border-radius: 4px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.3s;
+
+      &:hover {
+        border-color: colors.$black;
+        transform: scale(1.05);
+      }
+
+      &.selected {
+        border-color: colors.$yellow;
+        background: rgba(colors.$yellow, 0.1);
+        color: colors.$black;
+        font-weight: bold;
+      }
+    }
+
+    .sizeInput {
+      display: none; // Приховуємо радіо-інпут
+    }
+  }
+}

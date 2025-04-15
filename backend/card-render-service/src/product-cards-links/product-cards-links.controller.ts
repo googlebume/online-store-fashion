@@ -13,7 +13,7 @@ export class ProductCardsLinksController {
     @Get()
     async returnMightlikeProducts(){
         try{
-            const mightlikeProducts = await this.productCardsLinksService.getRandomProducts(8)
+            const mightlikeProducts = await this.productCardsLinksService.getRandomProducts(9)
             return mightlikeProducts;
         } catch(error) {
             console.error('Error fetching rendom products:', error);

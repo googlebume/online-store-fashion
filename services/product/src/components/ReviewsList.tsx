@@ -1,27 +1,21 @@
 import React from 'react';
 import cl from '@/utils/styles/ReviewsList.module.scss'
+import ReviewElement from './UI/ReviewElement/ReviewElement';
 
 const ReviewsList = () => {
     return (
         <div className={cl.reviewsList}>
-            <div className={cl.reviewItem}>
-                <div className={cl.reviewHeader}>
-                    <div className={cl.reviewRating}>
-                        <i className="fas fa-star"></i>
-                        <i className="fas fa-star"></i>
-                        <i className="fas fa-star"></i>
-                        <i className="fas fa-star"></i>
-                        <i className="fas fa-star"></i>
-                    </div>
-                    <span className={cl.reviewerName}>Андрій</span>
-                    <span className={cl.reviewDate}>2 тижні тому</span>
-                </div>
-                <p className={cl.reviewText}>
-                    Дуже якісна куртка! Шкіра м'яка, але міцна. Підходить на всі пори року.
-                </p>
-            </div>
+            <ReviewElement
+                starCount={5}
+                userName='Анатолій'
+                review="Дуже якісна річ. Тканина м'яка, приємна, але міцна. Підходить на всі пори року"
+                datePuplished='2 тижні тому' />
+            <ReviewElement
+                starCount={5}
+                userName='Олена'
+                review="Товар перевершив мої очікування! Матеріал приємний до тіла, не викликає алергії. Дизайн універсальний, поєднується з різними стилями. Після прання не втратив форму та колір"
+                datePuplished='1 місяць тому' />
             <button className={cl.loadMoreButton}>Показати більше</button>
-            {/* Додаткові відгуки */}
         </div>
     );
 };
