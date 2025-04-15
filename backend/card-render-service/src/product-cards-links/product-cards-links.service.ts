@@ -35,11 +35,14 @@ export class ProductCardsLinksService {
 
 
       getRandomIds(count: number, min: number, max: number): number[] {
-        const ids: number[] = [];
-        for (let i = 0; i < count; i++) {
-          const id = Math.floor(Math.random() * (max - min + 1)) + min;
-          ids.push(id);
+        const ids = new Set<number>();
+        
+        while (ids.size < count) {
+            const id = Math.floor(Math.random() * (max - min + 1)) + min;
+            ids.add(id);
         }
-        return ids;
-      }
+    
+        return Array.from(ids);
+    }
+    
 }

@@ -17,7 +17,12 @@ const ProductLayout = () => {
     const [currentImage, setCurrentImage] = useState<string>()
 
     useEffect(() => {
-        window.scrollTo(0, 0);
+        window.scrollTo({
+            top: 0,
+            left: 0,
+            behavior: 'smooth'
+        });
+        
         const productURL = window.location.href;
         const productName = productURL.split('/').at(-1);
 
