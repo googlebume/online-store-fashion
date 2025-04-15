@@ -9,4 +9,5 @@ export class CardsRenderController {
     getProducts() {
         return this.appService.getProducts();
     }
+    
 }

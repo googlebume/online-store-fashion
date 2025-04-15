@@ -5,10 +5,20 @@ import { ProductCardsLinksService } from './product-cards-links.service';
 export class ProductCardsLinksController {
     constructor(private readonly productCardsLinksService: ProductCardsLinksService) { }
 
-    @Post()
-    receiveProductName(@Body() requestBody: { productName: string }) {
-        const { productName } = requestBody;
-        return { success: true, productName };
+    // @Post()
+    // receiveProductName(@Body() requestBody: { productName: string }) {
+    //     const { productName } = requestBody;
+    //     return { success: true, productName };
+    // }
+    @Get()
+    async returnMightlikeProducts(){
+        try{
+            const mightlikeProducts = await this.productCardsLinksService.getRandomProducts(8)
+            return mightlikeProducts;
+        } catch(error) {
+            console.error('Error fetching rendom products:', error);
+            return { error: 'Could not fetch product', message: error.message };
+        }
     }
 
     @Get(':name')

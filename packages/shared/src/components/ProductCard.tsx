@@ -1,4 +1,5 @@
 import React from 'react';
+import {api} from '../routes/api'
 import { Link } from 'react-router-dom';
 import cl from '../utils/styles/ProductCard.module.scss'
 
@@ -13,14 +14,24 @@ interface ProductI {
     price: number;
     discount: number;
     image: string;
+    prevLocation?: string;
 }
 
 const ProductCard: React.FC<ProductI> = ({ ...props }) => {
 
     const parseImageUrl = (name: string) => {
-        let parsedName: string = name.split(' ').join('-')
+        let parsedName: string = name.split(' ').join('-');
+        let locationPath: string = window.location.pathname;
+        console.log(`Минулий: ${props.prevLocation} Новий: ${locationPath}`)
+        if (
+            locationPath.split('/').includes('product') && 
+            props.prevLocation.split('/').includes('product')
+        ) {
+            console.log('cghfw.dfkj');
+            return `/fashion/shop/product/${parsedName}`;
+        }
         return 'product' + '/' + parsedName;
-    }
+    };
 
     const handleCartClick = (e: React.MouseEvent) => {
         e.preventDefault();
@@ -57,3 +68,8 @@ const ProductCard: React.FC<ProductI> = ({ ...props }) => {
 };
 
 export default ProductCard;
+
+    // const parseImageUrl = (name: string) => {
+    //     const parsedName = name.split(' ').join('-');
+    //     return `product/${parsedName}`;
+    // };

@@ -1,25 +1,20 @@
-import React, { useState } from 'react';
-import { Link, Outlet } from "react-router-dom";
-import cl from './App.module.scss'
+import React from 'react';
+import cl from './App.module.scss';
 import ProductsRelated from '../ProductsRelated';
 import ReviewsSection from '../ReviewsSection';
 import ProductLayout from '../ProductLayout';
+import { useParams } from 'react-router-dom';
 
 export const App = () => {
+    const { name } = useParams()
 
     return (
         <div className={cl.productPage}>
-            {/* Product Section */}
             <div className={cl.productContainer}>
-                <ProductLayout />
+                <ProductLayout key={name} />
             </div>
-
-            {/* Related Products */}
             <ProductsRelated />
-
-            {/* Reviews Section */}
             <ReviewsSection />
         </div>
     );
 };
-

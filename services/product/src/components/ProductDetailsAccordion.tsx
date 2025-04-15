@@ -20,16 +20,9 @@ const ProductDetailsAccordion: React.FC<DetailsType> = ({ product }) => {
                             <React.Fragment key={index}>
                                 <li>
                                     <div className={cl.row}>
-                                        <span className={cl.label}>Матеріал:</span>
+                                        <span className={cl.label}>Вага:</span>
                                         <div className={cl.dash}></div>
-                                        <span className={cl.value}>{attr.material || 'Невідомо'}</span>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div className={cl.row}>
-                                        <span className={cl.label}>Країна виробництва:</span>
-                                        <div className={cl.dash}></div>
-                                        <span className={cl.value}>{attr.countryOfOrigin || 'Невідомо'}</span>
+                                        <span className={cl.value}>{attr.weight || 'Невідомо'}</span>
                                     </div>
                                 </li>
                                 <li>
@@ -41,9 +34,16 @@ const ProductDetailsAccordion: React.FC<DetailsType> = ({ product }) => {
                                 </li>
                                 <li>
                                     <div className={cl.row}>
-                                        <span className={cl.label}>Вага:</span>
+                                        <span className={cl.label}>Матеріал:</span>
                                         <div className={cl.dash}></div>
-                                        <span className={cl.value}>{attr.weight || 'Невідомо'}</span>
+                                        <span className={cl.value}>{attr.material || 'Невідомо'}</span>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div className={cl.row}>
+                                        <span className={cl.label}>Країна виробництва:</span>
+                                        <div className={cl.dash}></div>
+                                        <span className={cl.value}>{attr.countryOfOrigin || 'Невідомо'}</span>
                                     </div>
                                 </li>
                             </React.Fragment>

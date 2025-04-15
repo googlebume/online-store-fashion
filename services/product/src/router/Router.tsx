@@ -6,7 +6,7 @@ import {api} from '@packages/shared/src/routes/api'
 
 const routes = [
     {
-        path: `${api}/shop/product/*`,
+        path: `${api}/shop/product/:name`,
         element: <App />,
 
     },

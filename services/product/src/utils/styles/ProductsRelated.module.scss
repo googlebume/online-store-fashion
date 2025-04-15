@@ -1,103 +1,109 @@
 @use '@packages/shared/src/utils/styles/colorScheme' as colors;
 
 .relatedProducts {
-  max-width: 1440px;
-  margin: 0 auto;
+    max-width: 1440px;
+    margin: 0 auto;
     background: #f9fafb;
     padding: 48px 16px;
 
     .sectionTitle {
-      font-size: 24px;
-      font-weight: bold;
-      margin-bottom: 32px;
+        font-size: 24px;
+        font-weight: bold;
+        margin-bottom: 32px;
+    }
+
+    .cards {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(257px, 1fr));
+        gap: 8px 6px,
     }
 
     .productsGrid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(257px, 1fr));
-      gap: "8px 6px";
-      // grid-template-columns: repeat(2, 1fr);
-      // gap: 24px;
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(257px, 1fr));
+        gap: "8px 6px";
+        // grid-template-columns: repeat(2, 1fr);
+        // gap: 24px;
 
-      @media (min-width: 768px) {
-        grid-template-columns: repeat(3, 1fr);
-      }
-
-      @media (min-width: 1024px) {
-        grid-template-columns: repeat(4, 1fr);
-      }
-
-      .productCard {
-        background: colors.$white;
-        border-radius: 8px;
-        overflow: hidden;
-        box-shadow: 0 1px 2px rgba(0,0,0,0.1);
-        transition: box-shadow 0.3s;
-
-        &:hover {
-          box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        @media (min-width: 768px) {
+            grid-template-columns: repeat(3, 1fr);
         }
 
-        .productImageContainer {
-          position: relative;
-          padding-top: 125%;
-          background: #f3f4f6;
-
-          .productImage {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-          }
-
-          .productBadge {
-            position: absolute;
-            top: 12px;
-            right: 12px;
-            background: colors.$yellow;
-            color: colors.$black;
-            font-size: 12px;
-            font-weight: bold;
-            padding: 4px 8px;
-            border-radius: 4px;
-          }
+        @media (min-width: 1024px) {
+            grid-template-columns: repeat(4, 1fr);
         }
 
-        .productInfo {
-          padding: 16px;
+        .productCard {
+            background: colors.$white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+            transition: box-shadow 0.3s;
 
-          .productName {
-            font-weight: medium;
-            margin-bottom: 4px;
-          }
-
-          .productPriceContainer {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-
-            .productPrice {
-              font-weight: bold;
+            &:hover {
+                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             }
 
-            .productOldPrice {
-              color: colors.$ashDarkened;
-              text-decoration: line-through;
-              font-size: 14px;
-              margin-left: 4px;
+            .productImageContainer {
+                position: relative;
+                padding-top: 125%;
+                background: #f3f4f6;
+
+                .productImage {
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                    width: 100%;
+                    height: 100%;
+                    object-fit: cover;
+                }
+
+                .productBadge {
+                    position: absolute;
+                    top: 12px;
+                    right: 12px;
+                    background: colors.$yellow;
+                    color: colors.$black;
+                    font-size: 12px;
+                    font-weight: bold;
+                    padding: 4px 8px;
+                    border-radius: 4px;
+                }
             }
 
-            .favoriteButton {
-              color: colors.$ash;
+            .productInfo {
+                padding: 16px;
 
-              &:hover {
-                color: colors.$black;
-              }
+                .productName {
+                    font-weight: medium;
+                    margin-bottom: 4px;
+                }
+
+                .productPriceContainer {
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+
+                    .productPrice {
+                        font-weight: bold;
+                    }
+
+                    .productOldPrice {
+                        color: colors.$ashDarkened;
+                        text-decoration: line-through;
+                        font-size: 14px;
+                        margin-left: 4px;
+                    }
+
+                    .favoriteButton {
+                        color: colors.$ash;
+
+                        &:hover {
+                            color: colors.$black;
+                        }
+                    }
+                }
             }
-          }
         }
-      }
     }
-  }
+}

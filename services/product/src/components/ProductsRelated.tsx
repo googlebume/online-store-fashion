@@ -1,33 +1,41 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { api } from '@packages/shared/src/routes/api'
 import cl from '@/utils/styles/ProductsRelated.module.scss'
 import ProductCard from '@packages/shared/src/components/ProductCard'
+import { ProductType } from '@packages/shared/src/utils/types/prosuctData.type';
+import { useLocation, useParams } from 'react-router-dom';
 
 const ProductsRelated = () => {
+
+    const [mightlikeProducts, setMightlikeProducts] = useState<ProductType[]>();
+    const [prevLocation, setPrevLocation] = useState<string>('')
+
+    useEffect(() => {
+        fetch(`http://localhost:5000/${api}/shop/product`)
+            .then((response) => {
+                return response.json();
+            })
+            .then((data) => {
+                setMightlikeProducts(data);
+            })
+    }, [])
+    
+    useEffect(() => {
+        setPrevLocation(window.location.pathname);
+    },[window.location.pathname])
+
     return (
         <section className={cl.relatedProducts}>
             <h2 className={cl.sectionTitle}>Схожі товари</h2>
-            <div className={cl.productsGrid}>
-                <div className={cl.productCard}>
-                    <div className={cl.productImageContainer}>
-                        <img
-                            src="https://images.unsplash.com/photo-1591047139829-d91aecb6caea?ixlib=rb-4.0.3&auto=format&fit=crop&w=736&q=80"
-                            alt="Leather Biker Jacket"
-                            className={cl.productImage}
-                        />
-                        <div className={cl.productBadge}>NEW</div>
-                    </div>
-                    <div className={cl.productInfo}>
-                        <h3 className={cl.productName}>Куртка байкера</h3>
-                        <div className={cl.productPriceContainer}>
-                            <span className={cl.productPrice}>₴3,799</span>
-                            <span className={cl.productOldPrice}>₴4,299</span>
-                            <button className={cl.favoriteButton}>
-                                <i className="far fa-heart"></i>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-                {/* Додаткові товари можна додати аналогічно */}
+            <div className={cl.cards}>
+                {mightlikeProducts && mightlikeProducts.map((product) => (
+                    <ProductCard
+                        name={product.name}
+                        price={product.price}
+                        discount={product.discount}
+                        image={product.image}
+                        prevLocation={prevLocation}/>
+                ))}
             </div>
         </section>
     );

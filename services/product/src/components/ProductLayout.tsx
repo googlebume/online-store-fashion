@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
+import { useLocation, useParams, useNavigate  } from 'react-router-dom';
 import {api} from '@packages/shared/src/routes/api'
 
 import ProductGallery from './ProductGallery';
