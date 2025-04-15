@@ -20,24 +20,26 @@ const ProductsRelated = () => {
                 setMightlikeProducts(data);
             })
     }, [])
-    
+
     useEffect(() => {
         setPrevLocation(window.location.pathname);
-    },[window.location.pathname])
+    }, [window.location.pathname])
 
     return (
         <section className={cl.relatedProducts}>
-            <h2 className={cl.sectionTitle}>Схожі товари</h2>
-            <div className={cl.cards}>
-                {mightlikeProducts && mightlikeProducts.map((product) => (
-                    <ProductCard
-                        name={product.name}
-                        price={product.price}
-                        discount={product.discount}
-                        image={product.image}
-                        prevLocation={prevLocation}/>
-                ))}
-                <ViewAllProductsCard />
+            <div className={cl.relatedBody}>
+                <h2 className={cl.sectionTitle}>Схожі товари</h2>
+                <div className={cl.cards}>
+                    {mightlikeProducts && mightlikeProducts.map((product) => (
+                        <ProductCard
+                            name={product.name}
+                            price={product.price}
+                            discount={product.discount}
+                            image={product.image}
+                            prevLocation={prevLocation} />
+                    ))}
+                    <ViewAllProductsCard />
+                </div>
             </div>
         </section>
     );

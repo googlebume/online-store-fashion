@@ -23,7 +23,7 @@ const ReviewAdd = () => {
                             <label className={cl.inputLabel}>Відгук</label>
                             <textarea className={cl.textareaInput} rows={3}></textarea>
                         </div>
-                        <button className={cl.submitButton}>Надіслати</button>
+                        <input type="submit" className={cl.submitButton} value={"Надіслати"}/>
                     </div>
     );
 };

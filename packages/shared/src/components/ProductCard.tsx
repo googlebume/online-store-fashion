@@ -8,6 +8,7 @@ import shoppingCardImage from '@packages/shared/src/assets/images/icons/shopping
 import DescriptionPrice from './../../../../services/shop/src/components/UI/DescriptionPrice/DescriptionPrice'
 
 import { exportProductData } from './../../../../services/shop/src/state/targetProductData'
+import DisplayDiscount from './UI/DisplayDiscount/DisplayDiscount';
 
 interface ProductI {
     name: string;
@@ -49,6 +50,7 @@ const ProductCard: React.FC<ProductI> = ({ ...props }) => {
             <Link to={parseImageUrl(props.name)}>
                 <div className={cl.product__img}>
                     <img src={`${props.image}`} alt={`undefined image`} />
+                    <DisplayDiscount discount={props.discount}/>
                 </div>
                 <div className={cl.product__description}>
                     <div className={cl.description__main}>

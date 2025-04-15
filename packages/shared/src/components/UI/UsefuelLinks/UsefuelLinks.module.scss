@@ -32,22 +32,22 @@
         display: block;
         width: 200px;
         padding: 5px;
-        &::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            right: 0;
-            height: 24px;
-            width: 24px;
-            background-image: url(@packages/shared/src/assets/images/icons/angleDown.png);
-            background-size: cover;
-            background-repeat: no-repeat;
-            background-position: 100%;
-            filter: invert(0.6);
-        }
+        // &::after {
+        //     content: '';
+        //     position: absolute;
+        //     top: 0;
+        //     right: 0;
+        //     height: 24px;
+        //     width: 24px;
+        //     background-image: url(@packages/shared/src/assets/images/icons/angleDown.png);
+        //     background-size: cover;
+        //     background-repeat: no-repeat;
+        //     background-position: 100%;
+        //     filter: invert(0.6);
+        // }
     }
     .block__list {
-        display: none;
+        // display: none;
         margin: 0 0 10px 5px;
         &.info__lis__active {
             display: block;

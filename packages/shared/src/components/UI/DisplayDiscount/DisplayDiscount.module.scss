@@ -1,0 +1,15 @@
+@use '@packages/shared/src/utils/styles/colorScheme' as colors;
+
+.display{
+    padding: 4px 6px;
+    background-color: colors.$golden;
+    position: absolute;
+    top: 4px;
+    right: 4px;
+    border-radius: 6px;
+    .discount{
+        font-size: 14px;
+        font-weight: 600;
+        color: colors.$white;
+    }
+}

@@ -1,10 +1,13 @@
 @use '@packages/shared/src/utils/styles/colorScheme' as colors;
 
 .relatedProducts {
-    max-width: 1440px;
-    margin: 0 auto;
     background: #f9fafb;
-    padding: 48px 16px;
+    .relatedBody {
+        max-width: 1440px;
+        margin: 0 auto;
+        padding: 48px 16px;
+
+    }
 
     .sectionTitle {
         font-size: 24px;
