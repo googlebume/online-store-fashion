@@ -1,5 +1,6 @@
 import { Controller, Post, Body, Get, Param } from '@nestjs/common';
 import { ProductCardsLinksService } from './product-cards-links.service';
+import { Throttle } from '@nestjs/throttler';
 
 @Controller(`fashion/shop/product`)
 export class ProductCardsLinksController {
@@ -10,6 +11,7 @@ export class ProductCardsLinksController {
     //     const { productName } = requestBody;
     //     return { success: true, productName };
     // }
+    @Throttle({default: {ttl: 60000, limit: 100}})
     @Get()
     async returnMightlikeProducts(){
         try{
@@ -20,7 +22,7 @@ export class ProductCardsLinksController {
             return { error: 'Could not fetch product', message: error.message };
         }
     }
-
+    @Throttle({default: {ttl: 60000, limit: 100}})
     @Get(':name')
     async returnProductByPathParam(@Param('name') name: string) {
         try {

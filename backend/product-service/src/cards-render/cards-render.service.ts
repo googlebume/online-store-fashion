@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { lastValueFrom } from 'rxjs';
-import { productsDB } from './../dto/productsDB'
+import { productsDB } from '../dto/productsDB'
 import { databaseClient } from '../database.client';
 
 @Injectable()

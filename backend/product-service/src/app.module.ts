@@ -5,7 +5,9 @@ import { CardsRenderModule } from './cards-render/cards-render.module';
 import { ProductCardsLinksModule } from './product-cards-links/product-cards-links.module';
 
 @Module({
-  imports: [CardsRenderModule, ProductCardsLinksModule, ],
+  imports: [
+    CardsRenderModule, 
+    ProductCardsLinksModule, ],
   controllers: [CardsRenderController, ],
   providers: [CardsRenderService, ],
 })

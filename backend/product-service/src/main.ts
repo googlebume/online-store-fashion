@@ -6,8 +6,8 @@ import { join } from 'path';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.enableCors({
-    origin: 'http://localhost:3000', // Адреса фронтенду
-    methods: 'GET,POST,PUT,DELETE',
+    origin: 'http://localhost:3000',
+    methods: 'GET,POST',//PUT,DELETE
     allowedHeaders: 'Content-Type,Authorization'
   });
   app.use('/products', express.static(join(__dirname, '..', 'products')));
