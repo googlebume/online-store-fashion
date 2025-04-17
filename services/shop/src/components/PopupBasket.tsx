@@ -21,22 +21,24 @@ const PopupBasket: React.FC<PopupBasketProps> = ({ setBasketOpenStatus, basketOp
 
     const [summaryRenderEvent, setSummaryRenderEvent] = useState(0);
     return ReactDOM.createPortal(
-        <div className={cl.modalOverlay} style={{alignContent: 'center', padding: '0 12px'}} onClick={e => { setBasketOpenStatus(false) }}>
+        <div className={cl.modalOverlay} style={{ alignContent: 'center', padding: '0 12px' }} onClick={e => { setBasketOpenStatus(false) }}>
             <div className={cl.modalContent} style={{
-                width: '1000px',
-                height: '600px',
+                width: '1300px',
+                height: '700px',
                 background: 'white',
                 borderRadius: '24px',
                 padding: '24px',
                 display: 'grid',
-                gridTemplateColumns: '2fr 1fr',
-                gridTemplateRows: '1fr 0.1fr',
-                position: 'relative'
+                gridTemplateColumns: '1.8fr 1fr',
+                gridTemplateRows: '1fr auto',
+                gap: '0px',
+                position: 'relative',
+                overflowY: 'auto'
             }} onClick={(e) => e.stopPropagation()}>
                 <ClosePopupCross setOpenStatus={setBasketOpenStatus} />
-                <BasketOverview setSummaryRenderEvent={setSummaryRenderEvent}/>
+                <BasketOverview setSummaryRenderEvent={setSummaryRenderEvent} />
                 <BasketDelivery />
-                <BasketSummary summaryRenderEvent={summaryRenderEvent}/>
+                <BasketSummary summaryRenderEvent={summaryRenderEvent} />
             </div>
         </div>,
         document.getElementById("modal-root")!
@@ -44,20 +46,3 @@ const PopupBasket: React.FC<PopupBasketProps> = ({ setBasketOpenStatus, basketOp
 };
 
 export default PopupBasket;
-
-
-// {cartItems.length > 0 ? (
-//     <ul className={cl.cartList}>
-//         {cartItems.map((item) => (
-//             <li key={item.id} className={cl.cartItem}>
-//                 <img src={item.image} alt={item.name} className={cl.itemImage} />
-//                 <div className={cl.itemDetails}>
-//                     <p className={cl.itemName}>{item.name}</p>
-//                     <p className={cl.itemPrice}>{item.price} ₴</p>
-//                 </div>
-//             </li>
-//         ))}
-//     </ul>
-// ) : (
-//     <p className={cl.emptyCart}>Ваш кошик порожній</p>
-// )}

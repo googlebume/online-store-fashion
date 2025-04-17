@@ -1,0 +1,75 @@
+.orderForm {
+    display: flex;
+    flex-direction: column;
+    padding: 0 2px 0 2px;
+    overflow: auto;
+    scrollbar-width: none;
+    /* Firefox */
+    -ms-overflow-style: none;
+    /* IE/Edge */
+
+    &::-webkit-scrollbar {
+        display: none;
+        /* Chrome, Safari */
+    }
+
+    h2 {
+        font-size: 18px;
+        margin-bottom: 20px;
+        font-weight: 600;
+    }
+    .inputGroup {
+        display: flex;
+        // align-items: end;
+        flex-direction: row;
+        gap: 1rem;
+    }
+}
+
+.couponButton {
+    flex: 1 0;
+    height: 40px;
+    padding: 8px 16px;
+    margin-top: 18px;
+    background-color: #ffbe0b;
+    border: none;
+    border-radius: 8px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+}
+
+.couponField {
+    animation: slideDown 0.3s ease forwards;
+    margin-bottom: 16px;
+    flex: 1;
+}
+
+.selectBlock {
+    margin-bottom: 16px;
+
+    label {
+        display: block;
+        margin-bottom: 4px;
+        font-weight: 500;
+    }
+
+    select {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+    }
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

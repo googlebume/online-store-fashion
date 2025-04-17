@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import cl from "./HeaderToolsList.module.scss";
 import shoppingCardImage from "@packages/shared/src/assets/images/icons/shoppingCardImage.png";
 import filterIcon from "@packages/shared/src/assets/images/icons/filterIcon.png";
@@ -9,6 +9,11 @@ import PopupBasket from '../../../../../../services/shop/src/components/PopupBas
 const HeaderToolsList = ({ setIsOpen }) => {
     const [basketOpenStatus, setBasketOpenStatus] = useState(false);
     const [filterOpenStatus, setFilterOpenStatus] = useState(false);
+    useEffect(() => {
+        basketOpenStatus ?
+        document.body.style.overflow = 'hidden'
+        : document.body.style.overflow = 'auto';
+    }, [basketOpenStatus])
     return (
 
         <>
