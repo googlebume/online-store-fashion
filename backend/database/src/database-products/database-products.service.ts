@@ -1,14 +1,10 @@
 import { Injectable } from '@nestjs/common';
-import { ProductRepository } from './repositories/product.repository';
+import { ProductRepository } from '../repositories/product.repository';
 
 @Injectable()
-export class DatabaseService {
+export class DatabaseProductsService {
   constructor(private readonly productRepository: ProductRepository) {}
 
-  // Додаємо методи для роботи з продуктами
-  // async getAllProducts() {
-  //   return this.productRepository.findAll();
-  // }
   async getAllProducts() {
     const products = await this.productRepository.findAll();
     console.log("DB returns", products)

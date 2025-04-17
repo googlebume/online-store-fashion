@@ -38,8 +38,8 @@ model Attributes {
 }
 
 model User {
-  id       Int       @id @default(autoincrement())
-  name     String    @unique
+  id       Int    @id @default(autoincrement())
+  name     String @unique
   email    String
   password String
 
@@ -48,17 +48,16 @@ model User {
 }
 
 model Reviews {
-  id           Int    @id @default(autoincrement())
-  userId       Int
-  userName     String
-  reviewTitle  String
-  rewiew       String
-  stars        Int
+  id          Int    @id @default(autoincrement())
+  userId      Int
+  userName    String
+  reviewTitle String
+  rewiew      String
+  stars       Int
 
   userID   User @relation("UserById", fields: [userId], references: [id])
   userNAME User @relation("UserByName", fields: [userName], references: [name])
 }
-
 
 // enum ProductType {
 //   hoodie

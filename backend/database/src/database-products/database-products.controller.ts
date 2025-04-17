@@ -1,10 +1,10 @@
 import { Controller } from '@nestjs/common';
-import { DatabaseService } from './database.service';
+import { DatabaseProductsService } from './database-products.service';
 import { MessagePattern } from '@nestjs/microservices';
 
 @Controller()
-export class DatabaseController {
-  constructor(private readonly databaseService: DatabaseService) { }
+export class DatabaseProductsController {
+  constructor(private readonly databaseService: DatabaseProductsService) { }
 
   @MessagePattern('get_products')
   async getProducts() {
