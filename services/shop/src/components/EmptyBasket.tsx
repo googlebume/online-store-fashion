@@ -9,7 +9,7 @@ const EmptyBasket = () => {
             justifyContent: 'center', 
             flexDirection: 'column', 
             textAlign: 'center', 
-            height: '100%' 
+            height: '100%', 
         }}>
             <img src={iconBasket} alt="iconBasket" style={{ marginBottom: '16px' }} />
             <div style={{ fontSize: '16px', fontWeight: '500' }}>Тут поки нічого немає :(</div>

@@ -8,9 +8,7 @@ type InputTipe ={
 
 const ButtonOrder = ({text}: InputTipe) => {
     return (
-        <div className={cl.order}>
-            <button className={cl.orderButton}>{text}</button>
-        </div>
+        <button className={cl.orderButton}>{text}</button>
     );
 };
 

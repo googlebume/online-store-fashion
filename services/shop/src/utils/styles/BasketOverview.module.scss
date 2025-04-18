@@ -1,0 +1,11 @@
+
+.basketOverview{
+    border-radius: 12px;
+    padding:0 24px 0 24px;
+    border-left: 1px solid #ccc;
+    border-right: 1px solid #ccc;
+    overflow-y: auto;
+    @media(max-width: 930px){
+        max-height: 300px;
+    }
+}

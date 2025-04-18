@@ -35,7 +35,10 @@ const BasketSummary = (summaryRenderEvent:any) => {
                     <span className={cl.price}>${finalPrice}</span>
                 </div>
             </div>
-            <ButtonOrder text='Замовити' />
+            <div>
+                <ButtonOrder text='Замовити' />
+            </div>
+            
         </div>
     );
 };

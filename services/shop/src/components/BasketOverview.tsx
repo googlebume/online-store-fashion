@@ -1,4 +1,5 @@
 import React, {useState, useEffect} from 'react';
+import cl from '@/utils/styles/BasketOverview.module.scss'
 import BasketProductsCard from './BasketProductsCard';
 
 import { getAllProducts, setRenderCallback } from '@/state/targetProductData';
@@ -30,12 +31,17 @@ const BasketOverview: React.FC<BasketOverviewProps> = ({setSummaryRenderEvent}) 
     }, []);
 
     return (
-        <div style={{ borderRadius: '12px', marginRight: '24px', borderLeft: '1px solid #ccc', borderRight: '1px solid #ccc', overflowY: 'auto' }}>
-            {products.length ? products.map((product) => (
-                <BasketProductsCard key={product.id} data={product} setSummaryRenderEvent={setSummaryRenderEvent}/>
-            )) : <EmptyBasket />}
+        <div className={cl.basketOverview}>
+            {products.map((product) => (
+                <BasketProductsCard
+                    key={product.id}
+                    data={product}
+                    setSummaryRenderEvent={setSummaryRenderEvent}
+                />
+            ))}
         </div>
     );
+    
 };
 
 export default BasketOverview;
