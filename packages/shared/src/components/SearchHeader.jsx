@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import cl from "@packages/shared/src/utils/styles/HeaderSearchPie.module.scss";
+import cl from "@packages/shared/src/utils/styles/modules/HeaderSearchPie.module.scss";
 import CategoriesButton from "./UI/CategoriesButton/CategoriesButton";
 import SearchInput from "./UI/SearchInput/SearchInput";
 import HeaderToolsList from "./UI/HeaderToolsList/HeaderToolsList";

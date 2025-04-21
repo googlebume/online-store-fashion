@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import cl from '@packages/shared/src/utils/styles/modules/FiltersStickyBar.module.scss'
 import FilterCategorys from "./FilterCategorys";
 import PriceWidget from "./PriceWidget";
 import FilterColors from "./FilterColors";
@@ -62,13 +63,7 @@ const FiltersStickyBar = () => {
 
     return (
         <aside
-            style={{
-                maxWidth: "292px",
-                maxHeight: "max-content",
-                position: "sticky",
-                top: "75px",
-                margin: "0 8px 0 0",
-            }}
+            className={cl.aside}
         >
             <FilterCategorys />
             <PriceWidget />
@@ -78,102 +73,3 @@ const FiltersStickyBar = () => {
 };
 
 export default FiltersStickyBar;
-
-
-
-
-
-// import React, { useState, useEffect } from "react";
-// import FilterCategorys from "./FilterCategorys";
-// import PriceWidget from "./PriceWidget";
-// import FilterColors from "./FilterColors";
-
-// import {
-//     exportFilteredProducts,
-//     onProductsReady
-// } from '../../../../services/shop/src/state/productsData';
-
-// import {
-//     getUpdatedCategories,
-//     getUpdatedColors,
-//     subscribeToCategories,
-//     subscribeToColors
-// } from '../state/filtersState';
-
-// const FiltersStickyBar = () => {
-//     const [allProducts, setAllProducts] = useState([]);
-//     const [updatedCategories, setUpdatedCategoriesState] = useState(getUpdatedCategories());
-//     const [selectedColors, setSelectedColors] = useState(getUpdatedColors());
-//     const [selectedPriceRange, setSelectedPriceRange] = useState(null);
-
-//     // ✅ Завантажуємо продукти, коли будуть готові
-//     useEffect(() => {
-//         onProductsReady((loadedProducts) => {
-//             setAllProducts(loadedProducts);
-
-//             // Одразу запускаємо фільтрацію
-//             const filtered = applyFilters(loadedProducts, updatedCategories, selectedColors);
-//             exportFilteredProducts(filtered);
-//             console.log("📢 `exportFilteredProducts` після фільтрації (onReady):", filtered);
-//         });
-//     }, []);
-
-//     // ✅ Підписка на зміни в категоріях/кольорах
-//     useEffect(() => {
-//         const unsubscribeCategories = subscribeToCategories(setUpdatedCategoriesState);
-//         const unsubscribeColors = subscribeToColors(setSelectedColors);
-//         return () => {
-//             unsubscribeCategories();
-//             unsubscribeColors();
-//         };
-//     }, []);
-
-//     // 🔁 Коли змінюються фільтри — перераховуємо фільтрацію (якщо вже є продукти)
-//     useEffect(() => {
-//         if (allProducts.length === 0) return;
-
-//         const filtered = applyFilters(allProducts, updatedCategories, selectedColors);
-//         exportFilteredProducts(filtered);
-//         console.log("📢 `exportFilteredProducts` після зміни фільтрів:", filtered);
-//     }, [updatedCategories, selectedColors]);
-
-//     function applyFilters(products, categories, colors) {
-//         let filtered = [...products];
-
-//         if (categories.length > 0) {
-//             filtered = filtered.filter(
-//                 (item) => categories.includes(item.category) || categories.includes(item.type)
-//             );
-//         }
-
-//         if (colors.length > 0) {
-//             filtered = filtered.filter((item) => colors.includes(item.color));
-//         }
-
-//         // if (selectedPriceRange) {
-//         //     filtered = filtered.filter(
-//         //         (item) => item.price >= selectedPriceRange.min && item.price <= selectedPriceRange.max
-//         //     );
-//         // }
-
-//         return filtered;
-//     }
-
-//     return (
-//         <aside
-//             style={{
-//                 maxWidth: "292px",
-//                 maxHeight: "max-content",
-//                 position: "sticky",
-//                 top: "75px",
-//                 margin: "0 8px 0 0",
-//             }}
-//         >
-//             <FilterCategorys />
-//             <PriceWidget />
-//             <FilterColors />
-//         </aside>
-//     );
-// };
-
-// export default FiltersStickyBar;

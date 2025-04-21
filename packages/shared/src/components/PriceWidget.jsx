@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import cl from '../utils/styles/PriceWidget.module.scss';
+import cl from '@packages/shared/src/utils/styles/modules/PriceWidget.module.scss';
 import PriceInput from './UI/PriceInput/PriceInput';
 import SubmitButton from '@packages/shared/src/components/UI/SubmitButton/SubmitButton';
 import DoubleRangeInput from './UI/DoubleRangeInput/DoubleRangeInput';

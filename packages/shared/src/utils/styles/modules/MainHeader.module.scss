@@ -1,0 +1,13 @@
+@use '@packages/shared/src/utils/styles/colorScheme' as colors;
+.header{background-color: #151a1f}
+
+.headerBody {
+    display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: .5rem 16px;
+        margin: 0 auto;
+        color: white;
+        max-width: 1440px;
+        position: relative;
+}

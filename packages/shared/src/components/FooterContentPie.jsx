@@ -1,5 +1,5 @@
 import React from 'react';
-import cl from '@packages/shared/src/utils/styles/FooterContentPie.module.scss'
+import cl from '@packages/shared/src/utils/styles/modules/FooterContentPie.module.scss'
 
 import SotialNetworks from './UI/SotialNetworks/SotialNetworks';
 import FooterCopyright from './UI/FooterCopyright/FooterCopyright';

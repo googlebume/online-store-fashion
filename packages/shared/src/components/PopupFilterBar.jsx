@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import ReactDOM from "react-dom";
 import FiltersStickyBar from "./FiltersStickyBar";
-import cl from "../utils/styles/PopupFilterBar.module.scss";
+import cl from "@packages/shared/src/utils/styles/modules/PopupFilterBar.module.scss";
 
 const PopupFilterBar = ({ isOpen, setIsOpen }) => {
     if (!isOpen) return null;

@@ -80,7 +80,7 @@
 // ProductCard.tsx
 import React from 'react';
 import { Link } from 'react-router-dom';
-import cl from '../utils/styles/ProductCard.module.scss';
+import cl from '@packages/shared/src/utils/styles/modules/ProductCard.module.scss';
 import ButtonImage from './UI/ButtonImage/ButtonImage';
 import shoppingCardImage from '@packages/shared/src/assets/images/icons/shoppingCardImage.png';
 import DescriptionPrice from '../../../../services/shop/src/components/UI/DescriptionPrice/DescriptionPrice';

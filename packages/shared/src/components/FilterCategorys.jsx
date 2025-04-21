@@ -44,8 +44,8 @@ const FilterCategorys = () => {
             ? [...selectedCategories, value]
             : selectedCategories.filter((category) => category !== value);
     
-        setSelectedCategories(updatedCategories);        // ✅ Безпечне оновлення локального стану
-        setUpdatedCategories(updatedCategories);         // ✅ Окрема дія після
+        setSelectedCategories(updatedCategories);
+        setUpdatedCategories(updatedCategories);
     }
 
     return (

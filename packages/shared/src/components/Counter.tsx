@@ -75,21 +75,7 @@
 import React from 'react';
 import CountControl from './UI/CountControl/CountControl';
 import { updateQuantity, getCartItems } from '../../../../services/shop/src/state/basketState';
-
-const quantityControlsStyle = {
-    display: 'flex',
-    alignItems: 'center',
-    border: '1px solid #ccc',
-    borderRadius: '4px',
-    marginRight: '16px',
-    height: 'fit-content'
-};
-
-const quantityValueStyle = {
-    padding: '8px 16px',
-    borderLeft: '1px solid #ccc',
-    borderRight: '1px solid #ccc',
-};
+import cl from '@packages/shared/src/utils/styles/modules/Counter.module.scss'
 
 interface CounterProps {
     productName: string;
@@ -113,9 +99,9 @@ const Counter: React.FC<CounterProps> = ({ productName, initialQuantity = 1 }) =
     };
 
     return (
-        <div style={quantityControlsStyle}>
+        <div className={cl.quantityControls}>
             <CountControl onClick={onMinus}> - </CountControl>
-            <span style={quantityValueStyle}>{currentQuantity}</span>
+            <span className={cl.quantityValue}>{currentQuantity}</span>
             <CountControl onClick={onPlus}> + </CountControl>
         </div>
     );

@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import { filterColorDitchs } from '@/utils/constants/filterColorDitchs.js';
 import FilterColor from './UI/FilterColor/FilterColor';
-import cl from '../utils/styles/FilterColors.module.scss'
+import cl from '@packages/shared/src/utils/styles/modules/FilterColors.module.scss'
 
 import { setUpdatedColors } from '../state/filtersState';
 const FilterColors = () => {
