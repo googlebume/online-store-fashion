@@ -1,6 +1,7 @@
+@use '@packages/shared/src/utils/styles/colorScheme' as colors;
 footer {
-    background-color: #151a1f;
-    color: white;
+    background-color: colors.$black;
+    color: colors.$whiteText;
     display: flex;
     flex-wrap: wrap;
     padding: 0 auto;

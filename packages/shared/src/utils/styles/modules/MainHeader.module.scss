@@ -1,5 +1,8 @@
 @use '@packages/shared/src/utils/styles/colorScheme' as colors;
-.header{background-color: #151a1f}
+@use '@packages/shared/src/utils/styles/consts' as consts;
+.header{
+    background-color: colors.$black;
+}
 
 .headerBody {
     display: flex;
@@ -7,7 +10,7 @@
         align-items: center;
         padding: .5rem 16px;
         margin: 0 auto;
-        color: white;
-        max-width: 1440px;
+        color: colors.$whiteText;
+        max-width: consts.$clientWidth;
         position: relative;
 }
