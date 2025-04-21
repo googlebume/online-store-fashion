@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import InputData from '@packages/shared/src/components/UI/InputData/InputData';
 import InputOption from '@packages/shared/src/components/UI/InputOption/InputOption';
 import cl from '@/utils/styles/BasketDelivery.module.scss';
-import { getAllProducts } from '@/state/targetProductData';
+import { getCartItems } from '@/state/basketState';
 
 const BasketDelivery = () => {
     const [showCouponInput, setShowCouponInput] = useState(false);
@@ -11,13 +11,13 @@ const BasketDelivery = () => {
     const [selectedCity, setSelectedCity] = useState('');
     const [selectedWarehouse, setSelectedWarehouse] = useState('');
     const [selectedDeliveryMethod, setSelectedDeliveryMethod] = useState('');
-    const [prodInBasket, setProdInBasket] = useState(getAllProducts());
+    const [prodInBasket, setProdInBasket] = useState(getCartItems());
     const [hasProducts, setHasProducts] = useState(false);
 
     useEffect(() => {
         const empty = prodInBasket.length > 0;
         setHasProducts(empty);
-        const exportedProd = getAllProducts();
+        const exportedProd = getCartItems();
         setProdInBasket(exportedProd)
     }, [prodInBasket, prodInBasket]);
 

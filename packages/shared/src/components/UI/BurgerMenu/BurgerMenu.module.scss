@@ -54,7 +54,7 @@
         align-items: flex-start;
         padding: 3rem 2rem 2rem 2rem;
         z-index: 9998;
-        backdrop-filter: blur(30px);
+        backdrop-filter: blur(80px);
 
         &.menu__open {
             display: flex;
@@ -127,8 +127,14 @@
         }
 
         .profile {
+            padding: 10px 16px;
             display: flex;
             align-items: center;
+            width: 100%;
+            border-radius: 16px;
+            border: 1px solid colors.$white;
+            background-color: color-mix(in srgb, colors.$white 10%, transparent 70%);
+            // backdrop-filter: blur(30px);
             transition: transform 0.3s;
             cursor: pointer;
             &:hover {
@@ -148,6 +154,7 @@
 
             .profile__name {
                 margin-left: 1rem;
+                width: 100%;
 
                 .profile__naming {
                     font-size: 1.2rem;
