@@ -1,0 +1,20 @@
+@use '@packages/shared/src/utils/styles/colorScheme' as colors;
+
+@mixin custom-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: colors.$gray transparent;
+  
+  &::-webkit-scrollbar {
+    width: 4px;
+    background-color: transparent;
+  }
+  
+  &::-webkit-scrollbar-thumb {
+    background-color: colors.$gray;
+    border-radius: 0;
+  }
+  
+  &::-webkit-scrollbar-button {
+    display: none;
+  }
+}

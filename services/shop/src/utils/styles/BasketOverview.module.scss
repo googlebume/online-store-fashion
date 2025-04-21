@@ -1,9 +1,11 @@
-
+@use '@packages/shared/src/utils/styles/colorScheme' as colors;
+@use '@packages/shared/src/utils/styles/mixins/thinScrollbar' as scrollbar;
 .basketOverview{
+    @include scrollbar.custom-scrollbar;
     border-radius: 12px;
     padding:0 24px 0 24px;
-    border-left: 1px solid #ccc;
-    border-right: 1px solid #ccc;
+    border-left: 1px solid colors.$gray;
+    border-right: 1px solid colors.$gray;
     overflow-y: auto;
     @media(max-width: 930px){
         max-height: 300px;

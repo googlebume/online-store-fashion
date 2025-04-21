@@ -90,17 +90,3 @@ const BasketDelivery = () => {
 };
 
 export default BasketDelivery;
-
-// useEffect(() => {
-//     fetch('/api/nova-poshta/cities')
-//         .then(res => res.json())
-//         .then(data => setCities(data));
-// }, []);
-
-// useEffect(() => {
-//     if (selectedOption) {
-//         fetch(`/api/nova-poshta/warehouses?city=${selectedOption}`)
-//             .then(res => res.json())
-//             .then(data => setWarehouses(data));
-//     }
-// }, [selectedOption]);
