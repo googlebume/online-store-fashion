@@ -1,5 +1,5 @@
 import React from 'react';
-import cl from '@/utils/styles/ProductDetailsAccordion.module.scss';
+import cl from '@/utils/styles/modules/ProductDetailsAccordion.module.scss';
 import { ProductType } from '@packages/shared/src/utils/types/prosuctData.type';
 
 type DetailsType = {

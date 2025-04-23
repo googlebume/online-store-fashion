@@ -1,0 +1,55 @@
+@use '@packages/shared/src/utils/styles/colorScheme' as colors;
+
+.detailsAccordion {
+  border-top: 1px solid colors.$gray;
+  padding-top: 24px;
+
+  .accordionItem {
+    margin-bottom: 16px;
+
+    .accordionTitle {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
+      font-weight: bold;
+      font-size: 18px;
+    }
+
+    .accordionContent {
+      margin-top: 8px;
+      // color: colors.$ashDarkened;
+
+      .detailsList {
+        line-height: 1.5;
+
+        li {
+          padding-left: 20px;
+
+          .row {
+            display: flex;
+            align-items: center;
+            width: 100%;
+
+            .label {
+              flex-shrink: 0;
+            }
+
+            .dash {
+              flex-grow: 1;
+              height: 1px;
+              background-color: colors.$ash;
+              margin: 0 8px;
+            }
+
+            .value {
+              flex-shrink: 0;
+              white-space: nowrap;
+            }
+          }
+
+        }
+      }
+    }
+  }
+}

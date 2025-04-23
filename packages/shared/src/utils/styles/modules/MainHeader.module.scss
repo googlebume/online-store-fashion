@@ -1,16 +1,17 @@
 @use '@packages/shared/src/utils/styles/colorScheme' as colors;
 @use '@packages/shared/src/utils/styles/consts' as consts;
-.header{
+
+.header {
     background-color: colors.$black;
 }
 
 .headerBody {
     display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: .5rem 16px;
-        margin: 0 auto;
-        color: colors.$whiteText;
-        max-width: consts.$clientWidth;
-        position: relative;
+    justify-content: space-between;
+    align-items: center;
+    padding: .5rem 16px;
+    margin: 0 auto;
+    color: colors.$whiteText;
+    max-width: consts.$clientWidth;
+    position: relative;
 }

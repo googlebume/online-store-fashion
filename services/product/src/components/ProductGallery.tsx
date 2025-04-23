@@ -1,5 +1,5 @@
 import React, { useState, useRef } from 'react';
-import cl from '@/utils/styles/ProductGallery.module.scss'
+import cl from '@/utils/styles/modules/ProductGallery.module.scss'
 import ProductGalleryThumbnail from './UI/ProductGalleryThumbnail/ProductGalleryThumbnail';
 
 interface GalleryInterface {

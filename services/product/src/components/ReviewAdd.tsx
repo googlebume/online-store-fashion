@@ -1,5 +1,5 @@
 import React from 'react';
-import cl from '@/utils/styles/ReviewAdd.module.scss'
+import cl from '@/utils/styles/modules/ReviewAdd.module.scss'
 
 const ReviewAdd = () => {
     return (

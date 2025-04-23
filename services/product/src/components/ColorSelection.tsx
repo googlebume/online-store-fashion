@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import cl from '@/utils/styles/ColorSelection.module.scss'
+import cl from '@/utils/styles/modules/ColorSelection.module.scss'
 import ColorOptions from './UI/ColorOptions/ColorOptions';
 
 type Color = {

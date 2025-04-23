@@ -1,6 +1,6 @@
 import React from 'react';
 import shoppingCardImage from '../../../../packages/shared/src/assets/images/icons/shoppingCardImage.png'
-import cl from '@/utils/styles/ProductDetailedSelection.module.scss'
+import cl from '@/utils/styles/modules/ProductDetailedSelection.module.scss'
 
 import Counter from '../../../../packages/shared/src/components/Counter'
 // import Counter from '@packages/shared/src/components/Counter'

@@ -1,5 +1,5 @@
 import React from 'react';
-import cl from '@/utils/styles/ProductDetails.module.scss'
+import cl from '@/utils/styles/modules/ProductDetails.module.scss'
 import ProductDescription from './UI/ProductDescription/ProductDescription';
 import ProductPriceSteps from './UI/ProductPriceSteps/ProductPriceSteps';
 import ProductTitle from './UI/ProductTitle/ProductTitle';

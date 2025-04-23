@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import cl from '@/utils/styles/ProductSizeSelection.module.scss';
+import cl from '@/utils/styles/modules/ProductSizeSelection.module.scss';
 
 const ProductSizeSelection = () => {
   const [selectedSize, setSelectedSize] = useState('M');

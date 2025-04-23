@@ -1,5 +1,5 @@
 import React from 'react';
-import cl from '@/utils/styles/ReviewsList.module.scss'
+import cl from '@/utils/styles/modules/ReviewsList.module.scss'
 import ReviewElement from './UI/ReviewElement/ReviewElement';
 
 const ReviewsList = () => {

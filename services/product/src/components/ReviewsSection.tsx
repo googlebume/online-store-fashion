@@ -1,5 +1,5 @@
 import React from 'react';
-import cl from '@/utils/styles/ReviewsSection.module.scss'
+import cl from '@/utils/styles/modules/ReviewsSection.module.scss'
 import ReviewStats from './ReviewStats';
 import ReviewAdd from './ReviewAdd';
 import ReviewsList from './ReviewsList';

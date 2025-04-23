@@ -1,9 +1,10 @@
 @use '@packages/shared/src/utils/styles/colorScheme' as colors;
+@use '@packages/shared/src/utils/styles/consts' as consts;
 
 .relatedProducts {
-    background: #f9fafb;
+    background: colors.$milkish;
     .relatedBody {
-        max-width: 1440px;
+        max-width: consts.$clientWidth;
         margin: 0 auto;
         padding: 48px 16px;
 

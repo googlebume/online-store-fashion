@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { api } from '@packages/shared/src/routes/api'
-import cl from '@/utils/styles/ProductsRelated.module.scss'
+import cl from '@/utils/styles/modules/ProductsRelated.module.scss'
 import ProductCard from '@packages/shared/src/components/ProductCard'
 import { ProductType } from '@packages/shared/src/utils/types/prosuctData.type';
 import { useLocation, useParams } from 'react-router-dom';

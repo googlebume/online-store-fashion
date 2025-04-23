@@ -1,6 +1,6 @@
 @use '@packages/shared/src/utils/styles/colorScheme' as colors;
 .addReview {
-    background: #f9fafb;
+    background: colors.$milkish;
     padding: 24px;
     border-radius: 8px;
 

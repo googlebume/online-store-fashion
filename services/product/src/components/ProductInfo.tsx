@@ -7,7 +7,7 @@ import ProductDetailsAccordion from './ProductDetailsAccordion';
 import ColorSelection from './ColorSelection';
 
 import { ProductType } from '@packages/shared/src/utils/types/prosuctData.type';
-import cl from '@/utils/styles/ProductInfo.module.scss'
+import cl from '@/utils/styles/modules/ProductInfo.module.scss'
 
 type Color = {
     id: number;

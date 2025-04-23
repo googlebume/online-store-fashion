@@ -1,6 +1,6 @@
 @use '@packages/shared/src/utils/styles/colorScheme' as colors;
 .reviewStats {
-    background: #f9fafb;
+    background: colors.$milkish;
     padding: 24px;
     border-radius: 8px;
 
@@ -45,7 +45,7 @@
 
         .barContainer {
           flex: 1;
-          background: #e5e7eb;
+          background: colors.$milkish;
           height: 8px;
           border-radius: 999px;
           margin: 0 8px;

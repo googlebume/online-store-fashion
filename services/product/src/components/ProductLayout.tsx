@@ -6,7 +6,7 @@ import ProductGallery from './ProductGallery';
 import ProductInfo from './ProductInfo';
 
 import { ProductType, ProductAttrType } from '@packages/shared/src/utils/types/prosuctData.type';
-import cl from '@/utils/styles/ProductLayout.module.scss'
+import cl from '@/utils/styles/modules/ProductLayout.module.scss'
 
 
 const ProductLayout = () => {
