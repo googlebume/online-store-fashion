@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import InputData from '@packages/shared/src/components/UI/InputData/InputData';
 import InputOption from '@packages/shared/src/components/UI/InputOption/InputOption';
-import cl from '@/utils/styles/BasketDelivery.module.scss';
+import cl from '@/utils/styles/modules/BasketDelivery.module.scss';
 import { getCartItems } from '@/state/basketState';
 
 const BasketDelivery = () => {

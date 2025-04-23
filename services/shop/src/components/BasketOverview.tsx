@@ -47,7 +47,7 @@
 // export default BasketOverview;
 
 import React, { useEffect, useState } from 'react';
-import cl from '@/utils/styles/BasketOverview.module.scss';
+import cl from '@/utils/styles/modules/BasketOverview.module.scss';
 import BasketProductsCard from './BasketProductsCard';
 import { getCartItems, subscribeToCartChanges } from '@/state/basketState';
 import { ProductType } from "@packages/shared/src/utils/types/prosuctData.type";

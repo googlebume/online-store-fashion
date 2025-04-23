@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import cl from "@/utils/styles/ShopOverview.module.scss";
+import cl from "@/utils/styles/modules/ShopOverview.module.scss";
 import FiltersStickyBar from "@packages/shared/src/components/FiltersStickyBar";
 import ProductShopList from "./ProductShopList";
 
@@ -26,8 +26,8 @@ const ShopOverview = () => {
     }, []);
 
     return (
-        <div className={cl.overview} style={{ marginBottom: "12px" }}>
-            <div className={cl.overview__wrapper} style={{ display: "flex", flexWrap: "nowrap" }}>
+        <div className={cl.overview}>
+            <div className={cl.overview__wrapper}>
                 {width >= 1069 && shouldRender && <FiltersStickyBar />}
                 <ProductShopList />
             </div>

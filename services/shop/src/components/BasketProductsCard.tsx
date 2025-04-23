@@ -37,7 +37,7 @@
 // export default BasketProductsCard;
 
 import React from 'react';
-import cl from '../utils/styles/BasketProductsCard.module.scss';
+import cl from '@/utils/styles/modules/BasketProductsCard.module.scss';
 import Counter from '@packages/shared/src/components/Counter';
 import ButtonTrash from '@packages/shared/src/components/UI/ButtonTrash/ButtonTrash';
 import DescriptionPrice from './UI/DescriptionPrice/DescriptionPrice';

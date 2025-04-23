@@ -1,13 +1,13 @@
 import React from 'react';
 import { catalogListItems } from '../utils/constants/catalogListItems.js';
-import cl from '../utils/styles/CatalogList.module.scss';
+import cl from '@/utils/styles/modules/CatalogList.module.scss';
 
 const CatalogList = () => {
     return (
         <div className={cl.catalog}>
             <ul className={cl.catalog__category}>
                 {
-                    catalogListItems[0].links.map((item) => ( // Додаємо [0], оскільки catalogListItems — масив об'єктів
+                    catalogListItems[0].links.map((item) => (
                         <li className={cl.category__item} key={item.href}>
                             <span className={cl.category__item_content}>
                                 <img

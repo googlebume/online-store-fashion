@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { bannerStageItems } from '@/utils/constants/bannerStageItems.js';
-import cl from '@/utils/styles/BannersCarousel.module.scss';
+import cl from '@/utils/styles/modules/BannersCarousel.module.scss';
 import TransitionArrow from './UI/TransitionArrow/TransitionArrow';
 
 const BannersCarousel = () => {

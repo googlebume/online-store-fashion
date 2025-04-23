@@ -47,7 +47,7 @@
 
 
 import React, { useEffect, useState } from 'react';
-import cl from '@/utils/styles/BasketSummary.module.scss';
+import cl from '@/utils/styles/modules/BasketSummary.module.scss';
 import ButtonOrder from '@packages/shared/src/components/UI/ButtonOrder/ButtonOrder';
 import { getTotalPrice, subscribeToCartChanges } from '@/state/basketState';
 

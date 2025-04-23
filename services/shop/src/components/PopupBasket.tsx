@@ -107,7 +107,7 @@
 // PopupBasket.tsx
 import React, { useEffect, useState } from 'react';
 import ReactDOM from "react-dom";
-import cl from "../utils/styles/PopupBasket.module.scss";
+import cl from "@/utils/styles/modules/PopupBasket.module.scss";
 import ClosePopupCross from '@packages/shared/src/components/UI/ClosePopupCross/ClosePopupCross';
 import BasketOverview from './BasketOverview';
 import BasketDelivery from './BasketDelivery';

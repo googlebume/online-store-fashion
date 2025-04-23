@@ -1,18 +1,11 @@
 import React from 'react';
 import iconBasket from '@/assets/images/icons/iconBasket.png'
-
+import cl from '@/utils/styles/modules/EmptyBasket.module.scss'
 const EmptyBasket = () => {
     return (
-        <div style={{ 
-            display: 'flex', 
-            alignItems: 'center', 
-            justifyContent: 'center', 
-            flexDirection: 'column', 
-            textAlign: 'center', 
-            height: '100%', 
-        }}>
-            <img src={iconBasket} alt="iconBasket" style={{ marginBottom: '16px' }} />
-            <div style={{ fontSize: '16px', fontWeight: '500' }}>Тут поки нічого немає :(</div>
+        <div className={cl.emptyBody}>
+            <img src={iconBasket} alt="iconBasket"/>
+            <div className={cl.emptyTitle}>Тут поки нічого немає :(</div>
         </div>
         
     );

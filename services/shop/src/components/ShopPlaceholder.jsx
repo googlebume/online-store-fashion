@@ -1,24 +1,14 @@
 import React from 'react';
+import cl from '@/utils/styles/modules/ShopPlaceholder.module.scss'
 import CatalogList from './CatalogList';
 import BannersCarousel from './BannersCarousel';
 
 
 const ShopPlaceholder = () => {
     return (
-        <div style={{
-            maxWidth: '1440px',
-            padding: '0 16px',
-            margin: '0 auto 12px auto',
-        }}
-            className='placeholder'>
+        <div className={cl.placeholder}>
                 
-            <div className='placeholder__offers'
-                style={{
-                    display: 'flex',
-                    flexWrap: 'nowrap',
-                    justifyContent: 'space-between',
-                    
-                }}>
+            <div className={cl.placeholderOffers}>
                 <CatalogList />
                 <BannersCarousel />
             </div>

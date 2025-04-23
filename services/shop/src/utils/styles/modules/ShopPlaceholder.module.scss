@@ -1,0 +1,12 @@
+@use '@packages/shared/src/utils/styles/consts' as consts;
+
+.placeholder {
+    max-width: consts.$clientWidth;
+    padding: 0 16px;
+    margin: 0 auto 12px auto;
+    .placeholderOffers{
+        display: flex;
+        flex-wrap: nowrap;
+        justify-content: space-between;
+    }
+}

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import {api} from '@packages/shared/src/routes/api'
+import cl from '@/utils/styles/modules/ProductShopList.module.scss'
 import ProductCard from "@packages/shared/src/components/ProductCard";
 import { exportProducts, getFilteredProducts, subscribeToFilteredProducts } from "../state/productsData";
 
@@ -25,14 +26,7 @@ const ProductShopList = () => {
     }, []);
 
     return (
-        <section
-            style={{
-                display: "grid",
-                gridTemplateColumns: "repeat(auto-fill, minmax(257px, 1fr))",
-                gap: "8px 6px",
-                width: "100%",
-            }}
-        >
+        <section className={cl.ProductShopList} >
             {(filteredProducts.length > 0 ? filteredProducts : products).map((card) => (
                 <ProductCard
                     key={card.name}

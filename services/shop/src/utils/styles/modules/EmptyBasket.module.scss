@@ -1,0 +1,16 @@
+.emptyBody {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    text-align: center;
+    height: 100%;
+
+    img {
+        margin-bottom: 16px;
+    }
+    .emptyTitle {
+        font-size: 16px;
+        font-weight: 500;
+    }
+}
