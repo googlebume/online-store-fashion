@@ -1,7 +1,7 @@
 import React from 'react';
 import {api} from '@packages/shared/src/routes/api'
 import { useNavigate } from 'react-router-dom'
-import cl from '@/utils/styles/RegisterForm.module.scss'
+import cl from '@/utils/styles/modules/RegisterForm.module.scss'
 
 import InputData from '@packages/shared/src/components/UI/InputData/InputData'
 import SignWithGoogle from './UI/SignWithGoogle/SignWithGoogle';
