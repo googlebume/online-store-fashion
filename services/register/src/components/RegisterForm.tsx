@@ -1,5 +1,5 @@
-import React from 'react';
-import {api} from '@packages/shared/src/routes/api'
+import React, { useState, useEffect } from 'react';
+import { api } from '@packages/shared/src/routes/api'
 import { useNavigate } from 'react-router-dom'
 import cl from '@/utils/styles/modules/RegisterForm.module.scss'
 
@@ -9,8 +9,31 @@ import Devider from './UI/Devider/Devider';
 import Terms from './UI/Terms/Terms';
 import LoginLink from './UI/LoginLink/LoginLink';
 import ButtonRegister from './UI/ButtonRegister/ButtonRegister';
+import { json } from 'stream/consumers';
+
+export type UserRegisterType = {
+    name: string;
+    email: string;
+    password: string
+}
 
 const RegisterForm = () => {
+    const [userData, setUserData] = useState<UserRegisterType>({
+        name: '',
+        email: '',
+        password: ''
+    });
+
+    const handleInputChange = (field: keyof UserRegisterType, value: string) => {
+        setUserData(prev => ({
+            ...prev,
+            [field]: value
+        }));
+    };
+    useEffect(() => {
+        console.log(userData)
+    }, [userData])
+
     const navigate = useNavigate();
 
     const handleSubmit = (e: React.FormEvent) => {
@@ -22,7 +45,14 @@ const RegisterForm = () => {
             return;
         }
 
-        // TODO: на цьому місці мала б бути відправка запиту :(
+        fetch(`http://localhost:4002/${api}/register`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(userData)
+        }
+        )
 
         navigate(`/${api}/shop`);
     };
@@ -37,25 +67,32 @@ const RegisterForm = () => {
                     id="name"
                     placeholder="Введіть ваше ім'я"
                     label="Ім'я"
-                    required={true}
+                    required
+                    name="name"
+                    onInput={(val) => handleInputChange('name', val)}
                 />
                 <InputData
                     type="email"
                     id="email"
                     placeholder="your@email.com"
                     label='Електронна пошта'
-                    required={true}
+                    required
+                    name="email"
+                    onInput={(val) => handleInputChange('email', val)}
                 />
                 <InputData
                     type="password"
                     id="password"
                     placeholder="Не менше 8 символів"
                     label='Пароль'
-                    required={true}
+                    required
+                    name="password"
+                    onInput={(val) => handleInputChange('password', val)}
                 />
                 <Terms />
                 <ButtonRegister text='Зареєструватися' />
             </form>
+
             <LoginLink />
         </div>
     );

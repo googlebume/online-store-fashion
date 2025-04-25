@@ -8,7 +8,6 @@ const ProductShopList = () => {
     const [products, setProducts] = useState([]);
     const [filteredProducts, setFilteredProducts] = useState(getFilteredProducts());
 
-    // Завантаження всіх продуктів
     useEffect(() => {
         fetch(`http://localhost:5000/${api}/shop`)
             .then((response) => response.json())
@@ -19,7 +18,6 @@ const ProductShopList = () => {
             .catch(error => console.error("Error fetching products:", error));
     }, []);
 
-    // 🔥 Підписуємось на зміни у `filteredProducts`
     useEffect(() => {
         const unsubscribe = subscribeToFilteredProducts(setFilteredProducts);
         return () => unsubscribe(); // Відписка при демонтажі

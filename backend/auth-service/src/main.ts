@@ -8,6 +8,6 @@ async function bootstrap() {
     methods: 'GET,POST',
     allowedHeaders: 'Content-Type,Authorization'
   })
-  await app.listen(process.env.PORT ?? 4001);
+  await app.listen(process.env.PORT ?? 4002);
 }
 bootstrap();

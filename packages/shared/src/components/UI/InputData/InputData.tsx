@@ -2,7 +2,7 @@ import React from 'react';
 import cl from './InputData.module.scss';
 import { InputPropsType } from './../../../utils/types/inputProps.type';
 
-const InputData: React.FC<InputPropsType> = ({ type, placeholder, label, min, max, id, required }) => {
+const InputData: React.FC<InputPropsType> = ({ type, placeholder, label, min, max, id, required, onInput }) => {
     const inputProps: React.InputHTMLAttributes<HTMLInputElement> = {
         type,
         className: cl.input,
@@ -28,7 +28,10 @@ const InputData: React.FC<InputPropsType> = ({ type, placeholder, label, min, ma
             <label className={cl.label} htmlFor={id}>
                 {label}
             </label>
-            <input {...inputProps} />
+            <input 
+                {...inputProps} 
+                onInput={(e) => {onInput(e.currentTarget.value)}}
+            />
         </div>
     );
 };
