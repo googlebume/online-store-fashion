@@ -4,12 +4,14 @@ import { useNavigate } from 'react-router-dom'
 import cl from '@/utils/styles/modules/RegisterForm.module.scss'
 
 import InputData from '@packages/shared/src/components/UI/InputData/InputData'
+import ErrorMassage from '@packages/shared/src/components/UI/ErrorMassage/ErrorMassage'
 import SignWithGoogle from './UI/SignWithGoogle/SignWithGoogle';
 import Devider from './UI/Devider/Devider';
 import Terms from './UI/Terms/Terms';
 import LoginLink from './UI/LoginLink/LoginLink';
 import ButtonRegister from './UI/ButtonRegister/ButtonRegister';
 import { json } from 'stream/consumers';
+import { ifError } from 'assert';
 
 export type UserRegisterType = {
     name: string;
@@ -18,6 +20,7 @@ export type UserRegisterType = {
 }
 
 const RegisterForm = () => {
+    const [isError, setIsError] = useState(false);
     const [userData, setUserData] = useState<UserRegisterType>({
         name: '',
         email: '',
@@ -45,16 +48,24 @@ const RegisterForm = () => {
             return;
         }
 
-        fetch(`http://localhost:4002/${api}/register`, {
+        try {
+            fetch(`http://localhost:4002/${api}/register`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify(userData)
-        }
-        )
-
+        })
         navigate(`/${api}/shop`);
+        } catch (error) {
+            if(error){
+                setIsError(true);
+                throw new Error(`Error: ${error}`)
+            }
+        }
+        
+
+        
     };
 
     return (
@@ -91,6 +102,7 @@ const RegisterForm = () => {
                 />
                 <Terms />
                 <ButtonRegister text='Зареєструватися' />
+                {isError && <ErrorMassage massage='Помилка реєстрації. Спробуйте ще раз'/>}
             </form>
 
             <LoginLink />
