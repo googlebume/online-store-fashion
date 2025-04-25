@@ -27,10 +27,10 @@ model Products {
 model Attributes {
   productsId      Int       @id
   Products        Products? @relation(fields: [productsId], references: [id])
-  type            String
-  category        String
-  color           String
-  size            String
+  type            ProductType
+  category        ProductCategory
+  color           ProductColor
+  size            Size
   brand           String?
   material        String?
   countryOfOrigin String?
@@ -42,6 +42,7 @@ model User {
   name     String @unique
   email    String
   password String
+  role     Role   @default(user)
 
   reviewsById   Reviews[] @relation("UserById")
   reviewsByName Reviews[] @relation("UserByName")
@@ -59,32 +60,40 @@ model Reviews {
   userNAME User @relation("UserByName", fields: [userName], references: [name])
 }
 
-// enum ProductType {
-//   hoodie
-//   sweatshirt
-//   shirt
-//   tshirt
-// }
+enum Role {
+  admin
+  user
+  manager
+  support
+  system
+}
 
-// enum ProductCategory {
-//   male
-//   female
-// }
+enum ProductType {
+  hoodie
+  sweatshirt
+  shirt
+  tshirt
+}
 
-// enum ProductColor {
-//   black
-//   white
-//   yellow
-//   pink
-//   brown
-//   blue
-// }
+enum ProductCategory {
+  male
+  female
+}
 
-// enum Size {
-//   XS
-//   S
-//   M
-//   L
-//   XL
-//   XXL
-// }
+enum ProductColor {
+  black
+  white
+  yellow
+  pink
+  brown
+  blue
+}
+
+enum Size {
+  XS
+  S
+  M
+  L
+  XL
+  XXL
+}
