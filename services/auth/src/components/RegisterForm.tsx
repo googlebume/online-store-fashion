@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { api } from '@packages/shared/src/routes/api'
-import { useNavigate } from 'react-router-dom'
-import cl from '@/utils/styles/modules/RegisterForm.module.scss'
+import { api } from '@packages/shared/src/routes/api';
+import { useNavigate } from 'react-router-dom';
+import cl from '@/utils/styles/modules/RegisterForm.module.scss';
 
-import InputData from '@packages/shared/src/components/UI/InputData/InputData'
-import ErrorMassage from '@packages/shared/src/components/UI/ErrorMassage/ErrorMassage'
+import InputData from '@packages/shared/src/components/UI/InputData/InputData';
+import ErrorMassage from '@packages/shared/src/components/UI/ErrorMassage/ErrorMassage';
 import SignWithGoogle from './UI/SignWithGoogle/SignWithGoogle';
 import Devider from './UI/Devider/Devider';
 import Terms from './UI/Terms/Terms';
@@ -15,10 +15,10 @@ import { FormPropsType, FormType } from '@/utils/type/FormType';
 export type UserRegisterType = {
     name: string;
     email: string;
-    password: string
-}
+    password: string;
+};
 
-const RegisterForm: React.FC<FormPropsType> = ({setSwitchForm}) => {
+const RegisterForm: React.FC<FormPropsType> = ({ setSwitchForm }) => {
     const [isError, setIsError] = useState(false);
     const [userData, setUserData] = useState<UserRegisterType>({
         name: '',
@@ -27,18 +27,19 @@ const RegisterForm: React.FC<FormPropsType> = ({setSwitchForm}) => {
     });
 
     const handleInputChange = (field: keyof UserRegisterType, value: string) => {
-        setUserData(prev => ({
+        setUserData((prev) => ({
             ...prev,
             [field]: value
         }));
     };
+
     useEffect(() => {
-        console.log(userData)
-    }, [userData])
+        console.log(userData);
+    }, [userData]);
 
     const navigate = useNavigate();
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
 
         const form = e.currentTarget as HTMLFormElement;
@@ -48,23 +49,23 @@ const RegisterForm: React.FC<FormPropsType> = ({setSwitchForm}) => {
         }
 
         try {
-            fetch(`http://localhost:4004/${api}/auth`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({...userData, event: 'register'})
-        })
-        navigate(`/${api}/shop`);
-        } catch (error) {
-            if(error){
-                setIsError(true);
-                throw new Error(`Error: ${error}`)
-            }
-        }
-        
+            const response = await fetch(`http://localhost:4004/${api}/auth`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ ...userData, event: 'register' })
+            });
 
-        
+            if (!response.ok) {
+                setIsError(true);
+                throw new Error(`Помилка реєстрації: ${response.statusText}`);
+            }
+            navigate(`/${api}/shop`);
+        } catch (error) {
+            setIsError(true);
+            console.error('Error during registration:', error);
+        }
     };
 
     return (
@@ -85,7 +86,7 @@ const RegisterForm: React.FC<FormPropsType> = ({setSwitchForm}) => {
                     type="email"
                     id="email"
                     placeholder="your@email.com"
-                    label='Електронна пошта'
+                    label="Електронна пошта"
                     required
                     name="email"
                     onInput={(val) => handleInputChange('email', val)}
@@ -94,17 +95,17 @@ const RegisterForm: React.FC<FormPropsType> = ({setSwitchForm}) => {
                     type="password"
                     id="password"
                     placeholder="Не менше 8 символів"
-                    label='Пароль'
+                    label="Пароль"
                     required
                     name="password"
                     onInput={(val) => handleInputChange('password', val)}
                 />
                 <Terms />
-                <ButtonRegister text='Зареєструватися' />
-                {isError && <ErrorMassage massage='Помилка реєстрації. Спробуйте ще раз'/>}
+                <ButtonRegister text="Зареєструватися" />
+                {isError && <ErrorMassage massage="Акаунт з такими даними зареєстровано" />}
             </form>
 
-            <LoginLink type='register' onClick={setSwitchForm}/>
+            <LoginLink type="register" onClick={setSwitchForm} />
         </div>
     );
 };
