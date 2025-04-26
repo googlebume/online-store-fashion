@@ -10,6 +10,7 @@ import Devider from './UI/Devider/Devider';
 import Terms from './UI/Terms/Terms';
 import LoginLink from './UI/LoginLink/LoginLink';
 import ButtonRegister from './UI/ButtonRegister/ButtonRegister';
+import { FormPropsType, FormType } from '@/utils/type/FormType';
 
 export type UserRegisterType = {
     name: string;
@@ -17,7 +18,7 @@ export type UserRegisterType = {
     password: string
 }
 
-const RegisterForm = () => {
+const RegisterForm: React.FC<FormPropsType> = ({setSwitchForm}) => {
     const [isError, setIsError] = useState(false);
     const [userData, setUserData] = useState<UserRegisterType>({
         name: '',
@@ -52,7 +53,7 @@ const RegisterForm = () => {
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify(userData)
+            body: JSON.stringify({...userData, event: 'register'})
         })
         navigate(`/${api}/shop`);
         } catch (error) {
@@ -103,7 +104,7 @@ const RegisterForm = () => {
                 {isError && <ErrorMassage massage='Помилка реєстрації. Спробуйте ще раз'/>}
             </form>
 
-            <LoginLink />
+            <LoginLink type='register' onClick={setSwitchForm}/>
         </div>
     );
 };

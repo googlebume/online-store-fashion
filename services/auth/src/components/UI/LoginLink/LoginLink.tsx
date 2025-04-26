@@ -1,12 +1,27 @@
 import React from 'react';
-import cl from './LoginLink.module.scss'
+import cl from './LoginLink.module.scss';
+import { FormType } from '@/utils/type/FormType';
 
-const LoginLink = () => {
+interface LoginLinkProps extends FormType {
+    onClick: React.Dispatch<React.SetStateAction<FormType>>;
+}
+
+
+const LoginLink: React.FC<LoginLinkProps> = ({ type, onClick }) => {
     return (
         <div className={cl.loginLink}>
-            Вже маєте обліковий запис? <a href="#">Увійти</a>
+            {type === 'register' ? (
+                <>
+                    Вже маєте обліковий запис? <a href="#" onClick={() => onClick({type: 'login'})}>Увійти</a>
+                </>
+            ) : (
+                <>
+                    Не маєте облікового запису? <a href="#" onClick={() => onClick({type: 'register'})}>Зареєструватися</a>
+                </>
+            )}
         </div>
     );
 };
+
 
 export default LoginLink;

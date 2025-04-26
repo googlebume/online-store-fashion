@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { api } from '@packages/shared/src/routes/api'
 import { useNavigate } from 'react-router-dom'
@@ -11,13 +11,36 @@ import Devider from './UI/Devider/Devider';
 import Terms from './UI/Terms/Terms';
 import LoginLink from './UI/LoginLink/LoginLink';
 import ButtonRegister from './UI/ButtonRegister/ButtonRegister';
+import { FormPropsType, FormType } from '@/utils/type/FormType';
 
-const LoginForm = () => {
+type UserLoginType = {
+    email: string;
+    password: string;
+}
+const LoginForm: React.FC<FormPropsType> = ({setSwitchForm}) => {
+    const [isError, setIsError] = useState(false);
+    const [userData, setUserData] = useState<UserLoginType>({
+        email: '',
+        password: '',
+    })
+
+    const handleInputChange = (field: keyof UserLoginType, value: string) => {
+        setUserData(prev => ({
+            ...prev,
+            [field]: value
+        }));
+    };
+    useEffect(() => {
+        console.log(userData)
+    }, [userData])
+
+
+
     return (
         <div className={cl.formContainer}>
             <SignWithGoogle />
             <Devider />
-            <form className={cl.form} onSubmit={handleSubmit}>
+            <form className={cl.form}>{/*onSubmit={handleSubmit}*/}
                 <InputData
                     type="email"
                     id="email"
@@ -37,13 +60,13 @@ const LoginForm = () => {
                     onInput={(val) => handleInputChange('password', val)}
                 />
                 <Terms />
-                <ButtonRegister text='Зареєструватися' />
-                {isError && <ErrorMassage massage='Помилка реєстрації. Спробуйте ще раз'/>}
+                <ButtonRegister text='Увійти' />
+                {isError && <ErrorMassage massage='Помилка входу. Спробуйте ще раз' />}
             </form>
 
-            <LoginLink />
+            <LoginLink type='login' onClick={setSwitchForm}/>
         </div>
-    );
+    )
 };
 
 export default LoginForm;
