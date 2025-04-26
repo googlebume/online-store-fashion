@@ -9,7 +9,7 @@ import shopRoutes from 'shop/Router';
 // @ts-ignore
 import adminRoutes from 'admin/Router';
 // @ts-ignore
-import registerRoutes from 'register/Router'
+import authRoutes from 'auth/Router'
 
 
 
@@ -21,7 +21,7 @@ export const router = createBrowserRouter([
             ...productRoutes,
             ...shopRoutes,
             ...adminRoutes,
-            ...registerRoutes,
+            ...authRoutes,
         ]
     },
 ]);

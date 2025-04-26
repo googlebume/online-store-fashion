@@ -29,7 +29,7 @@ const HeaderMenuList = () => {
                 }
             </ul>
 
-            <Link to={`/${api}/register`}>
+            <Link to={`/${api}/auth`}>
                 <div className={cl.profile}>
                     <div className={cl.profile__icon}>
                         <img src={userIcon} alt="userIcon" />

@@ -2,7 +2,7 @@
     "name": "monorepo-module-federation",
     "version": "1.0.0",
     "scripts": {
-        "start:frontend": "concurrently -n admin,host,shop,header,productPage \"npm run start --workspace=services/admin\" \"npm run start --workspace=services/host\" \"npm run start --workspace=services/shop\" \"npm run start --workspace=services/product\" \"npm run start --workspace=services/register\"",
+        "start:frontend": "concurrently -n admin,host,shop,header,productPage,auth \"npm run start --workspace=services/admin\" \"npm run start --workspace=services/host\" \"npm run start --workspace=services/shop\" \"npm run start --workspace=services/product\" \"npm run start --workspace=services/auth\"",
         "start:database": "cd backend/database && npm run start:dev",
         "start:productService": "cd backend/product-service && npm run start:dev",
         "start:authService": "cd backend/auth-service && npm run start:dev",

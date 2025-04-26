@@ -1,5 +1,5 @@
 import React from 'react';
-import {registerRoutes} from '@packages/shared/src/routes/register'
+import {authRoutes} from '@packages/shared/src/routes/auth'
 import {Link} from "react-router-dom";
 
 const Register = () => {
@@ -7,7 +7,7 @@ const Register = () => {
         <h1>
             register
             <div>
-                <Link to={registerRoutes.register}>go to second page</Link>
+                <Link to={authRoutes.auth}>go to second page</Link>
             </div>
         </h1>
     );

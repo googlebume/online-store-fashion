@@ -1,5 +1,5 @@
 import React from "react";
-import {UserRegisterType} from '../../../../../services/register/src/components/RegisterForm'
+import {UserRegisterType} from '../../../../../services/auth/src/components/RegisterForm'
 
 export type InputPropsType = {
     type: string;

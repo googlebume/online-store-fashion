@@ -41,7 +41,7 @@ model Attributes {
 model User {
   id       Int    @id @default(autoincrement())
   name     String @unique
-  email    String
+  email    String @unique
   password String
   role     Role   @default(user)
 

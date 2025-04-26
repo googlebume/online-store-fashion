@@ -10,8 +10,6 @@ import Devider from './UI/Devider/Devider';
 import Terms from './UI/Terms/Terms';
 import LoginLink from './UI/LoginLink/LoginLink';
 import ButtonRegister from './UI/ButtonRegister/ButtonRegister';
-import { json } from 'stream/consumers';
-import { ifError } from 'assert';
 
 export type UserRegisterType = {
     name: string;
@@ -49,7 +47,7 @@ const RegisterForm = () => {
         }
 
         try {
-            fetch(`http://localhost:4002/${api}/register`, {
+            fetch(`http://localhost:4004/${api}/auth`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

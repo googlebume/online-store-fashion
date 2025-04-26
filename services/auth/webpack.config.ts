@@ -28,7 +28,7 @@ export default (env: EnvVariables) => {
     })
 
     config.plugins.push(new webpack.container.ModuleFederationPlugin({
-        name: 'register',
+        name: 'auth',
         filename: 'remoteEntry.js',
         exposes: {
             './Router': './src/router/Router.tsx',

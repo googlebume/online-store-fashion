@@ -1,5 +1,5 @@
 {
-  "name": "register",
+  "name": "auth",
   "version": "1.0.0",
   "dependencies": {
     "@packages/shared": "*",

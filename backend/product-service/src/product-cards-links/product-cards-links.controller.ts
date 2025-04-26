@@ -6,11 +6,6 @@ import { Throttle } from '@nestjs/throttler';
 export class ProductCardsLinksController {
     constructor(private readonly productCardsLinksService: ProductCardsLinksService) { }
 
-    // @Post()
-    // receiveProductName(@Body() requestBody: { productName: string }) {
-    //     const { productName } = requestBody;
-    //     return { success: true, productName };
-    // }
     @Throttle({default: {ttl: 60000, limit: 100}})
     @Get()
     async returnMightlikeProducts(){

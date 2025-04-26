@@ -6152,15 +6152,15 @@ export namespace Prisma {
   export type UserWhereUniqueInput = Prisma.AtLeast<{
     id?: number
     name?: string
+    email?: string
     AND?: UserWhereInput | UserWhereInput[]
     OR?: UserWhereInput[]
     NOT?: UserWhereInput | UserWhereInput[]
-    email?: StringFilter<"User"> | string
     password?: StringFilter<"User"> | string
     role?: EnumRoleFilter<"User"> | $Enums.Role
     reviewsById?: ReviewsListRelationFilter
     reviewsByName?: ReviewsListRelationFilter
-  }, "id" | "name">
+  }, "id" | "name" | "email">
 
   export type UserOrderByWithAggregationInput = {
     id?: SortOrder
