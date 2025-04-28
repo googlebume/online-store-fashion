@@ -14,4 +14,7 @@ export class DatabaseUsersService {
     async addNewUser(data){
         return this.userRepository.addNewUser(data)
     }
+    async loginUser(email, password){
+        return this.userRepository.loginUser(email, password)
+    }
 }

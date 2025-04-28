@@ -8,7 +8,7 @@ export class CardsRenderService {
 
     async getProducts(): Promise<object[]> {
         const response = await lastValueFrom(databaseClient.send('get_products', {}));
-        console.log('Отримано відповідь:', response);
+        // console.log('Отримано відповідь:', response);
 
         if (!Array.isArray(response)) {
             console.error('Помилка: response не є масивом', response);
@@ -23,7 +23,7 @@ export class CardsRenderService {
             };
         });
 
-        console.log('Оновлені продукти:', updatedProducts);
+        // console.log('Оновлені продукти:', updatedProducts);
         return updatedProducts;
     }
 }

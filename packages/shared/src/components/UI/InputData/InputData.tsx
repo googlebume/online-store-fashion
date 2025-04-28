@@ -19,8 +19,7 @@ const InputData: React.FC<InputPropsType> = ({ type, placeholder, label, min, ma
     }
 
     if (type === 'email') {
-        inputProps.pattern = '[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,}$';
-        inputProps.title = 'Введіть коректну email-адресу, наприклад: name@gmail.com';
+        inputProps.pattern = '[a-zA-Z0-9._%+\\-]+@[a-zA-Z0-9.\\-]+\\.[a-zA-Z]{2,}';
     }
 
     return (

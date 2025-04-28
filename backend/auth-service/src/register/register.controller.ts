@@ -9,6 +9,7 @@ export class RegisterController {
 
     @Post('auth')
     async getUserData(@Body() userData: RegisterUserDTO) {
+        // const data = await {email: userData.email, password: userData.password}
         return await this.registerService.getUserData(userData);
     }
 

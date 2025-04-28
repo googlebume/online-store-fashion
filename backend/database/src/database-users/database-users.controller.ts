@@ -17,4 +17,8 @@ export class DatabaseUsersController {
     async addNewUser(data){
         return this.databaseUsersService.addNewUser(data)
     }
+    @MessagePattern('login_user')
+    async loginUser({email, password}) {
+        return this.databaseUsersService.loginUser(email, password)
+    }
 }

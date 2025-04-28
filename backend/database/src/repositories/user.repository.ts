@@ -17,4 +17,13 @@ export class UserRepository {
     async addNewUser(data: {name: string; email: string; password:string}){
         return await this.prisma.user.create({data})
     }
+
+    async loginUser(email: string, password: string){
+        return await this.prisma.user.findFirst({
+            where: {
+              email,
+              password
+            }
+          });
+    }
 }

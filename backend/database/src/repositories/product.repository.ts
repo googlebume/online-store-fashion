@@ -11,7 +11,7 @@ export class ProductRepository {
 
     async findByName(name: string) {
         const parsedName: string = name.split('-').slice(0, 2).join(' ');
-        console.log('parsedName:', parsedName);
+        // console.log('parsedName:', parsedName);
     
         const products = await this.prisma.products.findMany({
             where: {

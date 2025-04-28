@@ -7,7 +7,7 @@ export class DatabaseProductsService {
 
   async getAllProducts() {
     const products = await this.productRepository.findAll();
-    console.log("DB returns", products)
+    // console.log("DB returns", products)
     return products;
   }
 

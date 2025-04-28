@@ -54,7 +54,7 @@ const RegisterForm: React.FC<FormPropsType> = ({ setSwitchForm }) => {
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({ ...userData, event: 'register' })
+                body: JSON.stringify({ email: userData.email, password: userData.password, event: 'register' })
             });
 
             if (!response.ok) {
@@ -105,7 +105,7 @@ const RegisterForm: React.FC<FormPropsType> = ({ setSwitchForm }) => {
                 {isError && <ErrorMassage massage="Акаунт з такими даними зареєстровано" />}
             </form>
 
-            <LoginLink type="register" onClick={setSwitchForm} />
+            <LoginLink type="register" onClick={setSwitchForm}/>
         </div>
     );
 };

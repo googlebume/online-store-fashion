@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from 'react';
-
+import React, { useState } from 'react';
 import { api } from '@packages/shared/src/routes/api'
 import { useNavigate } from 'react-router-dom'
 import cl from '@/utils/styles/modules/RegisterForm.module.scss'
@@ -11,36 +10,75 @@ import Devider from './UI/Devider/Devider';
 import Terms from './UI/Terms/Terms';
 import LoginLink from './UI/LoginLink/LoginLink';
 import ButtonRegister from './UI/ButtonRegister/ButtonRegister';
-import { FormPropsType, FormType } from '@/utils/type/FormType';
+import { FormPropsType } from '@/utils/type/FormType';
 
 type UserLoginType = {
     email: string;
     password: string;
 }
+
 const LoginForm: React.FC<FormPropsType> = ({setSwitchForm}) => {
+    const navigate = useNavigate();
     const [isError, setIsError] = useState(false);
+    const [errorMessage, setErrorMessage] = useState('Помилка входу. Спробуйте ще раз');
     const [userData, setUserData] = useState<UserLoginType>({
         email: '',
         password: '',
-    })
+    });
 
     const handleInputChange = (field: keyof UserLoginType, value: string) => {
         setUserData(prev => ({
             ...prev,
             [field]: value
         }));
+        // Скидаємо помилку при зміні даних
+        if (isError) setIsError(false);
     };
-    useEffect(() => {
-        console.log(userData)
-    }, [userData])
 
+    async function handleSubmit(e: React.FormEvent) {
+        e.preventDefault();
 
+        const form = e.currentTarget as HTMLFormElement;
+        if (!form.checkValidity()) {
+            form.reportValidity();
+            return;
+        }
+
+        try {
+            console.log({...userData, event: 'login'})
+            const response = await fetch(`http://localhost:4004/${api}/auth`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({...userData, event: 'login'})
+            });
+
+            const data = await response.json();
+
+            if (!response.ok || !data.success) {
+                setIsError(true);
+                setErrorMessage(data.message || 'Помилка входу. Спробуйте ще раз');
+                throw new Error(data.message || `Помилка авторизації: ${response.statusText}`);
+            }
+
+            // Якщо авторизація успішна - переадресуємо і передаємо дані
+            // Використовуємо state в navigate для передачі даних користувача
+            navigate(`/${api}/shop`, { 
+                state: { userData: data.userData }
+            });
+        } catch (error) {
+            setIsError(true);
+            console.error('Error during login:', error);
+            // Користувач залишається на сторінці входу
+        }
+    }
 
     return (
         <div className={cl.formContainer}>
             <SignWithGoogle />
             <Devider />
-            <form className={cl.form}>{/*onSubmit={handleSubmit}*/}
+            <form className={cl.form} onSubmit={handleSubmit}>
                 <InputData
                     type="email"
                     id="email"
@@ -61,12 +99,12 @@ const LoginForm: React.FC<FormPropsType> = ({setSwitchForm}) => {
                 />
                 <Terms />
                 <ButtonRegister text='Увійти' />
-                {isError && <ErrorMassage massage='Помилка входу. Спробуйте ще раз' />}
+                {isError && <ErrorMassage massage={errorMessage} />}
             </form>
 
             <LoginLink type='login' onClick={setSwitchForm}/>
         </div>
-    )
+    );
 };
 
 export default LoginForm;

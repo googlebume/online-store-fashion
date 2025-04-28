@@ -1,9 +1,16 @@
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { LoginService } from './login.service';
 import { LoginController } from './login.controller';
+import { AuthEventMiddleware } from 'src/middlewares/authEventMiddleware';
 
 @Module({
   controllers: [LoginController],
-  providers: [LoginService],
+  providers: [LoginService,],
 })
-export class LoginModule {}
+export class LoginModule implements NestModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer
+      .apply(AuthEventMiddleware)
+      .forRoutes('fashion/auth');
+  }
+}
