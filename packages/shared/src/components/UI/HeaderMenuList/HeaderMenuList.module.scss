@@ -45,36 +45,6 @@
     }
 }
 
-
-
-
-.profile {
-    margin-left: 2.5rem;
-    .profile__icon {
-        border-radius: 50%;
-        cursor: pointer;
-        position: relative;
-        &::before {
-            content: '';
-            position: absolute;
-            width: 1px;
-            height: 100%;
-            background-color: colors.$gray;
-            left: -18px;
-            z-index: 3;
-        }
-        img {
-            object-fit: cover;
-            object-position: center;
-            width: 40px;
-        }
-    }
-
-    .profile__name {
-        .profile__naming {}
-    }
-}
-
 @media (max-width: 740px) {
     .header__menu{
         display: none;

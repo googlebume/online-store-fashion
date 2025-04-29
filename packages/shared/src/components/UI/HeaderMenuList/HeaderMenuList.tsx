@@ -1,14 +1,16 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { api } from '../../../routes/api'
 import { Routes, Route, Outlet, Link } from 'react-router-dom';
+import {UserViewDataType} from '@/utils/types/userData.type';
 
 import { headerMenuItems } from "../../../utils/constants/headerMenuItems";
 import cl from './HeaderMenuList.module.scss'
+import UserProfileCard from '../UserProfileCard/UserProfileCard';
 
-import userIcon from '@packages/shared/src/assets/images/icons/userIcon.png'
 
 const HeaderMenuList = () => {
 
+    
 
     return (
         <nav className={cl.header__menu}>
@@ -29,16 +31,7 @@ const HeaderMenuList = () => {
                 }
             </ul>
 
-            <Link to={`/${api}/auth`}>
-                <div className={cl.profile}>
-                    <div className={cl.profile__icon}>
-                        <img src={userIcon} alt="userIcon" />
-                    </div>
-                    <div className={cl.profile__name}>
-                        <p className={cl.profile__naming}></p>
-                    </div>
-                </div>
-            </Link>
+            <UserProfileCard url='auth'/>
         </nav >
     );
 };

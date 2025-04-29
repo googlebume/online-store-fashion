@@ -31,7 +31,6 @@ const LoginForm: React.FC<FormPropsType> = ({setSwitchForm}) => {
             ...prev,
             [field]: value
         }));
-        // Скидаємо помилку при зміні даних
         if (isError) setIsError(false);
     };
 
@@ -62,15 +61,12 @@ const LoginForm: React.FC<FormPropsType> = ({setSwitchForm}) => {
                 throw new Error(data.message || `Помилка авторизації: ${response.statusText}`);
             }
 
-            // Якщо авторизація успішна - переадресуємо і передаємо дані
-            // Використовуємо state в navigate для передачі даних користувача
             navigate(`/${api}/shop`, { 
                 state: { userData: data.userData }
             });
         } catch (error) {
             setIsError(true);
             console.error('Error during login:', error);
-            // Користувач залишається на сторінці входу
         }
     }
 

@@ -1,0 +1,38 @@
+@use '@packages/shared/src/utils/styles/colorScheme' as colors;
+
+.profile {
+    margin-left: 2.5rem;
+    display: flex;
+    align-items: center;
+
+    .profile__icon {
+        border-radius: 50%;
+        cursor: pointer;
+        position: relative;
+        margin-right: 12px;
+
+        &::before {
+            content: '';
+            position: absolute;
+            width: 1px;
+            height: 100%;
+            background-color: colors.$gray;
+            left: -18px;
+            z-index: 3;
+        }
+
+        img {
+            object-fit: cover;
+            object-position: center;
+            width: 40px;
+        }
+    }
+
+    .profile__name {
+        .profile__naming {
+            font-style: none;
+            color: colors.$white;
+            text-wrap: wrap;
+        }
+    }
+}
