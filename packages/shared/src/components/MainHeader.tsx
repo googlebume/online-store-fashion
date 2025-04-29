@@ -25,7 +25,7 @@ const MainHeader = () => {
         <header className={cl.header}>
             <div
                 className={cl.headerBody}>
-                <HeaderCompanyLogo></HeaderCompanyLogo>
+                <HeaderCompanyLogo/>
 
                 
                 {
