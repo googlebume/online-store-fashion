@@ -1,4 +1,31 @@
-import { Controller, Post, Body } from '@nestjs/common';
+// import { Controller, Post, Body } from '@nestjs/common';
+// import { RegisterService } from './register.service';
+// import { RegisterUserDTO } from '../dto/register-user.dto';
+// import { Request, Response, NextFunction } from 'express';
+
+// @Controller('fashion')
+// export class RegisterController {
+//     constructor(private readonly registerService: RegisterService) {}
+
+//     @Post('auth')
+//     async getUserData(@Body() userData: RegisterUserDTO) {
+//         // const data = await {email: userData.email, password: userData.password}
+//         return await this.registerService.getUserData(userData);
+//     }
+
+
+//     static async handle(req: Request, res: Response, next: NextFunction) {
+//         try {
+//             const registerService = new RegisterService();
+//             const result = await registerService.getUserData(req.body);
+//             res.json(result);
+//         } catch (error) {
+//             next(error);
+//         }
+//     }
+// }
+
+import { Controller, Post, Body, HttpException, HttpStatus } from '@nestjs/common';
 import { RegisterService } from './register.service';
 import { RegisterUserDTO } from '../dto/register-user.dto';
 import { Request, Response, NextFunction } from 'express';
@@ -9,18 +36,55 @@ export class RegisterController {
 
     @Post('auth')
     async getUserData(@Body() userData: RegisterUserDTO) {
-        // const data = await {email: userData.email, password: userData.password}
-        return await this.registerService.getUserData(userData);
+        try {
+            return await this.registerService.getUserData(userData);
+        } catch (error) {
+            // Перехоплюємо помилку і додаємо інформацію про неї в відповідь
+            if (error instanceof HttpException) {
+                return {
+                    success: false,
+                    message: error.message,
+                    error: error.message
+                };
+            }
+            return {
+                success: false,
+                message: 'Помилка при реєстрації',
+                error: error.message || 'Невідома помилка'
+            };
+        }
     }
-
 
     static async handle(req: Request, res: Response, next: NextFunction) {
         try {
             const registerService = new RegisterService();
-            const result = await registerService.getUserData(req.body);
-            res.json(result);
+            
+            try {
+                const result = await registerService.getUserData(req.body);
+                
+                // Якщо успішно, додаємо поле success
+                res.json({
+                    success: true,
+                    result //...
+                });
+            } catch (error) {
+                console.error('Помилка при реєстрації:', error);
+                
+                // Повертаємо помилку, але зі статусом 200
+                return res.status(200).json({
+                    success: false,
+                    message: error.message || 'Помилка при реєстрації користувача',
+                    error: error.message || 'Невідома помилка'
+                });
+            }
         } catch (error) {
-            next(error);
+            // Якщо виникла помилка при створенні сервісу або інша критична помилка
+            console.error('Критична помилка:', error);
+            return res.status(200).json({
+                success: false,
+                message: 'Помилка серверу',
+                error: 'Server error'
+            });
         }
     }
 }

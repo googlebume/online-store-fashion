@@ -13,6 +13,10 @@ export class DatabaseUsersController {
     async getUserByID(data: { id: number }) {
         return this.databaseUsersService.getUserByID(data.id)
     }
+    @MessagePattern('get_user_by_email')
+    async getUserByEmail(data: {email: string}) {
+        return this.databaseUsersService.getUserByEmail(data.email)
+    }
     @MessagePattern('add_new_user')
     async addNewUser(data){
         return this.databaseUsersService.addNewUser(data)

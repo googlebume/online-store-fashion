@@ -2,10 +2,11 @@ import { Request, Response, NextFunction } from 'express';
 import { RegisterController } from 'src/register/register.controller';
 import { LoginController } from 'src/login/login.controller';
 
+
 export const AuthEventMiddleware = (req: Request, res: Response, next: NextFunction) => {
   console.log('authEventMiddleware called with req.body:', req.body);
-  const { event, email, password } = req.body;
-  req.body = { email, password };
+  const { event, name, email, password } = req.body;
+  req.body = { name, email, password };
   console.log('Отриманий event:', event, 'Очищені дані:', req.body);
 
   if (event === 'register') {

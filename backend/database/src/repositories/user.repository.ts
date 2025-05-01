@@ -9,6 +9,9 @@ export class UserRepository {
     async findByID(id: number){
         return this.prisma.user.findUnique({where: {id}})
     }
+    async findByEmail(email: string){
+        return this.prisma.user.findFirst({where: {email}})
+    }
 
     async findAll(){
         return this.prisma.user.findMany()

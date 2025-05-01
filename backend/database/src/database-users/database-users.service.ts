@@ -11,6 +11,9 @@ export class DatabaseUsersService {
     async getUserByID(id:number){
         return this.userRepository.findByID(id)
     }
+    async getUserByEmail(email: string){
+        return this.userRepository.findByEmail(email)
+    }
     async addNewUser(data){
         return this.userRepository.addNewUser(data)
     }
