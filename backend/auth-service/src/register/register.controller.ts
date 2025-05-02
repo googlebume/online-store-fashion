@@ -39,7 +39,6 @@ export class RegisterController {
         try {
             return await this.registerService.getUserData(userData);
         } catch (error) {
-            // Перехоплюємо помилку і додаємо інформацію про неї в відповідь
             if (error instanceof HttpException) {
                 return {
                     success: false,
@@ -62,15 +61,13 @@ export class RegisterController {
             try {
                 const result = await registerService.getUserData(req.body);
                 
-                // Якщо успішно, додаємо поле success
                 res.json({
                     success: true,
-                    result //...
+                    result
                 });
             } catch (error) {
                 console.error('Помилка при реєстрації:', error);
                 
-                // Повертаємо помилку, але зі статусом 200
                 return res.status(200).json({
                     success: false,
                     message: error.message || 'Помилка при реєстрації користувача',
@@ -78,7 +75,6 @@ export class RegisterController {
                 });
             }
         } catch (error) {
-            // Якщо виникла помилка при створенні сервісу або інша критична помилка
             console.error('Критична помилка:', error);
             return res.status(200).json({
                 success: false,

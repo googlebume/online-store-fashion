@@ -2,6 +2,7 @@ import { MiddlewareConsumer, Module } from '@nestjs/common';
 import { RegisterService } from './register.service';
 import { RegisterController } from './register.controller';
 import { AuthEventMiddleware } from 'src/middlewares/authEventMiddleware';
+import { AuthFieldsLengthMiddleware } from 'src/middlewares/authFieldsLangth.middleware';
 
 @Module({
   controllers: [RegisterController],
@@ -10,7 +11,7 @@ import { AuthEventMiddleware } from 'src/middlewares/authEventMiddleware';
 export class RegisterModule {
   configure(consumer: MiddlewareConsumer) {
       consumer
-        .apply(AuthEventMiddleware)
+        .apply(AuthFieldsLengthMiddleware, AuthEventMiddleware)
         .forRoutes('fashion/auth');
     }
 }

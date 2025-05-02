@@ -190,7 +190,8 @@ export const useFetch = <T = any, R = any>(): UseFetchReturn<R> => {
             const data = await res.json();
 
             if (!res.ok) {
-                throw new Error(`HTTP error! status: ${res.status}`);
+                // throw new Error(`HTTP error! status: ${res.status}`);
+                throw new Error(`Сталася помилка. Скоротіть довжину тексту або спробуйте пізніше`);
             }
 
             if (data && typeof data === 'object' && data.success === false) {
