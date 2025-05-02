@@ -285,7 +285,7 @@ const RegisterForm: React.FC<FormPropsType> = ({ setSwitchForm }) => {
             ...prev,
             [field]: value
         }));
-        // Скидаємо помилку при зміні даних
+        
         setIsError(false);
     };
 
@@ -322,7 +322,6 @@ const RegisterForm: React.FC<FormPropsType> = ({ setSwitchForm }) => {
         }
     }, [response]);
 
-    // Додаткова обробка помилки з хука useFetch
     useEffect(() => {
         if (error) {
             setErrorMessage(error.message || 'Сталася помилка при реєстрації');
