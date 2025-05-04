@@ -5,24 +5,20 @@
     flex: 3.5;
     position: relative;
 
-    &::before {
+    .button {
         content: '';
         position: absolute;
-        background: url(@packages/shared/src/assets/images/icons/magnifyingGlass.png);
         object-fit: cover;
         object-position: center;
-        width: 24px;
         right: 8px;
         top: 6px;
         z-index: 5;
-        height: 24px;
-        cursor: pointer;
-        pointer-events: auto;
+        // pointer-events: auto;
         filter: grayscale(100%) brightness(1);
         transition: filter 0.15s ease;
     }
 
-    &:hover::before {
+    &:hover .button {
         filter: grayscale(0) brightness(0);
     }
 

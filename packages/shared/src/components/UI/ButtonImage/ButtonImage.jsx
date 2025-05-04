@@ -1,9 +1,10 @@
 import React from 'react';
 import cl from './ButtonImage.module.scss'
 
-const ButtonImage = ({img, onClick}) => {
+const ButtonImage = ({img, onClick, width}) => {
+    
     return (
-        <button className={cl.button} onClick={onClick}>
+        <button className={cl.button} onClick={onClick} style={{'maxWidth': width}}>
             <img 
             src={img} 
             alt="Button" 
