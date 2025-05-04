@@ -11,7 +11,7 @@ import { AuthFieldsLengthMiddleware } from 'src/middlewares/authFieldsLangth.mid
 export class RegisterModule {
   configure(consumer: MiddlewareConsumer) {
       consumer
-        .apply(AuthFieldsLengthMiddleware, AuthEventMiddleware)
+        .apply(AuthEventMiddleware)
         .forRoutes('fashion/auth');
     }
 }

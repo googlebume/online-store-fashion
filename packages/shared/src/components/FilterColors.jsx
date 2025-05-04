@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import { filterColorDitchs } from '@/utils/constants/filterColorDitchs.js';
+import { filterColorDitchs } from '../../../../services/shop/src/utils/constants/filterColorDitchs';
 import FilterColor from './UI/FilterColor/FilterColor';
 import cl from '@packages/shared/src/utils/styles/modules/FilterColors.module.scss'
 
@@ -13,8 +13,8 @@ const FilterColors = () => {
           ? [...SelectedColors, value]
           : SelectedColors.filter((category) => category !== value);
       
-        setSelectedColors(updatedColors);          // ✅ React setState
-        setUpdatedColors(updatedColors);           // ✅ Зовнішня дія, ОК!
+        setSelectedColors(updatedColors);
+        setUpdatedColors(updatedColors);
       }
 
     return (

@@ -2,8 +2,8 @@ import React, { useEffect, useState } from "react";
 import cl from "./HeaderToolsList.module.scss";
 import shoppingCardImage from "@packages/shared/src/assets/images/icons/shoppingCardImage.png";
 import filterIcon from "@packages/shared/src/assets/images/icons/filterIcon.png";
-import FiltersStickyBar from "../../PopupFilterBar";
-import PopupFilterBar from "../../PopupFilterBar";
+// import FiltersStickyBar from "../../PopupFilterBar";
+import PopupFilterBar from "@packages/shared/src/components/PopupFilterBar";
 import PopupBasket from '../../../../../../services/shop/src/components/PopupBasket'
 
 const HeaderToolsList = ({ setIsOpen }) => {

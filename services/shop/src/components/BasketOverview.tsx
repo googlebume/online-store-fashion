@@ -47,9 +47,9 @@
 // export default BasketOverview;
 
 import React, { useEffect, useState } from 'react';
-import cl from '@/utils/styles/modules/BasketOverview.module.scss';
+import cl from '@shop/utils/styles/modules/BasketOverview.module.scss';
 import BasketProductsCard from './BasketProductsCard';
-import { getCartItems, subscribeToCartChanges } from '@/state/basketState';
+import { getCartItems, subscribeToCartChanges } from '@shop/state/basketState';
 import { ProductType } from "@packages/shared/src/utils/types/prosuctData.type";
 
 const BasketOverview: React.FC = () => {
@@ -68,7 +68,7 @@ const BasketOverview: React.FC = () => {
         <div className={cl.basketOverview}>
             {products.map((product) => (
                 <BasketProductsCard
-                    key={product.name} // Використовуємо унікальне ім'я як ключ
+                    key={product.name}
                     data={product}
                 />
             ))}

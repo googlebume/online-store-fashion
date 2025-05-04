@@ -117,7 +117,6 @@ const ProductCard: React.FC<ProductCardProps> = ({ ...props }) => {
         e.preventDefault();
         e.stopPropagation();
         
-        // Додаємо продукт до кошика
         addToCart({
             id: props.id,
             image: props.image,

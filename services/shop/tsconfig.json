@@ -2,9 +2,12 @@
   "extends": "../tsconfig.base.json",
   "compilerOptions": {
     "outDir": "./dist/",
+    "jsx": "react-jsx",
     "baseUrl": ".",
     "allowJs": true,
     "composite": false,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
     "paths": {
       "@/*": ["./src/*"],
       "@shop/*": ["../../services/shop/src/*"]

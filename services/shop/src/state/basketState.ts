@@ -142,6 +142,7 @@ const notifyListeners = () => {
 
 // Додавання продукту до кошика
 export const addToCart = (product: ProductType) => {
+  console.log("До кошика додано:", product)
   const existingItemIndex = cartItems.findIndex(item => item.name === product.name);
   
   if (existingItemIndex >= 0) {

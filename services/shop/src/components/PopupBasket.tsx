@@ -94,9 +94,9 @@
 //                     <div className={cl.basket}>
 //                         <EmptyBasket />
 //                     </div>
-                    
+
 //                 )}
-            
+
 //         </div>,
 //         document.getElementById("modal-root")!
 //     );
@@ -107,13 +107,13 @@
 // PopupBasket.tsx
 import React, { useEffect, useState } from 'react';
 import ReactDOM from "react-dom";
-import cl from "@/utils/styles/modules/PopupBasket.module.scss";
+import cl from "@shop/utils/styles/modules/PopupBasket.module.scss";
 import ClosePopupCross from '@packages/shared/src/components/UI/ClosePopupCross/ClosePopupCross';
 import BasketOverview from './BasketOverview';
 import BasketDelivery from './BasketDelivery';
 import BasketSummary from './BasketSummary';
 import EmptyBasket from './EmptyBasket';
-import { getCartItems, subscribeToCartChanges } from '@/state/basketState';
+import { getCartItems, subscribeToCartChanges } from '../state/basketState';
 
 interface PopupBasketProps {
     setBasketOpenStatus: React.Dispatch<React.SetStateAction<boolean>>;
@@ -122,36 +122,36 @@ interface PopupBasketProps {
 
 const PopupBasket: React.FC<PopupBasketProps> = ({ setBasketOpenStatus, basketOpenStatus }) => {
     const [productsInCart, setProductsInCart] = useState(getCartItems());
-    
+
     useEffect(() => {
         // При відкритті модалки блокуємо скроллінг
         document.body.style.overflow = "hidden";
-        
+
         // Підписуємося на зміни в кошику
         const unsubscribe = subscribeToCartChanges(() => {
             setProductsInCart(getCartItems());
         });
-        
+
         // Одразу оновлюємо дані при монтуванні
         setProductsInCart(getCartItems());
-        
+
         // Розблокуємо скроллінг при закритті модалки
         return () => {
             document.body.style.overflow = "";
             unsubscribe();
         };
     }, []);
-    
+
     const hasProducts = productsInCart.length > 0;
-    
+
     return ReactDOM.createPortal(
-        <div 
-            className={cl.modalOverlay} 
+        <div
+            className={cl.modalOverlay}
             onClick={() => setBasketOpenStatus(false)}
         >
             {hasProducts ? (
-                <div 
-                    className={cl.modalContent} 
+                <div
+                    className={cl.modalContent}
                     onClick={(e) => e.stopPropagation()}
                 >
                     <ClosePopupCross setOpenStatus={setBasketOpenStatus} />
@@ -162,7 +162,7 @@ const PopupBasket: React.FC<PopupBasketProps> = ({ setBasketOpenStatus, basketOp
                     </>
                 </div>
             ) : (
-                <div 
+                <div
                     className={cl.basket}
                     onClick={(e) => e.stopPropagation()}
                 >

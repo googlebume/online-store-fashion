@@ -33,7 +33,7 @@
 
 import React, { useState, useEffect } from 'react';
 import FilterCategory from './UI/FilterCategory/FilterCategory';
-import { filterCategorys } from '@/utils/constants/filterCategorys';
+import { filterCategorys } from '../../../../services/shop/src/utils/constants/filterCategorys';
 import { setUpdatedCategories, getUpdatedCategories } from "../state/filtersState";
 
 const FilterCategorys = () => {

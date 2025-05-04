@@ -13,10 +13,10 @@
         "paths": {
             "@/*": ["./src/*"],
             "@shop/*": [
-                "../../services/product/src/*"
+                "../../services/shop/src/*"
             ],
             "@product/*": [
-                "../../services/shop/src/*"
+                "../../services/product/src/*"
             ],
             "@packages/*": [
                 "../../packages/shared/src"

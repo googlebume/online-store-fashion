@@ -10,10 +10,10 @@ export const AuthFieldsLengthMiddleware = (req: Request, res: Response, next: Ne
     }
 
     // Перевірка довжини кожного поля
-    if (name.length > 20) {
+    if (name?.length > 25) {
         throw new HttpException('Name field character threshold exceeded', HttpStatus.CONFLICT);
     }
-    if (email.length > 25) {
+    if (email.length > 30) {
         throw new HttpException('Email field character threshold exceeded', HttpStatus.CONFLICT);
     }
     if (password.length > 20) {

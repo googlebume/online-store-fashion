@@ -47,9 +47,9 @@
 
 
 import React, { useEffect, useState } from 'react';
-import cl from '@/utils/styles/modules/BasketSummary.module.scss';
+import cl from '@shop/utils/styles/modules/BasketSummary.module.scss';
 import ButtonOrder from '@packages/shared/src/components/UI/ButtonOrder/ButtonOrder';
-import { getTotalPrice, subscribeToCartChanges } from '@/state/basketState';
+import { getTotalPrice, subscribeToCartChanges } from '@shop/state/basketState';
 
 const BasketSummary: React.FC = () => {
     const [finalPrice, setFinalPrice] = useState(getTotalPrice());

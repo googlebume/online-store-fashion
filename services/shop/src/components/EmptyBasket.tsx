@@ -1,6 +1,6 @@
 import React from 'react';
-import iconBasket from '@/assets/images/icons/iconBasket.png'
-import cl from '@/utils/styles/modules/EmptyBasket.module.scss'
+import iconBasket from '@shop/assets/images/icons/iconBasket.png'
+import cl from '@shop/utils/styles/modules/EmptyBasket.module.scss'
 const EmptyBasket = () => {
     return (
         <div className={cl.emptyBody}>

@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import InputData from '@packages/shared/src/components/UI/InputData/InputData';
 import InputOption from '@packages/shared/src/components/UI/InputOption/InputOption';
-import cl from '@/utils/styles/modules/BasketDelivery.module.scss';
-import { getCartItems } from '@/state/basketState';
+import cl from '@shop/utils/styles/modules/BasketDelivery.module.scss';
+import { getCartItems } from '@shop/state/basketState';
 
 const BasketDelivery = () => {
     const [showCouponInput, setShowCouponInput] = useState(false);
