@@ -10,7 +10,7 @@ const FiltersStickyBar = () => {
     const [allProducts, setAllProducts] = useState(getAllProducts());
     const [updatedCategories, setUpdatedCategoriesState] = useState(getUpdatedCategories());
     const [selectedColors, setSelectedColors] = useState(getUpdatedColors());
-    const [selectedPriceRange, setSelectedPriceRange] = useState(null);
+    const [selectedPriceRange, setSelectedPriceRange] = useState();
 
     useEffect(() => {
         const unsubscribeCategories = subscribeToCategories(setUpdatedCategoriesState);
@@ -41,6 +41,13 @@ const FiltersStickyBar = () => {
             );
             console.log("Продукти після фільтрації по кольору:", filtered);
         }
+        if (selectedPriceRange) {
+            console.log("Фільтрація по ціні:", selectedPriceRange);
+            filtered = filtered.filter(
+                (item) => item.price <= selectedPriceRange.maxPrice && item.price >= selectedPriceRange.minPrice
+            );
+            console.log("Продукти після фільтрації по кольору:", filtered);
+        }
     
         console.log("Результат фільтрації:", filtered);
         return filtered;
@@ -59,14 +66,14 @@ const FiltersStickyBar = () => {
         console.log("📢 updatedCategories:", updatedCategories);
         console.log("📢 selectedColors:", selectedColors);
         console.log("📢 `exportFilteredProducts` після фільтрації:", filtered);
-    }, [allProducts, updatedCategories, selectedColors]);
+    }, [allProducts, updatedCategories, selectedColors, selectedPriceRange]);
 
     return (
         <aside
             className={cl.aside}
         >
             <FilterCategorys />
-            <PriceWidget />
+            <PriceWidget setSelectedPriceRange={setSelectedPriceRange}/>
             <FilterColors />
         </aside>
     );

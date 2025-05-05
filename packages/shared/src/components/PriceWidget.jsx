@@ -1,14 +1,18 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import cl from '@packages/shared/src/utils/styles/modules/PriceWidget.module.scss';
 import PriceInput from './UI/PriceInput/PriceInput';
 import SubmitButton from '@packages/shared/src/components/UI/SubmitButton/SubmitButton';
 import DoubleRangeInput from './UI/DoubleRangeInput/DoubleRangeInput';
 
-const PriceWidget = () => {
+const PriceWidget = ({setSelectedPriceRange}) => {
     
     const [minPrice, setMinPrice] = useState(100);
     const [maxPrice, setMaxPrice] = useState(5000);
 
+    const handlePriceChoose = () => {
+        // const range = Math.abs(Math.abs(minPrice) - Math.abs(minPrice))
+        setSelectedPriceRange({minPrice:minPrice, maxPrice:maxPrice})
+    }
 
     function handleMinPrice(value) {
         setMinPrice(value);
@@ -44,7 +48,7 @@ const PriceWidget = () => {
                     onChange={e => handleMaxPrice(Number(e.target.value))}
                     value={ifChangePlaces() ? setMinPrice(maxPrice) : maxPrice}
                 />
-                <SubmitButton text={'Ок'} />
+                <SubmitButton text={'Ок'} onClick={handlePriceChoose}/>
             </div>
             <DoubleRangeInput 
                 minInRange={100} 

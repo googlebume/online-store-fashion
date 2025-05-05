@@ -1,9 +1,12 @@
 import React from 'react';
 import cl from './SubmitButton.module.scss'
 
-const SubmitButton = ({text}) => {
+const SubmitButton = ({ text, onClick }) => {
     return (
-        <button className={cl.submit__button}> {text} </button>
+        <button
+            className={cl.submit__button}
+            onClick={onClick}
+        > {text} </button>
     );
 };
 
