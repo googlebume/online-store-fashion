@@ -1,6 +1,7 @@
 import { Injectable, NotFoundException } from "@nestjs/common";
 import { Prisma } from "../../prisma/generated/prisma-client";
 import { PrismaService } from "src/prisma.service";
+import * as bcrypt from 'bcryptjs';
 
 @Injectable()
 export class UserRepository {
@@ -14,7 +15,6 @@ export class UserRepository {
             where: { email: email }
         });
         if (user?.email != email) {
-            return false
             throw new NotFoundException(`Користувача з email ${email} не знайдено`);
         }
 
@@ -31,20 +31,39 @@ export class UserRepository {
             return true;
         } catch (err) {
             if (err.code === 'P2002' && err.meta?.target?.includes('email')) {
-                // Email already exists
                 return false;
             }
-            throw err; // Пропускаємо інші помилки
+            throw err; // пропуск інших помилок
         }
     }
-    
+
+
+    // async loginUser(email: string, password: string) {
+    //     return await this.prisma.user.findFirst({
+    //         where: {
+    //             email,
+    //             password
+    //         }
+    //     });
+    // }
 
     async loginUser(email: string, password: string) {
-        return await this.prisma.user.findFirst({
+        const user = await this.prisma.user.findFirst({
             where: {
                 email,
-                password
-            }
+            },
         });
+
+        if (!user) {
+            return null;
+        }
+
+        const isPasswordValid = await bcrypt.compare(password, user.password);
+
+        if (!isPasswordValid) {
+            return null;
+        }
+
+        return user;
     }
 }
