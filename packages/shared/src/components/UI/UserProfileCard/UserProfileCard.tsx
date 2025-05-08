@@ -6,7 +6,7 @@ import userIcon from '@packages/shared/src/assets/images/icons/userIcon.png';
 import { UserViewDataType } from '@/utils/types/userData.type';
 
 
-const UserProfileCard = ({ url }: { url: string }) => {
+const UserProfileCard = ({ url, style }: { url: string, style?: string }) => {
     const [user, setUser] = useState<UserViewDataType>();
     const location = useLocation();
     const prevPath = useRef<string | null>(null);
@@ -18,7 +18,7 @@ const UserProfileCard = ({ url }: { url: string }) => {
 
     return (
         <Link to={`/${api}/${url}`}>
-            <div className={cl.profile}>
+            <div className={style === 'burger' ? cl.profileBurger : cl.profile}>
                 <div className={cl.profile__icon}>
                     <img src={userIcon} alt="userIcon" />
                 </div>

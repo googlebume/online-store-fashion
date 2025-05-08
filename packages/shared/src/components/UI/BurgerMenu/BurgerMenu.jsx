@@ -5,6 +5,7 @@ import { headerMenuItems } from '../../../utils/constants/headerMenuItems';
 import cl from './BurgerMenu.module.scss';
 
 import userIcon from '@packages/shared/src/assets/images/icons/userIcon.png';
+import UserProfileCard from '../UserProfileCard/UserProfileCard';
 
 const BurgerMenu = () => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -55,14 +56,7 @@ const BurgerMenu = () => {
 
                 <span className={cl.burgerMenu__hr}></span>
 
-                <div className={cl.profile}>
-                    <div className={cl.profile__icon}>
-                        <img src={userIcon} alt="userIcon" />
-                    </div>
-                    <div className={cl.profile__name}>
-                        <p className={cl.profile__naming}>Username</p>
-                    </div>
-                </div>
+                <UserProfileCard url='auth' style='burger'/>
             </nav>
         </div>
     );

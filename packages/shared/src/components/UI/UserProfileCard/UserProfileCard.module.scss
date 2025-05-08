@@ -36,3 +36,41 @@
         }
     }
 }
+
+
+.profileBurger {
+    width: 70vw;
+    padding: 10px 16px;
+    display: flex;
+    align-items: center;
+    border-radius: 16px;
+    border: 1px solid colors.$white;
+    background-color: color-mix(in srgb, colors.$white 10%, transparent 70%);
+    // backdrop-filter: blur(30px);
+    transition: transform 0.3s;
+    cursor: pointer;
+    &:hover {
+        transform: scale(1.03);
+    }
+
+    .profile__icon {
+        border-radius: 50%;
+        cursor: pointer;
+
+        img {
+            object-fit: cover;
+            object-position: center;
+            width: 40px;
+        }
+    }
+
+    .profile__name {
+        margin-left: 1rem;
+        width: 100%;
+
+        .profile__naming {
+            font-size: 1.2rem;
+            color: colors.$white;
+        }
+    }
+}
