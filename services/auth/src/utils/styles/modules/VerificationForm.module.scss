@@ -1,0 +1,63 @@
+@use '@packages/shared/src/utils/styles/colorScheme' as colors;
+
+.codeInputContainer {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin: 20px 0;
+}
+
+.codeInput {
+  width: 50px;
+  height: 60px;
+  font-size: 24px;
+  text-align: center;
+  border: 2px solid colors.$gray;
+  border-radius: 8px;
+  background-color: colors.$milkish;
+  color: colors.$black;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  
+  &:focus {
+    outline: none;
+    border-color: colors.$golden;
+    box-shadow: 0 0 0 2px rgba(colors.$yellow, 0.3);
+  }
+  
+  &:hover:not(:focus):not(:disabled) {
+    border-color: colors.$ashDarkened;
+  }
+  
+  &:disabled {
+    background-color: colors.$milkish;
+    color: colors.$ashText;
+    border-color: colors.$ash;
+    cursor: not-allowed;
+  }
+  
+  // Hide spinner for number inputs
+  &::-webkit-outer-spin-button,
+  &::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+  
+  // Firefox
+  &[type=number] {
+    -moz-appearance: textfield;
+  }
+}
+
+// Media query for mobile devices
+@media (max-width: 600px) {
+  .codeInputContainer {
+    gap: 6px;
+  }
+  
+  .codeInput {
+    width: 40px;
+    height: 50px;
+    font-size: 20px;
+  }
+}

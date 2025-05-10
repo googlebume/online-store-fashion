@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom';
 
 const ButtonRegister: React.FC<ButtonRegisterType> = ({ text, onClick }) => {
     return (
-            <button type="submit" className={cl.submitButton}>
+            <button type="submit" className={cl.submitButton} onClick={onClick}>
                 {text}
             </button>
     );
