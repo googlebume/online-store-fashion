@@ -13,6 +13,7 @@ import LoginLink from './UI/LoginLink/LoginLink';
 import ButtonRegister from './UI/ButtonRegister/ButtonRegister';
 import { FormPropsType } from '@/utils/type/FormType';
 import VerificationForm from './VerificationForm';
+import { verify } from 'crypto';
 
 export type UserAuthType = {
     name?: string;
@@ -71,7 +72,8 @@ const RegisterForm: React.FC<FormPropsType> = ({ setSwitchForm }) => {
                 setIsError(true);
                 setIsSubmit(false);
             } else {
-                navigate(`/${api}/shop`);
+                // navigate(`/${api}/shop`);
+                setSwitchForm({type: 'verify'})
                 setIsSubmit(false);
             }
         }
