@@ -2,6 +2,7 @@ import { Controller, Post, Body, HttpException, HttpStatus } from '@nestjs/commo
 import { RegisterService } from './register.service';
 import { RegisterUserDTO } from '../dto/register-user.dto';
 import { Request, Response, NextFunction } from 'express';
+import { VerifyService } from 'src/verify/verify.service';
 
 @Controller('fashion')
 export class RegisterController {
@@ -29,7 +30,8 @@ export class RegisterController {
 
     static async handle(req: Request, res: Response, next: NextFunction) {
         try {
-            const registerService = new RegisterService();
+            const verifyService = new VerifyService();
+            const registerService = new RegisterService(verifyService);
             
             try {
                 const result = await registerService.getUserData(req.body);
