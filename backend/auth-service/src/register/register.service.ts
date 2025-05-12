@@ -6,10 +6,27 @@ import { VerifyService } from 'src/verify/verify.service';
 
 @Injectable()
 export class RegisterService {
-    constructor(private verifyService: VerifyService) {}
-    async getUserData(userData) {
-        this.verifyService.setUserData(userData);
-        this.verifyService.sendVerificationCode();
+    constructor(private verifyService: VerifyService) { }
+
+    async setUserData(userData) {
+        await this.verifyService.setUserData(userData);
+    }
+
+    async sendCode() {
+        await this.verifyService.sendVerificationCode();
+    }
+
+    async confirmRegistration(code: string) {
+        const verified = await this.verifyService.veryfyCode(code);
+        if (!verified.success) {
+            return { success: false, message: 'Невірний код' };
+        }
+
+        const userData = this.verifyService.getUserData();
+        if (!userData) {
+            throw new HttpException('Дані користувача не знайдені', HttpStatus.BAD_REQUEST);
+        }
+
 
         const hashedPassword = await this.hashPassword(userData.password);
         const userDataWithHashedPassword = {
@@ -25,8 +42,9 @@ export class RegisterService {
             throw new HttpException('User already exists', HttpStatus.CONFLICT);
         }
 
-        return success;
+        return { success: true };
     }
+
 
     private async hashPassword(password: string): Promise<string> {
         const salt = await bcrypt.genSalt(10);

@@ -6,56 +6,37 @@ import { VerifyService } from 'src/verify/verify.service';
 
 @Controller('fashion')
 export class RegisterController {
-    constructor(private readonly registerService: RegisterService) {}
+    constructor(private readonly registerService: RegisterService) { }
 
-    @Post('auth')
-    async getUserData(@Body() userData: RegisterUserDTO) {
+    @Post('register/init')
+    async initRegistration(@Body() userData: RegisterUserDTO) {
         try {
-            return await this.registerService.getUserData(userData);
+            console.log(userData.email)
+            await this.registerService.setUserData(userData);
+            await this.registerService.sendCode();
+            return { success: true };
         } catch (error) {
-            if (error instanceof HttpException) {
-                return {
-                    success: false,
-                    message: error.message,
-                    error: error.message
-                };
-            }
             return {
                 success: false,
-                message: 'Помилка при реєстрації',
-                error: error.message || 'Невідома помилка'
+                message: 'Помилка при ініціалізації реєстрації',
+                error: error.message || 'Невідома помилка',
             };
         }
     }
 
-    static async handle(req: Request, res: Response, next: NextFunction) {
+    @Post('register/confirm')
+    async confirmRegistration(@Body() body: { code: string }) {
         try {
-            const verifyService = new VerifyService();
-            const registerService = new RegisterService(verifyService);
-            
-            try {
-                const result = await registerService.getUserData(req.body);
-                
-                res.json({
-                    success: true,
-                    result
-                });
-            } catch (error) {
-                console.error('Помилка при реєстрації:', error);
-                
-                return res.status(200).json({
-                    success: false,
-                    message: error.message || 'Помилка при реєстрації користувача',
-                    error: error.message || 'Невідома помилка'
-                });
-            }
+            const result = await this.registerService.confirmRegistration(body.code);
+            console.log(JSON.stringify(result))
+            return JSON.stringify(result);
         } catch (error) {
-            console.error('Критична помилка:', error);
-            return res.status(200).json({
+            return {
                 success: false,
-                message: 'Помилка серверу',
-                error: 'Server error'
-            });
+                message: 'Помилка підтвердження коду',
+                error: error.message || 'Невідома помилка',
+            };
         }
     }
+
 }

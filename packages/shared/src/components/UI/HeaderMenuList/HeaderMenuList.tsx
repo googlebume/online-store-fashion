@@ -31,7 +31,7 @@ const HeaderMenuList = () => {
                 }
             </ul>
 
-            <UserProfileCard url='auth'/>
+            <UserProfileCard url='register'/>
         </nav >
     );
 };

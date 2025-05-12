@@ -2,14 +2,12 @@ import { useState, useCallback } from 'react';
 import { api } from '../../../../../packages/shared/src/routes/api';
 
 type MethodTypes = 'POST' | 'GET';
-type EventType = 'register' | 'login' | 'verify';
 
 type UseFetchProps<T> = {
     method: MethodTypes;
     port: number;
     url: string;
     body?: T;
-    event?: EventType;
 };
 
 
@@ -26,7 +24,7 @@ export const useFetch = <T = any, R = any>(): UseFetchReturn<R> => {
     const [isLoading, setIsLoading] = useState<boolean>(false);
 
     const fetchData = useCallback(async (params: UseFetchProps<T>) => {
-        const { method, port, url, body, event } = params;
+        const { method, port, url, body } = params;
 
         setIsLoading(true);
         setError(null);
@@ -43,9 +41,6 @@ export const useFetch = <T = any, R = any>(): UseFetchReturn<R> => {
                 const requestBody: any = { ...(body || {}) };
 
                 // Додаємо поле event до тіла POST-запиту
-                if (event) {
-                    requestBody.event = event;
-                }
 
                 fetchConfig.body = JSON.stringify(requestBody);
             }

@@ -20,6 +20,6 @@ export const AuthFieldsLengthMiddleware = (req: Request, res: Response, next: Ne
         throw new HttpException('Password field character threshold exceeded', HttpStatus.CONFLICT);
     }
 
-    // Якщо всі перевірки пройшли успішно, передаємо запит далі
+    console.log(req.body)
     next();
 };
