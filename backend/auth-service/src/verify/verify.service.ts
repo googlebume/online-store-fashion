@@ -1,5 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import * as nodemailer from 'nodemailer';
+import dotenv from 'dotenv';
+// dotenv.config();
+require('dotenv').config();
 import { RegisterService } from 'src/register/register.service';
 
 @Injectable()
@@ -52,13 +55,13 @@ export class VerifyService {
         const transporter = nodemailer.createTransport({
             service: 'gmail',
             auth: {
-                user: 'duzasergej@gmail.com',
-                pass: 'dgzp odos fhvk ahcy',
+                user: process.env.SEND_EMAIL_MAIL,
+                pass: process.env.SEND_EMAIL_APP_PASS,
             },
         });
 
         await transporter.sendMail({
-            from: 'duzasergej@gmail.com',
+            from: process.env.SEND_EMAIL_MAIL,
             to: this.userData.email,
             subject: 'Verification Code',
             text: `Your verification code is: ${code}`,
