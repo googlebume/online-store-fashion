@@ -190,35 +190,35 @@ const RegisterForm = () => {
   };
 
   useEffect(() => {
-  if (isSubmit) {
-    console.log("Відправлено   ", userData)
-    fetchData({
-      method: 'POST',
-      port: 4004,
-      url: 'register/init',
-      body: {
-        name: userData.name,
-        email: userData.email,
-        password: userData.password,
-      },
-    });
-    
-  }
-}, [isSubmit]);
+    if (isSubmit) {
+      console.log("Відправлено   ", userData)
+      fetchData({
+        method: 'POST',
+        port: 4004,
+        url: 'register/init',
+        body: {
+          name: userData.name,
+          email: userData.email,
+          password: userData.password,
+        },
+      });
+
+    }
+  }, [isSubmit]);
 
 
   useEffect(() => {
-  if (response) {
-    if (response.success) {
-      navigate(`/${api}/verify`, { state: { email: userData.email } });
-      setIsSubmit(false);
-    } else {
-      setErrorMessage(response.message || 'Помилка реєстрації');
-      setIsError(true);
-      setIsSubmit(false);
+    if (response) {
+      if (response.success) {
+        navigate(`/${api}/verify`, { state: { email: userData.email, event: 'register' } });
+        setIsSubmit(false);
+      } else {
+        setErrorMessage(response.message || 'Помилка реєстрації');
+        setIsError(true);
+        setIsSubmit(false);
+      }
     }
-  }
-}, [response]);
+  }, [response]);
 
 
   useEffect(() => {
@@ -240,10 +240,10 @@ const RegisterForm = () => {
   };
 
   return (
-    <div className={cl.formContainer}>
+    <form className={cl.formContainer} onSubmit={handleSubmit}>
       <SignWithGoogle />
       <Devider />
-      <form className={cl.form} onSubmit={handleSubmit}>
+      <div className={cl.form}>
         <InputData
           type="text"
           id="name"
@@ -274,9 +274,9 @@ const RegisterForm = () => {
         <Terms />
         <ButtonRegister text={isLoading ? 'Зачекайте...' : 'Зареєструватися'} />
         {isError && <ErrorMassage massage={errorMessage} />}
-      </form>
+      </div>
       <LoginLink type="register" onClick={() => navigate(`/${api}/login`)} />
-    </div>
+    </form>
   );
 };
 

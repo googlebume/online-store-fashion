@@ -45,7 +45,6 @@ export class RegisterService {
         return { success: true };
     }
 
-
     private async hashPassword(password: string): Promise<string> {
         const salt = await bcrypt.genSalt(10);
         return bcrypt.hash(password, salt);

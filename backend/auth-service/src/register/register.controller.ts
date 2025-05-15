@@ -19,7 +19,7 @@ export class RegisterController {
             return {
                 success: false,
                 message: 'Помилка при ініціалізації реєстрації',
-                error: error.message || 'Невідома помилка',
+                error: error.message || 'Невідома помилка(',
             };
         }
     }

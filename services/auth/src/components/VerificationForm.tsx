@@ -139,6 +139,7 @@ const VerificationForm: React.FC<VerificationCodeInputProps> = ({
     const navigate = useNavigate();
     const location = useLocation();
     const email = location.state?.email || '';
+    const event = location.state?.event || '';
     const { response, error, fetchData, isLoading } = useFetch();
 
     useEffect(() => {
@@ -229,14 +230,14 @@ const VerificationForm: React.FC<VerificationCodeInputProps> = ({
         const codeVerify = fetchData({
             method: 'POST',
             port: 4004,
-            url: 'register/confirm',
+            url: event === 'register' ? 'register/confirm' : 'login/confirm',
             body: {code: userCode},
         });
     };
 
     useEffect(() => {
         if (response && response.success === true) {
-            navigate(`/${api}/shop`);
+            navigate(event === 'register' ? `/${api}/login` : `/${api}/shop`, { state: {userData: response} });
         } else if (response && response.success === false) {
             setIsError(true);
             setErrorMessage(response.message || 'Невірний код');

@@ -124,6 +124,7 @@ type UserLoginType = {
 
 const LoginForm = () => {
   const navigate = useNavigate();
+  const [isSubmit, setIsSubmit] = useState<true | false>(false)
   const [isError, setIsError] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
   const [userData, setUserData] = useState<UserLoginType>({
@@ -151,7 +152,7 @@ const LoginForm = () => {
     fetchData({
       method: 'POST',
       port: 4004,
-      url: 'login',
+      url: 'login/init',
       body: userData,
     });
   };
@@ -174,11 +175,41 @@ const LoginForm = () => {
     }
   }, [error]);
 
+
+  useEffect(() => {
+      if (response) {
+        if (response.success) {
+          navigate(`/${api}/verify`, { state: { email: userData.email, event: 'login' } });
+          setIsSubmit(false);
+        } else {
+          setErrorMessage(response.message || 'Помилка реєстрації');
+          setIsError(true);
+          setIsSubmit(false);
+        }
+      }
+    }, [response]);
+
+    // useEffect(() => {
+    //     if (isSubmit) {
+    //       console.log("Відправлено   ", userData)
+    //       fetchData({
+    //         method: 'POST',
+    //         port: 4004,
+    //         url: 'login/init',
+    //         body: {
+    //           email: userData.email,
+    //           password: userData.password,
+    //         },
+    //       });
+    
+    //     }
+    //   }, [isSubmit]);
+
   return (
-    <div className={cl.formContainer}>
+    <form className={cl.formContainer} onSubmit={handleSubmit}>
       <SignWithGoogle />
       <Devider />
-      <form className={cl.form} onSubmit={handleSubmit}>
+      <div className={cl.form} onSubmit={handleSubmit}>
         <InputData
           type="email"
           id="email"
@@ -200,9 +231,9 @@ const LoginForm = () => {
         <Terms />
         <ButtonRegister text={isLoading ? 'Зачекайте...' : 'Увійти'} />
         {isError && <ErrorMassage massage={errorMessage} />}
-      </form>
+      </div>
       <LoginLink type="login" onClick={() => navigate(`/${api}/register`)} />
-    </div>
+    </form>
   );
 };
 
