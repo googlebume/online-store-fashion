@@ -16,7 +16,7 @@
 let products = [];
 
 export const exportProducts = (data) => {
-    products = [...data]; // ✅ Копіюємо масив, щоб уникнути мутацій
+    products = [...data];
     console.log("✅ Дані збережено в `products`:", products);
 };
 
@@ -32,7 +32,7 @@ let filteredProducts = [];
 let listeners = [];
 
 export const exportFilteredProducts = (FilteredData) => {
-    filteredProducts = [...FilteredData]; // ✅ Копіюємо масив
+    filteredProducts = [...FilteredData];
     console.log("✅ Фільтровані продукти збережено:", filteredProducts);
     
     // Оповіщаємо всі підписані компоненти про зміну

@@ -144,6 +144,14 @@ exports.Prisma.UserScalarFieldEnum = {
   role: 'role'
 };
 
+exports.Prisma.OrderScalarFieldEnum = {
+  id: 'id',
+  userName: 'userName',
+  userEmail: 'userEmail',
+  orderCode: 'orderCode',
+  createdAt: 'createdAt'
+};
+
 exports.Prisma.ReviewsScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
@@ -204,6 +212,7 @@ exports.Prisma.ModelName = {
   Products: 'Products',
   Attributes: 'Attributes',
   User: 'User',
+  Order: 'Order',
   Reviews: 'Reviews'
 };
 

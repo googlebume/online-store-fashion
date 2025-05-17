@@ -11,18 +11,25 @@ const SearchInput = () => {
     const [allProducts, setAllProducts] = useState<ProductType[]>([]);
     const [value, setValue] = useState('');
 
-    useEffect(() => {
+    // useEffect(() => {
+    //     const prod: ProductType[] = getAllProducts()
+    //     setAllProducts(prod)
+    //     console.log('proddd:   ', prod)
+    // }, [])
+
+    setTimeout(() => {
         const prod: ProductType[] = getAllProducts()
         setAllProducts(prod)
         console.log('proddd:   ', prod)
-    }, [])
+    }, 1);
 
     const searchValue = value.toLowerCase().trim();
-        const { filtered, error, count } = useTextInputFilter<ProductType>({
-            data: allProducts,
-            field: 'name',
-            searchValue: searchValue
-        });
+    
+    const { filtered, error, count } = useTextInputFilter<ProductType>({
+        data: allProducts,
+        field: 'name',
+        searchValue: searchValue
+    });
 
     const onhandleFilterClick = () => {
 
