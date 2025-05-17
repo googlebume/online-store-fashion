@@ -124,18 +124,14 @@ const PopupBasket: React.FC<PopupBasketProps> = ({ setBasketOpenStatus, basketOp
     const [productsInCart, setProductsInCart] = useState(getCartItems());
 
     useEffect(() => {
-        // При відкритті модалки блокуємо скроллінг
         document.body.style.overflow = "hidden";
 
-        // Підписуємося на зміни в кошику
         const unsubscribe = subscribeToCartChanges(() => {
             setProductsInCart(getCartItems());
         });
 
-        // Одразу оновлюємо дані при монтуванні
         setProductsInCart(getCartItems());
 
-        // Розблокуємо скроллінг при закритті модалки
         return () => {
             document.body.style.overflow = "";
             unsubscribe();
