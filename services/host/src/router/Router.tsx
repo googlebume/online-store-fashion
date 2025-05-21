@@ -1,4 +1,4 @@
-import {createBrowserRouter} from "react-router-dom";
+import {createBrowserRouter, Navigate} from "react-router-dom";
 import {App} from "@/components/App/App";
 import {api} from '@packages/shared/src/routes/api'
 
@@ -18,6 +18,10 @@ export const router = createBrowserRouter([
         path: `/`,
         element: <App />,
         children: [
+            {
+                index: true,
+                element: <Navigate to="/fashion/shop" replace />
+            },
             ...productRoutes,
             ...shopRoutes,
             ...adminRoutes,
