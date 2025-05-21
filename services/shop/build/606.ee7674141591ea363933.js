@@ -1,2 +1,0 @@
-"use strict";(self.webpackChunkshop=self.webpackChunkshop||[]).push([[606],{109:(e,s,a)=>{a.r(s),a.d(s,{default:()=>u,router:()=>c});var n=a(85),h=a(469),p=a(897),t=a(390),l=a(760),o=a(594);const r=[{path:`${o.F}/shop`,element:(0,n.jsx)(p.q,{}),children:[{path:`${o.F}/shop/main`,element:(0,n.jsx)(t.Suspense,{fallback:"Loading...",children:(0,n.jsx)(l.D,{})})},{path:`${o.F}/shop/second`,element:(0,n.jsx)(t.Suspense,{fallback:"Loading..."})}]}],c=(0,h.createBrowserRouter)(r),u=r}}]);
-//# sourceMappingURL=606.ee7674141591ea363933.js.map
