@@ -8,51 +8,64 @@ const BannersCarousel = () => {
     const refFirstBanner = useRef();
 
     const [scrollWidth, setScrollWidth] = useState(0);
+    const [isArrowVisible, setIsArrowVisible] = useState(false);
 
     useEffect(() => {
         let intervalId;
-        if (refFirstBanner.current && refContainer.current) {
-            const bannerWidth = refFirstBanner.current.offsetWidth;
-            setScrollWidth(bannerWidth);
-            const totalWidth = bannerWidth * bannerStageItems.length;
+        
+        const timer = setTimeout(() => {
+            if (refFirstBanner.current && refContainer.current) {
+                const bannerWidth = refFirstBanner.current.offsetWidth;
+                setScrollWidth(bannerWidth);
+                const totalWidth = bannerWidth * bannerStageItems.length;
 
-            intervalId = setInterval(() => {
-                if (refContainer.current) {
-                    const currentScroll = refContainer.current.scrollLeft;
-                    const nextScroll = currentScroll + bannerWidth;
+                intervalId = setInterval(() => {
+                    if (refContainer.current) {
+                        const currentScroll = refContainer.current.scrollLeft;
+                        const nextScroll = currentScroll + bannerWidth;
 
-                    if (nextScroll >= totalWidth) {
-                        // Якщо доскролили до кінця, повертаємося на початок
-                        refContainer.current.scrollTo({
-                            left: 0,
-                            behavior: 'smooth',
-                        });
-                    } else {
-                        // Звичайний скрол
-                        refContainer.current.scrollBy({
-                            left: bannerWidth,
-                            behavior: 'smooth',
-                        });
+                        if (nextScroll >= totalWidth) {
+                            refContainer.current.scrollTo({
+                                left: 0,
+                                behavior: 'smooth',
+                            });
+                        } else {
+                            refContainer.current.scrollBy({
+                                left: bannerWidth,
+                                behavior: 'smooth',
+                            });
+                        }
                     }
-                }
-            }, 3000);
-        }
+                }, 4000);
+            }
+        }, 100);
 
-        // Очищення інтервалу при демонтажі
         return () => {
+            clearTimeout(timer);
             if (intervalId) clearInterval(intervalId);
         };
-    }, [refContainer.offsetWidth]);
+    }, []);
 
+    useEffect(() => {
+        const handleResize = () => {
+            if (refFirstBanner.current) {
+                setScrollWidth(refFirstBanner.current.offsetWidth);
+            }
+        };
 
-    const [isArrowVisible, setIsArrowVisible] = useState(false);
+        window.addEventListener('resize', handleResize);
+        return () => window.removeEventListener('resize', handleResize);
+    }, []);
 
     return (
-        <div className={cl.stage}>
+        <div 
+            className={cl.stage}
+            onMouseEnter={() => setIsArrowVisible(true)}
+            onMouseLeave={() => setIsArrowVisible(false)}
+        >
             <div
                 className={cl.stage__body}
                 ref={refContainer}
-                onMouseEnter={() => setIsArrowVisible(true)}
             >
                 {bannerStageItems.map((stageItem, index) => (
                     <div
@@ -64,16 +77,41 @@ const BannersCarousel = () => {
                             src={stageItem.bannerSrc}
                             alt={stageItem.title}
                             className={cl.stage__bannerImg}
+                            onLoad={() => {
+                                if (index === 0 && refFirstBanner.current) {
+                                    setScrollWidth(refFirstBanner.current.offsetWidth);
+                                }
+                            }}
                         />
                     </div>
                 ))}
             </div>
-            <TransitionArrow visible={isArrowVisible}
-                onClick={() => refContainer.current.scrollBy({ left: -scrollWidth, behavior: 'smooth'})}
-                rotate="180deg" left="12px" />
-            <TransitionArrow visible={isArrowVisible} 
-                onClick={() => refContainer.current.scrollBy({ left: scrollWidth, behavior: 'smooth'})}
-                rotate="0deg" left="calc(100% - 44px)" />
+            <TransitionArrow 
+                visible={isArrowVisible}
+                onClick={() => {
+                    if (refContainer.current && scrollWidth > 0) {
+                        refContainer.current.scrollBy({ 
+                            left: -scrollWidth, 
+                            behavior: 'smooth'
+                        });
+                    }
+                }}
+                rotate="180deg" 
+                left="12px" 
+            />
+            <TransitionArrow 
+                visible={isArrowVisible} 
+                onClick={() => {
+                    if (refContainer.current && scrollWidth > 0) {
+                        refContainer.current.scrollBy({ 
+                            left: scrollWidth, 
+                            behavior: 'smooth'
+                        });
+                    }
+                }}
+                rotate="0deg" 
+                left="calc(100% - 44px)" 
+            />
         </div>
     );
 };
