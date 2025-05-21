@@ -110,3 +110,40 @@ enum Size {
   XL
   XXL
 }
+
+model Basket {
+  id             Int    @id @default(autoincrement())
+  firstName      String
+  lastName       String
+  phone          Int
+  email          String
+  region         String
+  city           String
+  issuePoint     String
+  deliveryMethod DeliveryMethod
+  promoСode      String?
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+  
+  orders         OrderedProducts[]
+}
+
+model OrderedProducts {
+  id          Int      @id @default(autoincrement())
+  basketId    Int
+  productName String
+  quantity    Int
+  price       Float
+  totalPrice  Float
+  createdAt   DateTime @default(now())
+  
+  basket      Basket   @relation(fields: [basketId], references: [id], onDelete: Cascade)
+  
+  @@index([basketId])
+}
+
+enum DeliveryMethod {
+  Mail
+  Сourier
+  Pickup
+}
