@@ -117,7 +117,7 @@ import { getCartItems, subscribeToCartChanges } from '../state/basketState';
 
 interface PopupBasketProps {
     setBasketOpenStatus: React.Dispatch<React.SetStateAction<boolean>>;
-    basketOpenStatus: boolean; // Виправлено тип з React.Dispatch<> на boolean
+    basketOpenStatus: boolean;
 }
 
 const PopupBasket: React.FC<PopupBasketProps> = ({ setBasketOpenStatus, basketOpenStatus }) => {

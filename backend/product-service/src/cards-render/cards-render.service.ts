@@ -15,15 +15,15 @@ export class CardsRenderService {
             return [];
         }
 
-        const updatedProducts = response.map((product) => {
-            const foundProduct = productsDB.find(p => p.id === product.id);
-            return {
-                ...product,
-                image: foundProduct ? foundProduct.image : "https://surl.li/msfwst"
-            };
-        });
+        // const updatedProducts = response.map((product) => {
+        //     // const foundProduct = productsDB.find(p => p.id === product.id);
+        //     return {
+        //         ...product,
+        //         // image: foundProduct ? foundProduct.image : "https://surl.li/msfwst"
+        //     };
+        // });
 
         // console.log('Оновлені продукти:', updatedProducts);
-        return updatedProducts;
+        return response;
     }
 }
