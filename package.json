@@ -17,7 +17,7 @@
         "start:productService:prod": "cd backend/product-service && npm run start",
         "start:authService:prod": "cd backend/auth-service && npm run start",
         "start:backend:prod": "concurrently \"npm run start:database:prod\" \"npm run start:productService:prod\" \"npm run start:authService:prod\"",
-        "start": "concurrently \"npm run start:backend:prod\" \"npm run prisma:generate\" \"npm run start:frontend:prod\"",
+        "start": "concurrently \"npm run start:backend\" \"npm run prisma:generate\" \"npm run start:frontend\"",
 
         "firstly": "npm i && npm run prisma:generate && npm run start:dev && npm run prisma"
     },
