@@ -3,16 +3,13 @@ import {Link, Outlet} from "react-router-dom";
 import {deepMerge} from '@packages/shared/src/utils/deepMerge'
 
 import {UserCard} from "@packages/shared/src/components/UserCard";
+import AsideAdmin from '../AsideAdmin';
 
 export const App = () => {
     deepMerge()
     return (
-        <div>
-            <h1>ADMIN MODULE</h1>
-            <p>В розробці</p>
-            <Outlet/>
-            <UserCard username={'FROM ADMIN'} />
-
+        <div className="wrapper">
+            <AsideAdmin />
         </div>
     );
 };

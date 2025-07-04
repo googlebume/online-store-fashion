@@ -1,9 +1,11 @@
 import React from 'react';
+import AsideList from '@packages/shared/src/components/AsideList';
+import { administrationListItems } from '@/utils/constants/administrationList';
 
 const AsideAdmin = () => {
     return (
         <aside>
-            <AsideAdmin section={caralogListItems}/>
+            <AsideList section={administrationListItems}/>
         </aside>
     );
 };
