@@ -7,8 +7,7 @@ import tagIcon from '@packages/shared/src/assets/images/icons/tag.png'
 
 import { AsideSectionType } from '@packages/shared/src/utils/types/renderComponents.type'
 
-export const catalogListItems: AsideSectionType =
-{
+export const catalogListItems: AsideSectionType = {
     title: 'clothes',
     links: [
         { href: "#", text: "Розпродаж", icon: tagIcon },

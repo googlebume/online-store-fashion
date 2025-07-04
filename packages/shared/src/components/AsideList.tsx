@@ -6,11 +6,11 @@ type Props = {
     section: AsideSectionType;
 };
 
-const AsideList: React.FC<Props> = ({ section }) => {
+const AsideList: React.FC<Props> = ({ section = { title: '', links: [] } }) => {
     return (
         <div className={cl.catalog}>
             <ul className={cl.catalog__category}>
-                {section.links.map((item: AsideLinksType) => (
+                {section.links.map((item) => (
                     <li className={cl.category__item} key={item.href}>
                         <span className={cl.category__item_content}>
                             <img

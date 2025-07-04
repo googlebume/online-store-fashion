@@ -1,5 +1,3 @@
-
-
 export type AsideSectionType = {
     title: string;
     links: AsideLinksType[]

@@ -1,10 +1,27 @@
+// {
+//   "extends": "../tsconfig.base.json",
+//   "compilerOptions": {
+//     "outDir": "./dist/",
+//     "baseUrl": ".",
+//     "paths": {
+//       "@/*": ["./src/*"]
+//     }
+//   }
+// }
+
 {
   "extends": "../tsconfig.base.json",
   "compilerOptions": {
     "outDir": "./dist/",
+    "jsx": "react-jsx",
     "baseUrl": ".",
+    "allowJs": true,
+    "composite": false,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": ["./src/*"],
+      "@shop/*": ["../../services/shop/src/*"]
     }
   }
 }

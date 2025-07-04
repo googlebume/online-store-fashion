@@ -10,7 +10,7 @@ const ShopPlaceholder = () => {
         <div className={cl.placeholder}>
                 
             <div className={cl.placeholderOffers}>
-                <AsideList lis={catalogListItems}/>
+                <AsideList section={catalogListItems}/>
                 <BannersCarousel />
             </div>
 
