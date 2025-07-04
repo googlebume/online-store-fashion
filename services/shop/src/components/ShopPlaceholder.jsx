@@ -1,7 +1,8 @@
 import React from 'react';
 import cl from '@/utils/styles/modules/ShopPlaceholder.module.scss'
-import CatalogList from './CatalogList';
+import AsideList from '@packages/shared/src/components/AsideList';
 import BannersCarousel from './BannersCarousel';
+import { catalogListItems } from '@shop/utils/constants/catalogListItems';
 
 
 const ShopPlaceholder = () => {
@@ -9,7 +10,7 @@ const ShopPlaceholder = () => {
         <div className={cl.placeholder}>
                 
             <div className={cl.placeholderOffers}>
-                <CatalogList />
+                <AsideList lis={catalogListItems}/>
                 <BannersCarousel />
             </div>
 
