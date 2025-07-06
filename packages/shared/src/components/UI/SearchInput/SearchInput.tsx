@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import cl from './SearchInput.module.scss'
 import ButtonImage from '../ButtonImage/ButtonImage';
-import magnifyingGlass from '@packages/shared/src/assets/images/icons/magnifyingGlass.png'
+import magnifyingGlass from '@packages/shared/src/assets/images/icons/magnifyingGlassIcon.svg'
 
 import { exportFilteredProducts, getAllProducts } from '@shop/state/productsData';
 import { useTextInputFilter } from '../../../utils/hooks/useTextInputFilter';

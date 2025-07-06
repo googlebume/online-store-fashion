@@ -1,8 +1,8 @@
-import {ModuleOptions} from "webpack";
+import { ModuleOptions } from "webpack";
 import MiniCssExtractPlugin from "mini-css-extract-plugin";
 import ReactRefreshTypeScript from "react-refresh-typescript";
-import {BuildOptions} from "./types/types";
-import {buildBabelLoader} from "./babel/buildBabelLoader";
+import { BuildOptions } from "./types/types";
+import { buildBabelLoader } from "./babel/buildBabelLoader";
 
 export function buildLoaders(options: BuildOptions): ModuleOptions['rules'] {
     const isDev = options.mode === 'development';
@@ -12,8 +12,36 @@ export function buildLoaders(options: BuildOptions): ModuleOptions['rules'] {
         type: 'asset/resource',
     }
 
+    // const svgrLoader = {
+    //     test: /\.svg$/i,
+    //     use: [
+    //         {
+    //             loader: '@svgr/webpack',
+    //             options: {
+    //                 icon: true,
+    //                 svgoConfig: {
+    //                     plugins: [
+    //                         {
+    //                             name: 'convertColors',
+    //                             params: {
+    //                                 currentColor: true,
+    //                             }
+    //                         }
+    //                     ]
+    //                 }
+    //             }
+    //         }
+    //     ],
+    // }
+    // const svgLoader = {
+    //     test: /\.svg$/,
+    //     type: 'asset/resource',
+    //     issuer: { not: /\.[jt]sx?$/ }
+    //   }
+
     const svgrLoader = {
         test: /\.svg$/i,
+        resourceQuery: { not: [/url/] }, // виключаємо файли з ?url
         use: [
             {
                 loader: '@svgr/webpack',
@@ -34,6 +62,15 @@ export function buildLoaders(options: BuildOptions): ModuleOptions['rules'] {
         ],
     }
 
+    const svgLoader = {
+        test: /\.svg$/,
+        resourceQuery: /url/, // тільки для файлів з ?url
+        type: 'asset/resource',
+        generator: {
+            filename: 'images/[name].[hash][ext]'
+        }
+    }
+
     const cssLoaderWithModules = {
         loader: "css-loader",
         options: {
@@ -52,10 +89,10 @@ export function buildLoaders(options: BuildOptions): ModuleOptions['rules'] {
             cssLoaderWithModules,
             // Compiles Sass to CSS
             "sass-loader",
-            
+
         ],
     }
-    
+
 
 
 
@@ -85,6 +122,7 @@ export function buildLoaders(options: BuildOptions): ModuleOptions['rules'] {
         scssLoader,
         tsLoader,
         // babelLoader,
-        svgrLoader
+        // svgLoader,
+        svgrLoader,
     ]
 }

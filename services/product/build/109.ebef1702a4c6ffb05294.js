@@ -1,0 +1,2 @@
+"use strict";(self.webpackChunkproduct=self.webpackChunkproduct||[]).push([[109],{109:(e,r,t)=>{t.r(r),t.d(r,{default:()=>a,router:()=>p});var u=t(85),s=t(469),c=t(970);const o=[{path:`${t(594).F}/shop/product/:name`,element:(0,u.jsx)(c.q,{})}],p=(0,s.createBrowserRouter)(o),a=o}}]);
+//# sourceMappingURL=109.ebef1702a4c6ffb05294.js.map

@@ -1,6 +1,6 @@
 import React from 'react';
 import cl from './TransitionArrow.module.scss';
-import arrowInCircle from '@/assets/images/icons/arrowInCircle.png';
+import arrowInCircle from '@packages/shared/src/assets/images/icons/arrowInCircle.svg';
 
 const TransitionArrow = ({ rotate = '0deg', left = '0', visible, onClick }) => {
     return (

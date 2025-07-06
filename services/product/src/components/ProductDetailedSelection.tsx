@@ -1,5 +1,5 @@
 import React from 'react';
-import shoppingCardImage from '../../../../packages/shared/src/assets/images/icons/shoppingCardImage.png'
+import shoppingCardIcon from '../../../../packages/shared/src/assets/images/icons/shoppingCardIcon.svg'
 import cl from '@/utils/styles/modules/ProductDetailedSelection.module.scss'
 
 import Counter from '../../../../packages/shared/src/components/Counter'

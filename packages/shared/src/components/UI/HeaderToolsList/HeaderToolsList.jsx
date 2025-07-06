@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import cl from "./HeaderToolsList.module.scss";
-import shoppingCardImage from "@packages/shared/src/assets/images/icons/shoppingCardImage.png";
-import filterIcon from "@packages/shared/src/assets/images/icons/filterIcon.png";
+import shoppingCardIcon from "@packages/shared/src/assets/images/icons/shoppingCardIcon.svg";
+import filterIcon from "@packages/shared/src/assets/images/icons/filterIcon.svg";
 // import FiltersStickyBar from "../../PopupFilterBar";
 import PopupFilterBar from "@packages/shared/src/components/PopupFilterBar";
 import PopupBasket from '../../../../../../services/shop/src/components/PopupBasket'
@@ -19,7 +19,7 @@ const HeaderToolsList = ({ setIsOpen }) => {
         <>
         <div className={cl.header__tools}>
             <div className={cl.tools__btn} onClick={e => {setBasketOpenStatus(!basketOpenStatus)}}>
-                <img className={cl.tool__img} src={shoppingCardImage} alt="Кошик" />
+                <img className={cl.tool__img} src={shoppingCardIcon} alt="Кошик" />
                 <p>Кошик</p>
             </div>
             <div 
