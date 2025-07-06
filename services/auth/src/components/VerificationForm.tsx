@@ -116,7 +116,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import cl from '../utils/styles/modules/VerificationForm.module.scss';
 import { useFetch } from '@packages/shared/src/utils/hooks/useFetch';
-import ButtonRegister from './UI/ButtonRegister/ButtonRegister';
+import SubmitButton from '@packages/shared/src/components/UI/SubmitButton/SubmitButton';
 import { api } from '@packages/shared/src/routes/api';
 
 interface VerificationCodeInputProps {
@@ -266,7 +266,7 @@ const VerificationForm: React.FC<VerificationCodeInputProps> = ({
                     autoComplete="one-time-code"
                 />
             ))}
-            <ButtonRegister text={isLoading ? 'Зачекайте...' : 'Відправити'} />
+            <SubmitButton text={isLoading ? 'Зачекайте...' : 'Відправити'} />
             {isError && <div className={cl.error}>{errorMessage}</div>}
         </form>
     );

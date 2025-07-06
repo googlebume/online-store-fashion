@@ -1,58 +1,59 @@
 @use '@packages/shared/src/utils/styles/colorScheme' as colors;
 
-// .order {
+.orderButton {
+    width: 100%;
+    max-height: 40px;
+    position: relative;
+    padding: 10px 18px;
+    font-size: 16px;
+    font-weight: 600;
+    color: white;
+    background: linear-gradient(145deg, colors.$yellow, #ff9900);
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    transform: perspective(200px) translateZ(0);
+    box-shadow: 0 6px 0 colors.$golden, 0 5px 10px rgba(0, 0, 0, 0.2);
 
-//     .orderButton {
-//         width: 100%;
-//         position: relative;
-//         padding: 12px 18px;
-//         font-size: 16px;
-//         font-weight: 600;
-//         color: white;
-//         background: linear-gradient(145deg, colors.$yellow, #ff9900);
-//         border-radius: 12px;
-//         cursor: pointer;
-//         transition: all 0.2s ease;
-//         transform: perspective(200px) translateZ(0);
-//         box-shadow: 0 6px 0 #d48806, 0 10px 20px rgba(0, 0, 0, 0.2);
-
-//         &:hover {
-//             transform: perspective(200px) translateZ(1px);
-//             box-shadow: 0 8px 0 #d48806, 0 15px 30px rgba(0, 0, 0, 0.3);
-//         }
-
-//         &:active {
-//             transform: perspective(200px) translateZ(2px);
-//             box-shadow: 0 3px 0 #d48806, 0 5px 10px rgba(0, 0, 0, 0.2);
-//         }
-//     }
-
-
-// }
-
-
-    .orderButton {
-        width: 100%;
-        max-height: 40px;
-        position: relative;
-        padding: 10px 18px;
-        font-size: 16px;
-        font-weight: 600;
-        color: white;
-        background: linear-gradient(145deg, colors.$yellow, #ff9900);
-        border-radius: 12px;
-        cursor: pointer;
-        transition: all 0.2s ease;
-        transform: perspective(200px) translateZ(0);
-        box-shadow: 0 6px 0 colors.$golden, 0 5px 10px rgba(0, 0, 0, 0.2);
-
-        &:hover {
-            transform: perspective(200px) translateZ(1px);
-            box-shadow: 0 8px 0 colors.$golden, 0 7px 15px rgba(0, 0, 0, 0.3);
-        }
-
-        &:active {
-            transform: perspective(200px) translateZ(2px);
-            box-shadow: 0 3px 0 colors.$golden, 0 2px 5px rgba(0, 0, 0, 0.2);
-        }
+    &:hover {
+        transform: perspective(200px) translateZ(1px);
+        box-shadow: 0 8px 0 colors.$golden, 0 7px 15px rgba(0, 0, 0, 0.3);
     }
+
+    &:active {
+        transform: perspective(200px) translateZ(2px);
+        box-shadow: 0 3px 0 colors.$golden, 0 2px 5px rgba(0, 0, 0, 0.2);
+    }
+}
+
+
+
+
+.primaryButton {
+  background: linear-gradient(45deg, colors.$yellow, colors.$golden);
+  color: colors.$black;
+  border: none;
+  padding: 1rem 2rem;
+  width: 100%;
+  border-radius: 50px;
+  font-size: 1rem;
+  font-weight: 600;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  box-shadow: 0 4px 15px rgba(colors.$yellow, 0.3);
+  
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(colors.$yellow, 0.4);
+    background: colors.$yellow;
+  }
+  
+  &:active {
+    transform: translateY(0);
+  }
+}

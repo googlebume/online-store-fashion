@@ -1,16 +1,52 @@
+// SubmitButton.module.scss
 @use '@packages/shared/src/utils/styles/colorScheme' as colors;
 
 .submit__button {
-    padding: 8px 10px;
-    border-radius: 8px;
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: none;
+  border-radius: 0.5rem;
+  font-weight: bold;
+  background-color: colors.$yellow;
+  color: colors.$black;
+  transition: background-color 0.3s ease;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+
+  &:hover {
+    background-color: color-mix(in srgb, colors.$yellow 90%, transparent 10%);
+  }
+
+  // Secondary variant
+  &_secondary {
+    background: transparent;
+    color: colors.$grayText;
+    border: 2px solid colors.$ashDarkened;
+    padding: 1rem 2rem;
+    border-radius: 50px;
+    font-size: 1rem;
     font-weight: 500;
-    background-color: colors.$golden;
-    color: colors.$white;
-    transition: all 50ms ease;
 
     &:hover {
-        background-color: colors.$yellow;
-        font-weight: 600;
-        transition: all 100ms ease;
+      color: colors.$whiteText;
+      border-color: colors.$yellow;
+      background: rgba(colors.$yellow, 0.1);
+      transform: translateY(-1px);
+      font-weight: 500; // Override primary button font-weight change
     }
+
+    &:active {
+      transform: translateY(0);
+    }
+  }
+
+  // Icon styles
+  &_icon {
+    width: 1rem;
+    height: 1rem;
+    flex-shrink: 0;
+  }
 }

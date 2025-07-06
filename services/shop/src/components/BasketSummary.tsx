@@ -50,6 +50,7 @@ import React, { useEffect, useState } from 'react';
 import cl from '@shop/utils/styles/modules/BasketSummary.module.scss';
 import ButtonOrder from '@packages/shared/src/components/UI/ButtonOrder/ButtonOrder';
 import { getTotalPrice, subscribeToCartChanges } from '@shop/state/basketState';
+import SubmitButton from '@packages/shared/src/components/UI/SubmitButton/SubmitButton';
 
 const BasketSummary: React.FC = () => {
     const [finalPrice, setFinalPrice] = useState(getTotalPrice());
@@ -77,7 +78,7 @@ const BasketSummary: React.FC = () => {
                 </div>
             </div>
             <div>
-                <ButtonOrder text='Замовити' />
+                <SubmitButton text='Замовити'/>
             </div>
         </div>
     );

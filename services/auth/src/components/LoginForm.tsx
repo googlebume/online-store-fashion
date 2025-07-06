@@ -114,7 +114,7 @@ import SignWithGoogle from './UI/SignWithGoogle/SignWithGoogle';
 import Devider from './UI/Devider/Devider';
 import Terms from './UI/Terms/Terms';
 import LoginLink from './UI/LoginLink/LoginLink';
-import ButtonRegister from './UI/ButtonRegister/ButtonRegister';
+import SubmitButton from '@packages/shared/src/components/UI/SubmitButton/SubmitButton';
 import { useFetch } from '@packages/shared/src/utils/hooks/useFetch';
 
 type UserLoginType = {
@@ -229,7 +229,7 @@ const LoginForm = () => {
           onInput={(val) => handleInputChange('password', val)}
         />
         <Terms />
-        <ButtonRegister text={isLoading ? 'Зачекайте...' : 'Увійти'} />
+        <SubmitButton text={isLoading ? 'Зачекайте...' : 'Увійти'} />
         {isError && <ErrorMassage massage={errorMessage} />}
       </div>
       <LoginLink type="login" onClick={() => navigate(`/${api}/register`)} />

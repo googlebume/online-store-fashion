@@ -159,7 +159,7 @@ import SignWithGoogle from './UI/SignWithGoogle/SignWithGoogle';
 import Devider from './UI/Devider/Devider';
 import Terms from './UI/Terms/Terms';
 import LoginLink from './UI/LoginLink/LoginLink';
-import ButtonRegister from './UI/ButtonRegister/ButtonRegister';
+import SubmitButton from '@packages/shared/src/components/UI/SubmitButton/SubmitButton';
 
 export type UserAuthType = {
   name?: string;
@@ -272,7 +272,7 @@ const RegisterForm = () => {
           onInput={(val) => handleInputChange('password', val)}
         />
         <Terms />
-        <ButtonRegister text={isLoading ? 'Зачекайте...' : 'Зареєструватися'} />
+        <SubmitButton text={isLoading ? 'Зачекайте...' : 'Зареєструватися'} />
         {isError && <ErrorMassage massage={errorMessage} />}
       </div>
       <LoginLink type="register" onClick={() => navigate(`/${api}/login`)} />
