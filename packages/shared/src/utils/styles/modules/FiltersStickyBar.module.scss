@@ -1,5 +1,7 @@
+@use '@packages/shared/src/utils/styles/consts' as consts;
+
 .aside {
-    max-width: 292px;
+    max-width: consts.$asideWidth;
     max-height: max-content;
     position: sticky;
     top: 75px;

@@ -1,8 +1,15 @@
 @use '@packages/shared/src/utils/styles/colorScheme' as colors;
+@use '@packages/shared/src/utils/styles/consts' as consts;
 body {
     position: relative;
     .root{position: relative;}
     .stopScroll {
         overflow: hidden;
+    }
+    .wrapper {
+        padding: 0 consts.$clientPadding;
+        max-width: consts.$clientWidth;
+        width: 100%;
+        margin: 0 auto;
     }
 }
