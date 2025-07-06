@@ -51,7 +51,7 @@ const PriceWidget: React.FC<PriceWidgetProps> = ({ setSelectedPriceRange }) => {
                     onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleMaxPrice(Number(e.target.value))}
                     value={maxPrice}
                 />
-                <SubmitButton text={'Ок'} onClick={handlePriceChoose} />
+                <SubmitButton text={'Ок'} variant={'secondary'} onClick={handlePriceChoose} />
             </div>
             <DoubleRangeInput
                 minInRange={100}
