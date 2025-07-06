@@ -1,0 +1,8 @@
+@use '@packages/shared/src/utils/styles/consts' as consts;
+
+.wrapper {
+    padding: 0 consts.$clientPadding;
+    max-width: consts.$clientWidth;
+    width: 100%;
+    margin: 0 auto;
+}
