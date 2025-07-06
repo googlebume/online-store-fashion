@@ -10,16 +10,6 @@ export const App = () => {
 
     return (
         <div>
-
-            {/* <Routes>
-                <Route path='/shop' element={<Layout />}>
-
-
-                    <Route path='*' element={<ErrorNotFound />} />
-                </Route>
-            </Routes>
-            <Outlet /> */}
-
             <Layout />
         </div>
     );

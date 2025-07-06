@@ -1,12 +1,8 @@
-.button {
-    background: red;
-    padding: 20px;
-}
+@use '@packages/shared/src/utils/styles/consts' as consts;
 
-.value {
-    font-size: 100px;
-}
-
-.icon {
-    color: green;
+.wrapper {
+    padding: 0 consts.$clientPadding;
+    max-width: consts.$clientWidth;
+    width: 100%;
+    margin: 0 auto;
 }

@@ -4,18 +4,22 @@ import { Outlet } from 'react-router-dom';
 import MainHeader from '@packages/shared/src/components/MainHeader';
 import MainFooter from './MainFooter';
 import SearchHeader from './SearchHeader';
+// import cl from '../utils/styles/global.module.scss'
 
-const Layout = ( ) => {
-    
+const Layout = () => {
+
     return (
         <>
-        <MainHeader />
-        {/* <SearchHeader/> */}
+            <MainHeader />
+            {/* <SearchHeader/> */}
 
-        <main>
-            <Outlet />
-        </main>
-        <MainFooter />
+            <main>
+                <div className="wrapper">
+                    <Outlet />
+                </div>
+
+            </main>
+            <MainFooter />
         </>
     );
 };
