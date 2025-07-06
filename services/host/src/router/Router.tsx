@@ -10,6 +10,7 @@ import shopRoutes from 'shop/Router';
 import adminRoutes from 'admin/Router';
 // @ts-ignore
 import authRoutes from 'auth/Router'
+import ErrorNotFound from "@packages/shared/src/components/ErrorNotFound";
 
 
 
@@ -21,6 +22,10 @@ export const router = createBrowserRouter([
             {
                 index: true,
                 element: <Navigate to="/fashion/shop" replace />
+            },
+            {
+                path: `*`,
+                element: <ErrorNotFound/>
             },
             ...productRoutes,
             ...shopRoutes,
