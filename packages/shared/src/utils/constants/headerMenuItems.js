@@ -1,28 +1,29 @@
-import tagIcon from '@packages/shared/src/assets/images/icons/tagIcon.svg?url';
-import mapPoint from '@packages/shared/src/assets/images/icons/mapPoint.svg?url';
-import aboutIcon from '@packages/shared/src/assets/images/icons/fileDocument.svg?url';
-import contactIcon from '@packages/shared/src/assets/images/icons/smartphoneIcon.svg?url';
+import TagIcon from '@packages/shared/src/assets/images/icons/tagIcon.svg';
+import MapPoint from '@packages/shared/src/assets/images/icons/mapPoint.svg';
+import AboutIcon from '@packages/shared/src/assets/images/icons/fileDocument.svg';
+import ContactIcon from '@packages/shared/src/assets/images/icons/smartphoneIcon.svg';
+import variables from '@packages/shared/src/utils/styles/colorScheme'
 
 export const headerMenuItems = [
   {
     title: "Знижки",
     link: "/sale",
-    icon: tagIcon,
+    icon: <TagIcon height='24px' width='24px' color={`${variables.yellow}`} fill={`${variables.yellow}`}/>,
   },
   {
     title: "Магазини",
     link: "http://surl.li/tkidod",
-    icon: mapPoint,
+    icon: <MapPoint height='24px' width='24px' color={`${variables.yellow}`}/>,
   },
   {
     title: "Покупцям",
     link: "/buyers",
-    icon: aboutIcon,
+    icon: <AboutIcon height='24px' width='24px' color={`${variables.yellow}`}/>,
   },
   {
     title: "Зв'язок",
     link: "/contact",
-    icon: contactIcon,
+    icon: <ContactIcon height='24px' width='24px' color={`${variables.yellow}`}/>,
   },
 ];
 
