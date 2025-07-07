@@ -1,6 +1,7 @@
 import React from 'react';
-import shoppingCardIcon from '../../../../packages/shared/src/assets/images/icons/shoppingCardIcon.svg'
+import ShoppingCardIcon from '../../../../packages/shared/src/assets/images/icons/shoppingCardIcon.svg'
 import cl from '@/utils/styles/modules/ProductDetailedSelection.module.scss'
+import variables  from '@packages/shared/src/utils/styles/colorScheme'
 
 import Counter from '../../../../packages/shared/src/components/Counter'
 // import Counter from '@packages/shared/src/components/Counter'
@@ -13,7 +14,7 @@ const ProductDetailedSelection = () => {
             </div>
             <div className={cl.actionButtons}>
                 <button className={cl.addToCartButton}>
-                    <img src={shoppingCardImage} alt="shoppingCardImage" />
+                    <ShoppingCardIcon height='28px' width='28px' color={`${variables.yellow}`} fill={`${variables.yellow}`}/>
                     Додати у кошик
                 </button>
                 <button className={cl.wishlistButton}>
