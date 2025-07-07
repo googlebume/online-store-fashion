@@ -21,7 +21,12 @@ const HeaderMenuList = () => {
 
                         <li key={index} className={cl.menu__item}>
 
-                            <img className={cl.menu__icon} src={item.icon} alt={`${item.title} icon`} />
+                            {
+                                item.icon && typeof item.icon === 'string'
+                                ? <img className={cl.menu__icon} src={item.icon} alt={`${item.title} icon`} />
+                                : item.icon && React.isValidElement(item.icon) ? item.icon
+                                : null
+                            }
 
                             <Link className={cl.menu__link} to={item.link}>
                                 {item.title}

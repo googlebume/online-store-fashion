@@ -12,6 +12,7 @@
 
         "prisma": "cd backend/database && npx prisma studio",
 
+        "start:prod": "concurrently -n admin,host,shop,header,productPage,auth \"npm run build:prod --workspace=services/admin\" \"npm run build:prod --workspace=services/host\" \"npm run build:prod --workspace=services/shop\" \"npm run build:prod --workspace=services/product\" \"npm run build:prod --workspace=services/auth\"",
         "start:frontend:prod": "concurrently -n admin,host,shop,header,productPage,auth \"npm run build:prod --workspace=services/admin\" \"npm run build:prod --workspace=services/host\" \"npm run build:prod --workspace=services/shop\" \"npm run build:prod --workspace=services/product\" \"npm run build:prod --workspace=services/auth\"",
         "start:database:prod": "cd backend/database && npm run start",
         "start:productService:prod": "cd backend/product-service && npm run start",

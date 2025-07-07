@@ -1,5 +1,5 @@
 import React from 'react';
-import cl from './PriceInput.module..scss'
+import cl from './PriceInput.module.scss'
 
 const PriceInput = ({placeholder, value, onChange}) => {
     return (
