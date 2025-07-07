@@ -11,3 +11,18 @@ $whiteText: white;
 $grayText: #ccc;
 $ashText: #acacac;
 $ashDarkenedText: #788387;
+
+:export {
+  white: $white;
+  black: $black;
+  yellow: $yellow;
+  golden: $golden;
+  gray: $gray;
+  ash: $ash;
+  ashDarkened: $ashDarkened;
+  milkish: $milkish;
+  whiteText: $whiteText;
+  grayText: $grayText;
+  ashText: $ashText;
+  ashDarkenedText: $ashDarkenedText;
+}

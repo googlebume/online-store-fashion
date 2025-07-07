@@ -7,6 +7,7 @@ import ShoppingCardIcon from '@packages/shared/src/assets/images/icons/shoppingC
 import DescriptionPrice from '../../../../services/shop/src/components/UI/DescriptionPrice/DescriptionPrice';
 import DisplayDiscount from './UI/DisplayDiscount/DisplayDiscount';
 import { addToCart } from '../../../../services/shop/src/state/basketState';
+import variables  from '@packages/shared/src/utils/styles/colorScheme'
 
 interface ProductCardProps {
     name: string;
@@ -61,10 +62,9 @@ const ProductCard: React.FC<ProductCardProps> = ({ ...props }) => {
                     <div className={cl.description__main}>
                         <DescriptionPrice discountT={props.discount} priceT={props.price} />
                         <ButtonImage
-                            img={shoppingCardIcon}
+                            img={<ShoppingCardIcon height='28px' width='28px' color={`${variables.yellow}`} fill={`${variables.yellow}`}/>}
                             onClick={handleCartClick}
                         />
-                        <ShoppingCardIcon fill='red' stroke='#000'/>
                     </div>
                     <div className={cl.description__details}>
                         <p>{props.name}</p>
