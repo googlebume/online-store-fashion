@@ -1,7 +1,7 @@
-import twitterNetwork from '@packages/shared/src/assets/images/icons/twitterNetwork.svg';
-import facebookNetwork from '@packages/shared/src/assets/images/icons/facebookNetwork.svg';
-import instagramNetwork from '@packages/shared/src/assets/images/icons/instagramNetwork.svg';
-import linkedinNetwork from '@packages/shared/src/assets/images/icons/linkedinNetwork.svg';
+import twitterNetwork from '@packages/shared/src/assets/images/icons/twitterNetwork.svg?url';
+import facebookNetwork from '@packages/shared/src/assets/images/icons/facebookNetwork.svg?url';
+import instagramNetwork from '@packages/shared/src/assets/images/icons/instagramNetwork.svg?url';
+import linkedinNetwork from '@packages/shared/src/assets/images/icons/linkedinNetwork.svg?url';
 
 export const sotialNetworksItems = [
   {

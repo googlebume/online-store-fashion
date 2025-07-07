@@ -2,7 +2,8 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import cl from '@packages/shared/src/utils/styles/modules/ProductCard.module.scss';
 import ButtonImage from './UI/ButtonImage/ButtonImage';
-import ShoppingCardIcon from '@packages/shared/src/assets/images/icons/shoppingCardIcon.svg?url';
+import shoppingCardIcon from '@packages/shared/src/assets/images/icons/shoppingCardIcon.svg?url';
+import ShoppingCardIcon from '@packages/shared/src/assets/images/icons/shoppingCardIcon.svg?url?';
 import DescriptionPrice from '../../../../services/shop/src/components/UI/DescriptionPrice/DescriptionPrice';
 import DisplayDiscount from './UI/DisplayDiscount/DisplayDiscount';
 import { addToCart } from '../../../../services/shop/src/state/basketState';
@@ -60,7 +61,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ ...props }) => {
                     <div className={cl.description__main}>
                         <DescriptionPrice discountT={props.discount} priceT={props.price} />
                         <ButtonImage
-                            img={ShoppingCardIcon}
+                            img={shoppingCardIcon}
                             onClick={handleCartClick}
                         />
                         {/* <ShoppingCardIcon fill='red' stroke='#000'/> */}

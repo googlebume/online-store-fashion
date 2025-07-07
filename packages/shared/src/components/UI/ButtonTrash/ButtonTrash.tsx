@@ -1,6 +1,6 @@
 import React from 'react';
 import cl from './ButtonTrash.module.scss'
-import trashIcon from '@packages/shared/src/assets/images/icons/trashIcon.svg'
+import trashIcon from '@packages/shared/src/assets/images/icons/trashIcon.svg?url'
 import { randomInt } from 'crypto';
 
 interface ButtonTrashI {

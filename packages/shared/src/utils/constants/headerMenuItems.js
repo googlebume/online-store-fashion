@@ -1,7 +1,7 @@
-import tagIcon from '@packages/shared/src/assets/images/icons/tagIcon.svg';
-import mapPoint from '@packages/shared/src/assets/images/icons/mapPoint.svg';
-import aboutIcon from '@packages/shared/src/assets/images/icons/fileDocument.svg';
-import contactIcon from '@packages/shared/src/assets/images/icons/smartphoneIcon.svg';
+import tagIcon from '@packages/shared/src/assets/images/icons/tagIcon.svg?url';
+import mapPoint from '@packages/shared/src/assets/images/icons/mapPoint.svg?url';
+import aboutIcon from '@packages/shared/src/assets/images/icons/fileDocument.svg?url';
+import contactIcon from '@packages/shared/src/assets/images/icons/smartphoneIcon.svg?url';
 
 export const headerMenuItems = [
   {

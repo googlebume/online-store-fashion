@@ -1,4 +1,3 @@
-// SubmitButton.tsx
 import React from 'react';
 import cl from './SubmitButton.module.scss';
 

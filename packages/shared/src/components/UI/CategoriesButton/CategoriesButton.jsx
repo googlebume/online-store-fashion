@@ -1,6 +1,6 @@
 import React from 'react';
 import cl from './CategoriesButton.module.scss';
-import squaresIcon from '@packages/shared/src/assets/images/icons/squaresIcon.svg'
+import squaresIcon from '@packages/shared/src/assets/images/icons/squaresIcon.svg?url'
 
 const CategoriesButton = () => {
     return (

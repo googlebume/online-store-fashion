@@ -3,7 +3,7 @@ import React from 'react';
 import cl from '@packages/shared/src/utils/styles/modules/ErrorNotFound.module.scss';
 import SubmitButton from './UI/SubmitButton/SubmitButton';
 
-import arrow from '../assets/images/icons/arrowInCircle.svg';
+import arrow from '../assets/images/icons/arrowInCircle.svg?url';
 
 const ErrorNotFound = () => {
     const handleGoHome = () => {
