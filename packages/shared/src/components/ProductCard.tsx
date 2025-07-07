@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import cl from '@packages/shared/src/utils/styles/modules/ProductCard.module.scss';
 import ButtonImage from './UI/ButtonImage/ButtonImage';
 import shoppingCardIcon from '@packages/shared/src/assets/images/icons/shoppingCardIcon.svg?url';
-import ShoppingCardIcon from '@packages/shared/src/assets/images/icons/shoppingCardIcon.svg?url?';
+import ShoppingCardIcon from '@packages/shared/src/assets/images/icons/shoppingCardIcon.svg';
 import DescriptionPrice from '../../../../services/shop/src/components/UI/DescriptionPrice/DescriptionPrice';
 import DisplayDiscount from './UI/DisplayDiscount/DisplayDiscount';
 import { addToCart } from '../../../../services/shop/src/state/basketState';
@@ -64,7 +64,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ ...props }) => {
                             img={shoppingCardIcon}
                             onClick={handleCartClick}
                         />
-                        {/* <ShoppingCardIcon fill='red' stroke='#000'/> */}
+                        <ShoppingCardIcon fill='red' stroke='#000'/>
                     </div>
                     <div className={cl.description__details}>
                         <p>{props.name}</p>
