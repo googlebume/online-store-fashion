@@ -1,0 +1,2 @@
+"use strict";(self.webpackChunkproduct=self.webpackChunkproduct||[]).push([[994],{873:(e,r,o)=>{var t=o(490);r.H=t.createRoot,t.hydrateRoot},994:(e,r,o)=>{var t=o(85),u=o(873),n=o(469),c=o(675);const s=[{path:`${o(872).F}/shop/product/:name`,element:(0,t.jsx)(c.q,{})}],a=(0,n.createBrowserRouter)(s),d=document.getElementById("root");if(!d)throw new Error("root not found");(0,u.H)(d).render((0,t.jsx)(n.RouterProvider,{router:a}))}}]);
+//# sourceMappingURL=994.0f30fc399c25636e3320.js.map

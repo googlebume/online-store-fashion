@@ -1,0 +1,2 @@
+"use strict";(self.webpackChunkadmin=self.webpackChunkadmin||[]).push([[254],{254:(e,s,a)=>{a.r(s),a.d(s,{default:()=>c});var n=a(85);a(390);const c=()=>(0,n.jsx)("h1",{children:"ABOUT"})}}]);
+//# sourceMappingURL=254.4945eaf69b17d890b7c5.js.map

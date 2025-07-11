@@ -1,7 +1,7 @@
 import React from 'react';
 import cl from './SearchInput.module.scss';
 import ButtonImage from '../ButtonImage/ButtonImage';
-import magnifyingGlass from '@packages/shared/src/assets/images/icons/magnifyingGlassIcon.svg?url'
+import magnifyingGlass from '@packages/shared/src/assets/images/icons/magnifyingGlassIcon.svg?url';
 
 import { useProductFilter, type SearchInputType } from '../../../utils/hooks/useFilter';
 

@@ -1,0 +1,2 @@
+"use strict";(self.webpackChunkshop=self.webpackChunkshop||[]).push([[264],{264:(s,e,n)=>{n.r(e),n.d(e,{default:()=>a});var o=n(85),c=(n(390),n(872));const h={main:`${c.F}/shop/main`,second:`${c.F}/shop/second`};var d=n(469);const a=()=>(0,o.jsxs)("h1",{children:["SHOP",(0,o.jsx)("div",{children:(0,o.jsx)(d.Link,{to:h.second,children:"go to second page"})})]})}}]);
+//# sourceMappingURL=264.772fd84581471e19673b.js.map
