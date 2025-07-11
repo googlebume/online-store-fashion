@@ -1,62 +1,37 @@
-import React, { useEffect, useState } from 'react';
-import cl from './SearchInput.module.scss'
+import React from 'react';
+import cl from './SearchInput.module.scss';
 import ButtonImage from '../ButtonImage/ButtonImage';
-import magnifyingGlass from '@packages/shared/src/assets/images/icons/magnifyingGlass.png'
+import magnifyingGlass from '@packages/shared/src/assets/images/icons/magnifyingGlass.png';
 
-import { exportFilteredProducts, getAllProducts } from '@shop/state/productsData';
-import { useTextInputFilter } from '../../../utils/hooks/useTextInputFilter';
-import { ProductType } from '@/utils/types/prosuctData.type';
+import { useProductFilter, type SearchInputType } from '../../../utils/hooks/useFilter';
 
-const SearchInput = () => {
-    const [allProducts, setAllProducts] = useState<ProductType[]>([]);
-    const [value, setValue] = useState('');
-
-    // useEffect(() => {
-    //     const prod: ProductType[] = getAllProducts()
-    //     setAllProducts(prod)
-    //     console.log('proddd:   ', prod)
-    // }, [])
-
-    setTimeout(() => {
-        const prod: ProductType[] = getAllProducts()
-        setAllProducts(prod)
-        console.log('proddd:   ', prod)
-    }, 1);
-
-    const searchValue = value.toLowerCase().trim();
-    
-    const { filtered, error, count } = useTextInputFilter<ProductType>({
-        data: allProducts,
-        field: 'name',
-        searchValue: searchValue
-    });
-
-    const onhandleFilterClick = () => {
-
-
-        exportFilteredProducts(filtered)
-
-    };
-
+const SearchInput = <T extends Record<string, any>>({
+    allData,
+    field
+}: SearchInputType<T>) => {
+    const {
+        filtered,
+        searchValue,
+        setSearchValue,
+        onFilterClick
+    } = useProductFilter<T>(allData, field);
 
     return (
         <div className={cl.header__search}>
             <input
                 type='text'
-                max={20}
-                value={value}
+                maxLength={20}
+                value={String(searchValue)}
                 className={cl.search__input}
-                onChange={e => setValue(e.target.value)}
-            >
-            </input>
+                onChange={e => setSearchValue(e.target.value)}
+            />
             <div className={cl.button}>
                 <ButtonImage
                     img={magnifyingGlass}
                     width={24}
-                    onClick={onhandleFilterClick}
+                    onClick={onFilterClick}
                 />
             </div>
-
         </div>
     );
 };

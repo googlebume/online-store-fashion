@@ -57,18 +57,18 @@ export const useTextInputFilter = <T extends Record<string, any>>({
 
         const fieldValueStr = String(fieldValue).toLowerCase();
 
-        // 1. Точний збіг
+        // точний збіг
         if (fieldValueStr === normalizedSearchValue) {
           return true;
         }
 
-        // 2. Перевірка, чи містить значення поля всі пошукові слова
+        // перевірка, чи містить значення поля всі пошукові слова
         const containsAllWords = searchWords.every(word => fieldValueStr.includes(word));
 
-        // 3. Перевірка, чи містить значення поля всі символи пошуку
+        // перевірка, чи містить значення поля всі символи пошуку
         const containsAllChars = searchChars.every(char => fieldValueStr.includes(char));
 
-        // Елемент проходить фільтр, якщо виконується хоча б одна з умов
+        // елемент проходить фільтр, якщо виконується хоча б одна з умов
         return containsAllWords || containsAllChars;
       });
 
