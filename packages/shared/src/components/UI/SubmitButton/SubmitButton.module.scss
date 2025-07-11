@@ -33,18 +33,16 @@
       border-color: colors.$yellow;
       background: rgba(colors.$yellow, 0.1);
       transform: translateY(-1px);
-      font-weight: 500; // Override primary button font-weight change
+      font-weight: 500;
     }
 
     &:active {
       transform: translateY(0);
     }
   }
-
-  // Icon styles
   &_icon {
-    width: 1rem;
-    height: 1rem;
+    width: 1.5rem;
+    height: 1.5rem;
     flex-shrink: 0;
   }
 }
