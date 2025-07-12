@@ -1,5 +1,5 @@
 export type UserDataType = {
-
+    
 }
 
 export type UserViewDataType = {
