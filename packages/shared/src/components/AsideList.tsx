@@ -1,5 +1,5 @@
 import React from 'react';
-import cl from '../utils/styles/modules/CatalogList.module.scss';
+import cl from '../utils/styles/modules/AsideList.module.scss';
 import { AsideSectionType, AsideLinksType } from '@/utils/types/renderComponents.type';
 
 type Props = {
@@ -13,11 +13,11 @@ const AsideList: React.FC<Props> = ({ section = { title: '', links: [] } }) => {
                 {section.links.map((item) => (
                     <li className={cl.category__item} key={item.href}>
                         <span className={cl.category__item_content}>
-                            <img
-                                className={cl.category__item_img}
-                                src={item.icon}
-                                alt={item.text}
-                            />
+                            {item.icon && typeof item.icon === 'string'
+                                ? <img className={cl.category__item_img} src={item.icon} alt={`${item.text} icon`} />
+                                : item.icon && React.isValidElement(item.icon) ? item.icon
+                                : null
+                                }
                             {item.text}
                         </span>
                     </li>
