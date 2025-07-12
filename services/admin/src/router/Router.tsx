@@ -2,7 +2,10 @@ import { createBrowserRouter, Navigate } from "react-router-dom";
 import { App } from "@/components/App/App";
 import { Suspense } from "react";
 import { api } from '@packages/shared/src/routes/api'
-import { LazyAdminShopUsers } from "@/pages/AdminShopUsers/AdminShopUsers.lazy";
+import { LazyAdminProdUsers } from "@/pages/AdminShopUsers/AdminProdUsers.lazy";
+import { LazyAdminAnalytics } from "@/pages/AdminAnalytics/AdminAnalytics.lazy";
+
+import {adminRoutes} from '@packages/shared/src/routes/admin'
 
 const routes = [
     {
@@ -15,13 +18,18 @@ const routes = [
         children: [
             {
                 index: true,
-                path: `users`,
-                element: <Suspense fallback={'Loading...'}><LazyAdminShopUsers /></Suspense>
+                path: `${adminRoutes.users}`,
+                element: <Suspense fallback={'Loading...'}><LazyAdminProdUsers /></Suspense>
             },
             {
                 index: true,
-                path: `products`,
-                element: <Suspense fallback={'Loading...'}><LazyAdminShopUsers /></Suspense>
+                path: `${adminRoutes.products}`,
+                element: <Suspense fallback={'Loading...'}><LazyAdminProdUsers /></Suspense>
+            },
+            {
+                index: true,
+                path: `${adminRoutes.analytics}`,
+                element: <Suspense fallback={'Loading...'}><LazyAdminAnalytics /></Suspense>
             },
         ]
     },

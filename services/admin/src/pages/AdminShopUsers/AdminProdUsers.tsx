@@ -4,12 +4,12 @@ import type { UserDataType } from '@packages/shared/src/utils/types/userData.typ
 import { useFetch } from '@packages/shared/src/utils/hooks/useFetch';
 import { useLocation } from 'react-router-dom';
 
-const AdminShopUsers = () => {
+const LazyAdminProdUsers = () => {
     const location = useLocation();
 
-    
+
     const { response, error, isLoading, fetchData } = useFetch<null, ProductType[] | UserDataType>();
-    
+
 
     useEffect(() => {
         fetchData({
@@ -22,9 +22,9 @@ const AdminShopUsers = () => {
 
     return (
         <div>
-
+            LazyAdminProdUsers
         </div>
     );
 };
 
-export default AdminShopUsers;
+export default LazyAdminProdUsers;

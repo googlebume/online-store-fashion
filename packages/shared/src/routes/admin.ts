@@ -1,4 +1,6 @@
 import {api} from './api'
 export const adminRoutes = {
-    about: `${api}/admin/about`,
+    users: `users`,
+    products: `products`,
+    analytics: `analytics`,
 }
