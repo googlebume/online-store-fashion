@@ -10,6 +10,9 @@ export const App = () => {
     return (
         <div className={cl.wrapper}>
             <AsideAdmin />
+            <div className={cl.content}>
+                    <Outlet />
+            </div>
         </div>
     );
 };

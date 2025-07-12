@@ -7,4 +7,9 @@
     margin: 0 auto;
     display: flex;
     min-height: 60vh;
+
+    .content {
+        flex: 1;
+        max-width: calc(consts.$clientWidth - consts.$asideWidth + 8px);
+    }
 }

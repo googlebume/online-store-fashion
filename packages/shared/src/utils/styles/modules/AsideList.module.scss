@@ -36,6 +36,11 @@
             transition: all 0.2s ease;
         }
 
+        a {
+            text-decoration: none;
+            color: colors.$black;
+        }
+
         .category__item_content {
             display: flex;
             align-items: center;

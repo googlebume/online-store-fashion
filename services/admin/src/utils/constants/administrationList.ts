@@ -7,8 +7,8 @@ import userIcon from '../../../../../packages/shared/src/assets/images/icons/use
 export const administrationListItems: AsideSectionType = {
     title: 'administration',
     links: [
-        { href: "#", text: "Користувачі", icon: userIcon },
-        { href: "#", text: "Товари", icon: tag },
-        { href: "#", text: "Аналітика", icon: analyticsIcon },
+        { href: "users", text: "Користувачі", icon: userIcon },
+        { href: "products", text: "Товари", icon: tag },
+        { href: "anal", text: "Аналітика", icon: analyticsIcon },
     ]
 }
