@@ -92,7 +92,15 @@ export class UserRepository {
   }
 
   async findAll() {
-    return this.prisma.user.findMany();
+    return this.prisma.user.findMany({
+      select:{
+        id: true,
+        name: true,
+        email: true,
+        // createdAt: true,
+        role: true,
+      }
+    });
   }
 
   async addNewUser(data: { name: string; email: string; password: string }) {
@@ -103,7 +111,7 @@ export class UserRepository {
       if (err.code === 'P2002' && err.meta?.target?.includes('email')) {
         return false;
       }
-      console.error('Error in addNewUser:', err); // Логуємо помилку
+      console.error('Error in addNewUser:', err);
       throw new Error(`Помилка створення користувача: ${err.message}`);
     }
   }

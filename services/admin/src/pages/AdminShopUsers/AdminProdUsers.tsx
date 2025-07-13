@@ -3,6 +3,7 @@ import type { ProductType } from "@packages/shared/src/utils/types/prosuctData.t
 import type { UserDataType } from '@packages/shared/src/utils/types/userData.type';
 import { useFetch } from '@packages/shared/src/utils/hooks/useFetch';
 import { useLocation } from 'react-router-dom';
+import { api } from '@packages/shared/src/routes/api';
 
 const LazyAdminProdUsers = () => {
     const location = useLocation();
@@ -14,11 +15,15 @@ const LazyAdminProdUsers = () => {
     useEffect(() => {
         fetchData({
             method: 'GET',
-            url: `admin/${location.pathname.split('/')[2]}`,
-            port: 5000,
+            url: `admin/${location.pathname.split('/')[3]}`,
+            port: 4005,
         });
         console.log(`to   admin/${location.pathname.split('/')[3]}`)
     }, []);
+
+    useEffect(() => {
+        console.log(response)
+    },[response])
 
     return (
         <div>

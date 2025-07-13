@@ -39,12 +39,13 @@ model Attributes {
 }
 
 model User {
-  id           Int      @id @default(autoincrement())
-  name         String   @unique
-  email        String   @unique
-  password     String
-  role         Role     @default(user)
-  creationDate DateTime @default(now())
+  id        Int      @id @default(autoincrement())
+  name      String   @unique
+  email     String   @unique
+  password  String
+  role      Role     @default(user)
+  crearedAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
 
   reviewsById   Reviews[] @relation("UserById")
   reviewsByName Reviews[] @relation("UserByName")

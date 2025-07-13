@@ -44,7 +44,8 @@ model User {
   email        String   @unique
   password     String
   role         Role     @default(user)
-  creationDate DateTime @default(now())
+  crearedAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
 
   reviewsById   Reviews[] @relation("UserById")
   reviewsByName Reviews[] @relation("UserByName")

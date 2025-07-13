@@ -7,7 +7,7 @@
         "start:productService": "cd backend/product-service && npm run start:dev",
         "start:authService": "cd backend/auth-service && npm run start:dev",
         "start:adminService": "cd backend/admin-service && npm run start:dev",
-        "start:backend": "concurrently \"npm run start:database\" \"npm run start:productService\" \"npm run start:authService\"",
+        "start:backend": "concurrently \"npm run start:database\" \"npm run start:productService\" \"npm run start:authService\" \"npm run start:adminService\"",
         "start:dev": "concurrently \"npm run start:backend\" \"npm run start:frontend\"",
         "prisma:generate": "cd backend/database && npx prisma generate",
 
