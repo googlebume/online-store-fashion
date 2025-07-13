@@ -1,58 +1,233 @@
-import { PrismaClient } from "@prisma/client";
+// prisma/seed.ts
+import { PrismaClient } from './generated/prisma-client';
+import * as fs from 'fs';
+import * as path from 'path';
 
 const prisma = new PrismaClient();
 
-const productsDB = [
-    { id: "1", name: "Oversize Hoodie", category: "male", type: "hoodie", color: "black", price: 1200, discount: 15, image: "http://localhost:5000/products/hoodie_1_1.webp" },
-    { id: "2", name: "Casual Hoodie", category: "male", type: "hoodie", color: "white", price: 1100, discount: 10, image: "http://localhost:5000/products/hoodie_2_1.webp" },
-    { id: "3", name: "Sporty Hoodie", category: "female", type: "hoodie", color: "white", price: 1300, discount: 20, image: "http://localhost:5000/products/hoodie_3_1.webp" },
-    { id: "4", name: "Streetwear Hoodie", category: "male", type: "hoodie", color: "black", price: 1250, discount: 5, image: "http://localhost:5000/products/hoodie_4_1.webp" },
-    { id: "5", name: "Minimalist Hoodie", category: "male", type: "hoodie", color: "brown", price: 1150, discount: 10, image: "http://localhost:5000/products/hoodie_5_1.webp" },
-    { id: "6", name: "Classic Sweatshirt", category: "male", type: "sweatshirt", color: "black", price: 1000, discount: 12, image: "http://localhost:5000/products/sweatshirt_1_1.webp" },
-    { id: "7", name: "Urban Sweatshirt", category: "female", type: "sweatshirt", color: "black", price: 1050, discount: 8, image: "http://localhost:5000/products/sweatshirt_2_1.webp" },
-    { id: "8", name: "Vintage Sweatshirt", category: "female", type: "sweatshirt", color: "pink", price: 1100, discount: 15, image: "http://localhost:5000/products/sweatshirt_3_1.webp" },
-    { id: "9", name: "Comfy Sweatshirt", category: "female", type: "sweatshirt", color: "white", price: 980, discount: 10, image: "http://localhost:5000/products/sweatshirt_4_1.webp" },
-    { id: "10", name: "Trendy Sweatshirt", category: "female", type: "sweatshirt", color: "black", price: 1020, discount: 7, image: "http://localhost:5000/products/sweatshirt_5_1.webp" },
-    { id: "11", name: "Formal Shirt", category: "male", type: "shirt", color: "white", price: 1500, discount: 18, image: "http://localhost:5000/products/shirt_1_1.webp" },
-    { id: "12", name: "Casual Shirt", category: "female", type: "shirt", color: "brown", price: 1350, discount: 12, image: "http://localhost:5000/products/shirt_2_1.webp" },
-    { id: "13", name: "Linen Shirt", category: "male", type: "shirt", color: "blue", price: 1450, discount: 10, image: "http://localhost:5000/products/shirt_3_1.webp" },
-    { id: "14", name: "Denim Shirt", category: "male", type: "shirt", color: "yellow", price: 1400, discount: 15, image: "http://localhost:5000/products/shirt_4_1.webp" },
-    { id: "15", name: "Plaid Shirt", category: "female", type: "shirt", color: "white", price: 1300, discount: 20, image: "http://localhost:5000/products/shirt_5_1.webp" },
-    { id: "16", name: "Basic T-shirt", category: "female", type: "tshirt", color: "pink", price: 800, discount: 5, image: "http://localhost:5000/products/tshirt_1_1.webp" },
-    { id: "17", name: "Graphic T-shirt", category: "male", type: "tshirt", color: "yellow", price: 850, discount: 10, image: "http://localhost:5000/products/tshirt_2_1.webp" },
-    { id: "18", name: "Sport T-shirt", category: "male", type: "tshirt", color: "black", price: 900, discount: 12, image: "http://localhost:5000/products/tshirt_3_1.webp" },
-    { id: "19", name: "Slim Fit T-shirt", category: "male", type: "tshirt", color: "white", price: 880, discount: 8, image: "http://localhost:5000/products/tshirt_4_1.webp" },
-    { id: "20", name: "Vintage T-shirt", category: "male", type: "tshirt", color: "black", price: 950, discount: 15, image: "http://localhost:5000/products/tshirt_5_1.webp" }
-];
+interface BackupData {
+  users: any[];
+  products: any[];
+  attributes: any[];
+  baskets: any[];
+  orderedProducts: any[];
+  orders: any[];
+  reviews: any[];
+}
 
 async function main() {
-  console.log("Seeding database...");
-  for (const product of productsDB) {
-    await prisma.products.create({
-      data: {
-        name: product.name,
-        price: product.price,
-        discount: product.discount,
-        image: product.image,
-        brand: "Generic Brand", // Можеш змінити на потрібний бренд
-        description: "Default description", // Додай реальний опис
-        attributes: {
-          create: {
-            type: product.type,
-            category: product.category,
-            color: product.color,
-            size: "M", // Додай логіку для вибору розміру
-          },
-        },
-      },
-    });
+  console.log('🌱 Завантаження seed даних...');
+  
+  // Спробувати знайти backup файл
+  const backupDir = path.join(process.cwd(), 'backup');
+  let data: BackupData | null = null;
+  
+  if (fs.existsSync(backupDir)) {
+    // Спочатку шукаємо latest-backup.json
+    const latestBackupPath = path.join(backupDir, 'latest-backup.json');
+    
+    if (fs.existsSync(latestBackupPath)) {
+      console.log('📂 Використовую latest-backup.json');
+      data = JSON.parse(fs.readFileSync(latestBackupPath, 'utf8'));
+    } else {
+      const backupFiles = fs.readdirSync(backupDir)
+        .filter(file => file.startsWith('database-backup-') && file.endsWith('.json'))
+        .sort()
+        .reverse();
+      
+      if (backupFiles.length > 0) {
+        const newestBackup = path.join(backupDir, backupFiles[0]);
+        console.log(`📂 Використовую backup: ${backupFiles[0]}`);
+        data = JSON.parse(fs.readFileSync(newestBackup, 'utf8'));
+      }
+    }
   }
-  console.log("Seeding finished!");
+  
+  if (!data) {
+    console.log('⚠️  Backup файли не знайдено, створюю тестові дані...');
+    await createTestData();
+    return;
+  }
+  
+  console.log('🧹 Очищення бази даних...');
+  
+  await prisma.reviews.deleteMany();
+  console.log('   ✅ Відгуки очищено');
+  
+  await prisma.orderedProducts.deleteMany();
+  console.log('   ✅ Замовлені товари очищено');
+  
+  await prisma.basket.deleteMany();
+  console.log('   ✅ Кошики очищено');
+  
+  await prisma.order.deleteMany();
+  console.log('   ✅ Замовлення очищено');
+  
+  await prisma.attributes.deleteMany();
+  console.log('   ✅ Атрибути очищено');
+  
+  await prisma.products.deleteMany();
+  console.log('   ✅ Продукти очищено');
+  
+  await prisma.user.deleteMany();
+  console.log('   ✅ Користувачі очищено');
+  
+
+  console.log('\n🔄 Відновлення даних...');
+
+  if (data.users?.length) {
+    for (const user of data.users) {
+      await prisma.user.create({ data: user });
+    }
+    console.log(`   ✅ Відновлено ${data.users.length} користувачів`);
+  }
+
+  if (data.products?.length) {
+    for (const product of data.products) {
+      await prisma.products.create({ data: product });
+    }
+    console.log(`   ✅ Відновлено ${data.products.length} продуктів`);
+  }
+
+  if (data.attributes?.length) {
+    for (const attribute of data.attributes) {
+      try {
+        await prisma.attributes.create({ data: attribute });
+      } catch (error) {
+        console.warn(`   ⚠️ Помилка при створенні атрибуту для продукту ${attribute.productsId}:`, error);
+      }
+    }
+    console.log(`   ✅ Відновлено ${data.attributes.length} атрибутів`);
+  }
+  
+  if (data.orders?.length) {
+    for (const order of data.orders) {
+      try {
+        await prisma.order.create({ data: order });
+      } catch (error) {
+        console.warn(`   ⚠️ Помилка при створенні замовлення ${order.orderCode}:`, error);
+      }
+    }
+    console.log(`   ✅ Відновлено ${data.orders.length} замовлень`);
+  }
+  
+  if (data.reviews?.length) {
+    for (const review of data.reviews) {
+      try {
+        await prisma.reviews.create({ data: review });
+      } catch (error) {
+        console.warn(`   ⚠️ Помилка при створенні відгуку ${review.id}:`, error);
+      }
+    }
+    console.log(`   ✅ Відновлено ${data.reviews.length} відгуків`);
+  }
+  
+  if (data.baskets?.length) {
+    for (const basket of data.baskets) {
+      await prisma.basket.create({ data: basket });
+    }
+    console.log(`   ✅ Відновлено ${data.baskets.length} кошиків`);
+  }
+  
+  if (data.orderedProducts?.length) {
+    for (const ordered of data.orderedProducts) {
+      try {
+        await prisma.orderedProducts.create({ data: ordered });
+      } catch (error) {
+        console.warn(`   ⚠️ Помилка при створенні замовленого товару ${ordered.id}:`, error);
+      }
+    }
+    console.log(`   ✅ Відновлено ${data.orderedProducts.length} замовлених товарів`);
+  }
+  
+  console.log('\n🎉 Seed завершено успішно!');
+}
+
+async function createTestData() {
+  console.log('🔄 Створення тестових даних...');
+  
+  const testUser = await prisma.user.create({
+    data: {
+      name: 'Test User',
+      email: 'test@example.com',
+      password: '$2b$10$hashedpassword',
+      role: 'user'
+    }
+  });
+
+  const testProduct = await prisma.products.create({
+    data: {
+      name: 'Test Hoodie',
+      brand: 'Test Brand',
+      price: 599.99,
+      discount: 0,
+      description: 'Test product description',
+      image: 'test-image.jpg'
+    }
+  });
+
+  await prisma.attributes.create({
+    data: {
+      productsId: testProduct.id,
+      type: 'hoodie',
+      category: 'male',
+      color: 'black',
+      size: 'M',
+      brand: 'Test Brand',
+      material: 'Cotton',
+      countryOfOrigin: 'Ukraine',
+      weight: 0.5
+    }
+  });
+
+  await prisma.order.create({
+    data: {
+      userName: testUser.name,
+      userEmail: testUser.email,
+      orderCode: 'TEST-001'
+    }
+  });
+
+  await prisma.reviews.create({
+    data: {
+      userId: testUser.id,
+      userName: testUser.name,
+      reviewTitle: 'Great product!',
+      rewiew: 'This is a test review.',
+      stars: 5
+    }
+  });
+  
+  const testBasket = await prisma.basket.create({
+    data: {
+      firstName: 'Test',
+      lastName: 'User',
+      phone: 123456789,
+      email: 'test@example.com',
+      region: 'Test Region',
+      city: 'Test City',
+      issuePoint: 'Test Point',
+      deliveryMethod: 'Mail',
+      promoСode: 'TEST10'
+    }
+  });
+  
+  await prisma.orderedProducts.create({
+    data: {
+      basketId: testBasket.id,
+      productName: testProduct.name,
+      quantity: 1,
+      price: testProduct.price,
+      totalPrice: testProduct.price
+    }
+  });
+  
+  console.log('✅ Тестові дані створено успішно!');
 }
 
 main()
   .catch((e) => {
-    console.error(e);
+    console.error('Помилка при виконанні seed:', e);
     process.exit(1);
   })
   .finally(async () => {

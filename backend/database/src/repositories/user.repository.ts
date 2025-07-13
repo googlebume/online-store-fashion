@@ -97,9 +97,12 @@ export class UserRepository {
         id: true,
         name: true,
         email: true,
-        // createdAt: true,
+        createdAt: true,
         role: true,
       }
+      // omit: {
+      //   password: true,
+      // },
     });
   }
 

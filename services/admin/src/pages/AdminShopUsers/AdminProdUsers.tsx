@@ -5,11 +5,16 @@ import { useFetch } from '@packages/shared/src/utils/hooks/useFetch';
 import { useLocation } from 'react-router-dom';
 import { api } from '@packages/shared/src/routes/api';
 
-const LazyAdminProdUsers = () => {
+import ProductCard from '@packages/shared/src/components/ProductCard';
+
+import cl from './AdminProdUsers.module.scss';
+import UserCard from '@/components/UserCard';
+
+const AdminProdUsers = () => {
     const location = useLocation();
 
 
-    const { response, error, isLoading, fetchData } = useFetch<null, ProductType[] | UserDataType>();
+    const { response, error, isLoading, fetchData } = useFetch<null, ProductType[] | UserDataType[]>();
 
 
     useEffect(() => {
@@ -26,10 +31,14 @@ const LazyAdminProdUsers = () => {
     },[response])
 
     return (
-        <div>
-            LazyAdminProdUsers
+        <div className={cl.overview}>
+            {
+                Array.isArray(response) && "email" in response[0]
+                    ? <UserCard users={response as UserDataType[]} />
+                    : null
+            }
         </div>
     );
 };
 
-export default LazyAdminProdUsers;
+export default AdminProdUsers;

@@ -1,0 +1,430 @@
+{
+  "users": [
+    {
+      "id": 32,
+      "name": "Online store Fashion",
+      "email": "duzasergej@gmail.com",
+      "password": "$2b$10$sLrkuzXO1GFganXh6e2qMuFXOYIH.wi/Q2jfRGauPToQkUbBNgp0G",
+      "role": "system",
+      "crearedAt": "2025-07-13T09:55:22.000Z",
+      "updatedAt": "2025-07-13T09:14:05.000Z"
+    },
+    {
+      "id": 33,
+      "name": "Serhii",
+      "email": "nubiknetne@gmail.com",
+      "password": "$2b$10$mQ7.bALbP2AErW/brEbVueRm5gy.RLe6hFSHjAoO8DQwDCCkrm4u.",
+      "role": "user",
+      "crearedAt": "2025-07-13T09:55:22.000Z",
+      "updatedAt": "2025-07-13T09:14:05.000Z"
+    }
+  ],
+  "products": [
+    {
+      "id": 1,
+      "name": "Oversize Hoodie",
+      "brand": "Generic Brand",
+      "price": 1200,
+      "discount": 15,
+      "description": "М'яке та затишне худі ідеально підходить для прохолодних днів або вечірніх прогулянок. Вільний крій не сковує рухів, а капюшон додає комфорту та захисту від вітру. Зручна кишеня-кенгуру спереду дозволяє тримати необхідні дрібниці під рукою.",
+      "image": "http://localhost:5000/products/hoodie_1_1.webp"
+    },
+    {
+      "id": 2,
+      "name": "Casual Hoodie",
+      "brand": "Generic Brand",
+      "price": 1100,
+      "discount": 10,
+      "description": "Це універсальне худі стане незамінною річчю у вашому гардеробі. Виготовлене з приємної на дотик тканини, воно забезпечує відчуття тепла та затишку. Простий, але водночас стильний дизайн легко поєднується з різним одягом. Чудовий варіант для створення розслаблених та невимушених образів на кожен день.",
+      "image": "http://localhost:5000/products/hoodie_2_1.webp"
+    },
+    {
+      "id": 3,
+      "name": "Sporty Hoodie",
+      "brand": "Generic Brand",
+      "price": 1300,
+      "discount": 20,
+      "description": "Насолоджуйтесь максимальним комфортом у цьому м'якому худі з капюшоном. Еластичні манжети та нижня частина забезпечують оптимальну посадку. Практична передня кишеня додає функціональності. Ідеальний вибір для тих, хто цінує зручність та невимушений стиль у своєму повсякденному одязі.",
+      "image": "http://localhost:5000/products/hoodie_3_1.webp"
+    },
+    {
+      "id": 4,
+      "name": "Streetwear Hoodie",
+      "brand": "Generic Brand",
+      "price": 1250,
+      "discount": 5,
+      "description": "Відчуйте свободу рухів у цьому легкому та зручному худі. М'яка внутрішня частина приємна до тіла, а капюшон захистить від негоди. Лаконічний дизайн робить його чудовим доповненням до спортивного або кежуал гардеробу. Оберіть комфорт та практичність на кожен день.",
+      "image": "http://localhost:5000/products/hoodie_4_1.webp"
+    },
+    {
+      "id": 5,
+      "name": "Minimalist Hoodie",
+      "brand": "Generic Brand",
+      "price": 1150,
+      "discount": 10,
+      "description": "Створіть свій неповторний образ з цим стильним та функціональним худі. Виготовлене з якісних матеріалів, воно забезпечує довговічність та комфорт при носінні. Зручний капюшон та містка кишеня роблять його ідеальним вибором для активного відпочинку або повсякденних справ. Насолоджуйтесь затишком та стилем.",
+      "image": "http://localhost:5000/products/hoodie_5_1.webp"
+    },
+    {
+      "id": 6,
+      "name": "Classic Sweatshirt",
+      "brand": "Generic Brand",
+      "price": 1000,
+      "discount": 12,
+      "description": "Цей класичний світшот – ідеальне поєднання комфорту та простоти. М'яка тканина забезпечує приємні відчуття протягом усього дня. Вільний крій не обмежує рухів, роблячи його чудовим вибором для повсякденного носіння. Еластичні манжети та низ додають акуратності силуету.",
+      "image": "http://localhost:5000/products/sweatshirt_1_1.webp"
+    },
+    {
+      "id": 7,
+      "name": "Urban Sweatshirt",
+      "brand": "Generic Brand",
+      "price": 1050,
+      "discount": 8,
+      "description": "Насолоджуйтесь затишком та теплом у цьому стильному світшоті. Виготовлений з якісного матеріалу, він приємний на дотик та довговічний. Лаконічний дизайн дозволяє легко комбінувати його з різними елементами гардеробу. Чудовий варіант для створення зручних та модних образів.",
+      "image": "http://localhost:5000/products/sweatshirt_2_1.webp"
+    },
+    {
+      "id": 8,
+      "name": "Vintage Sweatshirt",
+      "brand": "Generic Brand",
+      "price": 1100,
+      "discount": 15,
+      "description": "Цей універсальний світшот стане вашою улюбленою річчю для відпочинку та активного проведення часу. М'яка внутрішня частина забезпечує додатковий комфорт. Простий та елегантний дизайн робить його доречним у багатьох ситуаціях. Оберіть практичність та стиль в одному виробі.",
+      "image": "http://localhost:5000/products/sweatshirt_3_1.webp"
+    },
+    {
+      "id": 9,
+      "name": "Comfy Sweatshirt",
+      "brand": "Generic Brand",
+      "price": 980,
+      "discount": 10,
+      "description": "Відчуйте легкість та зручність у цьому світшоті з якісної тканини. Вільний силует забезпечує свободу рухів, а м'яка текстура дарує приємні відчуття. Ідеальний вибір для тих, хто цінує комфорт у поєднанні зі стриманим стилем. Додайте затишку у свій повсякденний образ.",
+      "image": "http://localhost:5000/products/sweatshirt_4_1.webp"
+    },
+    {
+      "id": 10,
+      "name": "Trendy Sweatshirt",
+      "brand": "Generic Brand",
+      "price": 1020,
+      "discount": 7,
+      "description": "Створіть свій неповторний образ з цим базовим, але стильним світшотом. Виготовлений з приємного до тіла матеріалу, він забезпечує комфорт протягом усього дня. Простий крій робить його легко комбінованим з іншим одягом. Чудовий вибір для створення розслаблених та елегантних луків.",
+      "image": "http://localhost:5000/products/sweatshirt_5_1.webp"
+    },
+    {
+      "id": 11,
+      "name": "Formal Shirt",
+      "brand": "Generic Brand",
+      "price": 1500,
+      "discount": 18,
+      "description": "Ця класична рубашка – втілення елегантності та стилю. Виготовлена з якісної тканини, вона забезпечує комфорт та впевненість протягом усього дня. Строгий, але водночас універсальний дизайн робить її ідеальною як для офіційних заходів, так і для повсякденного носіння.",
+      "image": "http://localhost:5000/products/shirt_1_1.webp"
+    },
+    {
+      "id": 12,
+      "name": "Casual Shirt",
+      "brand": "Generic Brand",
+      "price": 1350,
+      "discount": 12,
+      "description": "Створіть свій неповторний образ з цією стильною та універсальною рубашкою. Виготовлена з якісних матеріалів, вона забезпечує довговічність та комфорт при носінні. Її класичний дизайн легко адаптується до різних стилів, роблячи її чудовим вибором для будь-якої події.",
+      "image": "http://localhost:5000/products/shirt_2_1.webp"
+    },
+    {
+      "id": 13,
+      "name": "Linen Shirt Blue",
+      "brand": "Generic Brand",
+      "price": 1450,
+      "discount": 10,
+      "description": "Насолоджуйтесь бездоганним виглядом у цій стильний рубашці. Приємна на дотик тканина та акуратний крій підкреслять ваш індивідуальний стиль. Універсальність дизайну дозволяє легко комбінувати її з різними елементами гардеробу, створюючи як ділові, так і більш розслаблені образи.",
+      "image": "http://localhost:5000/products/shirt_3_1.webp"
+    },
+    {
+      "id": 14,
+      "name": "Linen Shirt Yellow",
+      "brand": "Generic Brand",
+      "price": 1400,
+      "discount": 15,
+      "description": "Насолоджуйтесь бездоганним виглядом у цій стильний рубашці. Приємна на дотик тканина та акуратний крій підкреслять ваш індивідуальний стиль. Універсальність дизайну дозволяє легко комбінувати її з різними елементами гардеробу, створюючи як ділові, так і більш розслаблені образи.",
+      "image": "http://localhost:5000/products/shirt_4_1.webp"
+    },
+    {
+      "id": 15,
+      "name": "Linen Shirt White",
+      "brand": "Generic Brand",
+      "price": 1300,
+      "discount": 20,
+      "description": "Насолоджуйтесь бездоганним виглядом у цій стильний рубашці. Приємна на дотик тканина та акуратний крій підкреслять ваш індивідуальний стиль. Універсальність дизайну дозволяє легко комбінувати її з різними елементами гардеробу, створюючи як ділові, так і більш розслаблені образи.",
+      "image": "http://localhost:5000/products/shirt_5_1.webp"
+    },
+    {
+      "id": 16,
+      "name": "Basic Tshirt",
+      "brand": "Generic Brand",
+      "price": 800,
+      "discount": 5,
+      "description": "Ця базова футболка – незамінна річ у кожному гардеробі. Виготовлена з м'якої та дихаючої тканини, вона забезпечує комфорт протягом усього дня. Простий та універсальний дизайн дозволяє легко поєднувати її з різним одягом, створюючи безліч стильних образів на кожен день.",
+      "image": "http://localhost:5000/products/tshirt_1_1.webp"
+    },
+    {
+      "id": 17,
+      "name": "Graphic Tshirt",
+      "brand": "Generic Brand",
+      "price": 850,
+      "discount": 10,
+      "description": "Насолоджуйтесь легкістю та свободою рухів у цій класичній футболці. Приємний до тіла матеріал забезпечує відмінну вентиляцію. Лаконічний крій робить її ідеальною основою для будь-якого повсякденного вбрання. Оберіть комфорт та практичність у кожному русі.",
+      "image": "http://localhost:5000/products/tshirt_2_1.webp"
+    },
+    {
+      "id": 18,
+      "name": "Sport Tshirt",
+      "brand": "Generic Brand",
+      "price": 900,
+      "discount": 12,
+      "description": "Ця універсальна футболка стане вашим надійним супутником у будь-якій ситуації. Виготовлена з якісної тканини, вона приємна на дотик та довговічна. Простий, але стильний дизайн дозволяє комбінувати її з джинсами, шортами або спідницями. Чудовий вибір для активного відпочинку та повсякденних справ.",
+      "image": "http://localhost:5000/products/tshirt_3_1.webp"
+    },
+    {
+      "id": 19,
+      "name": "Slim Fit Tshirt",
+      "brand": "Generic Brand",
+      "price": 880,
+      "discount": 8,
+      "description": "Відчуйте м'якість та комфорт цієї футболки з натуральних матеріалів. Легка та дихаюча тканина забезпечує приємні відчуття навіть у спекотну погоду. Простий крій робить її ідеальною для створення різноманітних образів у стилі кежуал. Оберіть якість та зручність на кожен день.",
+      "image": "http://localhost:5000/products/tshirt_4_1.webp"
+    },
+    {
+      "id": 20,
+      "name": "Vintage Tshirt",
+      "brand": "Generic Brand",
+      "price": 950,
+      "discount": 15,
+      "description": "Створіть свій індивідуальний стиль з цією базовою футболкою. Її простий дизайн є чудовим полотном для експериментів з іншим одягом та аксесуарами. М'яка тканина забезпечує комфорт при носінні. Ідеальний вибір для тих, хто цінує простоту та універсальність у своєму гардеробі.",
+      "image": "http://localhost:5000/products/tshirt_5_1.webp"
+    }
+  ],
+  "attributes": [
+    {
+      "productsId": 1,
+      "type": "hoodie",
+      "category": "male",
+      "color": "black",
+      "size": "M",
+      "brand": "Custom",
+      "material": "Бавовна, поліестер",
+      "countryOfOrigin": "Україна",
+      "weight": 0.5
+    },
+    {
+      "productsId": 2,
+      "type": "hoodie",
+      "category": "male",
+      "color": "white",
+      "size": "M",
+      "brand": "Custom",
+      "material": "Бавовна, поліестер",
+      "countryOfOrigin": "Україна",
+      "weight": 0.6
+    },
+    {
+      "productsId": 3,
+      "type": "hoodie",
+      "category": "female",
+      "color": "white",
+      "size": "M",
+      "brand": "Custom",
+      "material": "Бавовна, поліестер",
+      "countryOfOrigin": "Україна",
+      "weight": 0.5
+    },
+    {
+      "productsId": 4,
+      "type": "hoodie",
+      "category": "male",
+      "color": "black",
+      "size": "M",
+      "brand": "Custom",
+      "material": "Бавовна, поліестер",
+      "countryOfOrigin": "Україна",
+      "weight": 0.5
+    },
+    {
+      "productsId": 5,
+      "type": "hoodie",
+      "category": "male",
+      "color": "brown",
+      "size": "M",
+      "brand": "Custom",
+      "material": "Бавовна, поліестер",
+      "countryOfOrigin": "Україна",
+      "weight": 0.5
+    },
+    {
+      "productsId": 6,
+      "type": "sweatshirt",
+      "category": "male",
+      "color": "black",
+      "size": "M",
+      "brand": "Custom",
+      "material": "Поліестер",
+      "countryOfOrigin": "Україна",
+      "weight": 0.4
+    },
+    {
+      "productsId": 7,
+      "type": "sweatshirt",
+      "category": "female",
+      "color": "black",
+      "size": "M",
+      "brand": "Custom",
+      "material": "Поліестер",
+      "countryOfOrigin": "Україна",
+      "weight": 0.4
+    },
+    {
+      "productsId": 8,
+      "type": "sweatshirt",
+      "category": "female",
+      "color": "pink",
+      "size": "M",
+      "brand": "Custom",
+      "material": "Поліестер",
+      "countryOfOrigin": "Україна",
+      "weight": 0.5
+    },
+    {
+      "productsId": 9,
+      "type": "sweatshirt",
+      "category": "female",
+      "color": "white",
+      "size": "M",
+      "brand": "Custom",
+      "material": "Поліестер",
+      "countryOfOrigin": "Україна",
+      "weight": 0.5
+    },
+    {
+      "productsId": 10,
+      "type": "sweatshirt",
+      "category": "female",
+      "color": "black",
+      "size": "M",
+      "brand": "Custom",
+      "material": "Поліестер",
+      "countryOfOrigin": "Україна",
+      "weight": 0.4
+    },
+    {
+      "productsId": 11,
+      "type": "shirt",
+      "category": "male",
+      "color": "white",
+      "size": "M",
+      "brand": "Custom",
+      "material": "Бавовна",
+      "countryOfOrigin": "Україна",
+      "weight": 0.2
+    },
+    {
+      "productsId": 12,
+      "type": "shirt",
+      "category": "female",
+      "color": "brown",
+      "size": "M",
+      "brand": "Custom",
+      "material": "Бавовна",
+      "countryOfOrigin": "Україна",
+      "weight": 0.2
+    },
+    {
+      "productsId": 13,
+      "type": "shirt",
+      "category": "male",
+      "color": "blue",
+      "size": "M",
+      "brand": "Custom",
+      "material": "Бавовна",
+      "countryOfOrigin": "Україна",
+      "weight": 0.2
+    },
+    {
+      "productsId": 14,
+      "type": "shirt",
+      "category": "male",
+      "color": "yellow",
+      "size": "M",
+      "brand": "Custom",
+      "material": "Бавовна",
+      "countryOfOrigin": "Україна",
+      "weight": 0.2
+    },
+    {
+      "productsId": 15,
+      "type": "shirt",
+      "category": "female",
+      "color": "white",
+      "size": "M",
+      "brand": "Custom",
+      "material": "Бавовна",
+      "countryOfOrigin": "Україна",
+      "weight": 0.2
+    },
+    {
+      "productsId": 16,
+      "type": "tshirt",
+      "category": "female",
+      "color": "pink",
+      "size": "M",
+      "brand": "Custom",
+      "material": "Бавовна",
+      "countryOfOrigin": "Україна",
+      "weight": 0.2
+    },
+    {
+      "productsId": 17,
+      "type": "tshirt",
+      "category": "male",
+      "color": "yellow",
+      "size": "M",
+      "brand": "Custom",
+      "material": "Бавовна",
+      "countryOfOrigin": "Україна",
+      "weight": 0.3
+    },
+    {
+      "productsId": 18,
+      "type": "tshirt",
+      "category": "male",
+      "color": "black",
+      "size": "M",
+      "brand": "Custom",
+      "material": "Бавовна",
+      "countryOfOrigin": "Україна",
+      "weight": 0.2
+    },
+    {
+      "productsId": 19,
+      "type": "tshirt",
+      "category": "male",
+      "color": "white",
+      "size": "M",
+      "brand": "Custom",
+      "material": "Бавовна",
+      "countryOfOrigin": "Україна",
+      "weight": 0.2
+    },
+    {
+      "productsId": 20,
+      "type": "tshirt",
+      "category": "male",
+      "color": "black",
+      "size": "M",
+      "brand": "Custom",
+      "material": "Бавовна",
+      "countryOfOrigin": "Україна",
+      "weight": 0.2
+    }
+  ],
+  "baskets": [],
+  "orderedProducts": [],
+  "orders": [],
+  "reviews": []
+}

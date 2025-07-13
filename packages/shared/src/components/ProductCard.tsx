@@ -12,7 +12,7 @@ import variables from '@packages/shared/src/utils/styles/colorScheme'
 interface ProductCardProps {
     name: string;
     price: number;
-    discount: number;
+    discount?: number;
     image: string;
     id?: number;
     category?: string;

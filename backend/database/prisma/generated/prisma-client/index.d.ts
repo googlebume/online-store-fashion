@@ -3943,7 +3943,7 @@ export namespace Prisma {
     email: string | null
     password: string | null
     role: $Enums.Role | null
-    crearedAt: Date | null
+    createdAt: Date | null
     updatedAt: Date | null
   }
 
@@ -3953,7 +3953,7 @@ export namespace Prisma {
     email: string | null
     password: string | null
     role: $Enums.Role | null
-    crearedAt: Date | null
+    createdAt: Date | null
     updatedAt: Date | null
   }
 
@@ -3963,7 +3963,7 @@ export namespace Prisma {
     email: number
     password: number
     role: number
-    crearedAt: number
+    createdAt: number
     updatedAt: number
     _all: number
   }
@@ -3983,7 +3983,7 @@ export namespace Prisma {
     email?: true
     password?: true
     role?: true
-    crearedAt?: true
+    createdAt?: true
     updatedAt?: true
   }
 
@@ -3993,7 +3993,7 @@ export namespace Prisma {
     email?: true
     password?: true
     role?: true
-    crearedAt?: true
+    createdAt?: true
     updatedAt?: true
   }
 
@@ -4003,7 +4003,7 @@ export namespace Prisma {
     email?: true
     password?: true
     role?: true
-    crearedAt?: true
+    createdAt?: true
     updatedAt?: true
     _all?: true
   }
@@ -4100,7 +4100,7 @@ export namespace Prisma {
     email: string
     password: string
     role: $Enums.Role
-    crearedAt: Date
+    createdAt: Date
     updatedAt: Date
     _count: UserCountAggregateOutputType | null
     _avg: UserAvgAggregateOutputType | null
@@ -4129,7 +4129,7 @@ export namespace Prisma {
     email?: boolean
     password?: boolean
     role?: boolean
-    crearedAt?: boolean
+    createdAt?: boolean
     updatedAt?: boolean
     reviewsById?: boolean | User$reviewsByIdArgs<ExtArgs>
     reviewsByName?: boolean | User$reviewsByNameArgs<ExtArgs>
@@ -4143,7 +4143,7 @@ export namespace Prisma {
     email?: boolean
     password?: boolean
     role?: boolean
-    crearedAt?: boolean
+    createdAt?: boolean
     updatedAt?: boolean
   }, ExtArgs["result"]["user"]>
 
@@ -4153,7 +4153,7 @@ export namespace Prisma {
     email?: boolean
     password?: boolean
     role?: boolean
-    crearedAt?: boolean
+    createdAt?: boolean
     updatedAt?: boolean
   }, ExtArgs["result"]["user"]>
 
@@ -4163,11 +4163,11 @@ export namespace Prisma {
     email?: boolean
     password?: boolean
     role?: boolean
-    crearedAt?: boolean
+    createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "email" | "password" | "role" | "crearedAt" | "updatedAt", ExtArgs["result"]["user"]>
+  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "email" | "password" | "role" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     reviewsById?: boolean | User$reviewsByIdArgs<ExtArgs>
     reviewsByName?: boolean | User$reviewsByNameArgs<ExtArgs>
@@ -4190,7 +4190,7 @@ export namespace Prisma {
       email: string
       password: string
       role: $Enums.Role
-      crearedAt: Date
+      createdAt: Date
       updatedAt: Date
     }, ExtArgs["result"]["user"]>
     composites: {}
@@ -4623,7 +4623,7 @@ export namespace Prisma {
     readonly email: FieldRef<"User", 'String'>
     readonly password: FieldRef<"User", 'String'>
     readonly role: FieldRef<"User", 'Role'>
-    readonly crearedAt: FieldRef<"User", 'DateTime'>
+    readonly createdAt: FieldRef<"User", 'DateTime'>
     readonly updatedAt: FieldRef<"User", 'DateTime'>
   }
     
@@ -9684,7 +9684,7 @@ export namespace Prisma {
     email: 'email',
     password: 'password',
     role: 'role',
-    crearedAt: 'crearedAt',
+    createdAt: 'createdAt',
     updatedAt: 'updatedAt'
   };
 
@@ -9992,7 +9992,7 @@ export namespace Prisma {
     email?: StringFilter<"User"> | string
     password?: StringFilter<"User"> | string
     role?: EnumRoleFilter<"User"> | $Enums.Role
-    crearedAt?: DateTimeFilter<"User"> | Date | string
+    createdAt?: DateTimeFilter<"User"> | Date | string
     updatedAt?: DateTimeFilter<"User"> | Date | string
     reviewsById?: ReviewsListRelationFilter
     reviewsByName?: ReviewsListRelationFilter
@@ -10005,7 +10005,7 @@ export namespace Prisma {
     email?: SortOrder
     password?: SortOrder
     role?: SortOrder
-    crearedAt?: SortOrder
+    createdAt?: SortOrder
     updatedAt?: SortOrder
     reviewsById?: ReviewsOrderByRelationAggregateInput
     reviewsByName?: ReviewsOrderByRelationAggregateInput
@@ -10021,7 +10021,7 @@ export namespace Prisma {
     NOT?: UserWhereInput | UserWhereInput[]
     password?: StringFilter<"User"> | string
     role?: EnumRoleFilter<"User"> | $Enums.Role
-    crearedAt?: DateTimeFilter<"User"> | Date | string
+    createdAt?: DateTimeFilter<"User"> | Date | string
     updatedAt?: DateTimeFilter<"User"> | Date | string
     reviewsById?: ReviewsListRelationFilter
     reviewsByName?: ReviewsListRelationFilter
@@ -10034,7 +10034,7 @@ export namespace Prisma {
     email?: SortOrder
     password?: SortOrder
     role?: SortOrder
-    crearedAt?: SortOrder
+    createdAt?: SortOrder
     updatedAt?: SortOrder
     _count?: UserCountOrderByAggregateInput
     _avg?: UserAvgOrderByAggregateInput
@@ -10052,7 +10052,7 @@ export namespace Prisma {
     email?: StringWithAggregatesFilter<"User"> | string
     password?: StringWithAggregatesFilter<"User"> | string
     role?: EnumRoleWithAggregatesFilter<"User"> | $Enums.Role
-    crearedAt?: DateTimeWithAggregatesFilter<"User"> | Date | string
+    createdAt?: DateTimeWithAggregatesFilter<"User"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"User"> | Date | string
   }
 
@@ -10496,7 +10496,7 @@ export namespace Prisma {
     email: string
     password: string
     role?: $Enums.Role
-    crearedAt?: Date | string
+    createdAt?: Date | string
     updatedAt?: Date | string
     reviewsById?: ReviewsCreateNestedManyWithoutUserIDInput
     reviewsByName?: ReviewsCreateNestedManyWithoutUserNAMEInput
@@ -10509,7 +10509,7 @@ export namespace Prisma {
     email: string
     password: string
     role?: $Enums.Role
-    crearedAt?: Date | string
+    createdAt?: Date | string
     updatedAt?: Date | string
     reviewsById?: ReviewsUncheckedCreateNestedManyWithoutUserIDInput
     reviewsByName?: ReviewsUncheckedCreateNestedManyWithoutUserNAMEInput
@@ -10521,7 +10521,7 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
-    crearedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     reviewsById?: ReviewsUpdateManyWithoutUserIDNestedInput
     reviewsByName?: ReviewsUpdateManyWithoutUserNAMENestedInput
@@ -10534,7 +10534,7 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
-    crearedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     reviewsById?: ReviewsUncheckedUpdateManyWithoutUserIDNestedInput
     reviewsByName?: ReviewsUncheckedUpdateManyWithoutUserNAMENestedInput
@@ -10547,7 +10547,7 @@ export namespace Prisma {
     email: string
     password: string
     role?: $Enums.Role
-    crearedAt?: Date | string
+    createdAt?: Date | string
     updatedAt?: Date | string
   }
 
@@ -10556,7 +10556,7 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
-    crearedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -10566,7 +10566,7 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
-    crearedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -11215,7 +11215,7 @@ export namespace Prisma {
     email?: SortOrder
     password?: SortOrder
     role?: SortOrder
-    crearedAt?: SortOrder
+    createdAt?: SortOrder
     updatedAt?: SortOrder
   }
 
@@ -11229,7 +11229,7 @@ export namespace Prisma {
     email?: SortOrder
     password?: SortOrder
     role?: SortOrder
-    crearedAt?: SortOrder
+    createdAt?: SortOrder
     updatedAt?: SortOrder
   }
 
@@ -11239,7 +11239,7 @@ export namespace Prisma {
     email?: SortOrder
     password?: SortOrder
     role?: SortOrder
-    crearedAt?: SortOrder
+    createdAt?: SortOrder
     updatedAt?: SortOrder
   }
 
@@ -12365,7 +12365,7 @@ export namespace Prisma {
     email: string
     password: string
     role?: $Enums.Role
-    crearedAt?: Date | string
+    createdAt?: Date | string
     updatedAt?: Date | string
     reviewsById?: ReviewsCreateNestedManyWithoutUserIDInput
     reviewsByName?: ReviewsCreateNestedManyWithoutUserNAMEInput
@@ -12377,7 +12377,7 @@ export namespace Prisma {
     email: string
     password: string
     role?: $Enums.Role
-    crearedAt?: Date | string
+    createdAt?: Date | string
     updatedAt?: Date | string
     reviewsById?: ReviewsUncheckedCreateNestedManyWithoutUserIDInput
     reviewsByName?: ReviewsUncheckedCreateNestedManyWithoutUserNAMEInput
@@ -12404,7 +12404,7 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
-    crearedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     reviewsById?: ReviewsUpdateManyWithoutUserIDNestedInput
     reviewsByName?: ReviewsUpdateManyWithoutUserNAMENestedInput
@@ -12416,7 +12416,7 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
-    crearedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     reviewsById?: ReviewsUncheckedUpdateManyWithoutUserIDNestedInput
     reviewsByName?: ReviewsUncheckedUpdateManyWithoutUserNAMENestedInput
@@ -12427,7 +12427,7 @@ export namespace Prisma {
     email: string
     password: string
     role?: $Enums.Role
-    crearedAt?: Date | string
+    createdAt?: Date | string
     updatedAt?: Date | string
     reviewsByName?: ReviewsCreateNestedManyWithoutUserNAMEInput
     orders?: OrderCreateNestedManyWithoutUserInput
@@ -12439,7 +12439,7 @@ export namespace Prisma {
     email: string
     password: string
     role?: $Enums.Role
-    crearedAt?: Date | string
+    createdAt?: Date | string
     updatedAt?: Date | string
     reviewsByName?: ReviewsUncheckedCreateNestedManyWithoutUserNAMEInput
     orders?: OrderUncheckedCreateNestedManyWithoutUserInput
@@ -12455,7 +12455,7 @@ export namespace Prisma {
     email: string
     password: string
     role?: $Enums.Role
-    crearedAt?: Date | string
+    createdAt?: Date | string
     updatedAt?: Date | string
     reviewsById?: ReviewsCreateNestedManyWithoutUserIDInput
     orders?: OrderCreateNestedManyWithoutUserInput
@@ -12467,7 +12467,7 @@ export namespace Prisma {
     email: string
     password: string
     role?: $Enums.Role
-    crearedAt?: Date | string
+    createdAt?: Date | string
     updatedAt?: Date | string
     reviewsById?: ReviewsUncheckedCreateNestedManyWithoutUserIDInput
     orders?: OrderUncheckedCreateNestedManyWithoutUserInput
@@ -12494,7 +12494,7 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
-    crearedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     reviewsByName?: ReviewsUpdateManyWithoutUserNAMENestedInput
     orders?: OrderUpdateManyWithoutUserNestedInput
@@ -12506,7 +12506,7 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
-    crearedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     reviewsByName?: ReviewsUncheckedUpdateManyWithoutUserNAMENestedInput
     orders?: OrderUncheckedUpdateManyWithoutUserNestedInput
@@ -12528,7 +12528,7 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
-    crearedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     reviewsById?: ReviewsUpdateManyWithoutUserIDNestedInput
     orders?: OrderUpdateManyWithoutUserNestedInput
@@ -12540,7 +12540,7 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
-    crearedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     reviewsById?: ReviewsUncheckedUpdateManyWithoutUserIDNestedInput
     orders?: OrderUncheckedUpdateManyWithoutUserNestedInput

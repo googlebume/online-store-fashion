@@ -11,5 +11,6 @@
     .content {
         flex: 1;
         max-width: calc(consts.$clientWidth - consts.$asideWidth + 8px);
+        padding: 12px 0 0 0;
     }
 }

@@ -1,5 +1,10 @@
 export type UserDataType = {
-    
+    id: number;
+    name: string;
+    email: string;
+    role: string;
+    avatar?: string | null;
+    createdAt?: string;
 }
 
 export type UserViewDataType = {
