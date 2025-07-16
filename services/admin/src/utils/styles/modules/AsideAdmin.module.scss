@@ -1,5 +1,6 @@
 @use '@packages/shared/src/utils/styles/consts' as consts;
 
 .aside {
-    max-width: consts.$asideWidth
-};
+    max-width: consts.$asideWidth;
+    position: relative;
+}
