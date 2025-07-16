@@ -56,7 +56,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ ...props }) => {
 
     return (
         <article className={cl.product__card}>
-            <Link to={parseImageUrl(props.name)}>
+            <Link to={location.pathname.includes('admin') ? null : parseImageUrl(props.name)}>
                 <div className={cl.product__img}>
                     <img src={props.image} alt={`${props.name}`} />
                     <DisplayDiscount discount={props.discount} />
