@@ -1,0 +1,55 @@
+@use '@packages/shared/src/utils/styles/colorScheme' as colors;
+
+.menuMom {
+    position: relative;
+
+    .menu {
+        position: absolute;
+        opacity: 0;
+        visibility: hidden;
+        transform: scale(0.8) translateY(10px);
+        
+        width: 24px;
+        height: 24px;
+        left: 0;
+        bottom: 0;
+        border-radius: 50%;
+        transition: all 0.3s ease;
+        z-index: 10;
+        
+        background-color: transparent;
+        padding: 0;
+    }
+    
+    .open {
+        opacity: 1;
+        visibility: visible;
+        transform: scale(1) translateY(0);
+        
+        backdrop-filter: blur(10px);
+        border-radius: 10px;
+        padding: 2px;
+        width: fit-content;
+        height: auto;
+        transition: all 0.3s ease;
+        
+        .option {
+            width: 100%;
+            padding: 8px;
+            border-radius: 8px;
+            border: 1px solid colors.$gray;
+            background-color: transparent;
+            color: colors.$black;
+            transition: all 0.2s ease;
+            
+            &:not(:last-child) {
+                margin-bottom: 4px;
+            }
+            
+            &:hover {
+                background-color: colors.$white, 5%;
+                transform: translateX(2px);
+            }
+        }
+    }
+}

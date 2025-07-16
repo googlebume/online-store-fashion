@@ -9,6 +9,7 @@ import DisplayDiscount from './UI/DisplayDiscount/DisplayDiscount';
 import { addToCart } from '../../../../services/shop/src/state/basketState';
 import variables from '@packages/shared/src/utils/styles/colorScheme'
 import ActionsMenu from './UI/ActionsMenu/ActionsMenu';
+import { adminProductsAction } from '../utils/constants/actionsMenu';
 
 interface ProductCardProps {
     name: string;
@@ -70,7 +71,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ ...props }) => {
                                     img={<ShoppingCardIcon height='28px' width='28px' color={`${variables.yellow}`} fill={`${variables.yellow}`} />}
                                     onClick={handleCartClick}
                                 />
-                                : <ActionsMenu />
+                                : <ActionsMenu actionList={adminProductsAction}/>
                         }
 
                     </div>
