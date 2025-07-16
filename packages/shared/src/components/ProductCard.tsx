@@ -1,15 +1,14 @@
-import React from 'react';
-import { Link, useLocation } from 'react-router-dom';
-import cl from '@packages/shared/src/utils/styles/modules/ProductCard.module.scss';
-import ButtonImage from './UI/ButtonImage/ButtonImage';
-import shoppingCardIcon from '@packages/shared/src/assets/images/icons/shoppingCardIcon.svg?url';
 import ShoppingCardIcon from '@packages/shared/src/assets/images/icons/shoppingCardIcon.svg';
+import variables from '@packages/shared/src/utils/styles/colorScheme';
+import cl from '@packages/shared/src/utils/styles/modules/ProductCard.module.scss';
+import React, { useState, useEffect, useRef } from 'react';
+import { Link, useLocation } from 'react-router-dom';
 import DescriptionPrice from '../../../../services/shop/src/components/UI/DescriptionPrice/DescriptionPrice';
-import DisplayDiscount from './UI/DisplayDiscount/DisplayDiscount';
 import { addToCart } from '../../../../services/shop/src/state/basketState';
-import variables from '@packages/shared/src/utils/styles/colorScheme'
-import ActionsMenu from './UI/ActionsMenu/ActionsMenu';
 import { adminProductsAction } from '../utils/constants/actionsMenu';
+import ActionsMenu from './UI/ActionsMenu/ActionsMenu';
+import ButtonImage from './UI/ButtonImage/ButtonImage';
+import DisplayDiscount from './UI/DisplayDiscount/DisplayDiscount';
 
 interface ProductCardProps {
     name: string;
@@ -24,8 +23,26 @@ interface ProductCardProps {
 }
 
 const ProductCard: React.FC<ProductCardProps> = ({ ...props }) => {
+    const [isOpen, setIsOpen] = useState<boolean>(false);
+    const location = useLocation();
+    const menuRef = useRef<HTMLDivElement>(null);
+    
+    useEffect(() => {
+        const handleClickOutside = (event: MouseEvent) => {
+            if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
+                setIsOpen(false);
+            }
+        };
 
-    const location = useLocation()
+        if (isOpen) {
+            document.addEventListener('mousedown', handleClickOutside);
+        }
+
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, [isOpen]);
+
     const parseImageUrl = (name: string) => {
         let parsedName: string = name.split(' ').join('-');
         let locationPath: string = window.location.pathname;
@@ -71,7 +88,12 @@ const ProductCard: React.FC<ProductCardProps> = ({ ...props }) => {
                                     img={<ShoppingCardIcon height='28px' width='28px' color={`${variables.yellow}`} fill={`${variables.yellow}`} />}
                                     onClick={handleCartClick}
                                 />
-                                : <ActionsMenu actionList={adminProductsAction}/>
+                                : <ActionsMenu 
+                                    actionList={adminProductsAction} 
+                                    setIsOpen={setIsOpen} 
+                                    isOpen={isOpen}
+                                    ref={menuRef}
+                                />
                         }
 
                     </div>

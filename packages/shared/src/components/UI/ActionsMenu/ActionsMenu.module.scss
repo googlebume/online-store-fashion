@@ -19,16 +19,12 @@
         
         background-color: transparent;
         padding: 0;
-    }
-    
-    .open {
-        opacity: 1;
-        visibility: visible;
+
         transform: scale(1) translateY(0);
         
-        backdrop-filter: blur(10px);
+        backdrop-filter: blur(8px);
         border-radius: 10px;
-        padding: 2px;
+        padding: 2px 18px 2px 2px;
         width: fit-content;
         height: auto;
         transition: all 0.3s ease;
@@ -37,7 +33,7 @@
             width: 100%;
             padding: 8px;
             border-radius: 8px;
-            border: 1px solid colors.$gray;
+            border-left: 1px solid colors.$gray;
             background-color: transparent;
             color: colors.$black;
             transition: all 0.2s ease;
@@ -47,9 +43,16 @@
             }
             
             &:hover {
+                border-left: 2px solid colors.$yellow;
+                padding-left: 10px;
                 background-color: colors.$white, 5%;
-                transform: translateX(2px);
+                transform: translateX(6px);
             }
         }
+    }
+    
+    .open {
+        visibility: visible;
+        opacity: 1;
     }
 }
