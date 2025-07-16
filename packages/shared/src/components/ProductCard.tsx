@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import cl from '@packages/shared/src/utils/styles/modules/ProductCard.module.scss';
 import ButtonImage from './UI/ButtonImage/ButtonImage';
 import shoppingCardIcon from '@packages/shared/src/assets/images/icons/shoppingCardIcon.svg?url';
@@ -8,6 +8,7 @@ import DescriptionPrice from '../../../../services/shop/src/components/UI/Descri
 import DisplayDiscount from './UI/DisplayDiscount/DisplayDiscount';
 import { addToCart } from '../../../../services/shop/src/state/basketState';
 import variables from '@packages/shared/src/utils/styles/colorScheme'
+import ActionsMenu from './UI/ActionsMenu/ActionsMenu';
 
 interface ProductCardProps {
     name: string;
@@ -22,12 +23,14 @@ interface ProductCardProps {
 }
 
 const ProductCard: React.FC<ProductCardProps> = ({ ...props }) => {
+
+    const location = useLocation()
     const parseImageUrl = (name: string) => {
         let parsedName: string = name.split(' ').join('-');
         let locationPath: string = window.location.pathname;
-        
+
         if (
-            locationPath.split('/').includes('product') && 
+            locationPath.split('/').includes('product') &&
             props.prevLocation?.split('/').includes('product')
         ) {
             return `/fashion/shop/product/${parsedName}`;
@@ -38,7 +41,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ ...props }) => {
     const handleCartClick = (e: React.MouseEvent) => {
         e.preventDefault();
         e.stopPropagation();
-        
+
         addToCart({
             id: props.id,
             image: props.image,
@@ -56,15 +59,20 @@ const ProductCard: React.FC<ProductCardProps> = ({ ...props }) => {
             <Link to={parseImageUrl(props.name)}>
                 <div className={cl.product__img}>
                     <img src={props.image} alt={`${props.name}`} />
-                    <DisplayDiscount discount={props.discount}/>
+                    <DisplayDiscount discount={props.discount} />
                 </div>
                 <div className={cl.product__description}>
                     <div className={cl.description__main}>
                         <DescriptionPrice discountT={props.discount} priceT={props.price} />
-                        <ButtonImage
-                            img={<ShoppingCardIcon height='28px' width='28px' color={`${variables.yellow}`} fill={`${variables.yellow}`}/>}
-                            onClick={handleCartClick}
-                        />
+                        {
+                            location.pathname === "/fashion/shop"
+                                ? <ButtonImage
+                                    img={<ShoppingCardIcon height='28px' width='28px' color={`${variables.yellow}`} fill={`${variables.yellow}`} />}
+                                    onClick={handleCartClick}
+                                />
+                                : <ActionsMenu />
+                        }
+
                     </div>
                     <div className={cl.description__details}>
                         <p>{props.name}</p>
