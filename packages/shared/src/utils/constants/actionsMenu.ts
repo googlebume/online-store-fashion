@@ -1,18 +1,24 @@
 import React from "react";
-import useExportData from '@admin/utils/hooks/exportData'
+import { ProductType } from "../../utils/types/prosuctData.type";
 
 export type MenuActionType = {
     name: string;
-    action?: React.Dispatch<React.SetStateAction<boolean>> | (() => void)
+    action?: (data?: any) => void;
 }
 
-export const adminProductsAction: MenuActionType[] = [
-    {
-        name: 'Змінити',
-        action: (data) => {useExportData(data)}
-    },
-    {
-        name: 'Видалити',
-        // action: 
-    },
-]
+export const adminProductsAction = (productData: ProductType, setSelectedProduct: (data: ProductType) => void): MenuActionType[] => {
+    return [
+        {
+            name: 'Змінити',
+            action: () => {
+                setSelectedProduct(productData);
+            }
+        },
+        {
+            name: 'Видалити',
+            action: () => {
+                console.log('Видаляємо продукт:', productData);
+            }
+        },
+    ];
+};

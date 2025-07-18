@@ -4,7 +4,7 @@ import { useFetch } from '@packages/shared/src/utils/hooks/useFetch';
 import { useLocation } from 'react-router-dom';
 import UserCard from '@/components/UserCard';
 
-import cl from './AdminProdUsers.module.scss';
+import cl from './AdminUsers.module.scss';
 
 const AdminUsers = () => {
     const location = useLocation();

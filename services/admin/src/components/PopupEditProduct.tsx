@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from "react-dom";
-import cl from '@/utils/styles/modules/PopupEditProduct.scss'
+import cl from '../utils/styles/modules/PopupEditProduct.module.scss'
 
 import {ProductType} from '@packages/shared/src/utils/types/prosuctData.type'
 type PopType = {data: ProductType}

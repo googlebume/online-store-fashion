@@ -10,18 +10,7 @@ import ActionsMenu from './UI/ActionsMenu/ActionsMenu';
 import ButtonImage from './UI/ButtonImage/ButtonImage';
 import DisplayDiscount from './UI/DisplayDiscount/DisplayDiscount';
 import { ProductType } from '../utils/types/prosuctData.type'
-
-// interface ProductCardProps {
-//     name: string;
-//     price: number;
-//     discount?: number;
-//     image: string;
-//     id?: number;
-//     category?: string;
-//     type?: string;
-//     color?: string;
-//     prevLocation?: string;
-// }
+import { useProdContext } from '@admin/pages/AdminProducts/AdminProducts';
 
 type ProductCardProp = {
     data: ProductType;
@@ -33,6 +22,7 @@ const ProductCard: React.FC<ProductCardProp> = ({ data, prevLocation }) => {
     const location = useLocation();
     const menuRef = useRef<HTMLDivElement>(null);
 
+    const { setSelectedProduct } = useProdContext();
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
             if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
@@ -95,7 +85,7 @@ const ProductCard: React.FC<ProductCardProp> = ({ data, prevLocation }) => {
                                     onClick={handleCartClick}
                                 />
                                 : <ActionsMenu
-                                    actionList={adminProductsAction}
+                                    actionList={adminProductsAction(data, setSelectedProduct)}
                                     setIsOpen={setIsOpen}
                                     isOpen={isOpen}
                                     ref={menuRef}
