@@ -56,7 +56,7 @@ const BasketOverview: React.FC = () => {
     const [products, setProducts] = useState<(ProductType & { quantity: number })[]>(getCartItems());
 
     useEffect(() => {
-        // Підписуємося на зміни в кошику
+        // підпиcка на зміни в кошику
         const unsubscribe = subscribeToCartChanges(() => {
             setProducts(getCartItems());
         });

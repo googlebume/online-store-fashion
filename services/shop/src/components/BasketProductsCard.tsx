@@ -42,19 +42,23 @@ import Counter from '@packages/shared/src/components/Counter';
 import ButtonTrash from '@packages/shared/src/components/UI/ButtonTrash/ButtonTrash';
 import DescriptionPrice from './UI/DescriptionPrice/DescriptionPrice';
 import { removeFromCart } from '@shop/state/basketState';
+import { ProductType } from '@packages/shared/src/utils/types/prosuctData.type';
 
 interface BasketProductsCardProps {
-    data: {
-        id?: number;
-        name: string;
-        category?: string;
-        type?: string;
-        color?: string;
-        image: string;
-        price: number;
-        discount?: number;
+    data: ProductType & {
         quantity: number;
-    };
+    }
+    // {
+    //     id?: number;
+    //     name: string;
+    //     category?: string;
+    //     type?: string;
+    //     color?: string;
+    //     image: string;
+    //     price: number;
+    //     discount?: number;
+    //     quantity: number;
+    // };
 }
 
 const BasketProductsCard: React.FC<BasketProductsCardProps> = ({ data }) => {

@@ -47,7 +47,7 @@ const AdminProdUsers = () => {
                     image={prod.image} />
             )
             ))}
-            {/* {"price" in response[0] ? <PopupEditProduct data={{...response[0]}} type='edit'/> : null} */}
+            {"price" in response[0] ? <PopupEditProduct data={{...response[0]}} type='edit'/> : null}
         </div>
     );
 };

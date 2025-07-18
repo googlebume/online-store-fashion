@@ -96,10 +96,7 @@ const ProductShopList = () => {
             {(filteredProducts.length > 0 ? filteredProducts : products).map((card) => (
                 <ProductCard
                     key={card.name}
-                    name={`${card.name}`}
-                    price={card.price}
-                    discount={card.discount}
-                    image={card.image}
+                    data={card}
                 />
             ))}
         </section>

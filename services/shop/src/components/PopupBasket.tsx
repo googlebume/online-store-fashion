@@ -114,6 +114,7 @@ import BasketDelivery from './BasketDelivery';
 import BasketSummary from './BasketSummary';
 import EmptyBasket from './EmptyBasket';
 import { getCartItems, subscribeToCartChanges } from '../state/basketState';
+import {ProductType} from '@packages/shared/src/utils/types/prosuctData.type'
 
 interface PopupBasketProps {
     setBasketOpenStatus: React.Dispatch<React.SetStateAction<boolean>>;
@@ -121,7 +122,7 @@ interface PopupBasketProps {
 }
 
 const PopupBasket: React.FC<PopupBasketProps> = ({ setBasketOpenStatus, basketOpenStatus }) => {
-    const [productsInCart, setProductsInCart] = useState(getCartItems());
+    const [productsInCart, setProductsInCart] = useState<ProductType[]>(getCartItems());
 
     useEffect(() => {
         document.body.style.overflow = "hidden";
