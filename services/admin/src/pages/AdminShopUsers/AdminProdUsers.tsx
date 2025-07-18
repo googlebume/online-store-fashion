@@ -20,7 +20,7 @@ const AdminProdUsers = () => {
     useEffect(() => {
         const path = location.pathname.split('/')[3];
         setLastOfPath(path)
-    }, []) 
+    }, [location.pathname]) 
 
     useEffect(() => {
         fetchData({
@@ -47,7 +47,7 @@ const AdminProdUsers = () => {
                     image={prod.image} />
             )
             ))}
-            {"price" in response[0] ? <PopupEditProduct data={{...response[0]}} type='edit'/> : null}
+            {/* {"price" in response[0] ? <PopupEditProduct data={{...response[0]}} type='edit'/> : null} */}
         </div>
     );
 };
