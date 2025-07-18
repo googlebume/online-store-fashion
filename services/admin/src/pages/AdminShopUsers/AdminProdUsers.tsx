@@ -9,6 +9,7 @@ import ProductCard from '@packages/shared/src/components/ProductCard';
 
 import cl from './AdminProdUsers.module.scss';
 import UserCard from '@/components/UserCard';
+import PopupEditProduct from '@/components/PopupEditProduct';
 
 const AdminProdUsers = () => {
     const location = useLocation();
@@ -44,7 +45,9 @@ const AdminProdUsers = () => {
                     price={prod.price}
                     discount={prod.discount}
                     image={prod.image} />
-            )))}
+            )
+            ))}
+            {"price" in response[0] ? <PopupEditProduct data={{...response[0]}} type='edit'/> : null}
         </div>
     );
 };

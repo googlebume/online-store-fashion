@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactDOM from "react-dom";
 import cl from '@/utils/styles/modules/PopupEditProduct.scss'
 
 import {ProductType} from '@packages/shared/src/utils/types/prosuctData.type'
@@ -9,12 +10,13 @@ type PopupEditProductType<T extends 'edit' | 'add'> =
         : {type: T}
 
 const PopupEditProduct: React.FC<PopupEditProductType<'edit'>> = ({...props}) => {
-    return (
-        <div>
-            <div className={cl.mainData}>
-                
+    return ReactDOM.createPortal(
+        <div className={cl.overlay}>
+            <div className={cl.popup}>
+                jbbj
             </div>
-        </div>
+        </div>,
+        document.getElementById('modal-root')
     );
 };
 
