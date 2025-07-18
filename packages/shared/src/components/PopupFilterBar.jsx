@@ -24,7 +24,7 @@ const PopupFilterBar = ({ isOpen, setIsOpen }) => {
                 <FiltersStickyBar />
             </div>
         </div>,
-        document.getElementById("modal-root") // Рендеримо в портал
+        document.getElementById("modal-root")
     );
 };
 

@@ -40,7 +40,7 @@ export const useFetch = <T = any, R = any>(): UseFetchReturn<R> => {
             if (method === 'POST') {
                 const requestBody: any = { ...(body || {}) };
 
-                // Додаємо поле event до тіла POST-запиту
+                // додаю поле event до тіла POST-запиту
 
                 fetchConfig.body = JSON.stringify(requestBody);
             }
