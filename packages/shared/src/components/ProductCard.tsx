@@ -99,7 +99,7 @@ const ProductCard: React.FC<ProductCardProp> = ({ data, prevLocation }) => {
                                     setIsOpen={setIsOpen}
                                     isOpen={isOpen}
                                     ref={menuRef}
-                                // data={}
+                                    data={data}
                                 />
                         }
 

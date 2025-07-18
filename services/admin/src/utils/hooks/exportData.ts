@@ -1,9 +1,11 @@
 import {useState} from 'react'
 
-const exportData = <T>() => {
+const useExportData = <T>() => {
     const [data, exportData] = useState<T>()
     return {
         data,
         exportData
     }
 }
+
+export default useExportData

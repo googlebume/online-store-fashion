@@ -15,6 +15,9 @@
             "@shop/*": [
                 "../../services/shop/src/*"
             ],
+            "@admin/*": [
+                "../../services/admin/src/*"
+            ],
             "@product/*": [
                 "../../services/product/src/*"
             ],

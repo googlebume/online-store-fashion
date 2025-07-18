@@ -8,7 +8,6 @@
 //     }
 //   }
 // }
-
 {
   "extends": "../tsconfig.base.json",
   "compilerOptions": {
@@ -20,8 +19,15 @@
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "paths": {
-      "@/*": ["./src/*"],
-      "@shop/*": ["../../services/shop/src/*"],
+      "@/*": [
+        "./src/*"
+      ],
+      "@shop/*": [
+        "../../services/shop/src/*"
+      ],
+      "@admin/*": [
+        "../../services/admin/src/*"
+      ],
     }
   }
 }
