@@ -14,13 +14,17 @@ import PopupEditProduct from '@/components/PopupEditProduct';
 const AdminProdUsers = () => {
     const location = useLocation();
 
+    function isProduct(data: any): data is ProductType {
+        return data && typeof data === 'object' && 'price' in data;
+    }
+
 
     const { response, error, isLoading, fetchData } = useFetch<null, ProductType[] | UserDataType[]>();
     const [lastOfPath, setLastOfPath] = useState('');
     useEffect(() => {
         const path = location.pathname.split('/')[3];
         setLastOfPath(path)
-    }, [location.pathname]) 
+    }, [location.pathname])
 
     useEffect(() => {
         fetchData({
@@ -37,17 +41,16 @@ const AdminProdUsers = () => {
 
     return (
         <div className={`${lastOfPath === "users" ? cl.overview : cl.overview__prod}`}>
-            {Array.isArray(response) && "email" in response[0] && <UserCard users={response as UserDataType[]} />}
-            {Array.isArray(response) && "price" in response[0] && (response.map((prod, index) => (
+            {response !== null && Array.isArray(response) && "email" in response[0] && <UserCard users={response as UserDataType[]} />}
+            {response !== null && Array.isArray(response) && "price" in response[0] && (response.map((prod, index) => (
                 <ProductCard
                     key={index}
-                    name={`${prod.name}`}
-                    price={prod.price}
-                    discount={prod.discount}
-                    image={prod.image} />
+                    data={prod as ProductType} />
             )
             ))}
-            {"price" in response[0] ? <PopupEditProduct data={{...response[0]}} type='edit'/> : null}
+            {response !== null && isProduct(response[0]) ? (
+                <PopupEditProduct data={response[0]} type='edit' />
+            ) : null}
         </div>
     );
 };
