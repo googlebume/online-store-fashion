@@ -7,6 +7,7 @@ type ActionsMenuProps<T extends MenuActionType> = {
     actionList: T[];
     isOpen: boolean;
     setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
+    data?: T
 };
 
 const ActionsMenu = forwardRef<HTMLDivElement, ActionsMenuProps<MenuActionType>>(
