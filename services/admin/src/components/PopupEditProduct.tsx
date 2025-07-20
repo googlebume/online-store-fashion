@@ -14,7 +14,10 @@ const PopupEditProduct: React.FC<PopupEditProductType<'edit'>> = ({...props}) =>
     return ReactDOM.createPortal(
         <div className={cl.overlay}>
             <div className={cl.popup}>
-                {JSON.stringify(props.data)}
+                <div className={cl.content}>
+                    {JSON.stringify(props.data)}
+                </div>
+                
             </div>
         </div>,
         document.getElementById('modal-root')
