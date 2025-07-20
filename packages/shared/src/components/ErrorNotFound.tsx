@@ -1,20 +1,23 @@
 import React from 'react';
 
+import {shopRoutes} from '../routes/shop'
+
 import cl from '@packages/shared/src/utils/styles/modules/ErrorNotFound.module.scss';
 import SubmitButton from './UI/SubmitButton/SubmitButton';
 
 import arrow from '../assets/images/icons/arrowInCircle.svg?url';
 import { useNavigate } from 'react-router-dom';
 
-const navigate = useNavigate()
-
 const ErrorNotFound = () => {
+
+    const navigate = useNavigate()
+
     const handleGoHome = () => {
-        navigate()
+        navigate(shopRoutes.shop)
     };
 
     const handleGoBack = () => {
-        console.log('Go back');
+        navigate(shopRoutes.shop)
     };
 
     const handleRefresh = () => {
@@ -46,17 +49,20 @@ const ErrorNotFound = () => {
                     <div className={cl.actions}>
                         <SubmitButton
                             text='На головну'
+                            onClick={handleGoHome}
                         />
 
                         <SubmitButton
                             text='Назад'
                             variant='secondary'
                             img={arrow}
+                            onClick={handleGoBack}
                         />
 
                         <SubmitButton
                             text='Оновити'
                             variant='secondary'
+                            onClick={handleRefresh}
                         />
                     </div>
                 </div>
