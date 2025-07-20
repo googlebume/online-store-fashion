@@ -8,7 +8,6 @@ import FileUploader from '@packages/shared/src/components/UI/FileUploader/FileUp
 
 type PopType = { 
     data: ProductType;
-    isOpen: boolean;
     popupRef: React.RefObject<HTMLDivElement>;
 };
 
@@ -19,8 +18,8 @@ type PopupEditProductType<T extends 'edit' | 'add'> =
 
 const PopupEditProduct: React.FC<PopupEditProductType<'edit'>> = ({ ...props }) => {
     useEffect(() => {
-        document.body.style.overflow = props.isOpen ? 'hidden' : 'auto';
-    }, [props.isOpen]);
+        document.body.style.overflow = props.data ? 'hidden' : 'auto';
+    }, [props.data]);
 
     return ReactDOM.createPortal(
         <div className={cl.overlay}>

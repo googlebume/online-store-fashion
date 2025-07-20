@@ -58,22 +58,21 @@ const AdminProducts = () => {
     }
 
     const menuRef = useRef<HTMLDivElement>(null);
-    const [isOpen, setIsOpen] = useState<boolean>(false);
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
             if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
-                setIsOpen(false);
+                setSelectedProduct(null);
             }
         };
 
-        if (isOpen) {
+        if (selectedProduct !== null) {
             document.addEventListener('mousedown', handleClickOutside);
         }
 
         return () => {
             document.removeEventListener('mousedown', handleClickOutside);
         };
-    }, [isOpen]);
+    }, [selectedProduct]);
 
 
     return (
@@ -88,8 +87,8 @@ const AdminProducts = () => {
                     ))
                 }
 
-                {selectedProduct && (
-                    <PopupEditProduct data={selectedProduct} isOpen={ isOpen } popupRef={menuRef} type='edit' />
+                {selectedProduct !== null && (
+                    <PopupEditProduct data={selectedProduct} popupRef={menuRef} type='edit' />
                 )}
             </ProdContext.Provider>
         </div>
