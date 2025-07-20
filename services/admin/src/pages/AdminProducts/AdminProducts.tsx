@@ -1,4 +1,4 @@
-import React, { useEffect, useState, createContext, useContext, Dispatch, SetStateAction } from 'react';
+import React, { useEffect, useState, createContext, useContext, Dispatch, SetStateAction, useRef } from 'react';
 import type { ProductType } from "@packages/shared/src/utils/types/prosuctData.type";
 import { useFetch } from '@packages/shared/src/utils/hooks/useFetch';
 import { useLocation } from 'react-router-dom';
@@ -11,7 +11,7 @@ export const ProdContext = createContext<{
     setSelectedProduct: Dispatch<SetStateAction<ProductType | null>>;
     selectedProduct: ProductType | null;
 }>({
-    setSelectedProduct: () => {},
+    setSelectedProduct: () => { },
     selectedProduct: null
 });
 
@@ -57,6 +57,25 @@ const AdminProducts = () => {
         return null;
     }
 
+    const menuRef = useRef<HTMLDivElement>(null);
+    const [isOpen, setIsOpen] = useState<boolean>(false);
+    useEffect(() => {
+        const handleClickOutside = (event: MouseEvent) => {
+            if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
+                setIsOpen(false);
+            }
+        };
+
+        if (isOpen) {
+            document.addEventListener('mousedown', handleClickOutside);
+        }
+
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, [isOpen]);
+
+
     return (
         <div className={cl.overview__prod}>
             <ProdContext.Provider value={{ setSelectedProduct, selectedProduct }}>
@@ -68,9 +87,9 @@ const AdminProducts = () => {
                         />
                     ))
                 }
-                
+
                 {selectedProduct && (
-                    <PopupEditProduct data={selectedProduct} type='edit' />
+                    <PopupEditProduct data={selectedProduct} isOpen={ isOpen } popupRef={menuRef} type='edit' />
                 )}
             </ProdContext.Provider>
         </div>
