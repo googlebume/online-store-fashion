@@ -4,10 +4,13 @@ import cl from '@packages/shared/src/utils/styles/modules/ErrorNotFound.module.s
 import SubmitButton from './UI/SubmitButton/SubmitButton';
 
 import arrow from '../assets/images/icons/arrowInCircle.svg?url';
+import { useNavigate } from 'react-router-dom';
+
+const navigate = useNavigate()
 
 const ErrorNotFound = () => {
     const handleGoHome = () => {
-        console.log('Redirect to home');
+        navigate()
     };
 
     const handleGoBack = () => {
