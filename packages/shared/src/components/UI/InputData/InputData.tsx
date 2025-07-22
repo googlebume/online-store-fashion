@@ -1,6 +1,7 @@
 import React from 'react';
 import cl from './InputData.module.scss';
 import { InputPropsType } from './../../../utils/types/inputProps.type';
+import { TextareaType } from './../../../utils/types/inputProps.type';
 
 const InputData: React.FC<InputPropsType> = ({ type, placeholder, label, min, max, id, required, value, onInput }) => {
     const baseProps = {
@@ -21,6 +22,7 @@ const InputData: React.FC<InputPropsType> = ({ type, placeholder, label, min, ma
     const textareaProps: React.TextareaHTMLAttributes<HTMLTextAreaElement> = {
         ...baseProps,
         rows: 4,
+        maxLength: 300
     };
 
 

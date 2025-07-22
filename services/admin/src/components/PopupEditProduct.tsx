@@ -93,7 +93,6 @@ const PopupEditProduct: React.FC<PopupEditProductType<'edit'>> = ({ ...props }) 
                                 type='textarea'
                                 label='Опис товару'
                                 value={props.data.description}
-                                // rows
                             />
                         </div>
                     </section>
