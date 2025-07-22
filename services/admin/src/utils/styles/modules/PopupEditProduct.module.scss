@@ -1,4 +1,5 @@
 @use '@packages/shared/src/utils/styles/colorScheme' as colors;
+@use '@packages/shared/src/utils/styles/mixins/thinScrollbar' as scrollbar;
 
 .overlay {
     position: fixed;
@@ -20,7 +21,51 @@
         background: colors.$white;
         border-radius: 24px;
         padding: 24px;
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
 
-        .content {}
+        .content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+            overflow: auto;
+            scrollbar-width: thin;
+            scrollbar-color: colors.$gray transparent;
+            @include scrollbar.custom-scrollbar;
+            padding-right: 8px;
+
+            .head {
+                display: flex;
+                gap: 16px;
+                width: 100%;
+            }
+            .section {
+                background-color: colors.$milkish;
+                border-radius: 16px;
+                padding: 1.5rem;
+                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+                width: 100%;
+
+                h3 {
+                    font-size: 18px;
+                    margin-bottom: 1rem;
+                    font-weight: 700;
+                }
+            }
+
+            .gridTwoCols {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+                gap: 1rem;
+            }
+
+            .gridSingle {
+                display: grid;
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+        }
     }
 }

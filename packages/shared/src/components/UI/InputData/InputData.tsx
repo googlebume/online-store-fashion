@@ -2,16 +2,27 @@ import React from 'react';
 import cl from './InputData.module.scss';
 import { InputPropsType } from './../../../utils/types/inputProps.type';
 
-const InputData: React.FC<InputPropsType> = ({ type, placeholder, label, min, max, id, required, onInput }) => {
-    const inputProps: React.InputHTMLAttributes<HTMLInputElement> = {
-        type,
+const InputData: React.FC<InputPropsType> = ({ type, placeholder, label, min, max, id, required, value, onInput }) => {
+    const baseProps = {
         className: cl.input,
         id,
         placeholder,
+        required,
+        value,
+    };
+
+    const inputProps: React.InputHTMLAttributes<HTMLInputElement> = {
+        ...baseProps,
+        type,
         min,
         max,
-        required,
     };
+
+    const textareaProps: React.TextareaHTMLAttributes<HTMLTextAreaElement> = {
+        ...baseProps,
+        rows: 4,
+    };
+
 
     if (type === 'password') {
         inputProps.minLength = 8;
@@ -27,10 +38,17 @@ const InputData: React.FC<InputPropsType> = ({ type, placeholder, label, min, ma
             <label className={cl.label} htmlFor={id}>
                 {label}
             </label>
-            <input 
-                {...inputProps} 
-                onInput={(e) => {onInput(e.currentTarget.value)}}
-            />
+            {
+                type === 'textarea'
+                    ? <textarea
+                        {...textareaProps}
+                        onInput={(e) => { onInput && onInput(e.currentTarget.value) }}
+                    />
+                    : <input
+                        {...inputProps}
+                        onInput={(e) => { onInput && onInput(e.currentTarget.value) }}
+                    />
+            }
         </div>
     );
 };
