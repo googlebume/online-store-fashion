@@ -28,6 +28,7 @@ const PopupEditProduct: React.FC<PopupEditProductType<'edit'>> = ({ ...props }) 
                     <FileUploader 
                         data={{ image: props.data.image }}
                         size={{ width: 250, height: 300 }}
+                        inputType='image'
                     />
                     {JSON.stringify(props.data)}
                 </div>
