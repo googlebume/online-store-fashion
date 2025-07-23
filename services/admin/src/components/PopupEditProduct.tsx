@@ -1,8 +1,8 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import ReactDOM from "react-dom";
 import cl from '../utils/styles/modules/PopupEditProduct.module.scss'
 
-import type { ProductType } from '@packages/shared/src/utils/types/prosuctData.type'
+import type { ProductAttrType, ProductType } from '@packages/shared/src/utils/types/prosuctData.type'
 
 import FileUploader from '@packages/shared/src/components/UI/FileUploader/FileUploader'
 import InputData from '@packages/shared/src/components/UI/InputData/InputData'
@@ -22,6 +22,26 @@ const PopupEditProduct: React.FC<PopupEditProductType<'edit'>> = ({ ...props }) 
     useEffect(() => {
         document.body.style.overflow = props.data ? 'hidden' : 'auto';
     }, [props.data]);
+
+    const [productData, setProductData] = useState<ProductType>(props.data)
+
+    function handleProdDataChange(field: keyof ProductType, value: string | number, attr?: keyof ProductAttrType) {
+        if (field === 'attributes') {
+            setProductData((prev) => ({
+                ...prev,
+                attributes: {
+                    ...prev.attributes,
+                    [attr]: value
+                }
+            }))
+        } else {
+            setProductData((prev) => ({
+                ...prev,
+                [field]: value
+            }))
+        }
+        console.log(productData)
+    }
 
     return ReactDOM.createPortal(
         <div className={cl.overlay}>
@@ -46,16 +66,18 @@ const PopupEditProduct: React.FC<PopupEditProductType<'edit'>> = ({ ...props }) 
                                     placeholder='Ціна у грн'
                                     type='number'
                                     label='Ціна товару'
-                                    value={props.data.price?.toString()}
+                                    value={productData.price?.toString()}
+                                    onInput={(val) => handleProdDataChange('price', val)}
                                 />
                                 <InputData
                                     id='prod-discount'
                                     placeholder='Знижка у відсотках'
                                     type='number'
                                     label='Знижка (%)'
-                                    value={props.data.discount?.toString()}
+                                    value={productData.discount?.toString()}
                                     min={0}
                                     max={100}
+                                    onInput={(val) => handleProdDataChange('discount', val)}
                                 />
                             </div>
                         </section>
@@ -69,21 +91,25 @@ const PopupEditProduct: React.FC<PopupEditProductType<'edit'>> = ({ ...props }) 
                                 placeholder='ID товару'
                                 type='number'
                                 label='ID товару'
-                                value={props.data.id?.toString()}
+                                value={productData.id?.toString()}
+                                disabled
+                            // onInput={(val) => handleProdDataChange('id', val)}
                             />
                             <InputData
                                 id='prod-name'
                                 placeholder='Назва товару'
                                 type='text'
                                 label='Назва товару'
-                                value={props.data.name}
+                                value={productData.name}
+                                onInput={(val) => handleProdDataChange('name', val)}
                             />
                             <InputData
                                 id='prod-brand'
                                 placeholder='Бренд'
                                 type='text'
                                 label='Бренд'
-                                value={props.data.brand}
+                                value={productData.brand}
+                                onInput={(val) => handleProdDataChange('brand', val)}
                             />
                         </div>
                         <div>
@@ -92,7 +118,8 @@ const PopupEditProduct: React.FC<PopupEditProductType<'edit'>> = ({ ...props }) 
                                 placeholder='Опис...'
                                 type='textarea'
                                 label='Опис товару'
-                                value={props.data.description}
+                                value={productData.description}
+                                onInput={(val) => handleProdDataChange('description', val)}
                             />
                         </div>
                     </section>
@@ -105,28 +132,31 @@ const PopupEditProduct: React.FC<PopupEditProductType<'edit'>> = ({ ...props }) 
                                 placeholder='Тип товару'
                                 type='text'
                                 label='Тип'
-                                value={props.data.attributes?.type}
+                                value={productData.attributes?.type}
+                                onInput={(val) => handleProdDataChange('attributes', val, 'type')}
                             />
                             <InputOption
                                 label='Категорія'
                                 optionBasic='Чоловіче'
-                                value={props.data.attributes?.category}
+                                value={productData.attributes?.category}
                                 options={['Чоловіче', "Жіноче"]}
-                                onChange={e => console.log(props.data.attributes?.category)}
+                                onChange={(val) => handleProdDataChange('attributes', val, 'category')}
+                                //onInput={(val) => handleProdDataChange('attributes', val, 'type')}
                             />
                             <InputData
                                 id='prod-color'
                                 placeholder='Колір'
                                 type='text'
                                 label='Колір'
-                                value={props.data.attributes?.color}
+                                value={productData.attributes?.color}
+                                onInput={(val) => handleProdDataChange('attributes', val, 'color')}
                             />
                             <InputOption
                                 label='Розмір'
                                 optionBasic='M'
-                                value={props.data.attributes?.size}
+                                value={productData.attributes?.size}
                                 options={['S', "M", 'L', 'XL', 'XXL']}
-                                onChange={e => console.log(props.data.attributes?.size)}
+                                onChange={(val) => handleProdDataChange('attributes', val, 'size')}
                             />
                         </div>
                     </section>
