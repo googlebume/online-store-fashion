@@ -23,7 +23,7 @@ const PopupEditProduct = <T extends 'edit' | 'add'>({ ...props }: PopupEditProdu
     const initialData = isEditMode ? (props as PopType).data : {} as ProductType;
 
     useEffect(() => {
-        document.body.style.overflow = isEditMode || !isEditMode  ? 'hidden' : 'auto';
+        document.body.style.overflow = isEditMode || !isEditMode ? 'hidden' : 'auto';
     }, [isEditMode]);
 
     const [productData, setProductData] = useState<ProductType>(initialData)
@@ -89,14 +89,18 @@ const PopupEditProduct = <T extends 'edit' | 'add'>({ ...props }: PopupEditProdu
                     <section className={cl.section}>
                         <h3>Основна інформація</h3>
                         <div className={cl.gridTwoCols}>
-                            <InputData
-                                id='prod-id'
-                                placeholder='ID товару'
-                                type='number'
-                                label='ID товару'
-                                {...(isEditMode && { value: productData.id?.toString() })}
-                                disabled
-                            />
+                            {props.type === 'add'
+                                ? null
+                                : <InputData
+                                    id='prod-id'
+                                    placeholder='ID товару'
+                                    type='number'
+                                    label='ID товару'
+                                    {...(isEditMode && { value: productData.id?.toString() })}
+                                    disabled
+                                />
+                            }
+
                             <InputData
                                 id='prod-name'
                                 placeholder='Назва товару'
