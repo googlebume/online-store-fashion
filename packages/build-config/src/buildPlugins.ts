@@ -26,7 +26,7 @@ export function buildPlugins({mode, paths, analyzer, platform}: BuildOptions): C
     ]
 
     if(isDev) {
-        plugins.push(new webpack.ProgressPlugin())
+        // plugins.push(new webpack.ProgressPlugin())
         /** Выносит проверку типов в отдельный процесс: не нагружая сборку */
         // plugins.push(new ForkTsCheckerWebpackPlugin())
         plugins.push(new ReactRefreshWebpackPlugin())
