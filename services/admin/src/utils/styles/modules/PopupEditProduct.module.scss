@@ -54,6 +54,16 @@
                     font-weight: 700;
                 }
             }
+            .submit {
+                display: flex;
+                margin-left: 70%;
+                @media (max-width: 678px) {
+                    margin-left: 50%;
+                }
+                @media (max-width: 620px) {
+                    margin: none;
+                }
+            }
 
             .gridTwoCols {
                 display: grid;

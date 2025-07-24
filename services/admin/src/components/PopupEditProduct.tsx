@@ -7,6 +7,7 @@ import type { ProductAttrType, ProductType } from '@packages/shared/src/utils/ty
 import FileUploader from '@packages/shared/src/components/UI/FileUploader/FileUploader'
 import InputData from '@packages/shared/src/components/UI/InputData/InputData'
 import InputOption from '@packages/shared/src/components/UI/InputOption/InputOption'
+import SubmitButton from '@packages/shared/src/components/UI/SubmitButton/SubmitButton';
 
 type PopType = {
     data: ProductType;
@@ -46,10 +47,17 @@ const PopupEditProduct = <T extends 'edit' | 'add'>({ ...props }: PopupEditProdu
         console.log(productData)
     }
 
+    const onHandleSubmit = (e: React.FormEvent) => {
+        e.preventDefault()
+        console.log('...', productData)
+    }
+
     return ReactDOM.createPortal(
         <div className={cl.overlay}>
             <div className={cl.popup} ref={props.popupRef}>
-                <div className={cl.content}>
+                <form
+                    onSubmit={(e:React.FormEvent) => onHandleSubmit(e)}
+                    className={cl.content}>
                     <div className={cl.head}>
                         <section className={cl.section}>
                             <h3>Зображення товару</h3>
@@ -165,7 +173,13 @@ const PopupEditProduct = <T extends 'edit' | 'add'>({ ...props }: PopupEditProdu
                             />
                         </div>
                     </section>
-                </div>
+                    <section className={cl.submit}>
+                        <SubmitButton
+                            text='Відправити'
+                        />
+                    </section>
+
+                </form>
             </div>
         </div>,
         document.getElementById('modal-root')!
