@@ -8,6 +8,7 @@ import FileUploader from '@packages/shared/src/components/UI/FileUploader/FileUp
 import InputData from '@packages/shared/src/components/UI/InputData/InputData'
 import InputOption from '@packages/shared/src/components/UI/InputOption/InputOption'
 import SubmitButton from '@packages/shared/src/components/UI/SubmitButton/SubmitButton';
+import { useFetch } from '@packages/shared/src/utils/hooks/useFetch';
 
 type PopType = {
     data: ProductType;
@@ -47,16 +48,38 @@ const PopupEditProduct = <T extends 'edit' | 'add'>({ ...props }: PopupEditProdu
         console.log(productData)
     }
 
+    const { response, error, isLoading, fetchData } = useFetch<ProductType>();
+
+
+
     const onHandleSubmit = (e: React.FormEvent) => {
         e.preventDefault()
         console.log('...', productData)
+        fetchData({
+            method: 'POST',
+            port: 4005,
+            url: `admin/products/${isEditMode ? 'edit' : 'add'}`,
+            body: JSON.stringify({
+                ...productData,
+                event: props.type
+            }),
+        });
     }
+
+    useEffect(() => {
+        if (response?.success) {
+            setTimeout(() => {
+                document.location.reload()
+            }, 500);
+        }
+    }, [response])
+
 
     return ReactDOM.createPortal(
         <div className={cl.overlay}>
             <div className={cl.popup} ref={props.popupRef}>
                 <form
-                    onSubmit={(e:React.FormEvent) => onHandleSubmit(e)}
+                    onSubmit={(e: React.FormEvent) => onHandleSubmit(e)}
                     className={cl.content}>
                     <div className={cl.head}>
                         <section className={cl.section}>
@@ -175,7 +198,7 @@ const PopupEditProduct = <T extends 'edit' | 'add'>({ ...props }: PopupEditProdu
                     </section>
                     <section className={cl.submit}>
                         <SubmitButton
-                            text='Відправити'
+                            text={!isLoading ? 'Підтвердити' : (isLoading ? "Обробка..." : (response?.success ? 'Успішно!' : "Помилка"))}
                         />
                     </section>
 
