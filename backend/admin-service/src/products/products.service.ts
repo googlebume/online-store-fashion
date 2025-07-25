@@ -14,6 +14,12 @@ export class ProductsService {
         if (productInDB == data) {
             throw new HttpException(`Product with id ${data.id} already exists`, 400);
         }
-        return databaseClient.send('edit_product', data);
+        try {
+            databaseClient.send('edit_product', data);
+            return {success: true};
+        } catch (error) {
+            return {success: false, message: error.message};
+        }
+        
     }
 }

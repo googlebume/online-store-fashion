@@ -94,6 +94,7 @@ export class ProductRepository {
     changeArrToObj(arr) {
         const attributesObject = arr
             ? Object.fromEntries([
+                ["productsId", arr.productsId],
                 ["type", arr.type],
                 ["category", arr.category],
                 ["color", arr.color],
@@ -114,7 +115,7 @@ export class ProductRepository {
                 attributes: {
                     update: [
                         {
-                            where: { productsId: data.attributes.id },
+                            where: { productsId: data.attributes.productsId },
                             data: {
                                 type: data.attributes.type,
                                 category: data.attributes.category,

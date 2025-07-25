@@ -68,7 +68,7 @@ const PopupEditProduct = <T extends 'edit' | 'add'>({ ...props }: PopupEditProdu
     }
 
     useEffect(() => {
-        if (response?.success) {
+        if (response?.success || response?.ok) {
             setTimeout(() => {
                 document.location.reload()
             }, 500);
