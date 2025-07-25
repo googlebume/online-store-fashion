@@ -55,14 +55,15 @@ const PopupEditProduct = <T extends 'edit' | 'add'>({ ...props }: PopupEditProdu
     const onHandleSubmit = (e: React.FormEvent) => {
         e.preventDefault()
         console.log('...', productData)
+        console.log(`admin/products/${isEditMode ? 'edit' : 'add'}`)
         fetchData({
             method: 'POST',
             port: 4005,
             url: `admin/products/${isEditMode ? 'edit' : 'add'}`,
-            body: JSON.stringify({
+            body: {
                 ...productData,
                 event: props.type
-            }),
+            },
         });
     }
 

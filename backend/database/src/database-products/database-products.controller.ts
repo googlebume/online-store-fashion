@@ -11,7 +11,7 @@ export class DatabaseProductsController {
     const products = await this.databaseService.getAllProducts();
     return products;
   }
-  
+
   @MessagePattern('get_product_by_id')
   async getProductById(data: { id: number }) {
     return this.databaseService.getProductById(data.id);
@@ -20,5 +20,10 @@ export class DatabaseProductsController {
   @MessagePattern('get_product_by_name')
   async getProductByName(data: { name: string }) {
     return this.databaseService.getProductByName(data.name);
+  }
+
+  @MessagePattern('edit_product')
+  async editProduct(data: any) {
+    return this.databaseService.editProduct(data);
   }
 }

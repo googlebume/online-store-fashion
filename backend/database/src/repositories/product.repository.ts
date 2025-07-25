@@ -12,7 +12,7 @@ export class ProductRepository {
     async findByName(name: string) {
         const parsedName: string = name.split('-').slice(0, 2).join(' ');
         // console.log('parsedName:', parsedName);
-    
+
         const products = await this.prisma.products.findMany({
             where: {
                 name: {
@@ -20,13 +20,13 @@ export class ProductRepository {
                 }
             }
         });
-    
+
         if (!products.length) {
             throw new Error('Products not found');
         }
-    
+
         const productIds = products.map(p => p.id);
-    
+
         const attributes = await this.prisma.attributes.findMany({
             where: {
                 productsId: {
@@ -34,13 +34,13 @@ export class ProductRepository {
                 }
             }
         });
-    
+
         const attributesMap = attributes.reduce((acc, attr) => {
             if (!acc[attr.productsId]) acc[attr.productsId] = [];
             acc[attr.productsId].push(attr);
             return acc;
         }, {} as Record<number, any[]>);
-    
+
         return products.map(product => {
             console.log('product.id', product.id);
             console.log('attributesMap', attributesMap[product.id]);
@@ -50,8 +50,8 @@ export class ProductRepository {
             };
         });
     }
-    
-    
+
+
 
     async findAll() {
         const products = await this.prisma.products.findMany();
@@ -61,7 +61,7 @@ export class ProductRepository {
             const matchingAttribute = attributes.find(attr => attr.productsId === product.id);
 
             const attributesObject = this.changeArrToObj(matchingAttribute);
-            
+
 
             return {
                 ...product,
@@ -100,6 +100,32 @@ export class ProductRepository {
                 ["size", arr.size]
             ])
             : {};
-            return attributesObject
+        return attributesObject
+    }
+
+
+    editProduct(data: any) {
+        return this.prisma.products.update({
+            where: { id: data.id },
+            data: {
+                name: data.name,
+                brand: data.brand,
+                description: data.description,
+                attributes: {
+                    update: [
+                        {
+                            where: { productsId: data.attributes.id },
+                            data: {
+                                type: data.attributes.type,
+                                category: data.attributes.category,
+                                color: data.attributes.color,
+                                size: data.attributes.size,
+                            }
+
+                        }
+                    ],
+                }
+            },
+        });
     }
 }

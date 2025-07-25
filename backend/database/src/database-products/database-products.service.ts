@@ -18,4 +18,8 @@ export class DatabaseProductsService {
   async getProductByName(name: string) {
     return this.productRepository.findByName(name);
   }
+
+  editProduct(data: any) {
+    return this.productRepository.editProduct(data);
+  }
 }
