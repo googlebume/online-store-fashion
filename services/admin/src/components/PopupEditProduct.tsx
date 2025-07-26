@@ -54,8 +54,6 @@ const PopupEditProduct = <T extends 'edit' | 'add'>({ ...props }: PopupEditProdu
 
     const onHandleSubmit = (e: React.FormEvent) => {
         e.preventDefault()
-        console.log('...', productData)
-        console.log(`admin/products/${isEditMode ? 'edit' : 'add'}`)
         fetchData({
             method: 'POST',
             port: 4005,
@@ -69,9 +67,7 @@ const PopupEditProduct = <T extends 'edit' | 'add'>({ ...props }: PopupEditProdu
 
     useEffect(() => {
         if (response?.success || response?.ok) {
-            setTimeout(() => {
                 document.location.reload()
-            }, 500);
         }
     }, [response])
 
