@@ -1,5 +1,6 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import { Body, Controller, Get, Post, UploadedFile, UseInterceptors } from '@nestjs/common';
 import { ProductsService } from './products.service';
+import { FileInterceptor } from '@nestjs/platform-express';
 
 @Controller('fashion/admin/products')
 export class ProductsController {
@@ -10,8 +11,19 @@ export class ProductsController {
     return this.productsService.getAll()
   }
 
+  @UseInterceptors(FileInterceptor('image'))
   @Post('edit')
-  editProduct(@Body() data: any) {
-    return this.productsService.editOneProduct(data);
+  editProduct(
+    @UploadedFile() image: Express.Multer.File,
+    @Body() body: any
+  ) {
+    console.log('image:', image);
+    console.log('body:', body);
+    console.log('other form data:', body);
+    if (image) {
+      body.image = image;
+    }
+    return this.productsService.editOneProduct({ ...body});
+    // return this.productsService.editOneProduct({ ...body});
   }
 }

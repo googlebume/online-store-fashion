@@ -25,52 +25,109 @@ const PopupEditProduct = <T extends 'edit' | 'add'>({ ...props }: PopupEditProdu
     const initialData = isEditMode ? (props as PopType).data : {} as ProductType;
 
     useEffect(() => {
-        document.body.style.overflow = isEditMode || !isEditMode ? 'hidden' : 'auto';
-    }, [isEditMode]);
+        document.body.style.overflow = 'hidden';
+        
+        return () => {
+            document.body.style.overflow = 'auto';
+        };
+    }, []);
 
-    const [productData, setProductData] = useState<ProductType>(initialData)
+    const [productData, setProductData] = useState<ProductType>(initialData);
+    const [productImage, setProductImage] = useState<File | null>(null);
 
-    function handleProdDataChange(field: keyof ProductType, value: string | number, attr?: keyof ProductAttrType) {
+    function handleProdDataChange(field: keyof ProductType, value: string | number | File, attr?: keyof ProductAttrType) {
         if (field === 'attributes') {
             setProductData((prev) => ({
                 ...prev,
                 attributes: {
                     ...prev.attributes,
-                    [attr]: value
+                    [attr!]: value
                 }
-            }))
+            }));
+        } else if (field === 'image') {
+            setProductImage(value as File);
         } else {
             setProductData((prev) => ({
                 ...prev,
                 [field]: value
-            }))
+            }));
         }
-        console.log(productData)
+        console.log('productData:', productData);
+        console.log('productImage:', productImage);
     }
 
     const { response, error, isLoading, fetchData } = useFetch<ProductType>();
 
-
-
-    const onHandleSubmit = (e: React.FormEvent) => {
-        e.preventDefault()
-        fetchData({
-            method: 'POST',
-            port: 4005,
-            url: `admin/products/${isEditMode ? 'edit' : 'add'}`,
-            body: {
-                ...productData,
-                event: props.type
-            },
+    const onHandleSubmit = async (e: React.FormEvent) => {
+        e.preventDefault();
+        
+        const formData = new FormData();
+        
+        Object.entries(productData).forEach(([key, value]) => {
+            if (key === 'attributes' && typeof value === 'object' && value !== null) {
+                formData.append('attributes', JSON.stringify(value));
+            } else if (value !== undefined && value !== null) {
+                formData.append(key, value.toString());
+            }
         });
-    }
+        
+        if (productImage) {
+            formData.append('image', productImage);
+        }
+        
+        formData.append('event', props.type);
+
+        console.log('Sending FormData:');
+        for (let [key, value] of formData.entries()) {
+            console.log(key, value);
+        }
+
+        try {
+            const response = await fetch(`http://localhost:4005/fashion/admin/products/${isEditMode ? 'edit' : 'add'}`, {
+                method: 'POST',
+                body: formData,
+            });
+            
+            console.log('Response status:', response.status);
+            console.log('Response headers:', response.headers.get('content-type'));
+            
+            const text = await response.text();
+            
+            let result;
+            if (text) {
+                try {
+                    result = JSON.parse(text);
+                } catch (parseError) {
+                    console.log('Response is not JSON:', text);
+                    result = { success: response.ok };
+                }
+            } else {
+                console.log('Empty response');
+                result = { success: response.ok };
+            }
+            
+            console.log('Parsed result:', result);
+            
+            if (result.success || response.ok) {
+                document.location.reload();
+            }
+        } catch (error) {
+            console.error('Error uploading:', error);
+        }
+    };
 
     useEffect(() => {
         if (response?.success || response?.ok) {
-                document.location.reload()
+            document.location.reload();
         }
-    }, [response])
+    }, [response]);
 
+    function handleImageChange(file: File | null) {
+        if (file) {
+            setProductImage(file);
+            console.log('Selected file:', file);
+        }
+    }
 
     return ReactDOM.createPortal(
         <div className={cl.overlay}>
@@ -86,6 +143,7 @@ const PopupEditProduct = <T extends 'edit' | 'add'>({ ...props }: PopupEditProdu
                                     data={{ image: isEditMode ? (props as PopType).data.image : undefined }}
                                     size={{ width: 250, height: 300 }}
                                     inputType='image'
+                                    onChange={handleImageChange}
                                 />
                             </div>
                         </section>

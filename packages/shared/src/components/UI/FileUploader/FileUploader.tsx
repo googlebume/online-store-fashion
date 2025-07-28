@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import cl from './FileUploader.module.scss'
 
 type FileUploaderType = {
@@ -10,13 +10,15 @@ type FileUploaderType = {
         width?: number;
         height?: number
     },
-    inputType: 'file' | 'image'
+    inputType: 'file' | 'image',
+    onChange: (file: File | null) => void;
 }
 
 const FileUploader: React.FC<FileUploaderType> = ({
     data = {},
     size = {},
     inputType,
+    onChange
 }) => {
     const {
         image = '',
@@ -32,7 +34,8 @@ const FileUploader: React.FC<FileUploaderType> = ({
     const [imagePreview, setImagePreview] = useState<string>('');
 
     function handleImageLoaded(e: React.ChangeEvent<HTMLInputElement>) {
-        const file = e.target.files?.[0];
+        const file = e.target.files?.[0] || null;
+        
         if (file) {
             setImageFile(file);
             const reader = new FileReader();
@@ -41,8 +44,15 @@ const FileUploader: React.FC<FileUploaderType> = ({
             };
             reader.readAsDataURL(file);
         }
+
+        // console.log('imageFile:', file);
+        
+        return file;
     }
 
+    useEffect(() => {
+    // console.log('imagePreview ',imagePreview)
+}, [ imagePreview]);
     return (
         <div
             style={{
@@ -58,7 +68,9 @@ const FileUploader: React.FC<FileUploaderType> = ({
                 style={{
                     backgroundImage: `url(${imagePreview || image})`,
                 }}
-                onChange={ inputType === 'image' && handleImageLoaded}
+                onChange={e => {
+                    onChange(handleImageLoaded(e))
+                }}
             />
         </div>
     );

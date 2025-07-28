@@ -106,7 +106,6 @@ export class ProductRepository {
 
 
     editProduct(data: any) {
-        console.log('editProduct data:', data);
         return this.prisma.products.update({
             where: { id: data.id },
             data: {
