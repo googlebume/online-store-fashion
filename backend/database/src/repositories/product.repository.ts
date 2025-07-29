@@ -106,8 +106,10 @@ export class ProductRepository {
 
 
     editProduct(data: any) {
+        const attributes = JSON.parse(data.attributes);
+
         return this.prisma.products.update({
-            where: { id: data.id },
+            where: { id: +data.id },
             data: {
                 name: data.name,
                 brand: data.brand,
@@ -117,12 +119,12 @@ export class ProductRepository {
                 attributes: {
                     update: [
                         {
-                            where: { productsId: data.attributes.productsId },
+                            where: { productsId: +attributes.productsId },
                             data: {
-                                type: data.attributes.type,
-                                category: data.attributes.category,
-                                color: data.attributes.color,
-                                size: data.attributes.size,
+                                type: attributes.type,
+                                category: attributes.category,
+                                color: attributes.color,
+                                size: attributes.size,
                             }
 
                         }

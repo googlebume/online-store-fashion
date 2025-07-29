@@ -12,7 +12,7 @@ export class ProductsService {
     console.log('DATA:    ', data);
     
     try {
-        const productInDB = await databaseClient.send('get_product_by_id', { id: data.id }).toPromise();
+        const productInDB = await databaseClient.send('get_product_by_id', { id: +data.id }).toPromise();
 
         if (JSON.stringify(productInDB) === JSON.stringify(data)) {
             throw new HttpException(`Product with id ${data.id} already exists with same data`, 400);
