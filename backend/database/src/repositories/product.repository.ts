@@ -166,10 +166,30 @@ export class ProductRepository {
         }
     }
 
-    editImage(file: Express.Multer.File, prodId: number, imageURL: string) {
+    async editImage(file: Express.Multer.File, imageURL: string) {
         const dirPath = path.join(__dirname, '..', '..', 'products');
         const fileName = imageURL.split('/').pop()?.split('.').shift();
+        const fileExtname = path.extname(file.originalname);
 
-        
+        if (!fileName) throw new Error('Invalid imageURL format');
+
+        const filePath = path.join(dirPath, `${fileName}${fileExtname}`);
+
+        try {
+            await fs.rm(filePath, { force: true }, () => { });
+        } catch (error) {
+            throw new Error('Error deleting old image');
+        }
+
+        try {
+            await fs.writeFile(filePath, file.buffer, () => { });
+        } catch (error) {
+            throw new Error('Error writing new image');
+        }
+
+        return {
+            success: true,
+        };
     }
+
 }
