@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma.service';
-import path from 'path';
+import * as path from 'path';
 import * as bcrypt from 'bcryptjs';
-import fs from 'fs';
+import * as fs from 'fs/promises'
 
 @Injectable()
 export class ProductRepository {
@@ -108,8 +108,17 @@ export class ProductRepository {
     }
 
 
-    editProduct(data: any) {
+    async editProduct(data: any) {
+        console.log('editing product .....')
+
         const attributes = JSON.parse(data.attributes);
+        try {
+            if (typeof data.file === 'object') {
+                await this.editImage(data.file, data.image);
+            }
+        } catch (error) {
+            console.error('Error editing image:', error);
+        }
 
         return this.prisma.products.update({
             where: { id: +data.id },
@@ -137,59 +146,81 @@ export class ProductRepository {
         });
     }
 
-    addImage(file: Express.Multer.File, prodId: number) {
+    async addImage(file: Express.Multer.File, prodId: number) {
         const dirPath = path.join(__dirname, '..', '..', 'products');
-        const fileName = bcrypt.hashSync(file.originalname, 10)
+        const fileHash = await bcrypt.hash(file.originalname, 10);
+        const extension = path.extname(file.originalname);
+        const fileName = `${fileHash}${extension}`;
         const filePath = path.join(dirPath, fileName);
 
-        if (fs.existsSync(dirPath)) {
-            fs.mkdirSync(dirPath, { recursive: true });
-            // throw new Error('Please create products directory');
-        }
-        if (fs.existsSync(filePath)) {
-            throw new Error('File already exists');
-        }
-        fs.writeFileSync(filePath, file.buffer);
-        if (fs.existsSync(filePath)) {
-            this.prisma.products.update({
+        try {
+            try {
+                await fs.access(dirPath);
+            } catch {
+                await fs.mkdir(dirPath, { recursive: true });
+            }
+
+            try {
+                await fs.access(filePath);
+                throw new Error('File already exists');
+            } catch {
+            }
+
+            await fs.writeFile(filePath, file.buffer);
+
+            try {
+                await fs.access(filePath);
+            } catch {
+                return { success: false };
+            }
+
+            await this.prisma.products.update({
                 where: { id: +prodId },
                 data: {
-                    image: `http://localhost:5000/products/${fileName}.${path.extname(file.originalname)}`,
-                }
+                    image: `http://localhost:5000/products/${fileName}`,
+                },
             });
-            return {
-                success: true,
-            }
-        }
-        return {
-            success: false,
+
+            return { success: true };
+        } catch (error) {
+            console.error('Add image error:', error);
+            return { success: false, message: error.message };
         }
     }
 
     async editImage(file: Express.Multer.File, imageURL: string) {
-        const dirPath = path.join(__dirname, '..', '..', 'products');
-        const fileName = imageURL.split('/').pop()?.split('.').shift();
-        const fileExtname = path.extname(file.originalname);
+    const dirPath = path.join(__dirname, '..', '..', '..', 'product-service', 'products');
+    const fileName = path.basename(imageURL, path.extname(imageURL));
+    const fileExtname = path.extname(file.originalname);
 
-        if (!fileName) throw new Error('Invalid imageURL format');
+    if (fileExtname !== '.webp') throw new Error('Only .webp allowed');
+    if (!fileName) throw new Error('Invalid imageURL format');
 
-        const filePath = path.join(dirPath, `${fileName}${fileExtname}`);
+    const filePath = path.join(dirPath, `${fileName}${fileExtname}`);
 
-        try {
-            await fs.rm(filePath, { force: true }, () => { });
-        } catch (error) {
+    try {
+        await fs.access(filePath);
+        await fs.rm(filePath);
+    } catch (err: any) {
+        if (err.code !== 'ENOENT') {
+            console.error('Помилка видалення:', err);
             throw new Error('Error deleting old image');
         }
-
-        try {
-            await fs.writeFile(filePath, file.buffer, () => { });
-        } catch (error) {
-            throw new Error('Error writing new image');
-        }
-
-        return {
-            success: true,
-        };
     }
+
+    try {
+        const buffer = Buffer.isBuffer(file.buffer)
+            ? file.buffer
+            : Buffer.from((file.buffer as { data: number[] }).data);
+
+        await fs.writeFile(filePath, buffer);
+        console.log('Успішно записано!');
+    } catch (err) {
+        console.error('Помилка запису файлу:', err);
+        throw new Error('Error writing new image');
+    }
+
+    return { success: true };
+}
 
 }

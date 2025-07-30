@@ -26,4 +26,9 @@ export class DatabaseProductsController {
   async editProduct(data: any) {
     return this.databaseService.editProduct(data);
   }
+
+  @MessagePattern('edit_image')
+  async editImage(file: Express.Multer.File, imageURL: string ) {
+    return this.databaseService.editImage(file, imageURL);
+  }
 }

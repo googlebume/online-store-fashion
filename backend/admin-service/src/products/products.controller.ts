@@ -17,13 +17,10 @@ export class ProductsController {
     @UploadedFile() image: Express.Multer.File,
     @Body() body: any
   ) {
-    console.log('image:', image);
-    console.log('body:', body);
-    console.log('other form data:', body);
-    if (image) {
-      body.image = image;
-    }
-    return this.productsService.editOneProduct({ ...body});
+    // console.log('image:', image);
+    // console.log('body:', body);
+    // console.log('other form data:', body);
+    return this.productsService.editOneProduct({ ...body, 'file': image });
     // return this.productsService.editOneProduct({ ...body});
   }
 }

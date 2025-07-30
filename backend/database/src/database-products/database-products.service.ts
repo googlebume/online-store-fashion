@@ -23,7 +23,7 @@ export class DatabaseProductsService {
     return this.productRepository.editProduct(data);
   }
 
-  editProductImage(imageURL: string, file: Express.Multer.File) {
+  editImage(file: Express.Multer.File, imageURL: string,) {
     return this.productRepository.editImage(file, imageURL);
   }
 }
