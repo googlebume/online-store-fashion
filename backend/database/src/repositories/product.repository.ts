@@ -1,5 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma.service';
+import path from 'path';
+import * as bcrypt from 'bcryptjs';
+import fs from 'fs';
 
 @Injectable()
 export class ProductRepository {
@@ -132,5 +135,41 @@ export class ProductRepository {
                 }
             },
         });
+    }
+
+    addImage(file: Express.Multer.File, prodId: number) {
+        const dirPath = path.join(__dirname, '..', '..', 'products');
+        const fileName = bcrypt.hashSync(file.originalname, 10)
+        const filePath = path.join(dirPath, fileName);
+
+        if (fs.existsSync(dirPath)) {
+            fs.mkdirSync(dirPath, { recursive: true });
+            // throw new Error('Please create products directory');
+        }
+        if (fs.existsSync(filePath)) {
+            throw new Error('File already exists');
+        }
+        fs.writeFileSync(filePath, file.buffer);
+        if (fs.existsSync(filePath)) {
+            this.prisma.products.update({
+                where: { id: +prodId },
+                data: {
+                    image: `http://localhost:5000/products/${fileName}.${path.extname(file.originalname)}`,
+                }
+            });
+            return {
+                success: true,
+            }
+        }
+        return {
+            success: false,
+        }
+    }
+
+    editImage(file: Express.Multer.File, prodId: number, imageURL: string) {
+        const dirPath = path.join(__dirname, '..', '..', 'products');
+        const fileName = imageURL.split('/').pop()?.split('.').shift();
+
+        
     }
 }
