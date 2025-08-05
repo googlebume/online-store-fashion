@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import cl from './SearchInput.module.scss';
 import ButtonImage from '../ButtonImage/ButtonImage';
 import magnifyingGlass from '@packages/shared/src/assets/images/icons/magnifyingGlassIcon.svg?url';
@@ -7,14 +7,21 @@ import { useProductFilter, type SearchInputType } from '../../../utils/hooks/use
 
 const SearchInput = <T extends Record<string, any>>({
     allData,
-    field
+    field,
+    setReturnFiltered
 }: SearchInputType<T>) => {
     const {
         filtered,
         searchValue,
         setSearchValue,
-        onFilterClick
+        onFilterClick,
     } = useProductFilter<T>(allData, field);
+
+    useEffect(() => {
+        if (setReturnFiltered) {
+            setReturnFiltered(filtered);
+        }
+    }, [filtered, setReturnFiltered]);
 
     return (
         <div className={cl.header__search}>

@@ -6,6 +6,7 @@ import ProductCard from '@packages/shared/src/components/ProductCard';
 import PopupEditProduct from '../../components/PopupEditProduct';
 
 import cl from './AdminProducts.module.scss';
+import SearchInput from '@packages/shared/src/components/UI/SearchInput/SearchInput';
 
 export const ProdContext = createContext<{
     setSelectedProduct: Dispatch<SetStateAction<ProductType | null>>;
@@ -71,24 +72,33 @@ const AdminProducts = () => {
         };
     }, [selectedProduct]);
 
+    const [returnFiltered, setReturnFiltered] = useState<ProductType[]>([]);
+
 
     return (
-        <div className={cl.overview__prod}>
-            <ProdContext.Provider value={{ setSelectedProduct, selectedProduct }}>
-                {response !== null && Array.isArray(response) && response.length > 0 && "price" in response[0] &&
-                    response.map((prod, index) => (
-                        <ProductCard
-                            key={index}
-                            data={prod as ProductType}
-                        />
-                    ))
-                }
+        <>
+            {response && (
+                <SearchInput allData={response} field="name" setReturnFiltered={setReturnFiltered} />
+            )}
+            <div className={cl.overview__prod}>
+                <ProdContext.Provider value={{ setSelectedProduct, selectedProduct }}>
+                    {Array.isArray(returnFiltered) && returnFiltered.length > 0 ? (
+                        returnFiltered.map((prod, index) => (
+                            <ProductCard key={index} data={prod as ProductType} />
+                        ))
+                    ) : Array.isArray(response) && response.length > 0 ? (
+                        response.map((prod, index) => (
+                            <ProductCard key={index} data={prod as ProductType} />
+                        ))
+                    ) : null}
 
-                {selectedProduct !== null && (
-                    <PopupEditProduct data={selectedProduct} popupRef={menuRef} type='edit' />
-                )}
-            </ProdContext.Provider>
-        </div>
+                    {selectedProduct !== null && (
+                        <PopupEditProduct data={selectedProduct} popupRef={menuRef} type="edit" />
+                    )}
+                </ProdContext.Provider>
+            </div>
+        </>
+
     );
 };
 
