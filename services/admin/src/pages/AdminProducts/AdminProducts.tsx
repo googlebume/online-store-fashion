@@ -7,6 +7,8 @@ import PopupEditProduct from '../../components/PopupEditProduct';
 
 import cl from './AdminProducts.module.scss';
 import SearchInput from '@packages/shared/src/components/UI/SearchInput/SearchInput';
+import SubmitButton from '@packages/shared/src/components/UI/SubmitButton/SubmitButton';
+import PlusIcon from '@packages/shared/src/assets/images/icons/plusIcon.svg';
 
 export const ProdContext = createContext<{
     setSelectedProduct: Dispatch<SetStateAction<ProductType | null>>;
@@ -78,7 +80,14 @@ const AdminProducts = () => {
     return (
         <>
             {response && (
-                <SearchInput allData={response} field="name" setReturnFiltered={setReturnFiltered} />
+                <div className={cl.searcherAdmin}>
+                    <SearchInput allData={response} field="name" setReturnFiltered={setReturnFiltered} />
+                    <SubmitButton 
+                        text='Додати новий' 
+                        img={PlusIcon}
+                    />
+                </div>
+
             )}
             <div className={cl.overview__prod}>
                 <ProdContext.Provider value={{ setSelectedProduct, selectedProduct }}>

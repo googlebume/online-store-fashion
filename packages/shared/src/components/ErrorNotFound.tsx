@@ -5,7 +5,7 @@ import {shopRoutes} from '../routes/shop'
 import cl from '@packages/shared/src/utils/styles/modules/ErrorNotFound.module.scss';
 import SubmitButton from './UI/SubmitButton/SubmitButton';
 
-import arrow from '../assets/images/icons/arrowInCircle.svg?url';
+import Arrow from '../assets/images/icons/arrowInCircle.svg';
 import { useNavigate } from 'react-router-dom';
 
 const ErrorNotFound = () => {
@@ -55,7 +55,7 @@ const ErrorNotFound = () => {
                         <SubmitButton
                             text='Назад'
                             variant='secondary'
-                            img={arrow}
+                            img={Arrow}
                             onClick={handleGoBack}
                         />
 

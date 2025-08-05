@@ -4,11 +4,14 @@ import cl from './ButtonImage.module.scss'
 const ButtonImage = ({ img, onClick, width }) => {
     return (
         <button className={cl.button} onClick={onClick} style={{ 'maxWidth': width }}>
-            {typeof img === 'string' ? (
-                <img src={img} alt="Button" className={cl.button__image} />
-            ) : (
-                React.isValidElement(img) ? img : null
-            )}
+            {img && typeof img === 'string'
+                ? <img src={img} alt="" className={cl.submit__button_icon} />
+                : React.isValidElement(img)
+                    ? img
+                    : typeof img === 'function'
+                        ? React.createElement(img, { className: cl.button__image })
+                        : null
+            }
         </button>
     );
 };
