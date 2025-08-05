@@ -29,9 +29,6 @@ const AdminProducts = () => {
     const [lastOfPath, setLastOfPath] = useState('');
     const [selectedProduct, setSelectedProduct] = useState<ProductType | null>(null);
 
-    function isProduct(data: any): data is ProductType {
-        return data && typeof data === 'object' && 'price' in data;
-    }
 
     useEffect(() => {
         const path = location.pathname.split('/')[3];
