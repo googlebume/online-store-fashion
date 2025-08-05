@@ -8,6 +8,7 @@ type OptionInputType = {
     value: string;
     onChange: (value: string) => void;
     disabled?: boolean;
+    required?: boolean;
 };
 
 const InputOption: React.FC<OptionInputType> = ({
@@ -16,12 +17,18 @@ const InputOption: React.FC<OptionInputType> = ({
     options,
     value,
     onChange,
-    disabled = false
+    disabled = false,
+    required = true
 }) => {
     return (
         <div className={cl.selectBlock}>
             <label>{label}</label>
-            <select value={value} onChange={(e) => onChange(e.target.value)} disabled={disabled}>
+            <select 
+                value={value} 
+                onChange={(e) => onChange(e.target.value)} 
+                disabled={disabled}
+                required={required}
+            >
                 <option value="">{optionBasic}</option>
                 {options.map((option, i) => (
                     <option key={i} value={option}>{option}</option>

@@ -11,6 +11,7 @@ type FileUploaderType = {
         height?: number
     },
     inputType: 'file' | 'image',
+    required?: boolean;
     onChange: (file: File | null) => void;
 }
 
@@ -18,6 +19,7 @@ const FileUploader: React.FC<FileUploaderType> = ({
     data = {},
     size = {},
     inputType,
+    required = true,
     onChange
 }) => {
     const {
@@ -63,6 +65,7 @@ const FileUploader: React.FC<FileUploaderType> = ({
         >
             <input
                 type="file"
+                required={required}
                 accept={inputType === 'image' ? 'image/*' : '*'}
                 className={cl.uploader}
                 style={{
