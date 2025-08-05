@@ -26,7 +26,7 @@ const PopupEditProduct = <T extends 'edit' | 'add'>({ ...props }: PopupEditProdu
 
     useEffect(() => {
         document.body.style.overflow = 'hidden';
-        
+
         return () => {
             document.body.style.overflow = 'auto';
         };
@@ -60,9 +60,9 @@ const PopupEditProduct = <T extends 'edit' | 'add'>({ ...props }: PopupEditProdu
 
     const onHandleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        
+
         const formData = new FormData();
-        
+
         Object.entries(productData).forEach(([key, value]) => {
             if (key === 'attributes' && typeof value === 'object' && value !== null) {
                 formData.append('attributes', JSON.stringify(value));
@@ -70,11 +70,11 @@ const PopupEditProduct = <T extends 'edit' | 'add'>({ ...props }: PopupEditProdu
                 formData.append(key, value.toString());
             }
         });
-        
+
         if (productImage) {
             formData.append('image', productImage);
         }
-        
+
         formData.append('event', props.type);
 
         console.log('Sending FormData:');
@@ -87,12 +87,12 @@ const PopupEditProduct = <T extends 'edit' | 'add'>({ ...props }: PopupEditProdu
                 method: 'POST',
                 body: formData,
             });
-            
+
             console.log('Response status:', response.status);
             console.log('Response headers:', response.headers.get('content-type'));
-            
+
             const text = await response.text();
-            
+
             let result;
             if (text) {
                 try {
@@ -105,9 +105,9 @@ const PopupEditProduct = <T extends 'edit' | 'add'>({ ...props }: PopupEditProdu
                 console.log('Empty response');
                 result = { success: response.ok };
             }
-            
+
             console.log('Parsed result:', result);
-            
+
             if (result.success || response.ok) {
                 document.location.reload();
             }
@@ -195,14 +195,15 @@ const PopupEditProduct = <T extends 'edit' | 'add'>({ ...props }: PopupEditProdu
                                 {...(isEditMode && { value: productData.name })}
                                 onInput={(val) => handleProdDataChange('name', val)}
                             />
-                            <InputData
+                            {isEditMode && <InputData
                                 id='prod-brand'
                                 placeholder='Бренд'
                                 type='text'
                                 label='Бренд'
                                 {...(isEditMode && { value: productData.brand })}
                                 onInput={(val) => handleProdDataChange('brand', val)}
-                            />
+                            />}
+
                         </div>
                         <div>
                             <InputData

@@ -13,7 +13,7 @@ const AsideList: React.FC<Props> = ({ section = { title: '', links: [] } }) => {
             <ul className={cl.catalog__category}>
                 {section.links.map((item) => (
                     <li className={cl.category__item} key={item.href}>
-                        <Link to={item.href}>
+                        <Link to={item.href} >
                             <span className={cl.category__item_content}>
                                 {item.icon && typeof item.icon === 'string'
                                     ? <img className={cl.category__item_img} src={item.icon} alt={`${item.text} icon`} />

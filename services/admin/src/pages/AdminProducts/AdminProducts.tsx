@@ -31,7 +31,8 @@ const AdminProducts = () => {
     const { response, error, isLoading, fetchData } = useFetch<null, ProductType[]>();
     const [lastOfPath, setLastOfPath] = useState('');
     const [selectedProduct, setSelectedProduct] = useState<ProductType | null>(null);
-
+    const popupRef = useRef<HTMLDivElement>(null);
+    const [isPopupOpen, setIsPopupOpen] = useState<boolean>(false);
 
     useEffect(() => {
         const path = location.pathname.split('/')[3];
@@ -63,29 +64,36 @@ const AdminProducts = () => {
             if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
                 setSelectedProduct(null);
             }
+            if (popupRef.current && !popupRef.current.contains(event.target as Node)) {
+                setIsPopupOpen(false);
+            }
         };
 
-        if (selectedProduct !== null) {
+        if (selectedProduct !== null || isPopupOpen) {
             document.addEventListener('mousedown', handleClickOutside);
         }
 
         return () => {
             document.removeEventListener('mousedown', handleClickOutside);
         };
-    }, [selectedProduct]);
+    }, [selectedProduct, isPopupOpen]);
 
     const [returnFiltered, setReturnFiltered] = useState<ProductType[]>([]);
-
 
     return (
         <>
             {response && (
                 <div className={cl.searcherAdmin}>
                     <SearchInput allData={response} field="name" setReturnFiltered={setReturnFiltered} />
-                    <SubmitButton 
-                        text='Додати новий' 
+                    <SubmitButton
+                        text='Додати новий'
                         img={PlusIcon}
+                        onClick={() => setIsPopupOpen(!isPopupOpen)}
                     />
+                    {isPopupOpen && <PopupEditProduct
+                        type='add'
+                        popupRef={popupRef}
+                    />}
                 </div>
 
             )}
