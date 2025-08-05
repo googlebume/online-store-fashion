@@ -1,3 +1,11 @@
+.searcherAdmin {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 24px;
+    align-items: center;
+    margin-bottom: 16px;
+}
+
 .overview__prod {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(257px, 1fr));

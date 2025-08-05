@@ -1,9 +1,9 @@
 @use '@packages/shared/src/utils/styles/colorScheme' as colors;
 
 .header__search {
-    margin: 0 12px;
     flex: 3.5;
     position: relative;
+    width: 100%;
 
     .button {
         content: '';
