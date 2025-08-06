@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
 import cl from "./HeaderToolsList.module.scss";
 import ShoppingCardIcon from "@packages/shared/src/assets/images/icons/shoppingCardIcon.svg";
-import FilterIcon from "@packages/shared/src/assets/images/icons/shoppingCardIcon.svg";
-import filterIcon from "@packages/shared/src/assets/images/icons/filterIcon.svg?url";
+import FilterIcon from "@packages/shared/src/assets/images/icons/filterIcon.svg";
 // import FiltersStickyBar from "../../PopupFilterBar";
 import PopupFilterBar from "@packages/shared/src/components/PopupFilterBar";
 import PopupBasket from '../../../../../../services/shop/src/components/PopupBasket'
