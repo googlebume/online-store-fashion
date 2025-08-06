@@ -11,6 +11,7 @@ body {
         max-width: consts.$clientWidth;
         width: 100%;
         margin: 0 auto;
+        padding: 50px;
+        background-color: aqua;
     }
-    overflow-x: hidden;
 }
