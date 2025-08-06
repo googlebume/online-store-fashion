@@ -56,16 +56,7 @@ const ProductCard: React.FC<ProductCardProp> = ({ data, prevLocation }) => {
         e.preventDefault();
         e.stopPropagation();
 
-        addToCart({
-            id: data.id,
-            image: data.image,
-            discount: data.discount,
-            price: data.price,
-            name: data.name,
-            category: data.attributes.category,
-            type: data.attributes.type,
-            color: data.attributes.color
-        });
+        addToCart(data);
     };
 
     return (
