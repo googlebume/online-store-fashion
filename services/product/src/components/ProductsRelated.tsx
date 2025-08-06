@@ -31,12 +31,9 @@ const ProductsRelated = () => {
                 <h2 className={cl.sectionTitle}>Схожі товари</h2>
                 <div className={cl.cards}>
                     {mightlikeProducts && mightlikeProducts.map((product) => (
-                        <ProductCard
-                            name={product.name}
-                            price={product.price}
-                            discount={product.discount}
-                            image={product.image}
-                            prevLocation={prevLocation} />
+                        <ProductCard 
+                            data={product}
+                        />
                     ))}
                     <ViewAllProductsCard />
                 </div>
