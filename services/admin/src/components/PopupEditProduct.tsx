@@ -144,7 +144,7 @@ const PopupEditProduct = <T extends 'edit' | 'add'>({ ...props }: PopupEditProdu
                                     size={{ width: 250, height: 300 }}
                                     inputType='image'
                                     onChange={handleImageChange}
-                                    required
+                                    required={!isEditMode}
                                 />
                             </div>
                         </section>
@@ -158,7 +158,7 @@ const PopupEditProduct = <T extends 'edit' | 'add'>({ ...props }: PopupEditProdu
                                     label='Ціна товару'
                                     {...(isEditMode && { value: productData.price?.toString() })}
                                     onInput={(val) => handleProdDataChange('price', val)}
-                                    required
+                                    required={!isEditMode}
                                 />
                                 <InputData
                                     id='prod-discount'
@@ -169,7 +169,7 @@ const PopupEditProduct = <T extends 'edit' | 'add'>({ ...props }: PopupEditProdu
                                     min={0}
                                     max={100}
                                     onInput={(val) => handleProdDataChange('discount', val)}
-                                    required
+                                    required={!isEditMode}
                                 />
                             </div>
                         </section>
@@ -198,7 +198,7 @@ const PopupEditProduct = <T extends 'edit' | 'add'>({ ...props }: PopupEditProdu
                                 label='Назва товару'
                                 {...(isEditMode && { value: productData.name })}
                                 onInput={(val) => handleProdDataChange('name', val)}
-                                required
+                                required={!isEditMode}
                             />
                             {isEditMode && <InputData
                                 id='prod-brand'
@@ -207,7 +207,7 @@ const PopupEditProduct = <T extends 'edit' | 'add'>({ ...props }: PopupEditProdu
                                 label='Бренд'
                                 {...(isEditMode && { value: productData.brand })}
                                 onInput={(val) => handleProdDataChange('brand', val)}
-                                required
+                                required={!isEditMode}
                             />}
 
                         </div>
@@ -219,7 +219,7 @@ const PopupEditProduct = <T extends 'edit' | 'add'>({ ...props }: PopupEditProdu
                                 label='Опис товару'
                                 {...(isEditMode && { value: productData.description })}
                                 onInput={(val) => handleProdDataChange('description', val)}
-                                required
+                                required={!isEditMode}
                             />
                         </div>
                     </section>
@@ -227,7 +227,7 @@ const PopupEditProduct = <T extends 'edit' | 'add'>({ ...props }: PopupEditProdu
                     <section className={cl.section}>
                         <h3>Атрибути товару</h3>
                         <div className={cl.gridTwoCols}>
-                            <InputData
+                            {/* <InputData
                                 id='prod-type'
                                 placeholder='Тип товару'
                                 type='text'
@@ -235,16 +235,24 @@ const PopupEditProduct = <T extends 'edit' | 'add'>({ ...props }: PopupEditProdu
                                 {...(isEditMode && { value: productData.attributes?.type })}
                                 onInput={(val) => handleProdDataChange('attributes', val, 'type')}
                                 required
+                            /> */}
+                            <InputOption
+                                label='Тип'
+                                optionBasic='hoodie'
+                                {...(isEditMode && { value: productData.attributes?.type })}
+                                options={['hoodie', "sweatshirt", "shirt", "tshirt"]}
+                                onChange={(val) => handleProdDataChange('attributes', val, 'type')}
+                                required={!isEditMode}
                             />
                             <InputOption
                                 label='Категорія'
                                 optionBasic='Чоловіче'
                                 {...(isEditMode && { value: productData.attributes?.category })}
-                                options={['Чоловіче', "Жіноче"]}
+                                options={['male', "female"]}
                                 onChange={(val) => handleProdDataChange('attributes', val, 'category')}
-                                required
+                                required={!isEditMode}
                             />
-                            <InputData
+                            {/* <InputData
                                 id='prod-color'
                                 placeholder='Колір'
                                 type='text'
@@ -252,6 +260,14 @@ const PopupEditProduct = <T extends 'edit' | 'add'>({ ...props }: PopupEditProdu
                                 {...(isEditMode && { value: productData.attributes?.color })}
                                 onInput={(val) => handleProdDataChange('attributes', val, 'color')}
                                 required
+                            /> */}
+                            <InputOption
+                                label='Колір'
+                                optionBasic='black'
+                                {...(isEditMode && { value: productData.attributes?.color })}
+                                options={['black', "white", "yellow", "pink", "brown", "blue"]}
+                                onChange={(val) => handleProdDataChange('attributes', val, 'color')}
+                                required={!isEditMode}
                             />
                             <InputOption
                                 label='Розмір'
@@ -259,7 +275,7 @@ const PopupEditProduct = <T extends 'edit' | 'add'>({ ...props }: PopupEditProdu
                                 {...(isEditMode && { value: productData.attributes?.size })}
                                 options={['S', "M", 'L', 'XL', 'XXL']}
                                 onChange={(val) => handleProdDataChange('attributes', val, 'size')}
-                                required
+                                required={!isEditMode}
                             />
                         </div>
                     </section>

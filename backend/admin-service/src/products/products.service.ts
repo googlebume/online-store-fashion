@@ -21,16 +21,21 @@ export class ProductsService {
             const response = await databaseClient.send('edit_product', file ? {...data, file: file} : data).toPromise();
             // console.log('response   ', response);
 
-            // if (file) {
-            //     await databaseClient.send('edit_image', {
-            //         file: data.image,
-            //         imageURL: productInDB.image,
-            //     } 
-            // )}
             return { success: true, data: response };
         } catch (error) {
             console.error('Error:', error);
             return { success: false, message: error.message };
         }
+    }
+
+    async addOneProduct(data, file: Express.Multer.File) {
+        const dataWithFile = await { ...data, image: file };
+        try {
+            await databaseClient.send('add_product', dataWithFile).toPromise();
+        } catch (error) {
+            console.error('Error adding product:', error);
+            return { success: false, message: error.message };
+        }
+        return { success: true, message: 'Product added successfully' };
     }
 }

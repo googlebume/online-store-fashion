@@ -3,6 +3,7 @@ import { PrismaService } from '../prisma.service';
 import * as path from 'path';
 import * as bcrypt from 'bcryptjs';
 import * as fs from 'fs/promises'
+import * as crypto from 'crypto';
 
 @Injectable()
 export class ProductRepository {
@@ -147,13 +148,21 @@ export class ProductRepository {
     }
 
     async addImage(file: Express.Multer.File, prodId: number) {
-        const dirPath = path.join(__dirname, '..', '..', 'products');
-        const fileHash = await bcrypt.hash(file.originalname, 10);
+        const dirPath = path.join(__dirname, '..', '..', '..', 'product-service', 'products');
+        const fileHash = await crypto
+            .createHash('sha256')
+            .update(file.originalname + Date.now())
+            .digest('hex');
         const extension = path.extname(file.originalname);
         const fileName = `${fileHash}${extension}`;
         const filePath = path.join(dirPath, fileName);
+        if (extension !== '.webp') throw new Error('Only .webp allowed');
+        const buffer = Buffer.isBuffer(file.buffer)
+            ? file.buffer
+            : Buffer.from((file.buffer as { data: number[] }).data);
 
         try {
+
             try {
                 await fs.access(dirPath);
             } catch {
@@ -166,7 +175,7 @@ export class ProductRepository {
             } catch {
             }
 
-            await fs.writeFile(filePath, file.buffer);
+            await fs.writeFile(filePath, buffer);
 
             try {
                 await fs.access(filePath);
@@ -184,43 +193,83 @@ export class ProductRepository {
             return { success: true };
         } catch (error) {
             console.error('Add image error:', error);
-            return { success: false, message: error.message };
+            return { success: false, message: error.message, fileHash };
         }
+    }
+
+    async addProduct(data: any) {
+        const attributes = JSON.parse(data.attributes);
+
+        const createdProduct = await this.prisma.products.create({
+            data: {
+                name: data.name,
+                description: data.description,
+                price: +data.price,
+                discount: +data.discount,
+                brand: 'Generic Brand',
+                image: '',
+                attributes: {
+                    create: [
+                        {
+                            type: attributes.type,
+                            category: attributes.category,
+                            color: attributes.color,
+                            size: attributes.size,
+                            material: 'Generic Material',
+                            countryOfOrigin: 'Generic Country',
+                            weight: 0,
+                        }
+                    ],
+                }
+            }
+        });
+
+        const fileHash = await (await this.addImage(data.image, createdProduct.id)).fileHash;
+        if (fileHash) {
+            await this.prisma.products.update({
+                where: { id: createdProduct.id },
+                data: {
+                    image: `http://localhost:5000/products/${fileHash}.webp`
+                }
+            });
+        }
+
+
     }
 
     async editImage(file: Express.Multer.File, imageURL: string) {
-    const dirPath = path.join(__dirname, '..', '..', '..', 'product-service', 'products');
-    const fileName = path.basename(imageURL, path.extname(imageURL));
-    const fileExtname = path.extname(file.originalname);
+        const dirPath = path.join(__dirname, '..', '..', '..', 'product-service', 'products');
+        const fileName = path.basename(imageURL, path.extname(imageURL));
+        const fileExtname = path.extname(file.originalname);
 
-    if (fileExtname !== '.webp') throw new Error('Only .webp allowed');
-    if (!fileName) throw new Error('Invalid imageURL format');
+        if (fileExtname !== '.webp') throw new Error('Only .webp allowed');
+        if (!fileName) throw new Error('Invalid imageURL format');
 
-    const filePath = path.join(dirPath, `${fileName}${fileExtname}`);
+        const filePath = path.join(dirPath, `${fileName}${fileExtname}`);
 
-    try {
-        await fs.access(filePath);
-        await fs.rm(filePath);
-    } catch (err: any) {
-        if (err.code !== 'ENOENT') {
-            console.error('Помилка видалення:', err);
-            throw new Error('Error deleting old image');
+        try {
+            await fs.access(filePath);
+            await fs.rm(filePath);
+        } catch (err: any) {
+            if (err.code !== 'ENOENT') {
+                console.error('Помилка видалення:', err);
+                throw new Error('Error deleting old image');
+            }
         }
+
+        try {
+            const buffer = Buffer.isBuffer(file.buffer)
+                ? file.buffer
+                : Buffer.from((file.buffer as { data: number[] }).data);
+
+            await fs.writeFile(filePath, buffer);
+            console.log('Успішно записано!');
+        } catch (err) {
+            console.error('Помилка запису файлу:', err);
+            throw new Error('Error writing new image');
+        }
+
+        return { success: true };
     }
-
-    try {
-        const buffer = Buffer.isBuffer(file.buffer)
-            ? file.buffer
-            : Buffer.from((file.buffer as { data: number[] }).data);
-
-        await fs.writeFile(filePath, buffer);
-        console.log('Успішно записано!');
-    } catch (err) {
-        console.error('Помилка запису файлу:', err);
-        throw new Error('Error writing new image');
-    }
-
-    return { success: true };
-}
 
 }

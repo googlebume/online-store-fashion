@@ -26,4 +26,7 @@ export class DatabaseProductsService {
   editImage(file: Express.Multer.File, imageURL: string,) {
     return this.productRepository.editImage(file, imageURL);
   }
+  addProduct(data: any) {
+    return this.productRepository.addProduct(data);
+  }
 }

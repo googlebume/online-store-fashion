@@ -23,4 +23,14 @@ export class ProductsController {
     return this.productsService.editOneProduct({ ...body, 'file': image });
     // return this.productsService.editOneProduct({ ...body});
   }
+
+  @UseInterceptors(FileInterceptor('image'))
+  @Post('add')
+  addProduct(
+    @UploadedFile() image: Express.Multer.File,
+    @Body() body: any
+  ) {
+    console.log('Adding product with image:', body,            image);
+    return this.productsService.addOneProduct(body, image );
+  }
 }
