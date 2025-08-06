@@ -79,17 +79,17 @@ const ProductCard: React.FC<ProductCardProp> = ({ data, prevLocation }) => {
                     <div className={cl.description__main}>
                         <DescriptionPrice discountT={data.discount} priceT={data.price} />
                         {
-                            location.pathname === "/fashion/shop"
-                                ? <ButtonImage
-                                    img={<ShoppingCardIcon height='28px' width='28px' color={`${variables.yellow}`} fill={`${variables.yellow}`} />}
-                                    onClick={handleCartClick}
-                                />
-                                : <ActionsMenu
+                            location.pathname === "/fashion/admin/products"
+                                ? <ActionsMenu
                                     actionList={adminProductsAction(data, setSelectedProduct)}
                                     setIsOpen={setIsOpen}
                                     isOpen={isOpen}
                                     ref={menuRef}
                                     data={data}
+                                />
+                                : <ButtonImage
+                                    img={<ShoppingCardIcon height='28px' width='28px' color={`${variables.yellow}`} fill={`${variables.yellow}`} />}
+                                    onClick={handleCartClick}
                                 />
                         }
 
