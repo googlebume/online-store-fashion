@@ -7,7 +7,12 @@ import * as crypto from 'crypto';
 
 @Injectable()
 export class ProductRepository {
-    constructor(private readonly prisma: PrismaService) { }
+    constructor(
+        private readonly prisma: PrismaService,
+        private readonly imagesDir: string
+    ) { 
+        this.imagesDir = path.join(__dirname, '..', '..', '..', 'product-service', 'products');
+     }
 
     async findById(id: number) {
         return this.prisma.products.findUnique({ where: { id } });
@@ -148,14 +153,13 @@ export class ProductRepository {
     }
 
     async addImage(file: Express.Multer.File, prodId: number) {
-        const dirPath = path.join(__dirname, '..', '..', '..', 'product-service', 'products');
         const fileHash = await crypto
             .createHash('sha256')
             .update(file.originalname + Date.now())
             .digest('hex');
         const extension = path.extname(file.originalname);
         const fileName = `${fileHash}${extension}`;
-        const filePath = path.join(dirPath, fileName);
+        const filePath = path.join(this.imagesDir, fileName);
         if (extension !== '.webp') throw new Error('Only .webp allowed');
         const buffer = Buffer.isBuffer(file.buffer)
             ? file.buffer
@@ -164,9 +168,9 @@ export class ProductRepository {
         try {
 
             try {
-                await fs.access(dirPath);
+                await fs.access(this.imagesDir);
             } catch {
-                await fs.mkdir(dirPath, { recursive: true });
+                await fs.mkdir(this.imagesDir, { recursive: true });
             }
 
             try {
@@ -238,14 +242,13 @@ export class ProductRepository {
     }
 
     async editImage(file: Express.Multer.File, imageURL: string) {
-        const dirPath = path.join(__dirname, '..', '..', '..', 'product-service', 'products');
         const fileName = path.basename(imageURL, path.extname(imageURL));
         const fileExtname = path.extname(file.originalname);
 
         if (fileExtname !== '.webp') throw new Error('Only .webp allowed');
         if (!fileName) throw new Error('Invalid imageURL format');
 
-        const filePath = path.join(dirPath, `${fileName}${fileExtname}`);
+        const filePath = path.join(this.imagesDir, `${fileName}${fileExtname}`);
 
         try {
             await fs.access(filePath);
@@ -275,9 +278,8 @@ export class ProductRepository {
 
 
     async deleteImage(imageURL: string) {
-        const imageDir = path.resolve(__dirname, '..', '..', '..', 'product-service', 'products');
         const fileName = path.basename(imageURL);
-        const filePath = path.join(imageDir, fileName);
+        const filePath = path.join(this.imagesDir, fileName);
 
         try {
             await fs.rm(filePath, { force: true });
