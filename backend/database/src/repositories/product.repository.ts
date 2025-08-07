@@ -275,16 +275,44 @@ export class ProductRepository {
 
 
     async deleteImage(imageURL: string) {
-        const dirParh = path.join(__dirname, '..', '..', '..', 'product-service', 'products');
+        const imageDir = path.resolve(__dirname, '..', '..', '..', 'product-service', 'products');
         const fileName = path.basename(imageURL);
-        const filePath = path.join(dirParh, fileName);
+        const filePath = path.join(imageDir, fileName);
 
-        try{
-            await fs.access(filePath);
-            await fs.rm(filePath);
+        try {
+            await fs.rm(filePath, { force: true });
             return { success: true, message: 'Image deleted successfully' };
-        } catch (error){
-            throw new Error(`Error deleting image or Image not found: ${error.message}`);
+        } catch (err) {
+            throw new Error(`Failed to delete image "${filePath}": ${err.message}`);
         }
+    }
+
+    async deleteProduct(id: number) {
+        let product;
+        let attribute;
+        try {
+            product = await this.prisma.products.findUnique({ where: { id } });
+            attribute = await this.prisma.attributes.findUnique({ where: { productsId: id } });
+            if (!product) throw new Error(`Product with id ${id} not found`);
+            if (!attribute) throw new Error(`Attributes with id ${id} not found`);
+        } catch (err) {
+            throw new Error(`DB fetch error: ${err.message}`);
+        }
+
+        try {
+            await this.prisma.products.delete({ where: { id } });
+            await this.prisma.attributes.delete({ where: { productsId: id } });
+        } catch (err) {
+            throw new Error(`Failed to delete product: ${err.message}`);
+        }
+        if (product.image) {
+            try {
+                await this.deleteImage(product.image);
+            } catch (err) {
+                console.error(`Warning: Image deletion failed: ${err.message}`);
+            }
+        }
+
+        return { success: true, message: 'Product and image (if existed) deleted successfully' };
     }
 }
