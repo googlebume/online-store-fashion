@@ -272,4 +272,19 @@ export class ProductRepository {
         return { success: true };
     }
 
+
+
+    async deleteImage(imageURL: string) {
+        const dirParh = path.join(__dirname, '..', '..', '..', 'product-service', 'products');
+        const fileName = path.basename(imageURL);
+        const filePath = path.join(dirParh, fileName);
+
+        try{
+            await fs.access(filePath);
+            await fs.rm(filePath);
+            return { success: true, message: 'Image deleted successfully' };
+        } catch (error){
+            throw new Error(`Error deleting image or Image not found: ${error.message}`);
+        }
+    }
 }
