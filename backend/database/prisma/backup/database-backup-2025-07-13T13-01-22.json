@@ -1,7 +1,6 @@
 {
   "users": [
     {
-      "id": 32,
       "name": "Online store Fashion",
       "email": "duzasergej@gmail.com",
       "password": "$2b$10$sLrkuzXO1GFganXh6e2qMuFXOYIH.wi/Q2jfRGauPToQkUbBNgp0G",
@@ -10,7 +9,6 @@
       "updatedAt": "2025-07-13T09:14:05.000Z"
     },
     {
-      "id": 33,
       "name": "Serhii",
       "email": "nubiknetne@gmail.com",
       "password": "$2b$10$mQ7.bALbP2AErW/brEbVueRm5gy.RLe6hFSHjAoO8DQwDCCkrm4u.",
@@ -21,7 +19,6 @@
   ],
   "products": [
     {
-      "id": 1,
       "name": "Oversize Hoodie",
       "brand": "Generic Brand",
       "price": 1200,
@@ -30,7 +27,6 @@
       "image": "http://localhost:5000/products/hoodie_1_1.webp"
     },
     {
-      "id": 2,
       "name": "Casual Hoodie",
       "brand": "Generic Brand",
       "price": 1100,
@@ -39,7 +35,6 @@
       "image": "http://localhost:5000/products/hoodie_2_1.webp"
     },
     {
-      "id": 3,
       "name": "Sporty Hoodie",
       "brand": "Generic Brand",
       "price": 1300,
@@ -48,7 +43,6 @@
       "image": "http://localhost:5000/products/hoodie_3_1.webp"
     },
     {
-      "id": 4,
       "name": "Streetwear Hoodie",
       "brand": "Generic Brand",
       "price": 1250,
@@ -57,7 +51,6 @@
       "image": "http://localhost:5000/products/hoodie_4_1.webp"
     },
     {
-      "id": 5,
       "name": "Minimalist Hoodie",
       "brand": "Generic Brand",
       "price": 1150,
@@ -66,7 +59,6 @@
       "image": "http://localhost:5000/products/hoodie_5_1.webp"
     },
     {
-      "id": 6,
       "name": "Classic Sweatshirt",
       "brand": "Generic Brand",
       "price": 1000,
@@ -75,7 +67,6 @@
       "image": "http://localhost:5000/products/sweatshirt_1_1.webp"
     },
     {
-      "id": 7,
       "name": "Urban Sweatshirt",
       "brand": "Generic Brand",
       "price": 1050,
@@ -84,7 +75,6 @@
       "image": "http://localhost:5000/products/sweatshirt_2_1.webp"
     },
     {
-      "id": 8,
       "name": "Vintage Sweatshirt",
       "brand": "Generic Brand",
       "price": 1100,
@@ -93,7 +83,6 @@
       "image": "http://localhost:5000/products/sweatshirt_3_1.webp"
     },
     {
-      "id": 9,
       "name": "Comfy Sweatshirt",
       "brand": "Generic Brand",
       "price": 980,
@@ -102,7 +91,6 @@
       "image": "http://localhost:5000/products/sweatshirt_4_1.webp"
     },
     {
-      "id": 10,
       "name": "Trendy Sweatshirt",
       "brand": "Generic Brand",
       "price": 1020,
@@ -111,7 +99,6 @@
       "image": "http://localhost:5000/products/sweatshirt_5_1.webp"
     },
     {
-      "id": 11,
       "name": "Formal Shirt",
       "brand": "Generic Brand",
       "price": 1500,
@@ -120,7 +107,6 @@
       "image": "http://localhost:5000/products/shirt_1_1.webp"
     },
     {
-      "id": 12,
       "name": "Casual Shirt",
       "brand": "Generic Brand",
       "price": 1350,
@@ -129,7 +115,6 @@
       "image": "http://localhost:5000/products/shirt_2_1.webp"
     },
     {
-      "id": 13,
       "name": "Linen Shirt Blue",
       "brand": "Generic Brand",
       "price": 1450,
@@ -138,7 +123,6 @@
       "image": "http://localhost:5000/products/shirt_3_1.webp"
     },
     {
-      "id": 14,
       "name": "Linen Shirt Yellow",
       "brand": "Generic Brand",
       "price": 1400,
@@ -147,7 +131,6 @@
       "image": "http://localhost:5000/products/shirt_4_1.webp"
     },
     {
-      "id": 15,
       "name": "Linen Shirt White",
       "brand": "Generic Brand",
       "price": 1300,
@@ -156,7 +139,6 @@
       "image": "http://localhost:5000/products/shirt_5_1.webp"
     },
     {
-      "id": 16,
       "name": "Basic Tshirt",
       "brand": "Generic Brand",
       "price": 800,
@@ -165,7 +147,6 @@
       "image": "http://localhost:5000/products/tshirt_1_1.webp"
     },
     {
-      "id": 17,
       "name": "Graphic Tshirt",
       "brand": "Generic Brand",
       "price": 850,
@@ -174,7 +155,6 @@
       "image": "http://localhost:5000/products/tshirt_2_1.webp"
     },
     {
-      "id": 18,
       "name": "Sport Tshirt",
       "brand": "Generic Brand",
       "price": 900,
@@ -183,7 +163,6 @@
       "image": "http://localhost:5000/products/tshirt_3_1.webp"
     },
     {
-      "id": 19,
       "name": "Slim Fit Tshirt",
       "brand": "Generic Brand",
       "price": 880,
@@ -192,7 +171,6 @@
       "image": "http://localhost:5000/products/tshirt_4_1.webp"
     },
     {
-      "id": 20,
       "name": "Vintage Tshirt",
       "brand": "Generic Brand",
       "price": 950,
@@ -203,7 +181,6 @@
   ],
   "attributes": [
     {
-      "productsId": 1,
       "type": "hoodie",
       "category": "male",
       "color": "black",
@@ -214,7 +191,6 @@
       "weight": 0.5
     },
     {
-      "productsId": 2,
       "type": "hoodie",
       "category": "male",
       "color": "white",
@@ -225,7 +201,6 @@
       "weight": 0.6
     },
     {
-      "productsId": 3,
       "type": "hoodie",
       "category": "female",
       "color": "white",
@@ -236,7 +211,6 @@
       "weight": 0.5
     },
     {
-      "productsId": 4,
       "type": "hoodie",
       "category": "male",
       "color": "black",
@@ -247,7 +221,6 @@
       "weight": 0.5
     },
     {
-      "productsId": 5,
       "type": "hoodie",
       "category": "male",
       "color": "brown",
@@ -258,7 +231,6 @@
       "weight": 0.5
     },
     {
-      "productsId": 6,
       "type": "sweatshirt",
       "category": "male",
       "color": "black",
@@ -269,7 +241,6 @@
       "weight": 0.4
     },
     {
-      "productsId": 7,
       "type": "sweatshirt",
       "category": "female",
       "color": "black",
@@ -280,7 +251,6 @@
       "weight": 0.4
     },
     {
-      "productsId": 8,
       "type": "sweatshirt",
       "category": "female",
       "color": "pink",
@@ -291,7 +261,6 @@
       "weight": 0.5
     },
     {
-      "productsId": 9,
       "type": "sweatshirt",
       "category": "female",
       "color": "white",
@@ -302,7 +271,6 @@
       "weight": 0.5
     },
     {
-      "productsId": 10,
       "type": "sweatshirt",
       "category": "female",
       "color": "black",
@@ -313,7 +281,6 @@
       "weight": 0.4
     },
     {
-      "productsId": 11,
       "type": "shirt",
       "category": "male",
       "color": "white",
@@ -324,7 +291,6 @@
       "weight": 0.2
     },
     {
-      "productsId": 12,
       "type": "shirt",
       "category": "female",
       "color": "brown",
@@ -335,7 +301,6 @@
       "weight": 0.2
     },
     {
-      "productsId": 13,
       "type": "shirt",
       "category": "male",
       "color": "blue",
@@ -346,7 +311,6 @@
       "weight": 0.2
     },
     {
-      "productsId": 14,
       "type": "shirt",
       "category": "male",
       "color": "yellow",
@@ -357,7 +321,6 @@
       "weight": 0.2
     },
     {
-      "productsId": 15,
       "type": "shirt",
       "category": "female",
       "color": "white",
@@ -368,7 +331,6 @@
       "weight": 0.2
     },
     {
-      "productsId": 16,
       "type": "tshirt",
       "category": "female",
       "color": "pink",
@@ -379,7 +341,6 @@
       "weight": 0.2
     },
     {
-      "productsId": 17,
       "type": "tshirt",
       "category": "male",
       "color": "yellow",
@@ -390,7 +351,6 @@
       "weight": 0.3
     },
     {
-      "productsId": 18,
       "type": "tshirt",
       "category": "male",
       "color": "black",
@@ -401,7 +361,6 @@
       "weight": 0.2
     },
     {
-      "productsId": 19,
       "type": "tshirt",
       "category": "male",
       "color": "white",
@@ -412,7 +371,6 @@
       "weight": 0.2
     },
     {
-      "productsId": 20,
       "type": "tshirt",
       "category": "male",
       "color": "black",

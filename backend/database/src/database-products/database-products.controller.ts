@@ -13,7 +13,7 @@ export class DatabaseProductsController {
   }
 
   @MessagePattern('get_product_by_id')
-  async getProductById(data: { id: number }) {
+  async getProductById(data: { id: string }) {
     return this.databaseService.getProductById(data.id);
   }
 

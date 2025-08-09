@@ -10,7 +10,7 @@ export class DatabaseUsersService {
     return this.userRepository.findAll();
   }
 
-  async getUserByID(id: number) {
+  async getUserByID(id: string) {
     return this.userRepository.findByID(id);
   }
 

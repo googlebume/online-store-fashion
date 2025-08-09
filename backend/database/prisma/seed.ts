@@ -19,7 +19,7 @@ async function main() {
   console.log('🌱 Завантаження seed даних...');
   
   // Спробувати знайти backup файл
-  const backupDir = path.join(process.cwd(), 'backup');
+  const backupDir = path.join(process.cwd(), 'prisma', 'backup');
   let data: BackupData | null = null;
   
   if (fs.existsSync(backupDir)) {
@@ -28,7 +28,7 @@ async function main() {
     
     if (fs.existsSync(latestBackupPath)) {
       console.log('📂 Використовую latest-backup.json');
-      data = JSON.parse(fs.readFileSync(latestBackupPath, 'utf8'));
+      data = await JSON.parse(fs.readFileSync(latestBackupPath, 'utf8'));
     } else {
       const backupFiles = fs.readdirSync(backupDir)
         .filter(file => file.startsWith('database-backup-') && file.endsWith('.json'))
@@ -45,7 +45,7 @@ async function main() {
   
   if (!data) {
     console.log('⚠️  Backup файли не знайдено, створюю тестові дані...');
-    await createTestData();
+    // await createTestData();
     return;
   }
   
@@ -143,87 +143,87 @@ async function main() {
   console.log('\n🎉 Seed завершено успішно!');
 }
 
-async function createTestData() {
-  console.log('🔄 Створення тестових даних...');
+// async function createTestData() {
+//   console.log('🔄 Створення тестових даних...');
   
-  const testUser = await prisma.user.create({
-    data: {
-      name: 'Test User',
-      email: 'test@example.com',
-      password: '$2b$10$hashedpassword',
-      role: 'user'
-    }
-  });
+//   const testUser = await prisma.user.create({
+//     data: {
+//       name: 'Test User',
+//       email: 'test@example.com',
+//       password: '$2b$10$hashedpassword',
+//       role: 'user'
+//     }
+//   });
 
-  const testProduct = await prisma.products.create({
-    data: {
-      name: 'Test Hoodie',
-      brand: 'Test Brand',
-      price: 599.99,
-      discount: 0,
-      description: 'Test product description',
-      image: 'test-image.jpg'
-    }
-  });
+//   const testProduct = await prisma.products.create({
+//     data: {
+//       name: 'Test Hoodie',
+//       brand: 'Test Brand',
+//       price: 599.99,
+//       discount: 0,
+//       description: 'Test product description',
+//       image: 'test-image.jpg'
+//     }
+//   });
 
-  await prisma.attributes.create({
-    data: {
-      productsId: testProduct.id,
-      type: 'hoodie',
-      category: 'male',
-      color: 'black',
-      size: 'M',
-      brand: 'Test Brand',
-      material: 'Cotton',
-      countryOfOrigin: 'Ukraine',
-      weight: 0.5
-    }
-  });
+//   await prisma.attributes.create({
+//     data: {
+//       productsId: testProduct.id,
+//       type: 'hoodie',
+//       category: 'male',
+//       color: 'black',
+//       size: 'M',
+//       brand: 'Test Brand',
+//       material: 'Cotton',
+//       countryOfOrigin: 'Ukraine',
+//       weight: 0.5
+//     }
+//   });
 
-  await prisma.order.create({
-    data: {
-      userName: testUser.name,
-      userEmail: testUser.email,
-      orderCode: 'TEST-001'
-    }
-  });
+//   await prisma.order.create({
+//     data: {
+//       userName: testUser.name,
+//       userEmail: testUser.email,
+//       orderCode: 'TEST-001'
+//     }
+//   });
 
-  await prisma.reviews.create({
-    data: {
-      userId: testUser.id,
-      userName: testUser.name,
-      reviewTitle: 'Great product!',
-      rewiew: 'This is a test review.',
-      stars: 5
-    }
-  });
+//   await prisma.reviews.create({
+//     data: {
+//       userId: testUser.id,
+//       userName: testUser.name,
+//       reviewTitle: 'Great product!',
+//       rewiew: 'This is a test review.',
+//       stars: 5
+//     }
+//   });
   
-  const testBasket = await prisma.basket.create({
-    data: {
-      firstName: 'Test',
-      lastName: 'User',
-      phone: 123456789,
-      email: 'test@example.com',
-      region: 'Test Region',
-      city: 'Test City',
-      issuePoint: 'Test Point',
-      deliveryMethod: 'Mail',
-      promoСode: 'TEST10'
-    }
-  });
+//   const testBasket = await prisma.basket.create({
+//     data: {
+//       firstName: 'Test',
+//       lastName: 'User',
+//       phone: 123456789,
+//       email: 'test@example.com',
+//       region: 'Test Region',
+//       city: 'Test City',
+//       issuePoint: 'Test Point',
+//       deliveryMethod: 'Mail',
+//       promoСode: 'TEST10'
+//     }
+//   });
   
-  await prisma.orderedProducts.create({
-    data: {
-      basketId: testBasket.id,
-      productName: testProduct.name,
-      quantity: 1,
-      price: testProduct.price,
-      totalPrice: testProduct.price
-    }
-  });
+//   await prisma.orderedProducts.create({
+//     data: {
+//       basketId: testBasket.id,
+//       productName: testProduct.name,
+//       quantity: 1,
+//       price: testProduct.price,
+//       totalPrice: testProduct.price
+//     }
+//   });
   
-  console.log('✅ Тестові дані створено успішно!');
-}
+//   console.log('✅ Тестові дані створено успішно!');
+// }
 
 main()
   .catch((e) => {

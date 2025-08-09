@@ -6,7 +6,6 @@
 
 generator client {
   provider = "prisma-client-js"
-  // output   = "./generated/prisma-client"
 }
 
 datasource db {
@@ -15,7 +14,7 @@ datasource db {
 }
 
 model Products {
-  id          Int          @id @default(autoincrement())
+  id          String       @id @default(uuid())
   name        String       @unique
   brand       String
   price       Float
@@ -26,7 +25,7 @@ model Products {
 }
 
 model Attributes {
-  productsId      Int             @id
+  productsId      String          @id
   Products        Products?       @relation(fields: [productsId], references: [id])
   type            ProductType
   category        ProductCategory
@@ -39,11 +38,11 @@ model Attributes {
 }
 
 model User {
-  id           Int      @id @default(autoincrement())
-  name         String   @unique
-  email        String   @unique
-  password     String
-  role         Role     @default(user)
+  id        String      @id @default(uuid())
+  name      String   @unique
+  email     String   @unique
+  password  String
+  role      Role     @default(user)
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt
 
@@ -53,7 +52,7 @@ model User {
 }
 
 model Order {
-  id        Int      @id @default(autoincrement())
+  id        String      @id @default(uuid())
   userName  String
   userEmail String
   orderCode String   @unique
@@ -63,8 +62,8 @@ model Order {
 }
 
 model Reviews {
-  id          Int    @id @default(autoincrement())
-  userId      Int
+  id          String    @id @default(uuid())
+  userId      String
   userName    String
   reviewTitle String
   rewiew      String
@@ -113,7 +112,7 @@ enum Size {
 }
 
 model Basket {
-  id             Int    @id @default(autoincrement())
+  id             String            @id @default(uuid())
   firstName      String
   lastName       String
   phone          Int
@@ -122,29 +121,29 @@ model Basket {
   city           String
   issuePoint     String
   deliveryMethod DeliveryMethod
-  promoСode      String?
-  createdAt      DateTime @default(now())
-  updatedAt      DateTime @updatedAt
-  
-  orders         OrderedProducts[]
+  promoСode     String?
+  createdAt      DateTime       @default(now())
+  updatedAt      DateTime       @updatedAt
+
+  orders OrderedProducts[]
 }
 
 model OrderedProducts {
-  id          Int      @id @default(autoincrement())
-  basketId    Int
+  id          String      @id @default(uuid())
+  basketId    String
   productName String
   quantity    Int
   price       Float
   totalPrice  Float
   createdAt   DateTime @default(now())
-  
-  basket      Basket   @relation(fields: [basketId], references: [id], onDelete: Cascade)
-  
+
+  basket Basket @relation(fields: [basketId], references: [id], onDelete: Cascade)
+
   @@index([basketId])
 }
 
 enum DeliveryMethod {
   Mail
-  Сourier
+  Courier
   Pickup
 }

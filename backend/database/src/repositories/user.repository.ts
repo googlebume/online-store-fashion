@@ -77,7 +77,7 @@ import * as bcrypt from 'bcryptjs';
 export class UserRepository {
   constructor(private readonly prisma: PrismaService) {}
 
-  async findByID(id: number) {
+  async findByID(id: string) {
     return this.prisma.user.findUnique({ where: { id } });
   }
 

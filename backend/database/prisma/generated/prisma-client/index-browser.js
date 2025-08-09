@@ -237,7 +237,7 @@ exports.Role = exports.$Enums.Role = {
 
 exports.DeliveryMethod = exports.$Enums.DeliveryMethod = {
   Mail: 'Mail',
-  Сourier: 'Сourier',
+  Courier: 'Courier',
   Pickup: 'Pickup'
 };
 

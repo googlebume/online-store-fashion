@@ -7,14 +7,15 @@ import * as crypto from 'crypto';
 
 @Injectable()
 export class ProductRepository {
+    private readonly imagesDir: string;
+
     constructor(
-        private readonly prisma: PrismaService,
-        private readonly imagesDir: string
+        private readonly prisma: PrismaService
     ) { 
         this.imagesDir = path.join(__dirname, '..', '..', '..', 'product-service', 'products');
-     }
+    }
 
-    async findById(id: number) {
+    async findById(id: string) {
         return this.prisma.products.findUnique({ where: { id } });
     }
 
@@ -60,8 +61,6 @@ export class ProductRepository {
         });
     }
 
-
-
     async findAll() {
         const products = await this.prisma.products.findMany();
         const attributes = await this.prisma.attributes.findMany();
@@ -70,7 +69,6 @@ export class ProductRepository {
             const matchingAttribute = attributes.find(attr => attr.productsId === product.id);
 
             const attributesObject = this.changeArrToObj(matchingAttribute);
-
 
             return {
                 ...product,
@@ -93,7 +91,6 @@ export class ProductRepository {
         return attributesObject
     }
 
-
     async editProduct(data: any) {
         console.log('editing product .....')
 
@@ -107,7 +104,7 @@ export class ProductRepository {
         }
 
         return this.prisma.products.update({
-            where: { id: +data.id },
+            where: { id: data.id },
             data: {
                 name: data.name,
                 brand: data.brand,
@@ -117,7 +114,7 @@ export class ProductRepository {
                 attributes: {
                     update: [
                         {
-                            where: { productsId: +attributes.productsId },
+                            where: { productsId: attributes.productsId },
                             data: {
                                 type: attributes.type,
                                 category: attributes.category,
@@ -132,7 +129,7 @@ export class ProductRepository {
         });
     }
 
-    async addImage(file: Express.Multer.File, prodId: number) {
+    async addImage(file: Express.Multer.File, prodId: string) {
         const fileHash = await crypto
             .createHash('sha256')
             .update(file.originalname + Date.now())
@@ -168,7 +165,7 @@ export class ProductRepository {
             }
 
             await this.prisma.products.update({
-                where: { id: +prodId },
+                where: { id: prodId },
                 data: {
                     image: `http://localhost:5000/products/${fileName}`,
                 },
@@ -217,8 +214,6 @@ export class ProductRepository {
                 }
             });
         }
-
-
     }
 
     async editImage(file: Express.Multer.File, imageURL: string) {
@@ -255,8 +250,6 @@ export class ProductRepository {
         return { success: true };
     }
 
-
-
     async deleteImage(imageURL: string) {
         const fileName = path.basename(imageURL);
         const filePath = path.join(this.imagesDir, fileName);
@@ -269,7 +262,7 @@ export class ProductRepository {
         }
     }
 
-    async deleteProduct(id: number) {
+    async deleteProduct(id: string) {
         let product;
         let attribute;
         try {

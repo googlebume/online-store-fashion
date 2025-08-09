@@ -11,7 +11,7 @@ export class DatabaseProductsService {
     return products;
   }
 
-  async getProductById(id: number) {
+  async getProductById(id: string) {
     return this.productRepository.findById(id);
   }
 
