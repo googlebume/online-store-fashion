@@ -85,6 +85,21 @@ const AdminProducts = () => {
 
     const [returnFiltered, setReturnFiltered] = useState<ProductType[]>([]);
 
+
+    useEffect(() => {
+        fetch(`http://localhost:4005/fashion/admin/products/delete`,
+            {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(deletedProduct),
+            }
+        )
+            .then(response => response.json())
+            .then(data => data?.success === true ? null : console.error('Failed to delete product'))
+    }, [deletedProduct]);
+
     return (
         <>
             {response && (
