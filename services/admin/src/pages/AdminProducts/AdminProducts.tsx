@@ -12,10 +12,14 @@ import PlusIcon from '@packages/shared/src/assets/images/icons/plusIcon.svg';
 
 export const ProdContext = createContext<{
     setSelectedProduct: Dispatch<SetStateAction<ProductType | null>>;
+    setDeletedProduct?: Dispatch<SetStateAction<ProductType | null>>;
     selectedProduct: ProductType | null;
+    deletedProduct?: ProductType | null;
 }>({
     setSelectedProduct: () => { },
-    selectedProduct: null
+    setDeletedProduct: () => { },
+    selectedProduct: null,
+    deletedProduct: null,
 });
 
 export const useProdContext = () => {
@@ -31,6 +35,7 @@ const AdminProducts = () => {
     const { response, error, isLoading, fetchData } = useFetch<null, ProductType[]>();
     const [lastOfPath, setLastOfPath] = useState('');
     const [selectedProduct, setSelectedProduct] = useState<ProductType | null>(null);
+    const [deletedProduct, setDeletedProduct] = useState<ProductType | null>(null);
     const popupRef = useRef<HTMLDivElement>(null);
     const [isPopupOpen, setIsPopupOpen] = useState<boolean>(false);
 

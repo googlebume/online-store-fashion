@@ -22,7 +22,7 @@ const ProductCard: React.FC<ProductCardProp> = ({ data, prevLocation }) => {
     const location = useLocation();
     const menuRef = useRef<HTMLDivElement>(null);
 
-    const { setSelectedProduct } = useProdContext();
+    const { setSelectedProduct, setDeletedProduct } = useProdContext();
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
             if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
@@ -72,7 +72,7 @@ const ProductCard: React.FC<ProductCardProp> = ({ data, prevLocation }) => {
                         {
                             location.pathname === "/fashion/admin/products"
                                 ? <ActionsMenu
-                                    actionList={adminProductsAction(data, setSelectedProduct)}
+                                    actionList={adminProductsAction(data, setSelectedProduct, setDeletedProduct)}
                                     setIsOpen={setIsOpen}
                                     isOpen={isOpen}
                                     ref={menuRef}

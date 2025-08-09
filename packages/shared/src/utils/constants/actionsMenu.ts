@@ -6,7 +6,10 @@ export type MenuActionType = {
     action?: (data?: any) => void;
 }
 
-export const adminProductsAction = (productData: ProductType, setSelectedProduct: (data: ProductType) => void): MenuActionType[] => {
+export const adminProductsAction = (
+    productData: ProductType,
+    setSelectedProduct: (data: ProductType) => void,
+    setDeletedProduct: (data: ProductType) => void): MenuActionType[] => {
     return [
         {
             name: 'Змінити',
@@ -17,7 +20,7 @@ export const adminProductsAction = (productData: ProductType, setSelectedProduct
         {
             name: 'Видалити',
             action: () => {
-                console.log('Видаляємо продукт:', productData);
+                setDeletedProduct(productData);
             }
         },
     ];
