@@ -87,9 +87,10 @@ const AdminProducts = () => {
 
 
     useEffect(() => {
+        console.log('Deleted product:', deletedProduct);
         fetch(`http://localhost:4005/fashion/admin/products/delete`,
             {
-                method: 'DELETE',
+                method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
@@ -97,7 +98,7 @@ const AdminProducts = () => {
             }
         )
             .then(response => response.json())
-            .then(data => data?.success === true ? null : console.error('Failed to delete product'))
+            .then(data => data?.success === true ? null : console.log('Failed to delete product'))
     }, [deletedProduct]);
 
     return (
@@ -118,7 +119,7 @@ const AdminProducts = () => {
 
             )}
             <div className={cl.overview__prod}>
-                <ProdContext.Provider value={{ setSelectedProduct, selectedProduct }}>
+                <ProdContext.Provider value={{ setSelectedProduct, selectedProduct, setDeletedProduct, deletedProduct }}>
                     {Array.isArray(returnFiltered) && returnFiltered.length > 0 ? (
                         returnFiltered.map((prod, index) => (
                             <ProductCard key={index} data={prod as ProductType} />

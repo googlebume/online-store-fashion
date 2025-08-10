@@ -11,7 +11,7 @@ export class ProductRepository {
 
     constructor(
         private readonly prisma: PrismaService
-    ) { 
+    ) {
         this.imagesDir = path.join(__dirname, '..', '..', '..', 'product-service', 'products');
     }
 
@@ -289,5 +289,14 @@ export class ProductRepository {
         }
 
         return { success: true, message: 'Product and image (if existed) deleted successfully' };
+    }
+
+
+    deleteById(id: string) {
+        try {
+            return this.prisma.products.delete({ where: { id } });
+        } catch (error) {
+            throw new Error(`Failed to delete product with id ${id}: ${error.message}`);
+        }
     }
 }
