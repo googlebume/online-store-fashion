@@ -70,6 +70,7 @@ const PopupEditProduct = <T extends 'edit' | 'add'>({ ...props }: PopupEditProdu
                 formData.append(key, value.toString());
             }
         });
+        // if (isEditMode && productData.id) { formData.append('id', productData.id.toString()); }
 
         if (productImage) {
             formData.append('image', productImage);
@@ -183,9 +184,9 @@ const PopupEditProduct = <T extends 'edit' | 'add'>({ ...props }: PopupEditProdu
                                 : <InputData
                                     id='prod-id'
                                     placeholder='ID товару'
-                                    type='number'
+                                    type='text'
                                     label='ID товару'
-                                    {...(isEditMode && { value: productData.id?.toString() })}
+                                    {...(isEditMode && { value: productData.id })}
                                     disabled
                                     required={false}
                                 />

@@ -3,13 +3,14 @@ import cl from './InputData.module.scss';
 import { InputPropsType } from './../../../utils/types/inputProps.type';
 import { TextareaType } from './../../../utils/types/inputProps.type';
 
-const InputData: React.FC<InputPropsType> = ({ type, placeholder, label, min, max, id, required, value, onInput }) => {
+const InputData: React.FC<InputPropsType> = ({ type, placeholder, label, disabled,  min, max, id, required, value, onInput }) => {
     const baseProps = {
         className: cl.input,
         id,
         placeholder,
         required,
         value,
+        disabled
     };
 
     const inputProps: React.InputHTMLAttributes<HTMLInputElement> = {

@@ -16,10 +16,10 @@ export class ProductsController {
   @Post('edit')
   editProduct(
     @UploadedFile() image: Express.Multer.File,
-    @Body() body: any
+    @Body() body: Products
   ) {
     // console.log('image:', image);
-    // console.log('body:', body);
+    console.log('body:', body);
     // console.log('other form data:', body);
     return this.productsService.editOneProduct({ ...body, 'file': image });
     // return this.productsService.editOneProduct({ ...body});
@@ -29,7 +29,7 @@ export class ProductsController {
   @Post('add')
   addProduct(
     @UploadedFile() image: Express.Multer.File,
-    @Body() body: any
+    @Body() body: Products
   ) {
     console.log('Adding product with image:', body, image);
     return this.productsService.addOneProduct(body, image);
