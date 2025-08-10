@@ -31,7 +31,7 @@ export class DatabaseProductsService {
     return this.productRepository.addProduct(data);
   }
 
-  deleteProsuctById(data: Products) {
-    return this.productRepository.deleteProductById(data);
+  deleteProsuctById(id: string) {
+    return this.productRepository.deleteProductById(id);
   }
 }

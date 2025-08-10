@@ -1,4 +1,5 @@
 import { HttpException, Injectable } from '@nestjs/common';
+import { lastValueFrom } from 'rxjs';
 import { databaseClient } from 'src/database.client';
 
 @Injectable()
@@ -37,5 +38,12 @@ export class ProductsService {
             return { success: false, message: error.message };
         }
         return { success: true, message: 'Product added successfully' };
+    }
+
+    async deleteProductById(id: string) {
+        const deleteProduct = await lastValueFrom(
+            databaseClient.send('delete_product_by_id', id)
+        );
+        return deleteProduct;
     }
 }

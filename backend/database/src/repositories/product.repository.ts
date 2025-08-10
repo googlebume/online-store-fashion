@@ -293,9 +293,17 @@ export class ProductRepository {
     }
 
 
-    async deleteProductById(data: Products) {
+    async deleteProductById(id: string) {
+        const data = await this.prisma.products.findUnique({ where: { id: id } });
+        if (!data) {
+            throw new Error(`Product with id ${id} not found`);
+        }
         const fileName = path.basename(data.image);
-
+        try {
+            await this.prisma.attributes.delete({ where: { productsId: data.id } });
+        } catch (error) {
+            throw new Error(`Failed to delete attributes for product with id ${data.id}: ${error.message}`);
+        }
         try {
             await this.prisma.products.delete({ where: { id: data.id } });
         } catch (error) {

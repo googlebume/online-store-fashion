@@ -85,20 +85,22 @@ const AdminProducts = () => {
 
     const [returnFiltered, setReturnFiltered] = useState<ProductType[]>([]);
 
-
     useEffect(() => {
+        if (!deletedProduct) return;
         console.log('Deleted product:', deletedProduct);
-        fetch(`http://localhost:4005/fashion/admin/products/delete`,
+        fetch(`http://localhost:4005/fashion/admin/products/delete/${deletedProduct.id}`,
             {
-                method: 'POST',
+                method: 'DELETE',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify(deletedProduct),
             }
         )
             .then(response => response.json())
-            .then(data => data?.success === true ? null : console.log('Failed to delete product'))
+            .then(data => {
+                console.log('Delete response:', data);
+                data?.success === true && document.location.reload()
+            })
     }, [deletedProduct]);
 
     return (

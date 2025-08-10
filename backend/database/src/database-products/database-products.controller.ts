@@ -38,7 +38,7 @@ export class DatabaseProductsController {
   }
 
   @MessagePattern('delete_product_by_id')
-  async deleteProductById(data: Products) {
-    return this.databaseService.deleteProsuctById(data);
+  async deleteProductById(id: string) {
+    return this.databaseService.deleteProsuctById(id);
   }
 }

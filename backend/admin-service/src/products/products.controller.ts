@@ -1,6 +1,7 @@
-import { Body, Controller, Get, Post, UploadedFile, UseInterceptors } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, UploadedFile, UseInterceptors } from '@nestjs/common';
 import { ProductsService } from './products.service';
 import { FileInterceptor } from '@nestjs/platform-express';
+import type { Products } from '@prisma/client';
 
 @Controller('fashion/admin/products')
 export class ProductsController {
@@ -30,7 +31,14 @@ export class ProductsController {
     @UploadedFile() image: Express.Multer.File,
     @Body() body: any
   ) {
-    console.log('Adding product with image:', body,            image);
-    return this.productsService.addOneProduct(body, image );
+    console.log('Adding product with image:', body, image);
+    return this.productsService.addOneProduct(body, image);
+  }
+
+  @Delete('delete/:id')
+  deleteProduct(
+    @Param('id') id: string,
+  ) {
+    return this.productsService.deleteProductById(id);
   }
 }
