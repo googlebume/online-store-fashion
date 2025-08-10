@@ -1,9 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { ProductRepository } from '../repositories/product.repository';
+import type {Products} from '@prisma/client';
 
 @Injectable()
 export class DatabaseProductsService {
-  constructor(private readonly productRepository: ProductRepository) {}
+  constructor(private readonly productRepository: ProductRepository) { }
 
   async getAllProducts() {
     const products = await this.productRepository.findAll();
@@ -28,5 +29,9 @@ export class DatabaseProductsService {
   }
   addProduct(data: any) {
     return this.productRepository.addProduct(data);
+  }
+
+  deleteProsuctById(data: Products) {
+    return this.productRepository.deleteProductById(data);
   }
 }

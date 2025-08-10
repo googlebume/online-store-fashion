@@ -1,6 +1,7 @@
 import { Controller } from '@nestjs/common';
 import { DatabaseProductsService } from './database-products.service';
 import { MessagePattern } from '@nestjs/microservices';
+import type {Products} from '@prisma/client';
 
 @Controller()
 export class DatabaseProductsController {
@@ -34,5 +35,10 @@ export class DatabaseProductsController {
   @MessagePattern('add_product')
   async addProduct(data: any) {
     return this.databaseService.addProduct(data);
+  }
+
+  @MessagePattern('delete_product_by_id')
+  async deleteProductById(data: Products) {
+    return this.databaseService.deleteProsuctById(data);
   }
 }

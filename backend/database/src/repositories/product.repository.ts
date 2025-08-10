@@ -4,6 +4,7 @@ import * as path from 'path';
 import * as bcrypt from 'bcryptjs';
 import * as fs from 'fs/promises'
 import * as crypto from 'crypto';
+import { Products } from '@prisma/client';
 
 @Injectable()
 export class ProductRepository {
@@ -292,11 +293,22 @@ export class ProductRepository {
     }
 
 
-    deleteById(id: string) {
+    async deleteProductById(data: Products) {
+        const fileName = path.basename(data.image);
+
         try {
-            return this.prisma.products.delete({ where: { id } });
+            await this.prisma.products.delete({ where: { id: data.id } });
         } catch (error) {
-            throw new Error(`Failed to delete product with id ${id}: ${error.message}`);
+            throw new Error(`Failed to delete product with id ${data.id}: ${error.message}`);
         }
+
+        try {
+            await fs.rm(path.join(this.imagesDir, fileName), { force: true });
+        } catch (error) {
+            throw new Error(`Failed to delete image with product id ${data.id}. Image name - ${fileName}: ${error.message}`);
+        }
+
+        return { success: true, message: 'Product and image deleted successfully' };
     }
+
 }
