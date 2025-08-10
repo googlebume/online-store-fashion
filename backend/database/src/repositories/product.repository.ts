@@ -92,10 +92,10 @@ export class ProductRepository {
         return attributesObject
     }
 
-    async editProduct(data: any) {
+    async editProduct(data: Products & { file?: Express.Multer.File, attributes: string }) {
         console.log('editing product .....')
 
-        const attributes = JSON.parse(data.attributes);
+        const attributes = JSON.parse(data?.attributes);
         try {
             if (typeof data.file === 'object') {
                 await this.editImage(data.file, data.image);
@@ -179,7 +179,7 @@ export class ProductRepository {
         }
     }
 
-    async addProduct(data: any) {
+    async addProduct(data: Products & { attributes: string, image: Express.Multer.File }) {
         const attributes = JSON.parse(data.attributes);
 
         const createdProduct = await this.prisma.products.create({
@@ -229,7 +229,7 @@ export class ProductRepository {
         try {
             await fs.access(filePath);
             await fs.rm(filePath);
-        } catch (err: any) {
+        } catch (err) {
             if (err.code !== 'ENOENT') {
                 console.error('Помилка видалення:', err);
                 throw new Error('Error deleting old image');
