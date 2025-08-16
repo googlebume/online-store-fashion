@@ -18,11 +18,8 @@ export class ProductsController {
     @UploadedFile() image: Express.Multer.File,
     @Body() body: Products
   ) {
-    // console.log('image:', image);
     console.log('body:', body);
-    // console.log('other form data:', body);
     return this.productsService.editOneProduct({ ...body, 'file': image });
-    // return this.productsService.editOneProduct({ ...body});
   }
 
   @UseInterceptors(FileInterceptor('image'))
