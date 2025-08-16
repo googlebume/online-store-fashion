@@ -1,7 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import * as nodemailer from 'nodemailer';
 import dotenv from 'dotenv';
-// dotenv.config();
 require('dotenv').config();
 import { RegisterService } from 'src/register/register.service';
 
@@ -24,15 +23,6 @@ export class VerifyService {
         return this.code;
     }
 
-
-    // async sendCode() {
-    //     this.generateCode();
-    //     if (this.code) {
-    //         return {
-    //             'code': this.code
-    //         }
-    //     }
-    // }
     async veryfyCode(userCode:string){
         console.log(`Код:${this.code} Юзер:${userCode}`)
         if (this.code && userCode === this.code) {

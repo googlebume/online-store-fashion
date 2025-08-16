@@ -4,12 +4,10 @@ import { HttpException, HttpStatus } from "@nestjs/common";
 export const AuthFieldsLengthMiddleware = (req: Request, res: Response, next: NextFunction) => {
     const { name, email, password } = req.body;
 
-    // Перевірка на порожні значення полів
     if (!name || !email || !password) {
         throw new HttpException('Missing required fields', HttpStatus.BAD_REQUEST);
     }
 
-    // Перевірка довжини кожного поля
     if (name?.length > 25) {
         throw new HttpException('Name field character threshold exceeded', HttpStatus.CONFLICT);
     }
