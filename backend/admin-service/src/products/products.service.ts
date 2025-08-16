@@ -20,7 +20,6 @@ export class ProductsService {
             }
 
             const response = await databaseClient.send('edit_product', file ? {...data, file: file} : data).toPromise();
-            // console.log('response   ', response);
 
             return { success: true, data: response };
         } catch (error) {
