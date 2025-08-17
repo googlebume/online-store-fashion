@@ -1,8 +1,5 @@
 import { Injectable } from '@nestjs/common';
 import * as nodemailer from 'nodemailer';
-import dotenv from 'dotenv';
-require('dotenv').config();
-import { RegisterService } from 'src/register/register.service';
 
 @Injectable()
 export class VerifyService {
@@ -15,22 +12,22 @@ export class VerifyService {
         console.log(`MAIL           `, this.userData.email)
     }
     getUserData(): UserDataType | null {
-    return this.userData;
-}
+        return this.userData;
+    }
 
 
     async getCede(): Promise<string | null> {
         return this.code;
     }
 
-    async veryfyCode(userCode:string){
+    async veryfyCode(userCode: string) {
         console.log(`Код:${this.code} Юзер:${userCode}`)
         if (this.code && userCode === this.code) {
             this.verifyed = true
-            return {'success': true}
+            return { 'success': true }
         }
-        return {'success': false}
-    } 
+        return { 'success': false }
+    }
 
     private generateCode(): string {
         this.code = Array.from({ length: 6 }, () => Math.floor(Math.random() * 10)).join('');
@@ -57,8 +54,8 @@ export class VerifyService {
             text: `Your verification code is: ${code}`,
         });
 
-            return {
-                'code': this.code
-            }
+        return {
+            'code': this.code
+        }
     }
 }
