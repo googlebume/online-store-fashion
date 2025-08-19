@@ -18,7 +18,7 @@ export class ProductsController {
     @UploadedFile() image: Express.Multer.File,
     @Body() body: Products
   ) {
-    console.log('body:', body);
+    // console.log('body:', body);
     return this.productsService.editOneProduct({ ...body, 'file': image });
   }
 
@@ -28,7 +28,7 @@ export class ProductsController {
     @UploadedFile() image: Express.Multer.File,
     @Body() body: Products
   ) {
-    console.log('Adding product with image:', body, image);
+    // console.log('Adding product with image:', body, image);
     return this.productsService.addOneProduct(body, image);
   }
 
