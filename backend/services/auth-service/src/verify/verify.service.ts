@@ -1,5 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import * as nodemailer from 'nodemailer';
+import * as dotenv from 'dotenv';
+
+dotenv.config()
 
 @Injectable()
 export class VerifyService {
@@ -38,6 +41,8 @@ export class VerifyService {
         if (!this.userData?.email) return null;
 
         const code = this.generateCode();
+        console.log(process.env.SEND_EMAIL_MAIL)
+        console.log(process.env.SEND_EMAIL_APP_PASS)
 
         const transporter = nodemailer.createTransport({
             service: 'gmail',

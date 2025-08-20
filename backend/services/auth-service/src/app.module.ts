@@ -8,8 +8,12 @@ import { VerifyModule } from './verify/verify.module';
 
 
 @Module({
-  imports: [RegisterModule, LoginModule, VerifyModule],
+  imports: [
+    RegisterModule,
+    LoginModule,
+    VerifyModule,
+  ],
   controllers: [],
   providers: [],
 })
-export class AppModule {}
+export class AppModule { }

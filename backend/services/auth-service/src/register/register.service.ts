@@ -1,6 +1,6 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { lastValueFrom } from 'rxjs';
-import { databaseClient } from 'src/database.client';
+import { databaseClient } from './../database.client';
 import * as bcrypt from 'bcryptjs';
 import { VerifyService } from 'src/verify/verify.service';
 
