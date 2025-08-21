@@ -14,6 +14,8 @@ import { VerifyModule } from './verify/verify.module';
     VerifyModule,
   ],
   controllers: [],
-  providers: [],
+  providers: [
+    
+  ],
 })
 export class AppModule { }

@@ -5,10 +5,8 @@
         "start:frontend": "concurrently -n admin,host,shop,header,productPage,auth \"npm run start --workspace=services/admin\" \"npm run start --workspace=services/host\" \"npm run start --workspace=services/shop\" \"npm run start --workspace=services/product\" \"npm run start --workspace=services/auth\"",
         "start:backend": "cd backend && npm run start:dev",
         "start:dev": "concurrently \"npm run start:backend\" \"npm run start:frontend\"",
-
         "prisma:generate": "cd backend && npm run prisma:generate",
         "prisma": "cd backend && npm run prisma",
-
         "firstly": "npm i && npm run prisma:generate && npm run start:dev && npm run prisma"
     },
     "workspaces": [
