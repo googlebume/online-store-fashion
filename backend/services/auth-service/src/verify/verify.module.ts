@@ -6,7 +6,7 @@ import { RegisterModule } from 'src/register/register.module';
 @Module({
   controllers: [VerifyController],
   providers: [VerifyService],
-  imports: [forwardRef(() => RegisterModule)], // якщо є циклічна залежність
-  exports: [VerifyService], // експортуємо сервіс, а не модуль
+  imports: [forwardRef(() => RegisterModule)],
+  exports: [VerifyService],
 })
 export class VerifyModule {}

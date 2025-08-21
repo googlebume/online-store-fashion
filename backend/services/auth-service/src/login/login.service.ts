@@ -39,6 +39,11 @@ export class LoginService {
             throw new HttpException('User already exists', HttpStatus.CONFLICT);
         }
 
-        return { success: true };
+        const token = await this.verifyService.generateToken(success)
+
+        return { 
+            success: true,
+            token: token
+        };
     }
 }

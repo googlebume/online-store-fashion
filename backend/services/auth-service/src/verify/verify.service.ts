@@ -1,11 +1,18 @@
 import { Injectable } from '@nestjs/common';
 import * as nodemailer from 'nodemailer';
 import * as dotenv from 'dotenv';
+import { JwtService } from '@nestjs/jwt';
 
 dotenv.config()
 
 @Injectable()
 export class VerifyService {
+    constructor(
+        private readonly jwtService: JwtService,
+    ){
+         
+    }
+
     private userData: UserDataType | null = null;
     private code: string;
     verifyed: boolean = false
@@ -62,5 +69,19 @@ export class VerifyService {
         return {
             'code': this.code
         }
+    }
+
+    async generateToken<T extends {id: string, email: string, roles: string[]}>(data: T): Promise<string>{
+        const payload = {
+            id: data.id,
+            email: data.email,
+            roles: data.roles,
+        }
+        const token: string = await this.jwtService.sign(payload)
+        return token
+    }
+    async verifyToken(token: string): Promise<boolean> {
+        const isTokenValid = await this.jwtService.verify(token)
+        return isTokenValid
     }
 }
