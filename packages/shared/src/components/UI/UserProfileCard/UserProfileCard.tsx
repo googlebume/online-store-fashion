@@ -13,7 +13,6 @@ const UserProfileCard = ({ url, style }: { url: string, style?: string }) => {
     useEffect(() => {
         if (location.state?.userData) {
             setUser(location.state.userData);
-            console.log(location.state.userData)
         }
     }, [location.state]);
 

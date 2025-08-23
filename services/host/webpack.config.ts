@@ -2,6 +2,8 @@ import path from 'path';
 import webpack from 'webpack';
 import {BuildMode, BuildPaths, BuildPlatform, buildWebpack, BuildOptions} from '@packages/build-config'
 import packageJson from './package.json'
+import dotenv from 'dotenv'
+dotenv.config()
 
 interface EnvVariables {
     mode?: BuildMode;
@@ -32,7 +34,7 @@ export default (env: EnvVariables) => {
         port: env.port ?? 3000,
         mode: env.mode ?? 'development',
         paths,
-        analyzer: env.analyzer,
+        analyzer: process.env.analyzer === 'true',
         platform: env.platform ?? 'desktop'
     })
 
