@@ -7,15 +7,13 @@ dotenv.config()
 
 @Injectable()
 export class VerifyService {
+    private verifyed: boolean = false;
+
     constructor(
         private readonly jwtService: JwtService,
-    ){
-         
-    }
-
-    private userData: UserDataType | null = null;
-    private code: string;
-    verifyed: boolean = false
+        private userData: UserDataType | null = null,
+        private code: string,
+    ) {}
 
     setUserData(data: UserDataType): void {
         this.userData = data;
@@ -32,7 +30,7 @@ export class VerifyService {
 
     async veryfyCode(userCode: string) {
         console.log(`Код:${this.code} Юзер:${userCode}`)
-        
+
         if (this.code && userCode === this.code) {
             this.verifyed = true
             return { 'success': true }
@@ -72,7 +70,7 @@ export class VerifyService {
         }
     }
 
-    async generateToken<T extends {id: string, email: string, roles: string[]}>(data: T): Promise<string>{
+    async generateToken<T extends { id: string, email: string, roles: string[] }>(data: T): Promise<string> {
         const payload = {
             id: data.id,
             email: data.email,
