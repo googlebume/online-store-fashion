@@ -4,7 +4,7 @@ import * as bcrypt from 'bcryptjs';
 
 @Injectable()
 export class UserRepository {
-  constructor(private readonly prisma: PrismaService) {}
+  constructor(private readonly prisma: PrismaService) { }
 
   async findByID(id: string) {
     return this.prisma.user.findUnique({ where: { id } });
@@ -22,7 +22,7 @@ export class UserRepository {
 
   async findAll() {
     return this.prisma.user.findMany({
-      select:{
+      select: {
         id: true,
         name: true,
         email: true,
@@ -61,7 +61,7 @@ export class UserRepository {
     if (!isPasswordValid) {
       return null;
     }
-
-    return user;
+    const { password: _, ...safeUser } = user;
+    return safeUser;
   }
 }

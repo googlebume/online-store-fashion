@@ -12,12 +12,10 @@ class Cookies {
         })
     }
 
-    setCookie = (cookie?: cookiesType): void => {
-        if (!cookie) return;
+    setCookie = (cookie: cookiesType): void => {
         const setParam = this.setUnnecesaryParam(cookie)
-        document.cookie = `${setParam.name}=${encodeURIComponent(
-            JSON.stringify(setParam.data)
-        )}; path=${setParam.path}; max-age=${setParam.maxAge}`
+        document.cookie = `${setParam.name}=${setParam.data}; path=${setParam.path}; max-age=${setParam.maxAge}`
+        console.log('cookie  ', JSON.stringify(document.cookie))
     }
 
     private setUnnecesaryParam = (cookie: cookiesType): cookiesType => {

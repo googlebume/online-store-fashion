@@ -1,7 +1,7 @@
 type UserDataType = {
-    id: number,
+    id: string,
     name: string,
     email: string,
     password: string,
-    role: string
+    roles: string[]
 }

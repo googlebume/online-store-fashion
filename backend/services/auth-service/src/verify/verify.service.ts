@@ -32,6 +32,7 @@ export class VerifyService {
 
     async veryfyCode(userCode: string) {
         console.log(`Код:${this.code} Юзер:${userCode}`)
+        
         if (this.code && userCode === this.code) {
             this.verifyed = true
             return { 'success': true }

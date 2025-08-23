@@ -12,8 +12,6 @@ import LoginLink from './UI/LoginLink/LoginLink';
 import SubmitButton from '@packages/shared/src/components/UI/SubmitButton/SubmitButton';
 import { useFetch } from '@packages/shared/src/utils/hooks/useFetch';
 
-import Cookies from '@packages/shared/src/utils/cookies'
-
 type UserLoginType = {
   email: string;
   password: string;

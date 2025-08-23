@@ -8,8 +8,17 @@ import { VerifyService } from 'src/verify/verify.service';
 export class LoginService {
     constructor(private verifyService: VerifyService) { }
     async loginUser() {
-        const userData = await this.verifyService.getUserData()
-        return await lastValueFrom(databaseClient.send('login_user', userData))
+        const userData = await this.verifyService.getUserData();
+        const loginUser = await lastValueFrom(databaseClient.send('login_user', userData))
+        const token = loginUser && await this.verifyService.generateToken({
+            id: loginUser?.id,
+            email: loginUser?.email,
+            roles: loginUser?.roles
+        })
+        return {
+            userData: loginUser,
+            token: token
+        }
     }
 
     async setUserData(userData) {
@@ -39,11 +48,8 @@ export class LoginService {
             throw new HttpException('User already exists', HttpStatus.CONFLICT);
         }
 
-        const token = await this.verifyService.generateToken(success)
-
         return { 
             success: true,
-            token: token
         };
     }
 }
