@@ -8,11 +8,11 @@ dotenv.config()
 @Injectable()
 export class VerifyService {
     private verifyed: boolean = false;
+    private userData: UserDataType | null = null;
+        private code: string;
 
     constructor(
         private readonly jwtService: JwtService,
-        private userData: UserDataType | null = null,
-        private code: string,
     ) {}
 
     setUserData(data: UserDataType): void {

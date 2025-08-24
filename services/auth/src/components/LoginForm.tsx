@@ -35,6 +35,7 @@ const LoginForm = () => {
       [field]: value,
     }));
     setIsError(false);
+    console.log(userData)
   };
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -50,6 +51,7 @@ const LoginForm = () => {
       url: 'login/init',
       body: userData,
     });
+    
   };
 
   useEffect(() => {

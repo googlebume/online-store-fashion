@@ -1,5 +1,6 @@
 import { useState, useCallback } from 'react';
 import { api } from '../../../../../packages/shared/src/routes/api';
+import Cookies from '../cookies';
 
 type MethodTypes = 'POST' | 'GET';
 
@@ -22,6 +23,8 @@ export const useFetch = <T = any, R = any>(): UseFetchReturn<R> => {
     const [response, setResponse] = useState<R | null>(null);
     const [error, setError] = useState<Error | null>(null);
     const [isLoading, setIsLoading] = useState<boolean>(false);
+    // const cookies = new Cookies;
+    // console.log(cookies.getCookie('token'))
 
     const fetchData = useCallback(async (params: UseFetchProps<T>) => {
         const { method, port, url, body } = params;
@@ -39,8 +42,6 @@ export const useFetch = <T = any, R = any>(): UseFetchReturn<R> => {
 
             if (method === 'POST') {
                 const requestBody: any = { ...(body || {}) };
-
-                // додаю поле event до тіла POST-запиту
 
                 fetchConfig.body = JSON.stringify(requestBody);
             }
