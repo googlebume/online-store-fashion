@@ -23,8 +23,7 @@ export const useFetch = <T = any, R = any>(): UseFetchReturn<R> => {
     const [response, setResponse] = useState<R | null>(null);
     const [error, setError] = useState<Error | null>(null);
     const [isLoading, setIsLoading] = useState<boolean>(false);
-    // const cookies = new Cookies;
-    // console.log(cookies.getCookie('token'))
+    const cookies = new Cookies;
 
     const fetchData = useCallback(async (params: UseFetchProps<T>) => {
         const { method, port, url, body } = params;
@@ -37,6 +36,7 @@ export const useFetch = <T = any, R = any>(): UseFetchReturn<R> => {
                 method,
                 headers: {
                     'Content-Type': 'application/json',
+                    'authorization': `Bearer ${cookies.getCookie('token')}`
                 },
             };
 
