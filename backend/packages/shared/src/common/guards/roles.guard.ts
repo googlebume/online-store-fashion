@@ -20,7 +20,7 @@ export class RolesGuard implements CanActivate {
             ])
             if (!requiredRoles) return true
 
-            const authHeader = request.headers.autorization;
+            const authHeader = request.headers.authorization;
             const { bearer, token } = authHeader.split(' ');
             if (bearer !== 'Bearer' || !token) {
                 throw new UnauthorizedException({ message: 'Невірний токен' });

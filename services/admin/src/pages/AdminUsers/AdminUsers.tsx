@@ -23,7 +23,6 @@ const AdminUsers = () => {
                 url: `admin/${lastOfPath}`,
                 port: 4005,
             });
-            console.log(`to admin/${lastOfPath}`);
         }
     }, [lastOfPath]);
 
