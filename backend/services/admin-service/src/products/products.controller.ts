@@ -2,7 +2,9 @@ import { Body, Controller, Delete, Get, Param, Post, UploadedFile, UseIntercepto
 import { ProductsService } from './products.service';
 import { FileInterceptor } from '@nestjs/platform-express';
 import type { Products } from '@prisma/client';
+import { Roles } from '@packages/shared/dist/common/decorators/roles-metadata.decorator';
 
+@Roles('admin')
 @Controller('fashion/admin/products')
 export class ProductsController {
   constructor(private readonly productsService: ProductsService) { }

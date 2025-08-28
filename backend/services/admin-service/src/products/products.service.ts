@@ -1,6 +1,6 @@
 import { HttpException, Injectable } from '@nestjs/common';
 import { lastValueFrom } from 'rxjs';
-import { databaseClient } from 'src/database.client';
+import { databaseClient } from './../database.client';
 
 @Injectable()
 export class ProductsService {
@@ -22,7 +22,7 @@ export class ProductsService {
             const response = await databaseClient.send('edit_product', file ? {...data, file: file} : data).toPromise();
 
             return { success: true, data: response };
-        } catch (error) {
+        } catch (error: string | any) {
             console.error('Error:', error);
             return { success: false, message: error.message };
         }
@@ -32,7 +32,7 @@ export class ProductsService {
         const dataWithFile = await { ...data, image: file };
         try {
             await databaseClient.send('add_product', dataWithFile).toPromise();
-        } catch (error) {
+        } catch (error: string | any) {
             console.error('Error adding product:', error);
             return { success: false, message: error.message };
         }

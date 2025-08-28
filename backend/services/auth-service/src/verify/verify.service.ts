@@ -70,11 +70,11 @@ export class VerifyService {
         }
     }
 
-    async generateToken<T extends { id: string, email: string, roles: string[] }>(data: T): Promise<string> {
+    async generateToken<T extends { id: string, email: string, role: string[] }>(data: T): Promise<string> {
         const payload = {
             id: data.id,
             email: data.email,
-            roles: data.roles,
+            roles: data.role,
         }
         const token: string = await this.jwtService.sign(payload)
         return token

@@ -9,9 +9,9 @@ export class JwtAuthGuard implements CanActivate {
         private readonly reflector: Reflector,
         private readonly jwtService: JwtService,
     ) { 
-        console.log('JwtAuthGuard constructor called');
-        console.log('Reflector:', !!this.reflector);
-        console.log('JwtService:', !!this.jwtService);
+        // console.log('JwtAuthGuard constructor called');
+        // console.log('Reflector:', !!this.reflector);
+        // console.log('JwtService:', !!this.jwtService);
     }
 
     canActivate(context: ExecutionContext): boolean | Promise<boolean> | Observable<boolean> {

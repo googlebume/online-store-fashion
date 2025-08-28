@@ -13,7 +13,7 @@ export class LoginService {
         const token = loginUser && await this.verifyService.generateToken({
             id: loginUser?.id,
             email: loginUser?.email,
-            roles: loginUser?.roles
+            role: [loginUser?.role]
         })
         return {
             userData: loginUser,
