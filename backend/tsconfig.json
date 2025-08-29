@@ -2,20 +2,11 @@
     "compilerOptions": {
         "module": "commonjs",
         "target": "es2023",
-        "strict": true,
+        // "strict": true,
         "esModuleInterop": true,
         "skipLibCheck": true,
         "forceConsistentCasingInFileNames": true,
         "resolveJsonModule": true,
         "composite": true,
     },
-    // "files": [],
-    // "references": [
-    //     {
-    //         "path": "./packages/shared"
-    //     },
-    //     {
-    //         "path": "./services/admin-service"
-    //     }
-    // ]
 }
