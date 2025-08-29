@@ -1,14 +1,14 @@
-// {
-//   "extends": "./tsconfig.json",
-//   "exclude": ["node_modules", "test", "dist", "**/*spec.ts"]
-// }
 {
   "extends": "./tsconfig.json",
+  "exclude": [
+    "node_modules",
+    "test",
+    "dist",
+    "**/*spec.ts"
+  ],
   "compilerOptions": {
     "outDir": "./dist",
-    // "rootDir": "./src",
-    // "composite": true,
-    "declaration": true
+    "removeComments": true,
+    "sourceMap": true
   },
-  "include": ["src"]
 }

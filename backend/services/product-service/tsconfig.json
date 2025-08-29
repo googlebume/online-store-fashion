@@ -19,6 +19,7 @@
     "strictBindCallApply": false,
     "noFallthroughCasesInSwitch": false,
     "paths": {
+      "@packages/shared/*": ["../../packages/shared/*"],
       "@database/*": ["../database/src/*"]
     }
   },
