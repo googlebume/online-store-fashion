@@ -10,12 +10,9 @@
     "start:productService": "cd services/product-service && npm run start:dev",
     "start:authService": "cd services/auth-service && npm run start:dev",
     "start:adminService": "cd services/admin-service && npm run start:dev",
-
     "build:shared:watch": "cd packages/shared && npm run build:watch",
-
     "start:backend": "concurrently \"npm run build:shared:watch\" \"npm run start:database\" \"npm run start:productService\" \"npm run start:authService\" \"npm run start:adminService\"",
     "start:dev": "npm run start:backend",
-
     "prisma:generate": "cd services/database && npx prisma generate",
     "prisma": "cd services/database && npx prisma studio"
   },
@@ -30,6 +27,7 @@
     "@nestjs/mapped-types": "*",
     "@nestjs/microservices": "^11.1.5",
     "@nestjs/platform-express": "^11.0.1",
+    "@nestjs/serve-static": "^5.0.3",
     "@nestjs/throttler": "^6.4.0",
     "axios": "^1.9.0",
     "bcryptjs": "^3.0.2",

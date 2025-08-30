@@ -5,8 +5,8 @@ export declare class ProductRepository {
     private readonly imagesDir;
     constructor(prisma: PrismaService);
     findById(id: string): Promise<{
-        id: string;
         name: string;
+        id: string;
         brand: string;
         price: number;
         discount: number;
@@ -15,8 +15,8 @@ export declare class ProductRepository {
     } | null>;
     findByName(name: string): Promise<{
         attributes: any;
-        id: string;
         name: string;
+        id: string;
         brand: string;
         price: number;
         discount: number;
@@ -27,8 +27,8 @@ export declare class ProductRepository {
         attributes: {
             [k: string]: any;
         };
-        id: string;
         name: string;
+        id: string;
         brand: string;
         price: number;
         discount: number;
@@ -42,8 +42,8 @@ export declare class ProductRepository {
         file?: Express.Multer.File;
         attributes: string;
     }): Promise<{
-        id: string;
         name: string;
+        id: string;
         brand: string;
         price: number;
         discount: number;

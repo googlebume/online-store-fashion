@@ -1,0 +1,150 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "./generated"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Products {
+  id          String       @id @default(uuid())
+  name        String       @unique
+  brand       String
+  price       Float
+  discount    Float
+  description String
+  image       String
+  attributes  Attributes[]
+}
+
+model Attributes {
+  productsId      String          @id
+  Products        Products?       @relation(fields: [productsId], references: [id])
+  type            ProductType
+  category        ProductCategory
+  color           ProductColor
+  size            Size
+  brand           String?
+  material        String?
+  countryOfOrigin String?
+  weight          Float?
+}
+
+model User {
+  id        String   @id @default(uuid())
+  name      String   @unique
+  email     String   @unique
+  password  String
+  role      Role     @default(user)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+
+  reviewsById   Reviews[] @relation("UserById")
+  reviewsByName Reviews[] @relation("UserByName")
+  orders        Order[]   @relation("UserOrders")
+}
+
+model Order {
+  id        String   @id @default(uuid())
+  userName  String
+  userEmail String
+  orderCode String   @unique
+  createdAt DateTime @default(now())
+
+  user User @relation("UserOrders", fields: [userEmail], references: [email])
+}
+
+model Reviews {
+  id          String @id @default(uuid())
+  userId      String
+  userName    String
+  reviewTitle String
+  rewiew      String
+  stars       Int
+
+  userID   User @relation("UserById", fields: [userId], references: [id])
+  userNAME User @relation("UserByName", fields: [userName], references: [name])
+}
+
+enum Role {
+  admin
+  user
+  manager
+  support
+  system
+}
+
+enum ProductType {
+  hoodie
+  sweatshirt
+  shirt
+  tshirt
+}
+
+enum ProductCategory {
+  male
+  female
+}
+
+enum ProductColor {
+  black
+  white
+  yellow
+  pink
+  brown
+  blue
+}
+
+enum Size {
+  XS
+  S
+  M
+  L
+  XL
+  XXL
+}
+
+model Basket {
+  id             String         @id @default(uuid())
+  firstName      String
+  lastName       String
+  phone          Int
+  email          String
+  region         String
+  city           String
+  issuePoint     String
+  deliveryMethod DeliveryMethod
+  promoСode     String?
+  createdAt      DateTime       @default(now())
+  updatedAt      DateTime       @updatedAt
+
+  orders OrderedProducts[]
+}
+
+model OrderedProducts {
+  id          String   @id @default(uuid())
+  basketId    String
+  productName String
+  quantity    Int
+  price       Float
+  totalPrice  Float
+  createdAt   DateTime @default(now())
+
+  basket Basket @relation(fields: [basketId], references: [id], onDelete: Cascade)
+
+  @@index([basketId])
+}
+
+enum DeliveryMethod {
+  Mail
+  Courier
+  Pickup
+}

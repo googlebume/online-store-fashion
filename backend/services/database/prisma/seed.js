@@ -33,10 +33,10 @@ var __importStar = (this && this.__importStar) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-const prisma_client_1 = require("./generated/prisma-client");
+const client_1 = require("./generated/client");
 const fs = __importStar(require("fs"));
 const path = __importStar(require("path"));
-const prisma = new prisma_client_1.PrismaClient();
+const prisma = new client_1.PrismaClient();
 async function main() {
     console.log('🌱 Завантаження seed даних...');
     const backupDir = path.join(process.cwd(), 'prisma', 'backup');

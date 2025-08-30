@@ -41,11 +41,10 @@ var __importStar = (this && this.__importStar) || (function () {
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-var _a;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UserRepository = void 0;
 const common_1 = require("@nestjs/common");
-const prisma_service_1 = require("src/prisma.service");
+const prisma_service_1 = require("../prisma.service");
 const bcrypt = __importStar(require("bcryptjs"));
 let UserRepository = class UserRepository {
     prisma;
@@ -105,6 +104,6 @@ let UserRepository = class UserRepository {
 exports.UserRepository = UserRepository;
 exports.UserRepository = UserRepository = __decorate([
     (0, common_1.Injectable)(),
-    __metadata("design:paramtypes", [typeof (_a = typeof prisma_service_1.PrismaService !== "undefined" && prisma_service_1.PrismaService) === "function" ? _a : Object])
+    __metadata("design:paramtypes", [prisma_service_1.PrismaService])
 ], UserRepository);
 //# sourceMappingURL=user.repository.js.map

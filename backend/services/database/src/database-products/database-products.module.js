@@ -10,8 +10,8 @@ exports.DatabaseProductsModule = void 0;
 const common_1 = require("@nestjs/common");
 const database_products_service_1 = require("./database-products.service");
 const database_products_controller_1 = require("./database-products.controller");
-const prisma_service_1 = require("src/prisma.service");
-const product_repository_1 = require("src/repositories/product.repository");
+const prisma_service_1 = require("../prisma.service");
+const product_repository_1 = require("../repositories/product.repository");
 let DatabaseProductsModule = class DatabaseProductsModule {
 };
 exports.DatabaseProductsModule = DatabaseProductsModule;

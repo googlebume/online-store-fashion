@@ -33,10 +33,10 @@ var __importStar = (this && this.__importStar) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-const prisma_client_1 = require("../prisma/generated/prisma-client");
+const client_1 = require("./generated/client");
 const fs = __importStar(require("fs"));
 const path = __importStar(require("path"));
-const prisma = new prisma_client_1.PrismaClient();
+const prisma = new client_1.PrismaClient();
 async function exportToJson() {
     try {
         console.log('🔄 Експорт даних з бази...');

@@ -11,5 +11,5 @@
     "removeComments": true,
     "sourceMap": true
   },
-  "include": ["src"]
+  "include": ["src", "prisma", "products"]
 }

@@ -11,7 +11,7 @@
     "sourceMap": true,
     "outDir": "./dist",
     "baseUrl": ".",
-    // "rootDir": ".",
+    "rootDir": ".",
     "incremental": true,
     "skipLibCheck": true,
     "strictNullChecks": true,
@@ -26,6 +26,7 @@
   },
   "include": [
     "src",
+    "products"
     // "../../packages/shared"
   ]
 }

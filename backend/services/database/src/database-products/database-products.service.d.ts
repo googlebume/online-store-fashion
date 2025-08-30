@@ -6,8 +6,8 @@ export declare class DatabaseProductsService {
         attributes: {
             [k: string]: any;
         };
-        id: string;
         name: string;
+        id: string;
         brand: string;
         price: number;
         discount: number;
@@ -15,8 +15,8 @@ export declare class DatabaseProductsService {
         image: string;
     }[]>;
     getProductById(id: string): Promise<{
-        id: string;
         name: string;
+        id: string;
         brand: string;
         price: number;
         discount: number;
@@ -25,8 +25,8 @@ export declare class DatabaseProductsService {
     } | null>;
     getProductByName(name: string): Promise<{
         attributes: any;
-        id: string;
         name: string;
+        id: string;
         brand: string;
         price: number;
         discount: number;
@@ -34,8 +34,8 @@ export declare class DatabaseProductsService {
         image: string;
     }[]>;
     editProduct(data: any): Promise<{
-        id: string;
         name: string;
+        id: string;
         brand: string;
         price: number;
         discount: number;
