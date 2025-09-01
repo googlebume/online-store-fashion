@@ -5,9 +5,10 @@
   "types": "dist/index.d.ts",
   "scripts": {
     "build:watch": "tsc -w -p ./tsconfig.json"
-
   },
   "dependencies": {
-    "@nestjs/jwt": "^11.0.0"
+    "@nestjs/jwt": "^11.0.0",
+    "@types/multer": "^2.0.0",
+    "multer": "^2.0.2"
   }
 }
