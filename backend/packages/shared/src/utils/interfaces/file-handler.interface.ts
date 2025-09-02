@@ -3,7 +3,7 @@ import path from "path";
 import { type ParsedPath } from "path";
 import type { Express } from "express";
 
-export interface IFileHandlerBase {
+export interface FileHandlerBaseInterface {
     parsePath(paths: string): Promise<ParsedPath>;
     read(path: string): Promise<Buffer | false>;
     create(path: string, data: fileDataType, name?: string): Promise<boolean>;
@@ -12,3 +12,10 @@ export interface IFileHandlerBase {
 }
 
 export type fileDataType = Buffer | Express.Multer.File;
+
+export interface TextFileHandlerInterface {
+    readAsString(path: string, encoding?: BufferEncoding): Promise<string | false>;
+    // appendString(path: string, data: string, encoding?: BufferEncoding): Promise<boolean>;
+    // writeString(path: string, data: string, encoding?: BufferEncoding): Promise<boolean>;
+    // clearFile(path: string): Promise<boolean>;
+}

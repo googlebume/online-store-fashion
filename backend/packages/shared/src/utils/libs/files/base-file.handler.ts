@@ -1,9 +1,9 @@
-import { fileDataType, IFileHandlerBase } from "src/utils/interfaces/file-handler.interface";
+import { fileDataType, FileHandlerBaseInterface } from "src/utils/interfaces/file-handler.interface";
 import fs from "fs/promises";
 import { constants as fsConstants } from "fs";
 import * as pathsys from "path";
 
-export class BaseFileHandler implements IFileHandlerBase {
+export class BaseFileHandler implements FileHandlerBaseInterface {
     constructor() { }
 
     async parsePath(paths: string): Promise<pathsys.ParsedPath> {
@@ -15,8 +15,6 @@ export class BaseFileHandler implements IFileHandlerBase {
         const exists = await this.exists(path, fsConstants.F_OK)
         if (!exists) return false
         try {
-
-
             const file = await fs.readFile(path);
             return file
         } catch (error) {
