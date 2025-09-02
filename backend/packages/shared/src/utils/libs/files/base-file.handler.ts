@@ -2,9 +2,12 @@ import { fileDataType, FileHandlerBaseInterface } from "src/utils/interfaces/fil
 import fs from "fs/promises";
 import { constants as fsConstants } from "fs";
 import * as pathsys from "path";
+import { HashCryptoHandler } from "../crypto/hash-crypto.handler";
 
 export class BaseFileHandler implements FileHandlerBaseInterface {
-    constructor() { }
+    constructor(
+        private readonly hashHandler: HashCryptoHandler
+    ) { }
 
     async parsePath(paths: string): Promise<pathsys.ParsedPath> {
         const parsedPath = pathsys.parse(paths);
@@ -34,7 +37,7 @@ export class BaseFileHandler implements FileHandlerBaseInterface {
         if (name) {
             fileName = name;
         } else {
-            fileName = 'generate_hash'; // generate the hash
+            fileName = await this.hashHandler.hash(data.buffer.toString(), 10);
         }
 
         const filePath = pathsys.join(path, fileName);
