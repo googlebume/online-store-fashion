@@ -23,4 +23,8 @@ export class HashCryptoHandler implements HashHandlerInterface {
     async compare(input: string, hashed: string): Promise<boolean> {
         return await this.bcrypt.compare(input, hashed);
     }
+
+    async getSalt (length: number): Promise<string> {
+        return await this.bcrypt.generateSalt(length)
+    }
 }

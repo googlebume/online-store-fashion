@@ -10,8 +10,8 @@ export class ImageFileHandler extends BaseFileHandler {
         super(hashHandler)
     }
     
-    async saveImage(paths: string, buffer: Express.Multer.File){
-
+    async saveImage(paths: string, file: Express.Multer.File){
+        // const fileName = this.hashHandler.
     }
 }
 
