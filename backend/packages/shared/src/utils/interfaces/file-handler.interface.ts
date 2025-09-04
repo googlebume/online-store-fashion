@@ -6,7 +6,7 @@ import type { Express } from "express";
 export interface FileHandlerBaseInterface {
     parsePath(paths: string): Promise<ParsedPath>;
     read(path: string): Promise<Buffer | false>;
-    create(path: string, data: fileDataType, name?: string): Promise<boolean>;
+    create(path: string, data: fileDataType, name?: string): Promise<string | boolean>;
     delete(path: string): Promise<boolean>;
     exists(path: string): Promise<boolean>;
 }

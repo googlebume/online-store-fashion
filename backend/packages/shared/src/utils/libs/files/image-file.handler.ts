@@ -1,13 +1,33 @@
 import { FormatImageFileInterface, ConvertImageFileImterface } from "src/utils/interfaces/file-handler.interface";
 import { BaseFileHandler } from "./base-file.handler";
 import { HashCryptoHandler } from "../crypto/hash-crypto.handler";
-import * as mime from 'mime/lite'
+import mime from 'mime'
+
+export class ImageFileHandler extends BaseFileHandler {
+    constructor(
+        hashHandler: HashCryptoHandler,
+    ){
+        super(hashHandler)
+    }
+    
+    async saveImage(paths: string, buffer: Express.Multer.File){
+
+    }
+}
 
 export class FormatImageFileHandler extends BaseFileHandler implements FormatImageFileInterface {
     constructor(
         hashHandler: HashCryptoHandler,
     ){
         super(hashHandler)
+    }
+
+    async getMimeType(fileName: string): Promise<string | null>{
+        return await mime.getType(fileName)
+    }
+
+    async getExtname(mimeType: string){
+        return await mime.getExtension(mimeType)
     }
 }
 

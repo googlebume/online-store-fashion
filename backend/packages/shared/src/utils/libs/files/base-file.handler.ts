@@ -28,7 +28,7 @@ export class BaseFileHandler implements FileHandlerBaseInterface {
         path: string,
         data: fileDataType,
         name?: string
-    ): Promise<boolean> {
+    ): Promise<string | boolean> {
 
         const exists = await this.exists(path, fsConstants.F_OK)
         if (!exists) return false;
@@ -46,7 +46,7 @@ export class BaseFileHandler implements FileHandlerBaseInterface {
 
         try {
             await fs.writeFile(filePath, buffer);
-            return true;
+            return fileName
         } catch (error) {
             throw new Error(`Error writing file at ${filePath}: ${error}`);
         }
