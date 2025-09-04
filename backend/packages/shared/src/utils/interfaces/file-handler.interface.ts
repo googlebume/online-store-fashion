@@ -19,3 +19,15 @@ export interface TextFileHandlerInterface {
     // writeString(path: string, data: string, encoding?: BufferEncoding): Promise<boolean>;
     // clearFile(path: string): Promise<boolean>;
 }
+
+export interface FormatImageFileInterface {
+    // checkFormatByPaths(paths: string): mime.TypeMap;
+    // checkFormatByBuffer(buffer: Buffer): mime.TypeMap;
+    // validateMime(): void;
+}
+
+export interface ConvertImageFileImterface {
+    // getMetadata(buffer: Buffer): any;
+    // resize(): any;
+    // compress():any
+}
