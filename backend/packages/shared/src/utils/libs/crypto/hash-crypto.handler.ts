@@ -8,8 +8,8 @@ export class HashCryptoHandler implements HashHandlerInterface {
         private readonly cryptoUtils: UtilsCryptoHandler
     ){}
 
-    async hash(data: string, salt: string): Promise<string>
-    async hash(data: string, saltLength: number): Promise<string>
+    async hash(data: any, salt: string): Promise<string>
+    async hash(data: any, saltLength: number): Promise<string>
 
     async hash(data: string, saltOrLength: string | number): Promise<string> {
         if (typeof saltOrLength === 'string') {
@@ -25,6 +25,6 @@ export class HashCryptoHandler implements HashHandlerInterface {
     }
 
     async getSalt (length: number): Promise<string> {
-        return await this.bcrypt.generateSalt(length)
+        return await this.bcrypt.genSalt(length)
     }
 }

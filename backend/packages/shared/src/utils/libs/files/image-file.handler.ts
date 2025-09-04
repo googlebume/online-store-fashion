@@ -1,40 +1,25 @@
-import { FormatImageFileInterface, ConvertImageFileImterface } from "src/utils/interfaces/file-handler.interface";
 import { BaseFileHandler } from "./base-file.handler";
 import { HashCryptoHandler } from "../crypto/hash-crypto.handler";
-import mime from 'mime'
+import { MimeHandler } from "../mime/mime.handler";
+import path from "path";
 
 export class ImageFileHandler extends BaseFileHandler {
     constructor(
         hashHandler: HashCryptoHandler,
+        private readonly mime: MimeHandler
     ){
         super(hashHandler)
     }
     
     async saveImage(paths: string, file: Express.Multer.File){
-        // const fileName = this.hashHandler.
-    }
-}
-
-export class FormatImageFileHandler extends BaseFileHandler implements FormatImageFileInterface {
-    constructor(
-        hashHandler: HashCryptoHandler,
-    ){
-        super(hashHandler)
-    }
-
-    async getMimeType(fileName: string): Promise<string | null>{
-        return await mime.getType(fileName)
-    }
-
-    async getExtname(mimeType: string){
-        return await mime.getExtension(mimeType)
-    }
-}
-
-export class ConvertImageFileHandler extends BaseFileHandler implements ConvertImageFileImterface {
-    constructor(
-        hashHandler: HashCryptoHandler
-    ){
-        super(hashHandler)
+        const fileName = await this.hashHandler.hash(file.buffer, 10);
+        const fileExtName = await this.mime.getExtname(file.mimetype)
+        const filePath = await path.resolve(paths, `${fileName}.${fileExtName}`)
+        try {
+        await this.create(filePath, file.buffer)
+        return fileName
+        } catch(error){
+            return false
+        }
     }
 }

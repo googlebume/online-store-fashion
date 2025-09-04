@@ -6,7 +6,7 @@ import { HashCryptoHandler } from "../crypto/hash-crypto.handler";
 
 export class BaseFileHandler implements FileHandlerBaseInterface {
     constructor(
-        private readonly hashHandler: HashCryptoHandler
+        readonly hashHandler: HashCryptoHandler
     ) { }
 
     async parsePath(paths: string): Promise<pathsys.ParsedPath> {
@@ -28,7 +28,7 @@ export class BaseFileHandler implements FileHandlerBaseInterface {
         path: string,
         data: fileDataType,
         name?: string
-    ): Promise<string | boolean> {
+    ): Promise<boolean> {
 
         const exists = await this.exists(path, fsConstants.F_OK)
         if (!exists) return false;
@@ -46,7 +46,7 @@ export class BaseFileHandler implements FileHandlerBaseInterface {
 
         try {
             await fs.writeFile(filePath, buffer);
-            return fileName
+            return true
         } catch (error) {
             throw new Error(`Error writing file at ${filePath}: ${error}`);
         }
