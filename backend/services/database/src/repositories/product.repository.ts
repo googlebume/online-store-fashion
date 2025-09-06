@@ -244,36 +244,6 @@ export class ProductRepository {
         }
     }
 
-    async deleteProduct(id: string) {
-        let product;
-        let attribute;
-        try {
-            product = await this.prisma.products.findUnique({ where: { id } });
-            attribute = await this.prisma.attributes.findUnique({ where: { productsId: id } });
-            if (!product) throw new Error(`Product with id ${id} not found`);
-            if (!attribute) throw new Error(`Attributes with id ${id} not found`);
-        } catch (err) {
-            throw new Error(`DB fetch error: ${err.message}`);
-        }
-
-        try {
-            await this.prisma.products.delete({ where: { id } });
-            await this.prisma.attributes.delete({ where: { productsId: id } });
-        } catch (err) {
-            throw new Error(`Failed to delete product: ${err.message}`);
-        }
-        if (product.image) {
-            try {
-                await this.deleteImage(product.image);
-            } catch (err) {
-                console.error(`Warning: Image deletion failed: ${err.message}`);
-            }
-        }
-
-        return { success: true, message: 'Product and image (if existed) deleted successfully' };
-    }
-
-
     async deleteProductById(id: string) {
         const data = await this.prisma.products.findUnique({ where: { id: id } });
         if (!data) {
