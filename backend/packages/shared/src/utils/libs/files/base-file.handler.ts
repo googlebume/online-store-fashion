@@ -33,15 +33,7 @@ export class BaseFileHandler implements FileHandlerBaseInterface {
         data: Buffer,
 
     ): Promise<{ success: boolean; filePath: string }> {
-
         const fullPaths = pathsys.join(filePath, fileName)
-        console.log(`\n\n\n fullPaths file handler : ${fullPaths} \n\n\n`)
-        console.log(data)
-
-        // const dirExists = await this.exists(filePath, fsConstants.W_OK);
-        // if (!dirExists) {
-        //     throw new Error('Директорія не створена або обмежені права доступу');
-        // }
 
         try {
             await fs.writeFile(fullPaths, data);
