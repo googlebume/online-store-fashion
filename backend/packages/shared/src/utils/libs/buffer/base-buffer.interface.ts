@@ -1,6 +1,6 @@
 import { BaseBufferInterface } from "src/utils/interfaces/buffer-handler.interface";
 
-export class BaseBufferHandler implements BaseBufferInterface {
+class BaseBufferHandler implements BaseBufferInterface {
     constructor(){}
 
     isBuffer(buffer: any): buffer is Buffer {
@@ -11,3 +11,5 @@ export class BaseBufferHandler implements BaseBufferInterface {
         return buffer.length
     }
 }
+
+export default  BaseBufferHandler

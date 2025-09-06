@@ -4,7 +4,6 @@ import { constants as fsConstants } from "fs";
 import * as pathsys from "path";
 import { HashCryptoHandler } from "../crypto/hash-crypto.handler";
 import { Injectable } from "@nestjs/common";
-import { error } from "console";
 
 @Injectable()
 export class BaseFileHandler implements FileHandlerBaseInterface {
@@ -33,6 +32,7 @@ export class BaseFileHandler implements FileHandlerBaseInterface {
         data: Buffer,
 
     ): Promise<{ success: boolean; filePath: string }> {
+
         const fullPaths = pathsys.join(filePath, fileName)
 
         try {

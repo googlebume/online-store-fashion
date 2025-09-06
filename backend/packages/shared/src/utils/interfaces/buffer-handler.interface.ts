@@ -3,15 +3,19 @@ export interface BaseBufferInterface {
     length(buffer: Buffer): number,
 }
 
-export interface ConvertToBufferInterface extends BaseBufferInterface{
-    
-    toBuffer(data:any): Buffer,
-    jsonTobuffer(json: {type: 'Buffer', data: Buffer}): Buffer,
-    fileToBuffer(file: Express.Multer.File): Buffer
+export interface ConvertBufferInterface extends BaseBufferInterface {
+    strToBuffer(data: any): Promise<Buffer>,
+    jsonTobuffer(json: JsonBufferType): Promise<Buffer>,
+    fileToBuffer(file: Express.Multer.File): Promise<Buffer | null>
 }
 
-export interface readBuffer extends BaseBufferInterface{
-    read(buffer: Buffer): string,
-    readByte(buffer: Buffer, byte: number): {code: number, symbol: string} | null
-    readBytes(buffer: Buffer, bytes: number[]): string | null
+export type JsonBufferType = {
+    type: 'Buffer', 
+    data: Buffer
+}
+
+export interface readBuffer extends BaseBufferInterface {
+    read(buffer: Buffer): Promise<string>,
+    readByte(buffer: Buffer, byte: number): Promise<{ code: number, symbol: string } | null>
+    readBytes(buffer: Buffer, bytes: number[]): Promise<string | null>
 }
