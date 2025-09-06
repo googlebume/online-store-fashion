@@ -10,6 +10,8 @@ import SearchInput from '@packages/shared/src/components/UI/SearchInput/SearchIn
 import SubmitButton from '@packages/shared/src/components/UI/SubmitButton/SubmitButton';
 import PlusIcon from '@packages/shared/src/assets/images/icons/plusIcon.svg';
 
+import Cookies from '@packages/shared/src/utils/cookies';
+
 export const ProdContext = createContext<{
     setSelectedProduct: Dispatch<SetStateAction<ProductType | null>>;
     setDeletedProduct?: Dispatch<SetStateAction<ProductType | null>>;
@@ -38,6 +40,8 @@ const AdminProducts = () => {
     const [deletedProduct, setDeletedProduct] = useState<ProductType | null>(null);
     const popupRef = useRef<HTMLDivElement>(null);
     const [isPopupOpen, setIsPopupOpen] = useState<boolean>(false);
+
+    const cookies = new Cookies;
 
     useEffect(() => {
         const path = location.pathname.split('/')[3];
@@ -93,6 +97,7 @@ const AdminProducts = () => {
                 method: 'DELETE',
                 headers: {
                     'Content-Type': 'application/json',
+                    'authorization': `Bearer ${cookies.getCookie('token')}`
                 },
             }
         )

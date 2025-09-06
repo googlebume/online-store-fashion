@@ -7,7 +7,8 @@ export interface EncryptHandlerInterface {
 }
 
 export interface HashHandlerInterface {
-    hash(data: string, salt: string): Promise<string>;
-    hash(data: string, saltLength: number): Promise<string>;
+    // hash(data: string, salt: string): Promise<string>;
+    bcryptHash(data: string, saltLength: number): Promise<string>;
+    cryptoHash(data: string, saltLength: number): Promise<string>;
     compare(input: string, hashed: string): Promise<boolean>;
 }

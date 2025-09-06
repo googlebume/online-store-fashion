@@ -10,6 +10,8 @@ import InputOption from '@packages/shared/src/components/UI/InputOption/InputOpt
 import SubmitButton from '@packages/shared/src/components/UI/SubmitButton/SubmitButton';
 import { useFetch } from '@packages/shared/src/utils/hooks/useFetch';
 
+import Cookies from '@packages/shared/src/utils/cookies';
+
 type PopType = {
     data: ProductType;
     popupRef: React.RefObject<HTMLDivElement>;
@@ -23,6 +25,7 @@ type PopupEditProductType<T extends 'edit' | 'add'> =
 const PopupEditProduct = <T extends 'edit' | 'add'>({ ...props }: PopupEditProductType<T>) => {
     const isEditMode = props.type === 'edit';
     const initialData = isEditMode ? (props as PopType).data : {} as ProductType;
+        const cookies = new Cookies;
 
     useEffect(() => {
         document.body.style.overflow = 'hidden';
@@ -86,6 +89,9 @@ const PopupEditProduct = <T extends 'edit' | 'add'>({ ...props }: PopupEditProdu
         try {
             const response = await fetch(`http://localhost:4005/fashion/admin/products/${isEditMode ? 'edit' : 'add'}`, {
                 method: 'POST',
+                headers: {
+                    'authorization': `Bearer ${cookies.getCookie('token')}`
+                },
                 body: formData,
             });
 

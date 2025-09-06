@@ -20,13 +20,15 @@
     "strictBindCallApply": false,
     "noFallthroughCasesInSwitch": false,
     "paths": {
-      "@packages/shared/*": ["../../packages/shared/*"]
+      "@packages/shared/*": [
+        "../../packages/shared/*"
+      ]
     },
-    
   },
   "include": [
     "src",
-    "products"
+    "products",
+    "prisma"
     // "../../packages/shared"
   ]
 }

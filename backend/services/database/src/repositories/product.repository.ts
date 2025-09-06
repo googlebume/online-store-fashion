@@ -5,13 +5,15 @@ import * as bcrypt from 'bcryptjs';
 import * as fs from 'fs/promises'
 import * as crypto from 'crypto';
 import { Products } from '@prisma/client';
+import { ImageFileHandler } from '@packages/shared/dist/utils/libs/files/image-file.handler'
 
 @Injectable()
 export class ProductRepository {
     private readonly imagesDir: string;
 
     constructor(
-        private readonly prisma: PrismaService
+        private readonly prisma: PrismaService,
+        private readonly imageFileHandler: ImageFileHandler,
     ) {
         this.imagesDir = path.join(__dirname, '..', '..', '..', 'product-service', 'products');
     }
@@ -130,52 +132,31 @@ export class ProductRepository {
         });
     }
 
+        // const buffer = Buffer.isBuffer(file.buffer)
+        //     ? file.buffer
+        //     : Buffer.from((file.buffer as { data: number[] }).data
+
     async addImage(file: Express.Multer.File, prodId: string) {
-        const fileHash = await crypto
-            .createHash('sha256')
-            .update(file.originalname + Date.now())
-            .digest('hex');
-        const extension = path.extname(file.originalname);
-        const fileName = `${fileHash}${extension}`;
-        const filePath = path.join(this.imagesDir, fileName);
-        if (extension !== '.webp') throw new Error('Only .webp allowed');
-        const buffer = Buffer.isBuffer(file.buffer)
-            ? file.buffer
-            : Buffer.from((file.buffer as { data: number[] }).data);
+        const saveData = await this.imageFileHandler.saveImage(path.resolve(process.cwd(), 'products'), file)
+
+        if (!saveData || !saveData?.success) {
+            throw new Error('Не вдалося зберегти файл');
+        }
+
+        const [originName, extName] = saveData?.filename.split('.');
 
         try {
-
-            try {
-                await fs.access(this.imagesDir);
-            } catch {
-                await fs.mkdir(this.imagesDir, { recursive: true });
-            }
-
-            try {
-                await fs.access(filePath);
-                throw new Error('File already exists');
-            } catch {
-            }
-
-            await fs.writeFile(filePath, buffer);
-
-            try {
-                await fs.access(filePath);
-            } catch {
-                return { success: false };
-            }
-
             await this.prisma.products.update({
                 where: { id: prodId },
                 data: {
-                    image: `http://localhost:5000/products/${fileName}`,
+                    image: `http://localhost:5002/products/${saveData?.filename}`,
                 },
             });
 
             return { success: true };
         } catch (error) {
             console.error('Add image error:', error);
-            return { success: false, message: error.message, fileHash };
+            return { success: false, message: error.message, fileHash: originName };
         }
     }
 

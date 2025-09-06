@@ -1,12 +1,12 @@
 import { UtilsHandlerInterface } from "src/utils/interfaces/crypto-handler.interface";
-import bcrypt from 'bcrypt'
+import * as bcrypt from 'bcrypt'
+import { Injectable } from "@nestjs/common";
 
+@Injectable()
 export class UtilsCryptoHandler implements UtilsHandlerInterface{
-    constructor(
-        private readonly bcrypt: bcrypt
-    ){}
+    constructor(){}
 
     async generateSalt(length: number = 10): Promise<string> {
-        return await this.bcrypt.genSalt(length);
+        return await bcrypt.genSalt(length);
     }
 }

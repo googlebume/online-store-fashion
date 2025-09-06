@@ -1,9 +1,12 @@
 import { fileDataType, FileHandlerBaseInterface } from "src/utils/interfaces/file-handler.interface";
-import fs from "fs/promises";
+import * as fs from "fs/promises";
 import { constants as fsConstants } from "fs";
 import * as pathsys from "path";
 import { HashCryptoHandler } from "../crypto/hash-crypto.handler";
+import { Injectable } from "@nestjs/common";
+import { error } from "console";
 
+@Injectable()
 export class BaseFileHandler implements FileHandlerBaseInterface {
     constructor(
         readonly hashHandler: HashCryptoHandler
@@ -25,33 +28,29 @@ export class BaseFileHandler implements FileHandlerBaseInterface {
         }
     }
     async create(
-        path: string,
-        data: fileDataType,
-        name?: string
-    ): Promise<boolean> {
+        filePath: string,
+        fileName: string,
+        data: Buffer,
 
-        const exists = await this.exists(path, fsConstants.F_OK)
-        if (!exists) return false;
+    ): Promise<{ success: boolean; filePath: string }> {
 
-        let fileName: string;
-        if (name) {
-            fileName = name;
-        } else {
-            fileName = await this.hashHandler.hash(data.buffer.toString(), 10);
-        }
+        const fullPaths = pathsys.join(filePath, fileName)
+        console.log(`\n\n\n fullPaths file handler : ${fullPaths} \n\n\n`)
+        console.log(data)
 
-        const filePath = pathsys.join(path, fileName);
-
-        const buffer = Buffer.isBuffer(data) ? data : (data as Express.Multer.File).buffer;
+        // const dirExists = await this.exists(filePath, fsConstants.W_OK);
+        // if (!dirExists) {
+        //     throw new Error('Директорія не створена або обмежені права доступу');
+        // }
 
         try {
-            await fs.writeFile(filePath, buffer);
-            return true
+            await fs.writeFile(fullPaths, data);
+            return { success: true, filePath: fullPaths };
         } catch (error) {
             throw new Error(`Error writing file at ${filePath}: ${error}`);
         }
-
     }
+
     async delete(path: string): Promise<boolean> {
         const exists = await this.exists(path, fsConstants.F_OK);
         if (!exists) return false;

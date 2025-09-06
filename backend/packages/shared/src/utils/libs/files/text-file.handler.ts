@@ -3,7 +3,9 @@ import { BaseFileHandler } from "./base-file.handler";
 import * as pathsys from "path";
 import fs from "fs/promises";
 import { HashCryptoHandler } from "../crypto/hash-crypto.handler";
+import { Injectable } from "@nestjs/common";
 
+@Injectable()
 export class TextFileHandler extends BaseFileHandler implements TextFileHandlerInterface {
     constructor(
         hashHandler: HashCryptoHandler

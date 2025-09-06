@@ -6,6 +6,9 @@ import { DatabaseUsersModule } from './database-users/database-users.module';
 import { UserRepository } from './repositories/user.repository';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
+import {FilesHandlerModule} from '@packages/shared/dist/utils/libs/files/files.module'
+import {CryptoHandlerModule} from '@packages/shared/dist/utils/libs/crypto/crypto.module'
+import {MimeHandlerModule} from '@packages/shared/dist/utils/libs/mime/mime.module'
 
 const productsPath = join(process.cwd(), 'products');
 
@@ -13,6 +16,9 @@ const productsPath = join(process.cwd(), 'products');
   imports: [
     DatabaseProductsModule,
     DatabaseUsersModule,
+    FilesHandlerModule,
+    CryptoHandlerModule,
+    MimeHandlerModule,
     ServeStaticModule.forRoot({
       rootPath: productsPath,
       serveRoot: '/products',
