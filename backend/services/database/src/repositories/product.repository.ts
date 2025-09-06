@@ -15,7 +15,7 @@ export class ProductRepository {
         private readonly prisma: PrismaService,
         private readonly imageFileHandler: ImageFileHandler,
     ) {
-        this.imagesDir = path.join(__dirname, '..', '..', '..', 'product-service', 'products');
+        this.imagesDir = path.resolve(process.cwd(), 'products');
     }
 
     async findById(id: string) {
