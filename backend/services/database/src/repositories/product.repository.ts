@@ -132,10 +132,6 @@ export class ProductRepository {
         });
     }
 
-        // const buffer = Buffer.isBuffer(file.buffer)
-        //     ? file.buffer
-        //     : Buffer.from((file.buffer as { data: number[] }).data
-
     async addImage(file: Express.Multer.File, prodId: string) {
         const saveData = await this.imageFileHandler.saveImage(path.resolve(process.cwd(), 'products'), file)
 
@@ -199,20 +195,17 @@ export class ProductRepository {
     }
 
     async editImage(file: Express.Multer.File, imageURL: string) {
-        const fileName = path.basename(imageURL, path.extname(imageURL));
+        const fileName = path.basename(imageURL);
         const fileExtname = path.extname(file.originalname);
+        const filePath = path.join(this.imagesDir, fileName)
 
         if (fileExtname !== '.webp') throw new Error('Only .webp allowed');
         if (!fileName) throw new Error('Invalid imageURL format');
 
-        const filePath = path.join(this.imagesDir, `${fileName}${fileExtname}`);
-
         try {
-            await fs.access(filePath);
-            await fs.rm(filePath);
+            await this.imageFileHandler.delete(filePath)
         } catch (err) {
             if (err.code !== 'ENOENT') {
-                console.error('Помилка видалення:', err);
                 throw new Error('Error deleting old image');
             }
         }
@@ -222,26 +215,12 @@ export class ProductRepository {
                 ? file.buffer
                 : Buffer.from((file.buffer as { data: number[] }).data);
 
-            await fs.writeFile(filePath, buffer);
-            console.log('Успішно записано!');
+            await this.imageFileHandler.create(this.imagesDir, fileName, buffer)
         } catch (err) {
-            console.error('Помилка запису файлу:', err);
             throw new Error('Error writing new image');
         }
 
         return { success: true };
-    }
-
-    async deleteImage(imageURL: string) {
-        const fileName = path.basename(imageURL);
-        const filePath = path.join(this.imagesDir, fileName);
-
-        try {
-            await fs.rm(filePath, { force: true });
-            return { success: true, message: 'Image deleted successfully' };
-        } catch (err) {
-            throw new Error(`Failed to delete image "${filePath}": ${err.message}`);
-        }
     }
 
     async deleteProductById(id: string) {
