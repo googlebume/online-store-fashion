@@ -6,7 +6,7 @@ class ConvertBufferHandler extends BaseBufferHandler implements ConvertBufferInt
         super()
     }
 
-    async strToBuffer(data: any): Promise<Buffer> {
+    async toBuffer(data: any): Promise<Buffer> {
         return await Buffer.from(data)
     }
 
