@@ -262,7 +262,7 @@ export class ProductRepository {
         }
 
         try {
-            await fs.rm(path.join(this.imagesDir, fileName), { force: true });
+            await this.imageFileHandler.delete(path.join(this.imagesDir, fileName));
         } catch (error) {
             throw new Error(`Failed to delete image with product id ${data.id}. Image name - ${fileName}: ${error.message}`);
         }

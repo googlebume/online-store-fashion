@@ -12,6 +12,14 @@ import { UtilsCryptoHandler } from '@packages/shared/dist/utils/libs/crypto/util
 @Module({
   imports: [],
   controllers: [DatabaseProductsController],
-  providers: [DatabaseProductsService, ProductRepository, PrismaService, ImageFileHandler, HashCryptoHandler, UtilsCryptoHandler, MimeHandler],
+  providers: [
+    DatabaseProductsService, 
+    ProductRepository, 
+    PrismaService, 
+    ImageFileHandler, 
+    HashCryptoHandler, 
+    UtilsCryptoHandler, 
+    MimeHandler
+  ],
 })
 export class DatabaseProductsModule {}
