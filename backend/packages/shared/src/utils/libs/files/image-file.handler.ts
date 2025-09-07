@@ -22,7 +22,6 @@ export class ImageFileHandler extends BaseFileHandler {
         const fileExtName = await this.mime.getExtname(file.mimetype)
 
         const originName = await `${fileName}.${fileExtName}`
-        console.log(`\n\n\n fullPaths imageHandler : ${path.resolve(paths, originName)} \n\n\n`)
         try {
             const success = await (await this.create(paths, originName, buffer)).success
         return {

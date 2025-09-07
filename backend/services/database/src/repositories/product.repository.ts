@@ -24,7 +24,6 @@ export class ProductRepository {
 
     async findByName(name: string) {
         const parsedName: string = name.split('-').slice(0, 2).join(' ');
-        // console.log('parsedName:', parsedName);
 
         const products = await this.prisma.products.findMany({
             where: {
@@ -55,8 +54,6 @@ export class ProductRepository {
         }, {} as Record<number, any[]>);
 
         return products.map(product => {
-            console.log('product.id', product.id);
-            console.log('attributesMap', attributesMap[product.id]);
             return {
                 ...product,
                 attributes: attributesMap[product.id]
@@ -95,8 +92,6 @@ export class ProductRepository {
     }
 
     async editProduct(data: Products & { file?: Express.Multer.File, attributes: string }) {
-        console.log('editing product .....')
-
         const attributes = JSON.parse(data?.attributes);
         try {
             if (typeof data.file === 'object') {
