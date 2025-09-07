@@ -1,5 +1,7 @@
+import { Injectable } from "@nestjs/common";
 import { BaseBufferInterface } from "src/utils/interfaces/buffer-handler.interface";
 
+@Injectable()
 class BaseBufferHandler implements BaseBufferInterface {
     constructor(){}
 

@@ -1,6 +1,8 @@
 import { ConvertBufferInterface, JsonBufferType } from "src/utils/interfaces/buffer-handler.interface";
 import BaseBufferHandler from "./base-buffer.interface";
+import { Injectable } from "@nestjs/common";
 
+@Injectable()
 class ConvertBufferHandler extends BaseBufferHandler implements ConvertBufferInterface  {
     constructor(){
         super()

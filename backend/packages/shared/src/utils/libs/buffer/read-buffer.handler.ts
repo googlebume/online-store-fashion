@@ -1,6 +1,8 @@
 import { readBufferInterface } from "src/utils/interfaces/buffer-handler.interface";
 import BaseBufferHandler from "./base-buffer.interface";
+import { Injectable } from "@nestjs/common";
 
+@Injectable()
 class ReadBufferHandler extends BaseBufferHandler implements readBufferInterface {
     constructor(
     ) {
@@ -40,3 +42,5 @@ class ReadBufferHandler extends BaseBufferHandler implements readBufferInterface
         }
     }
 }
+
+export default ReadBufferHandler
