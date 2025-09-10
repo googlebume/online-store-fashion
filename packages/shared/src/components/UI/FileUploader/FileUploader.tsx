@@ -46,15 +46,10 @@ const FileUploader: React.FC<FileUploaderType> = ({
             };
             reader.readAsDataURL(file);
         }
-
-        // console.log('imageFile:', file);
         
         return file;
     }
 
-    useEffect(() => {
-    // console.log('imagePreview ',imagePreview)
-}, [ imagePreview]);
     return (
         <div
             style={{
