@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import * as nodemailer from 'nodemailer';
 import * as dotenv from 'dotenv';
 import { JwtService } from '@nestjs/jwt';
+import { minutes } from '@nestjs/throttler';
 
 dotenv.config()
 
@@ -83,4 +84,7 @@ export class VerifyService {
         const isTokenValid = await this.jwtService.verify(token)
         return isTokenValid
     }
+
+    // async setEnterTime(seconds: number): Promise<number> {
+    // }
 }
