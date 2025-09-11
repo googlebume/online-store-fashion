@@ -10,15 +10,15 @@ import { JwtAuthGuard } from '@packages/shared/dist/common/guards/jwt-auth.guard
 import { RolesGuard } from '@packages/shared/dist/common/guards/roles.guard';
 
 import { JwtModule } from '@nestjs/jwt';
+import { registerJwt, basePipline } from '@packages/config/dist/register-jwt'
 
 @Module({
   imports: [
     UsersModule,
     ProductsModule,
-    JwtModule.register({
-      secret: 'SECRET',
-      signOptions: { expiresIn: '24h' },
-    }),
+    JwtModule.register(
+      registerJwt(basePipline)
+    ),
   ],
   providers: [
     UsersService,

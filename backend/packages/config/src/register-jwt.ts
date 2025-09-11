@@ -1,6 +1,6 @@
 import { JwtModuleOptions } from "@nestjs/jwt"
 
-const registerJwt = (options: JwtModuleOptions): JwtModuleOptions => {
+export const registerJwt = (options: JwtModuleOptions): JwtModuleOptions => {
     return {
         global: options.global,
         secret: process.env.SECRET ?? 'SECRET',
@@ -10,4 +10,10 @@ const registerJwt = (options: JwtModuleOptions): JwtModuleOptions => {
     }
 }
 
-export default registerJwt
+export const basePipline = {
+    global: true,
+    secret: process.env.SECRET,
+    signOptions: {
+        expiresIn: '24h'
+    }
+}
