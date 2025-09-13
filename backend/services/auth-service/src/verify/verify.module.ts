@@ -5,7 +5,7 @@ import { RegisterModule } from 'src/register/register.module';
 
 @Module({
   controllers: [VerifyController],
-  providers: [VerifyService],
+  providers: [VerifyService,],
   imports: [forwardRef(() => RegisterModule)],
   exports: [VerifyService],
 })

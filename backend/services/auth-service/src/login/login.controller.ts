@@ -8,7 +8,7 @@ import { databaseClient } from 'src/database.client';
 @Controller('fashion')
 export class LoginController {
     constructor(private readonly loginService: LoginService) { }
-    
+
     @Post('login/init')
     async initLogin(@Body() userData: LoginUserDTO) {
         try {
@@ -29,13 +29,17 @@ export class LoginController {
     async confirmRegistration(@Body() body: { code: string }) {
         try {
             const result = await this.loginService.confirmLogin(body.code);
-            console.log(JSON.stringify(result))
-            const userData = await this.loginService.loginUser();
-            console.log(userData)
-            return {
-                success: true,
-                ...userData,
+            if (result.success) {
+                const userData = await this.loginService.loginUser();
+                console.log(userData)
+                return {
+                    success: true,
+                    ...userData,
+                }
+            } else {
+                return {success: false}
             }
+
         } catch (error) {
             return {
                 success: false,

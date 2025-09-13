@@ -2,7 +2,9 @@ import { Injectable } from '@nestjs/common';
 import * as nodemailer from 'nodemailer';
 import * as dotenv from 'dotenv';
 import { JwtService } from '@nestjs/jwt';
-import { minutes } from '@nestjs/throttler';
+
+import TimeIntervalsHandler from '@packages/shared/dist/utils/libs/time/time-intervals.handler'
+import { interval, map, Observable, takeUntil, takeWhile, tap } from 'rxjs';
 
 dotenv.config()
 
@@ -10,11 +12,11 @@ dotenv.config()
 export class VerifyService {
     private verifyed: boolean = false;
     private userData: UserDataType | null = null;
-        private code: string;
+    private code: string | null;
 
     constructor(
         private readonly jwtService: JwtService,
-    ) {}
+    ) { }
 
     setUserData(data: UserDataType): void {
         this.userData = data;
@@ -34,9 +36,9 @@ export class VerifyService {
 
         if (this.code && userCode === this.code) {
             this.verifyed = true
-            return { 'success': true }
+            return { success: true }
         }
-        return { 'success': false }
+        return { success: false }
     }
 
     private generateCode(): string {
@@ -85,6 +87,27 @@ export class VerifyService {
         return isTokenValid
     }
 
-    // async setEnterTime(seconds: number): Promise<number> {
-    // }
+    getTimerStream(
+        minutes: number,
+        stop$: Observable<any>,
+        onTick?: (remaining: number) => void
+    ): Observable<{ data: { remaining: number } }> {
+
+        let totalTime = minutes * 60;
+
+        return interval(1000).pipe(
+            map(() => {
+                totalTime--;
+                onTick && onTick(totalTime);
+                if (totalTime <= 0) {
+                    this.code = null
+                }
+
+                return { data: { remaining: totalTime } };
+            }),
+            takeWhile(() => totalTime > 0),
+            takeUntil(stop$)
+        );
+    }
+
 }

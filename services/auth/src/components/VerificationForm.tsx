@@ -123,6 +123,47 @@ const VerificationForm: React.FC<VerificationCodeInputProps> = ({
         }
     }, [response]);
 
+    const [timeRemaining, setTimeRemaining] = useState<number>(0);
+    const [convertedTime, setConvertedTime] = useState<string>("05:00");
+
+    // -- MM:SS на рефактор/декомпозицію 
+    function formatMMSS(totalSeconds: number) {
+        const minutes = Math.floor(totalSeconds / 60);
+        const seconds = totalSeconds % 60;
+        return `${minutes.toString().padStart(2, "0")}:${seconds
+            .toString()
+            .padStart(2, "0")}`;
+    }
+
+    useEffect(() => {
+        const eventSource = new EventSource(
+            "http://localhost:4004/fashion/verify/time-remaining"
+        );
+
+        eventSource.onmessage = (event: MessageEvent) => {
+            try {
+                const parsed = JSON.parse(event.data) as { remaining: number };
+                setTimeRemaining(parsed.remaining);
+            } catch {
+                console.error("Не вдалося розпарсити SSE:", event.data);
+            }
+        };
+
+        eventSource.onerror = () => {
+            setConvertedTime("Час вийшов");
+            eventSource.close();
+        };
+
+        return () => {
+            eventSource.close();
+        };
+    }, []);
+
+    useEffect(() => {
+        setConvertedTime(formatMMSS(timeRemaining));
+    }, [timeRemaining]);
+
+    // -- MM:SS на рефактор/декомпозицію
 
     return (
         <form className={`${cl.codeInputContainer} ${className}`} onSubmit={handleSubmit}>
@@ -145,6 +186,7 @@ const VerificationForm: React.FC<VerificationCodeInputProps> = ({
                     autoComplete="one-time-code"
                 />
             ))}
+            <p>{convertedTime}</p>
             <SubmitButton text={isLoading ? 'Зачекайте...' : 'Відправити'} />
             {isError && <div className={cl.error}>{errorMessage}</div>}
         </form>

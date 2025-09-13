@@ -10,4 +10,4 @@ import TimeIntervalsHandler from './time-intervals.handler';
         TimeIntervalsHandler
     ]
 })
-export class MimeHandlerModule { }
+export class TimeHandlerModule { }
