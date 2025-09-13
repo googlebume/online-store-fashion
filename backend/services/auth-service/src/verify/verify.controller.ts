@@ -17,6 +17,6 @@ export class VerifyController {
         stop$.complete()
     })
 
-    return this.verifyService.getTimerStream(0.2, stop$, (remaining) => console.log(remaining));
+    return this.verifyService.getTimerStream(5, stop$, (remaining) => console.log(remaining));
   }
 }

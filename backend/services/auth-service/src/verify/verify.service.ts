@@ -3,7 +3,6 @@ import * as nodemailer from 'nodemailer';
 import * as dotenv from 'dotenv';
 import { JwtService } from '@nestjs/jwt';
 
-import TimeIntervalsHandler from '@packages/shared/dist/utils/libs/time/time-intervals.handler'
 import { interval, map, Observable, takeUntil, takeWhile, tap } from 'rxjs';
 
 dotenv.config()
