@@ -166,6 +166,7 @@ const VerificationForm: React.FC<VerificationCodeInputProps> = ({
     // -- MM:SS на рефактор/декомпозицію
 
     return (
+        <>
         <form className={`${cl.codeInputContainer} ${className}`} onSubmit={handleSubmit}>
             {Array.from({ length }, (_, index) => (
                 <input
@@ -186,10 +187,11 @@ const VerificationForm: React.FC<VerificationCodeInputProps> = ({
                     autoComplete="one-time-code"
                 />
             ))}
-            <p>{convertedTime}</p>
             <SubmitButton text={isLoading ? 'Зачекайте...' : 'Відправити'} />
-            {isError && <div className={cl.error}>{errorMessage}</div>}
         </form>
+        {isError ? <div className={cl.error}>{errorMessage}</div> : <p>{convertedTime}</p>}
+        </>
+        
     );
 };
 
