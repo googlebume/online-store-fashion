@@ -1,6 +1,7 @@
 import { HttpException, Injectable } from '@nestjs/common';
 import { lastValueFrom } from 'rxjs';
 import { databaseClient } from './../database.client';
+import File from 'multer';
 
 @Injectable()
 export class ProductsService {

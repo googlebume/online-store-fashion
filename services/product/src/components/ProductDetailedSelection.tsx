@@ -1,7 +1,7 @@
 import React from 'react';
 import ShoppingCardIcon from '../../../../packages/shared/src/assets/images/icons/shoppingCardIcon.svg'
 import cl from '@/utils/styles/modules/ProductDetailedSelection.module.scss'
-import variables  from '@packages/shared/src/utils/styles/colorScheme'
+import variables from '@packages/shared/src/utils/styles/colorScheme'
 
 import Counter from '../../../../packages/shared/src/components/Counter'
 // import Counter from '@packages/shared/src/components/Counter'

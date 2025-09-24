@@ -4,6 +4,7 @@ import { LoginModule } from './login/login.module';
 import { VerifyModule } from './verify/verify.module';
 
 import { JwtModule } from '@nestjs/jwt';
+// import { registerJwt, basePipline } from '@packages/config/dist/register-jwt'
 import { registerJwt, basePipline } from '@packages/config/dist/register-jwt'
 
 @Module({

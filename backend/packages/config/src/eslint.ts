@@ -3,7 +3,7 @@ import eslintPluginPrettierRecommended from 'eslint-plugin-prettier/recommended'
 import globals from 'globals';
 import tseslint from 'typescript-eslint';
 
-const eslintConfig = [
+const eslintConfig: any[] = [
     {
         ignores: ['eslint.config.mjs'],
     },
@@ -20,7 +20,7 @@ const eslintConfig = [
             sourceType: 'module' as const,
             parserOptions: {
                 projectService: true,
-                tsconfigRootDir: import.meta.dirname,
+                tsconfigRootDir: __dirname,
             },
         },
     },

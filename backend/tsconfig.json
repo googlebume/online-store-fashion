@@ -8,5 +8,13 @@
         "forceConsistentCasingInFileNames": true,
         "resolveJsonModule": true,
         "composite": true,
+        // "paths": {
+        //     "@packages/shared/*": [
+        //         "packages/shared/*"
+        //     ],
+        //     "@packages/config/*": [
+        //         "packages/config/*"
+        //     ]
+        // },
     },
 }

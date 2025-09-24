@@ -21,6 +21,12 @@
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json"
   },
+  "dependencies": {
+    "@nestjs/jwt": "^11.0.0",
+    "@packages/config": "*",
+    "@packages/shared": "*",
+    "tsconfig-paths": "^4.2.0"
+  },
   "jest": {
     "moduleFileExtensions": [
       "js",
@@ -37,5 +43,10 @@
     ],
     "coverageDirectory": "../coverage",
     "testEnvironment": "node"
+  },
+  "devDependencies": {
+    "@types/module-alias": "^2.0.4",
+    "@types/multer": "^2.0.0",
+    "module-alias": "^2.2.3"
   }
 }

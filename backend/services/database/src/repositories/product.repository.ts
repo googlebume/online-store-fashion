@@ -1,9 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma.service';
 import * as path from 'path';
-import * as bcrypt from 'bcryptjs';
-import * as fs from 'fs/promises'
-import * as crypto from 'crypto';
 import { Products } from '@prisma/client';
 import { ImageFileHandler } from '@packages/shared/dist/utils/libs/files/image-file.handler'
 

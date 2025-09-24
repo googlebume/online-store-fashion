@@ -1,10 +1,16 @@
-import { Body, Controller, Delete, Get, Param, Post, UploadedFile, UseInterceptors } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, UploadedFile, UseGuards, UseInterceptors } from '@nestjs/common';
 import { ProductsService } from './products.service';
 import { FileInterceptor } from '@nestjs/platform-express';
 import type { Products } from '@prisma/client';
-import { Roles } from '@packages/shared/dist/common/decorators/roles-metadata.decorator';
+import { Roles } from 'src/common/decorators/roles-metadata.decorator';
+
+//ТИМЧАСОВО
+import { JwtAuthGuard } from 'D:/projects/online-store-fashion/backend/packages/shared/dist/common/guards/jwt-auth.guard';
+import { RolesGuard } from 'D:/projects/online-store-fashion/backend/packages/shared/dist/common/guards/roles.guard';
+
 
 @Roles('admin')
+@UseGuards(JwtAuthGuard, RolesGuard)
 @Controller('fashion/admin/products')
 export class ProductsController {
   constructor(private readonly productsService: ProductsService) { }

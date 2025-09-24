@@ -21,7 +21,7 @@
     "noFallthroughCasesInSwitch": false,
     "paths": {
       "@packages/shared/*": ["../../packages/shared/*"],
-      "@packages/config/*": ["../../packages/config/*"]
+      "@packages/config/*": ["../../../packages/config/dist/*"]
     },
     
   },

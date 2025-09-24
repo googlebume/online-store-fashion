@@ -6,11 +6,16 @@ import { ProductsModule } from './products/products.module';
 import { ProductsController } from './products/products.controller';
 import { ProductsService } from './products/products.service';
 import { APP_GUARD } from '@nestjs/core';
-import { JwtAuthGuard } from '@packages/shared/dist/common/guards/jwt-auth.guard';
-import { RolesGuard } from '@packages/shared/dist/common/guards/roles.guard';
+
+//ТИМЧАСОВО
+import { JwtAuthGuard } from 'D:/projects/online-store-fashion/backend/packages/shared/dist/common/guards/jwt-auth.guard';
+import { RolesGuard } from 'D:/projects/online-store-fashion/backend/packages/shared/dist/common/guards/roles.guard';
+// import { JwtAuthGuard } from '@packages/shared/dist/common/guards/jwt-auth.guard';
+// import { RolesGuard } from '@packages/shared/dist/common/guards/roles.guard';
 
 import { JwtModule } from '@nestjs/jwt';
 import { registerJwt, basePipline } from '@packages/config/dist/register-jwt'
+// import { registerJwt, basePipline } from 'D:/projects/online-store-fashion/backend/packages/config/dist/register-jwt'
 
 @Module({
   imports: [

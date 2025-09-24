@@ -8,6 +8,12 @@ import { LazyAdminAnalytics } from "@/pages/AdminAnalytics/AdminAnalytics.lazy";
 import {adminRoutes} from '@packages/shared/src/routes/admin'
 import { LazyAdminProducts } from "@/pages/AdminProducts/AdminProducts.lazy";
 
+// import Cookies from "@packages/shared/src/utils/cookies"
+
+// const cookies = new Cookies()
+
+// cookies.
+
 const routes = [
     {
         index: true,

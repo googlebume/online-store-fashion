@@ -1,7 +1,7 @@
 import { Controller, Get, UseGuards } from '@nestjs/common';
 import { UsersService } from './users.service';
-import { Roles } from '@packages/shared/dist/common/decorators/roles-metadata.decorator';
-
+// import { Roles } from '@packages/shared/common/decorators/roles-metadata.decorator';
+import { Roles } from 'src/common/decorators/roles-metadata.decorator';
 
 @Controller('fashion/admin')
 export class UsersController {
