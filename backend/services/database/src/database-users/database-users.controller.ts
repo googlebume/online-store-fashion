@@ -25,4 +25,8 @@ export class DatabaseUsersController {
     async loginUser({email, password}) {
         return this.databaseUsersService.loginUser(email, password)
     }
+    @MessagePattern('delete_user')
+    async deleteUser({id}) {
+        return this.databaseUsersService.deleteUser(id)
+    }
 }

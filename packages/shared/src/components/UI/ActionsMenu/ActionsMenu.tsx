@@ -1,44 +1,76 @@
-import React, { forwardRef } from 'react';
-import cl from './ActionsMenu.module.scss'
+import React, { forwardRef, useEffect, useRef, useState } from 'react';
+import cl from './ActionsMenu.module.scss';
 import DotsIcon from '../../../assets/images/icons/dotsIcon.svg';
 import { MenuActionType } from '@/utils/constants/actionsMenu';
 
 type ActionsMenuProps = {
     actionList: MenuActionType[];
-    isOpen: boolean;
-    setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
     data?: any;
 };
 
 const ActionsMenu = forwardRef<HTMLDivElement, ActionsMenuProps>(
-    ({ actionList, setIsOpen, isOpen, data }, ref) => {
+    ({ actionList, data }, ref) => {
+        const [isOpen, setIsOpen] = useState(false);
+        const menuRef = useRef<HTMLDivElement | null>(null);
+
         const handleMenuClick = (e: React.MouseEvent) => {
             e.preventDefault();
             e.stopPropagation();
-            setIsOpen(!isOpen);
+            setIsOpen((prev) => !prev);
         };
 
-        const handleOptionClick = (e: React.MouseEvent, action?: (data?: any) => void) => {
+        const handleOptionClick = (
+            e: React.MouseEvent,
+            action?: (data?: any) => void
+        ) => {
             e.preventDefault();
             e.stopPropagation();
             setIsOpen(false);
-            
+
             if (action) {
                 action(data);
             }
         };
 
+        // Закриваємо меню при кліку поза ним
+        useEffect(() => {
+            const handleClickOutside = (event: MouseEvent) => {
+                if (
+                    menuRef.current &&
+                    !menuRef.current.contains(event.target as Node)
+                ) {
+                    setIsOpen(false);
+                }
+            };
+
+            if (isOpen) {
+                document.addEventListener('mousedown', handleClickOutside);
+            }
+            return () => {
+                document.removeEventListener('mousedown', handleClickOutside);
+            };
+        }, [isOpen]);
+
         return (
-            <div 
-                ref={ref}
+            <div
+                ref={(node) => {
+                    // одночасно пробрасываем ref з forwardRef і наш локальний
+                    if (typeof ref === 'function') {
+                        ref(node);
+                    } else if (ref) {
+                        (ref as React.MutableRefObject<HTMLDivElement | null>).current = node;
+                    }
+                    menuRef.current = node;
+                }}
                 className={cl.menuMom}
-                onClick={handleMenuClick}
             >
-                <DotsIcon width="24px" height="24px" />
-                <div className={`${cl.menu} ${isOpen && cl.open}`}>
+                <div onClick={handleMenuClick}>
+                    <DotsIcon width="24px" height="24px" />
+                </div>
+                <div className={`${cl.menu} ${isOpen ? cl.open : ''}`}>
                     {actionList.map((action, index) => (
-                        <div 
-                            key={index} 
+                        <div
+                            key={index}
                             className={cl.option}
                             onClick={(e) => handleOptionClick(e, action.action)}
                         >

@@ -1,15 +1,40 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext, createContext, Dispatch, SetStateAction } from 'react';
 import type { UserDataType } from '@packages/shared/src/utils/types/userData.type';
 import { useFetch } from '@packages/shared/src/utils/hooks/useFetch';
 import { useLocation } from 'react-router-dom';
 import UserCard from '@/components/UserCard';
+import Cookies from '@packages/shared/src/utils/cookies';
 
 import cl from './AdminUsers.module.scss';
 
+export const UsersContext = createContext<{
+    setSelectedUser: Dispatch<SetStateAction<UserDataType | null>>;
+    setDeletedUser?: Dispatch<SetStateAction<UserDataType | null>>;
+    selectedUser: UserDataType | null;
+    deletedUser?: UserDataType | null;
+}>({
+    setSelectedUser: () => { },
+    setDeletedUser: () => { },
+    selectedUser: null,
+    deletedUser: null,
+});
+
+export const useUsersContext = () => {
+    const context = useContext(UsersContext);
+    if (!context) {
+        throw new Error('useUsersContext must be used within UsersContext.Provider');
+    }
+    return context;
+};
+
 const AdminUsers = () => {
     const location = useLocation();
-    const { response, error, isLoading, fetchData } = useFetch<null, UserDataType[]>();
+    const { response, fetchData } = useFetch<null, UserDataType[]>();
     const [lastOfPath, setLastOfPath] = useState('');
+    const [selectedUser, setSelectedUser] = useState<UserDataType | null>(null);
+    const [deletedUser, setDeletedUser] = useState<UserDataType | null>(null);
+
+    const cookies = new Cookies();
 
     useEffect(() => {
         const path = location.pathname.split('/')[3];
@@ -25,10 +50,22 @@ const AdminUsers = () => {
             });
         }
     }, [lastOfPath]);
-
     useEffect(() => {
-        console.log(response);
-    }, [response]);
+        if (!deletedUser) return;
+
+        fetch(`http://localhost:4005/fashion/admin/users/delete/${deletedUser.id}`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+                'authorization': `Bearer ${cookies.getCookie('token')}`
+            },
+        })
+            .then(res => res.json())
+            .then(data => {
+                console.log('Delete user response:', data);
+                data?.success === true && document.location.reload();
+            });
+    }, [deletedUser]);
 
     if (lastOfPath !== 'users') {
         return null;
@@ -36,9 +73,11 @@ const AdminUsers = () => {
 
     return (
         <div className={cl.overview}>
-            {response !== null && Array.isArray(response) && response.length > 0 && "email" in response[0] && 
-                <UserCard users={response as UserDataType[]} />
-            }
+            <UsersContext.Provider value={{ setSelectedUser, selectedUser, setDeletedUser, deletedUser }}>
+                {response && Array.isArray(response) && response.length > 0 && (
+                    <UserCard users={response as UserDataType[]} />
+                )}
+            </UsersContext.Provider>
         </div>
     );
 };

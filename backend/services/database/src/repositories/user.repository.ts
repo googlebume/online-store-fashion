@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '../prisma.service';
 import * as bcrypt from 'bcryptjs';
 
@@ -63,5 +63,18 @@ export class UserRepository {
     }
     const { password: _, ...safeUser } = user;
     return safeUser;
+  }
+
+  async deleteUser(id) {
+    try {
+      await this.prisma.user.delete({where: {id: id}})
+      return {
+        success: true,
+        message: "User deleted"
+      }
+    } catch (error) {
+      throw new HttpException("Такого юзера не існує", HttpStatus.FORBIDDEN)
+    }
+    
   }
 }

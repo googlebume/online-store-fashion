@@ -24,4 +24,7 @@ export class DatabaseUsersService {
   async loginUser(email: string, password: string) {
     return this.userRepository.loginUser(email, password);
   }
+  async deleteUser(id: string) {
+    return this.userRepository.deleteUser(id)
+  }
 }

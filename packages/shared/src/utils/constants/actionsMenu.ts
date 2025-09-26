@@ -1,5 +1,6 @@
 import React from "react";
 import { ProductType } from "../../utils/types/prosuctData.type";
+import { UserDataType } from "../types/userData.type";
 
 export type MenuActionType = {
     name: string;
@@ -23,5 +24,20 @@ export const adminProductsAction = (
                 setDeletedProduct(productData);
             }
         },
+    ];
+};
+
+export const adminUsersAction = (
+    userData: UserDataType,
+    setSelectedUser: (data: UserDataType) => void,
+    setDeletedUser: (data: UserDataType) => void
+): MenuActionType[] => {
+    return [
+        {
+            name: "Видалити",
+            action: () => {
+                setDeletedUser(userData);
+            }
+        }
     ];
 };
