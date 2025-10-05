@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import * as nodemailer from 'nodemailer';
 import * as dotenv from 'dotenv';
 import { JwtService } from '@nestjs/jwt';
+import { MailerHandler } from '@packages/shared/dist/src/utils/libs/mailer/mailer.handler'
 
 import { interval, map, Observable, takeUntil, takeWhile, tap } from 'rxjs';
 
@@ -15,6 +16,7 @@ export class VerifyService {
 
     constructor(
         private readonly jwtService: JwtService,
+        private readonly mailer: MailerHandler,
     ) { }
 
     setUserData(data: UserDataType): void {
@@ -52,20 +54,25 @@ export class VerifyService {
         console.log(process.env.SEND_EMAIL_MAIL)
         console.log(process.env.SEND_EMAIL_APP_PASS)
 
-        const transporter = nodemailer.createTransport({
-            service: 'gmail',
-            auth: {
-                user: process.env.SEND_EMAIL_MAIL,
-                pass: process.env.SEND_EMAIL_APP_PASS,
-            },
-        });
+        // const transporter = nodemailer.createTransport({
+        //     service: 'gmail',
+        //     auth: {
+        //         user: process.env.SEND_EMAIL_MAIL,
+        //         pass: process.env.SEND_EMAIL_APP_PASS,
+        //     },
+        // });
 
-        await transporter.sendMail({
-            from: process.env.SEND_EMAIL_MAIL,
-            to: this.userData.email,
-            subject: 'Verification Code',
-            text: `Your verification code is: ${code}`,
-        });
+        // await transporter.sendMail({
+        //     from: process.env.SEND_EMAIL_MAIL,
+        //     to: this.userData.email,
+        //     subject: 'Verification Code',
+        //     text: `Your verification code is: ${code}`,
+        // });
+        this.mailer.sendTextEmail(
+            this.userData.email,
+            'Verification Code',
+            `Your verification code is: ${code}`
+        )
 
         return {
             'code': this.code
