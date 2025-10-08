@@ -54,20 +54,6 @@ export class VerifyService {
         console.log(process.env.SEND_EMAIL_MAIL)
         console.log(process.env.SEND_EMAIL_APP_PASS)
 
-        // const transporter = nodemailer.createTransport({
-        //     service: 'gmail',
-        //     auth: {
-        //         user: process.env.SEND_EMAIL_MAIL,
-        //         pass: process.env.SEND_EMAIL_APP_PASS,
-        //     },
-        // });
-
-        // await transporter.sendMail({
-        //     from: process.env.SEND_EMAIL_MAIL,
-        //     to: this.userData.email,
-        //     subject: 'Verification Code',
-        //     text: `Your verification code is: ${code}`,
-        // });
         this.mailer.sendTextEmail(
             this.userData.email,
             'Verification Code',

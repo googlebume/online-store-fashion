@@ -11,7 +11,8 @@ generator client {
 
 datasource db {
   provider = "sqlite"
-  url      = env("DATABASE_URL")
+  // url      = env("DATABASE_URL")
+  url      = "file:./dev.db"
 }
 
 model Products {
@@ -110,37 +111,6 @@ enum Size {
   L
   XL
   XXL
-}
-
-model Basket {
-  id             String            @id @default(uuid())
-  firstName      String
-  lastName       String
-  phone          Int
-  email          String
-  region         String
-  city           String
-  issuePoint     String
-  deliveryMethod DeliveryMethod
-  promoСode     String?
-  createdAt      DateTime       @default(now())
-  updatedAt      DateTime       @updatedAt
-
-  orders OrderedProducts[]
-}
-
-model OrderedProducts {
-  id          String      @id @default(uuid())
-  basketId    String
-  productName String
-  quantity    Int
-  price       Float
-  totalPrice  Float
-  createdAt   DateTime @default(now())
-
-  basket Basket @relation(fields: [basketId], references: [id], onDelete: Cascade)
-
-  @@index([basketId])
 }
 
 enum DeliveryMethod {

@@ -166,31 +166,6 @@ exports.Prisma.ReviewsScalarFieldEnum = {
   stars: 'stars'
 };
 
-exports.Prisma.BasketScalarFieldEnum = {
-  id: 'id',
-  firstName: 'firstName',
-  lastName: 'lastName',
-  phone: 'phone',
-  email: 'email',
-  region: 'region',
-  city: 'city',
-  issuePoint: 'issuePoint',
-  deliveryMethod: 'deliveryMethod',
-  promoСode: 'promoСode',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
-};
-
-exports.Prisma.OrderedProductsScalarFieldEnum = {
-  id: 'id',
-  basketId: 'basketId',
-  productName: 'productName',
-  quantity: 'quantity',
-  price: 'price',
-  totalPrice: 'totalPrice',
-  createdAt: 'createdAt'
-};
-
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -238,20 +213,12 @@ exports.Role = exports.$Enums.Role = {
   system: 'system'
 };
 
-exports.DeliveryMethod = exports.$Enums.DeliveryMethod = {
-  Mail: 'Mail',
-  Courier: 'Courier',
-  Pickup: 'Pickup'
-};
-
 exports.Prisma.ModelName = {
   Products: 'Products',
   Attributes: 'Attributes',
   User: 'User',
   Order: 'Order',
-  Reviews: 'Reviews',
-  Basket: 'Basket',
-  OrderedProducts: 'OrderedProducts'
+  Reviews: 'Reviews'
 };
 
 /**
