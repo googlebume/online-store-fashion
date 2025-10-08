@@ -50,17 +50,6 @@ model User {
 
   reviewsById   Reviews[] @relation("UserById")
   reviewsByName Reviews[] @relation("UserByName")
-  orders        Order[]   @relation("UserOrders")
-}
-
-model Order {
-  id        String   @id @default(uuid())
-  userName  String
-  userEmail String
-  orderCode String   @unique
-  createdAt DateTime @default(now())
-
-  user User @relation("UserOrders", fields: [userEmail], references: [email])
 }
 
 model Reviews {

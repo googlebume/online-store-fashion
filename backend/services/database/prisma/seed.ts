@@ -53,14 +53,14 @@ async function main() {
   await prisma.reviews.deleteMany();
   console.log('   ✅ Відгуки очищено');
   
-  await prisma.orderedProducts.deleteMany();
-  console.log('   ✅ Замовлені товари очищено');
+  // await prisma.orderedProducts.deleteMany();
+  // console.log('   ✅ Замовлені товари очищено');
   
-  await prisma.basket.deleteMany();
-  console.log('   ✅ Кошики очищено');
+  // await prisma.basket.deleteMany();
+  // console.log('   ✅ Кошики очищено');
   
-  await prisma.order.deleteMany();
-  console.log('   ✅ Замовлення очищено');
+  // await prisma.order.deleteMany();
+  // console.log('   ✅ Замовлення очищено');
   
   await prisma.attributes.deleteMany();
   console.log('   ✅ Атрибути очищено');
@@ -102,7 +102,7 @@ async function main() {
   if (data.orders?.length) {
     for (const order of data.orders) {
       try {
-        await prisma.order.create({ data: order });
+        // await prisma.order.create({ data: order });
       } catch (error) {
         console.warn(`   ⚠️ Помилка при створенні замовлення ${order.orderCode}:`, error);
       }
@@ -123,7 +123,7 @@ async function main() {
   
   if (data.baskets?.length) {
     for (const basket of data.baskets) {
-      await prisma.basket.create({ data: basket });
+      // await prisma.basket.create({ data: basket });
     }
     console.log(`   ✅ Відновлено ${data.baskets.length} кошиків`);
   }
@@ -131,7 +131,7 @@ async function main() {
   if (data.orderedProducts?.length) {
     for (const ordered of data.orderedProducts) {
       try {
-        await prisma.orderedProducts.create({ data: ordered });
+        // await prisma.orderedProducts.create({ data: ordered });
       } catch (error) {
         console.warn(`   ⚠️ Помилка при створенні замовленого товару ${ordered.id}:`, error);
       }

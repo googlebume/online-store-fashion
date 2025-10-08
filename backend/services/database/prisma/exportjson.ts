@@ -12,9 +12,9 @@ async function exportToJson() {
       users: await prisma.user.findMany(),
       products: await prisma.products.findMany(),
       attributes: await prisma.attributes.findMany(),
-      baskets: await prisma.basket.findMany(),
-      orderedProducts: await prisma.orderedProducts.findMany(),
-      orders: await prisma.order.findMany(),
+      // baskets: await prisma.basket.findMany(),
+      // orderedProducts: await prisma.orderedProducts.findMany(),
+      // orders: await prisma.order.findMany(),
       reviews: await prisma.reviews.findMany(),
     };
 
@@ -34,9 +34,9 @@ async function exportToJson() {
     console.log(`   Користувачі: ${data.users.length}`);
     console.log(`   Продукти: ${data.products.length}`);
     console.log(`   Атрибути: ${data.attributes.length}`);
-    console.log(`   Кошики: ${data.baskets.length}`);
-    console.log(`   Замовлені товари: ${data.orderedProducts.length}`);
-    console.log(`   Замовлення: ${data.orders.length}`);
+    // console.log(`   Кошики: ${data.baskets.length}`);
+    // console.log(`   Замовлені товари: ${data.orderedProducts.length}`);
+    // console.log(`   Замовлення: ${data.orders.length}`);
     console.log(`   Відгуки: ${data.reviews.length}`);
     
     const latestPath = path.join(backupDir, 'latest-backup.json');
