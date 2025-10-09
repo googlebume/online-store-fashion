@@ -10,9 +10,13 @@
     "start:productService": "cd services/product-service && npm run start:dev",
     "start:authService": "cd services/auth-service && npm run start:dev",
     "start:adminService": "cd services/admin-service && npm run start:dev",
+    "start:orderService": "cd services/order-service && npm run start:dev",
+
     "build:shared:watch": "cd packages/shared && npm run build:watch",
     "build:config:watch": "cd packages/config && npm run build:watch",
-    "start:backend": "concurrently \"npm run build:shared:watch\" \"npm run build:config:watch\" \"npm run start:database\" \"npm run start:productService\" \"npm run start:authService\" \"npm run start:adminService\"",
+
+
+    "start:backend": "concurrently \"npm run build:shared:watch\" \"npm run build:config:watch\" \"npm run start:database\" \"npm run start:productService\" \"npm run start:authService\" \"npm run start:adminService\" \"npm run start:orderService\"",
     "start:dev": "npm run start:backend",
     "prisma:generate": "cd services/database && npx prisma generate",
     "prisma": "cd services/database && npx prisma studio"
