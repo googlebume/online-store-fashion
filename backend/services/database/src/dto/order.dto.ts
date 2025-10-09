@@ -19,7 +19,7 @@ export class OrderDTO {
 
     @IsArray()
     @ValidateNested({ each: true })
-    items: OrderItemDTO
+    items: OrderItemDTO[]
 
     @IsNumber()
     total
