@@ -9,6 +9,7 @@ import { join } from 'path';
 import {FilesHandlerModule} from '@packages/shared/dist/utils/libs/files/files.module'
 import {CryptoHandlerModule} from '@packages/shared/dist/utils/libs/crypto/crypto.module'
 import {MimeHandlerModule} from '@packages/shared/dist/utils/libs/mime/mime.module'
+import { DatabaseOrdersModule } from './database-orders/database-orders.module';
 
 const productsPath = join(process.cwd(), 'products');
 
@@ -22,7 +23,8 @@ const productsPath = join(process.cwd(), 'products');
     ServeStaticModule.forRoot({
       rootPath: productsPath,
       serveRoot: '/products',
-    })
+    }),
+    DatabaseOrdersModule
 
   ],
   controllers: [],

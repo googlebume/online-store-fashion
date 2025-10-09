@@ -4,7 +4,7 @@ import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
 import { OrderDTO } from "src/dto/order.dto";
 import { PrismaService } from "src/prisma.service";
 
-class OrderBaseHandler {
+export class OrderBaseHandler {
     constructor(
         private readonly prisma: PrismaService
     ) { }
@@ -60,8 +60,23 @@ class OrderBaseHandler {
                     }
                 },
             })
-        } catch (error) {
 
+            return {
+                success: true,
+                message: "Замовлення успішно додано"
+            }
+        } catch (error) {
+            if (error instanceof PrismaClientKnownRequestError) {
+                throw new HttpException(
+                    `Помилка бази даних: ${error.message}`,
+                    HttpStatus.BAD_REQUEST,
+                );
+            }
+
+            throw new HttpException(
+                "Внутрішня помилка сервера",
+                HttpStatus.INTERNAL_SERVER_ERROR,
+            );
         }
     }
 }
