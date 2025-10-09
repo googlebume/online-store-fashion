@@ -61,7 +61,7 @@ model Order {
   total          Float
   deliveryMethod DeliveryMethod
   address        String
-  phone          String
+  email          String
   status         String
   createdAt      DateTime       @default(now())
   updatedAt      DateTime       @default(now()) @updatedAt
