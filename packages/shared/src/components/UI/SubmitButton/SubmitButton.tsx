@@ -3,7 +3,7 @@ import cl from './SubmitButton.module.scss';
 
 type SubmitButtonProps = {
     text: string;
-    onClick?: () => void | React.Dispatch<React.SetStateAction<boolean>>;
+    onClick?: () => void | Promise<void> | React.Dispatch<React.SetStateAction<boolean>>;
     img?: string | React.ComponentType | React.ComponentType<any>;
     variant?: 'primary' | 'secondary';
 };

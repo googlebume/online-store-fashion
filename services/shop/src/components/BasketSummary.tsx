@@ -1,71 +1,54 @@
-// import React, { useEffect, useState } from 'react';
-
-// import cl from '@/utils/styles/BasketSummary.module.scss';
-// import ButtonOrder from '@packages/shared/src/components/UI/ButtonOrder/ButtonOrder';
-// import { getAllPrices, getDeletedProducts } from '@/state/targetProductData';
-
-// const BasketSummary = (summaryRenderEvent:any) => {
-
-//     const [finalPrice, setFinalPrice] = useState(0);
-//     const [allPrices, setAllPrices] = useState(getAllPrices());
-//     const [deletedProductsList, setDeletedProductsList] = useState(getDeletedProducts());
-//     console.log(allPrices);
-//     useEffect(() => {
-//         // Оновлюємо список цін при зміні списку видалених продуктів
-//         const updatedPrices = getAllPrices();
-//         setAllPrices(updatedPrices);
-//         const updatedDelProd = getDeletedProducts();
-//         setDeletedProductsList(updatedDelProd)
-
-//         console.warn('yesss');
-//             const totalPrice = Object.values(updatedPrices).reduce((sum, price) => sum + price, 0);
-//             setFinalPrice(totalPrice);
-//             console.log('final', totalPrice);
-
-//     }, [deletedProductsList, allPrices, summaryRenderEvent]);
-
-
-//     return (
-//         <div className={cl.basketSummary}>
-//             <div className={cl.display}>
-//                 <div className={cl.displayDescription}>
-//                     <h3>Сума:</h3>
-//                 </div>
-//                 <div className={cl.displayPrice}>
-//                     <span className={cl.price}>${finalPrice}</span>
-//                 </div>
-//             </div>
-//             <div>
-//                 <ButtonOrder text='Замовити' />
-//             </div>
-            
-//         </div>
-//     );
-// };
-
-// export default BasketSummary;
-
-
 import React, { useEffect, useState } from 'react';
 import cl from '@shop/utils/styles/modules/BasketSummary.module.scss';
-import ButtonOrder from '@packages/shared/src/components/UI/ButtonOrder/ButtonOrder';
-import { getTotalPrice, subscribeToCartChanges } from '@shop/state/basketState';
+import { getCartItems, getTotalPrice, subscribeToCartChanges } from '@shop/state/basketState';
 import SubmitButton from '@packages/shared/src/components/UI/SubmitButton/SubmitButton';
+import { useFetch } from '@packages/shared/src/utils/hooks/useFetch';
 
-const BasketSummary: React.FC = () => {
+const BasketSummary: React.FC<{ deliveryParams: any }> = ({ deliveryParams }) => {
     const [finalPrice, setFinalPrice] = useState(getTotalPrice());
-
+    const [products, setProducts] = useState({})
+    const { fetchData, error, isLoading, response } = useFetch()
     useEffect(() => {
-        // Підписуємося на зміни в кошику і оновлюємо загальну ціну
         const unsubscribe = subscribeToCartChanges(() => {
             setFinalPrice(getTotalPrice());
         });
-        
+
         return () => unsubscribe();
     }, []);
 
-    // Форматуємо ціну до двох десяткових знаків
+
     const formattedPrice = finalPrice.toFixed(2);
+
+    async function onOrder() {
+        const orderProducts = getCartItems()
+        setProducts(orderProducts)
+
+        deliveryParams.total = +formattedPrice
+        console.log(deliveryParams.total)
+        const order = {
+            ...deliveryParams,
+            items: orderProducts.map((item) => {
+                return {
+                    productId: item.id,
+                    quantity: item.quantity,
+                    price: item.price,
+                }
+            }),
+        }
+
+        fetchData({
+            method: 'POST',
+            port: 4006,
+            url: 'ordering/add',
+            body: order,
+        });
+    }
+
+    useEffect(() => {
+        if (response?.success) {
+            console.log("EHF")
+        }
+    }, [response])
 
     return (
         <div className={cl.basketSummary}>
@@ -78,7 +61,7 @@ const BasketSummary: React.FC = () => {
                 </div>
             </div>
             <div>
-                <SubmitButton text='Замовити'/>
+                <SubmitButton text='Замовити' onClick={() => onOrder()} />
             </div>
         </div>
     );

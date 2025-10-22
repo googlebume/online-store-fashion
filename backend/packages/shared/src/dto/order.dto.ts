@@ -1,9 +1,9 @@
 import { DeliveryMethod } from "@prisma/client"
-import { IsArray, IsBoolean, IsEmail, isEmail, IsEnum, IsNumber, IsString, ValidateNested } from "class-validator"
+import { IsArray, IsBoolean, IsEmail, isEmail, IsEnum, IsNumber, IsOptional, IsString, IsUUID, ValidateNested } from "class-validator"
 
 
 export class OrderItemDTO {
-    @IsString()
+    @IsUUID()
     productId
 
     @IsNumber()
@@ -15,6 +15,7 @@ export class OrderItemDTO {
 
 export class OrderDTO {
     @IsString()
+    @IsOptional()
     userId
 
     @IsArray()
@@ -24,15 +25,12 @@ export class OrderDTO {
     @IsNumber()
     total
 
-    @IsEnum(DeliveryMethod)
-    deliveryMethod: DeliveryMethod
+    // @IsEnum(DeliveryMethod)
+    deliveryMethod: string
 
     @IsString()
     address
 
     @IsEmail()
     email
-
-    @IsBoolean()
-    status
 }

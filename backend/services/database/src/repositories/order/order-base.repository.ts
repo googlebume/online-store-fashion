@@ -1,9 +1,10 @@
-import { HttpException, HttpStatus } from "@nestjs/common";
-import { Order, Prisma } from "@prisma/client";
+import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
+import { DeliveryMethod, Order, OrderItem, Prisma } from "@prisma/client";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
-import { OrderDTO } from "src/dto/order.dto";
-import { PrismaService } from "src/prisma.service";
+import { OrderDTO, OrderItemDTO } from '@packages/shared/dist/src/dto/order.dto';
+import { PrismaService } from "../../prisma.service";
 
+@Injectable()
 export class OrderBaseHandler {
     constructor(
         private readonly prisma: PrismaService
@@ -38,34 +39,51 @@ export class OrderBaseHandler {
         }
     }
 
-    add(data: OrderDTO) {
+    async add(data: OrderDTO) {
+        console.log('Дані замовлення:', data);
+
         try {
-            this.prisma.order.create({
+            // ✅ Перетворення на enum DeliveryMethod
+            const deliveryMethodMap: Record<string, DeliveryMethod> = {
+                "Кур'єр": DeliveryMethod.Courier,
+                'Самовивіз': DeliveryMethod.Pickup
+            };
+
+            const mappedDeliveryMethod = deliveryMethodMap[data.deliveryMethod];
+
+            if (!mappedDeliveryMethod) {
+                throw new HttpException(
+                    `Невідомий спосіб доставки: ${data.deliveryMethod}`,
+                    HttpStatus.BAD_REQUEST,
+                );
+            }
+            
+            const order = await this.prisma.order.create({
                 data: {
-                    userId: data.userId,
+                    // userId: data.userId ?? null, // ← null = гість
                     total: data.total,
-                    deliveryMethod: data.deliveryMethod,
+                    deliveryMethod: mappedDeliveryMethod,
                     address: data.address,
                     email: data.email,
-                    status: data.status,
+                    status: 'in progress',
                     items: {
-                        create: data.items.map((item) => ({
+                        create: data.items.map(item => ({
                             productId: item.productId,
                             quantity: item.quantity,
                             price: item.price,
-                            product: {
-                                connect: { id: item.productId }
-                            }
-                        }))
-                    }
+                        })),
+                    },
                 },
-            })
+            });
 
             return {
                 success: true,
-                message: "Замовлення успішно додано"
-            }
+                message: "Замовлення успішно додано",
+                orderId: order.id
+            };
         } catch (error) {
+            console.error('Помилка при створенні замовлення:', error);
+
             if (error instanceof PrismaClientKnownRequestError) {
                 throw new HttpException(
                     `Помилка бази даних: ${error.message}`,

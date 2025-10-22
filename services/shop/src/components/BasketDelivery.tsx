@@ -1,28 +1,30 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import InputData from '@packages/shared/src/components/UI/InputData/InputData';
 import InputOption from '@packages/shared/src/components/UI/InputOption/InputOption';
 import cl from '@shop/utils/styles/modules/BasketDelivery.module.scss';
 import { getCartItems } from '@shop/state/basketState';
 import novaPoshtaService from '../utils/api/novaPoshta.api';
 
-const BasketDelivery = () => {
+const BasketDelivery: React.FC<{ setDeliveryParams: React.Dispatch<React.SetStateAction<Object>> }> = ({ setDeliveryParams }) => {
     const [showCouponInput, setShowCouponInput] = useState(false);
-    
+
     const [areas, setAreas] = useState<{ ref: string, name: string }[]>([]);
     const [cities, setCities] = useState<{ ref: string, name: string }[]>([]);
     const [warehouses, setWarehouses] = useState<{ ref: string, name: string }[]>([]);
-    
+
     const [selectedArea, setSelectedArea] = useState('');
     const [selectedAreaRef, setSelectedAreaRef] = useState('');
     const [selectedCity, setSelectedCity] = useState('');
     const [selectedCityRef, setSelectedCityRef] = useState('');
     const [selectedWarehouse, setSelectedWarehouse] = useState('');
     const [selectedWarehouseRef, setSelectedWarehouseRef] = useState('');
-    
+
     const [selectedDeliveryMethod, setSelectedDeliveryMethod] = useState('');
     const [prodInBasket, setProdInBasket] = useState(getCartItems());
     const [hasProducts, setHasProducts] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
+
+    const email = useRef<string>('')
 
     useEffect(() => {
         const loadAreas = async () => {
@@ -36,7 +38,7 @@ const BasketDelivery = () => {
                 setIsLoading(false);
             }
         };
-        
+
         loadAreas();
     }, []);
 
@@ -97,18 +99,19 @@ const BasketDelivery = () => {
         const selectedAreaData = areas.find(area => area.name === areaName);
         setSelectedArea(areaName);
         setSelectedAreaRef(selectedAreaData?.ref || '');
-        
+
         setSelectedCity('');
         setSelectedCityRef('');
         setSelectedWarehouse('');
         setSelectedWarehouseRef('');
+
     };
 
     const handleCityChange = (cityName: string) => {
         const selectedCityData = cities.find(city => city.name === cityName);
         setSelectedCity(cityName);
         setSelectedCityRef(selectedCityData?.ref || '');
-        
+
         setSelectedWarehouse('');
         setSelectedWarehouseRef('');
     };
@@ -118,6 +121,14 @@ const BasketDelivery = () => {
         setSelectedWarehouse(warehouseName);
         setSelectedWarehouseRef(selectedWarehouseData?.ref || '');
     };
+    useEffect(() => {
+        setDeliveryParams(prev => ({
+            ...prev,
+            deliveryMethod: selectedDeliveryMethod,
+            address: `${selectedArea}, ${selectedCity}, ${selectedWarehouse}`,
+            email: email.current
+        }));
+    }, [selectedArea, selectedCity, selectedWarehouse, selectedDeliveryMethod]);
 
     if (!hasProducts) return null;
 
@@ -128,10 +139,10 @@ const BasketDelivery = () => {
             <form className={cl.form}>
                 <section className={cl.section}>
                     <div className={cl.gridTwoCols}>
-                        <InputData type='text' id='firstName' placeholder='Іван' label="Ім'я" />
+                        {/* <InputData type='text' id='firstName' placeholder='Іван' label="Ім'я" />
                         <InputData type='text' id='lastName' placeholder='Іванов' label="Прізвище" />
-                        <InputData type='tel' id='phone' placeholder='+380 ХХХ ХХХХ' label="Номер телефону" />
-                        <InputData type='email' id='email' placeholder='name@gmail.com' label="Email" />
+                        <InputData type='tel' id='phone' placeholder='+380 ХХХ ХХХХ' label="Номер телефону" /> */}
+                        <InputData type='email' id='email' placeholder='name@gmail.com' label="Email" onInput={(val) => email.current = val} />
                     </div>
                 </section>
 

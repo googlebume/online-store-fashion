@@ -1,7 +1,7 @@
 import { Controller } from '@nestjs/common';
 import { DatabaseOrdersService } from './database-orders.service';
 import { MessagePattern } from '@nestjs/microservices';
-import { OrderDTO } from 'src/dto/order.dto';
+import { OrderDTO } from '@packages/shared/dist/src/dto/order.dto';
 
 @Controller('database-orders')
 export class DatabaseOrdersController {
@@ -12,7 +12,8 @@ export class DatabaseOrdersController {
     return await this.databaseOrdersService.findById(id)
   }
 
-  async add(data: OrderDTO) {
-    return await this.databaseOrdersService.add(data)
+  @MessagePattern("add_order")
+  async add(order: OrderDTO) {
+    return await this.databaseOrdersService.add(order)
   }
 }

@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { OrderDTO } from 'src/dto/order.dto';
+import { OrderDTO } from '@packages/shared/dist/src/dto/order.dto';
 import { OrderBaseHandler } from 'src/repositories/order/order-base.repository';
 
 @Injectable()

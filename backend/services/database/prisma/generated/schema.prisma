@@ -48,8 +48,35 @@ model User {
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt
 
+  orders Order[]
+
   reviewsById   Reviews[] @relation("UserById")
   reviewsByName Reviews[] @relation("UserByName")
+}
+
+model Order {
+  id             String         @id @default(uuid())
+  userId         String?
+  items          OrderItem[]    @relation("OrderToOrderItem")
+  total          Float
+  deliveryMethod DeliveryMethod
+  address        String
+  email          String
+  status         String         @default("pending")
+  createdAt      DateTime       @default(now())
+  updatedAt      DateTime       @default(now()) @updatedAt
+
+  user User? @relation(fields: [userId], references: [id])
+}
+
+model OrderItem {
+  id        String @id @default(uuid())
+  orderId   String
+  productId String
+  quantity  Int
+  price     Float
+
+  order Order @relation(fields: [orderId], references: [id], name: "OrderToOrderItem")
 }
 
 model Reviews {
@@ -103,7 +130,6 @@ enum Size {
 }
 
 enum DeliveryMethod {
-  Mail
   Courier
   Pickup
 }

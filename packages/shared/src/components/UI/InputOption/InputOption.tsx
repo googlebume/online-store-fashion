@@ -6,7 +6,7 @@ type OptionInputType = {
     optionBasic?: string;
     options: string[];
     value: string;
-    onChange: (value: string) => void;
+    onChange: (value: string) => void | React.Dispatch<React.SetStateAction<string>>;
     disabled?: boolean;
     required?: boolean;
 };
