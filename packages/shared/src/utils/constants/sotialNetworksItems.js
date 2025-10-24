@@ -6,7 +6,7 @@ import linkedinNetwork from '@packages/shared/src/assets/images/icons/linkedinNe
 export const sotialNetworksItems = [
   {
     title: "twitterNetwork",
-    link: "https://www.instagram.com/",
+    link: "https://x.com/?lang=ua",
     icon: twitterNetwork,
   },
   {
@@ -16,12 +16,12 @@ export const sotialNetworksItems = [
   },
   {
     title: "instagramNetwork",
-    link: "https://ua.linkedin.com/",
+    link: " https://www.instagram.com/",
     icon: instagramNetwork,
   },
   {
     title: "linkedinNetwork",
-    link: "https://x.com/?lang=ua",
+    link: "https://ua.linkedin.com/",
     icon: linkedinNetwork,
   },
 ];

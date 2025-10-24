@@ -33,4 +33,9 @@ export class DatabaseProductsService {
   deleteProsuctById(id: string) {
     return this.productRepository.deleteProductById(id);
   }
+
+  async dynamicallyLoad(params: {take: number, page: number, cursor?: string}) {
+    const {take, page, cursor} = params 
+    return await this.productRepository.dynamicallyLoad(take, page, cursor)
+  }
 }

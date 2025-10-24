@@ -90,37 +90,49 @@ export class ProductRepository {
     }
 
     async dynamicallyLoad(take: number, page: number, cursor?: string) {
-        take = Math.max(0, take)
-        if (!cursor) {
-            const firstRequest = await this.prisma.products.findMany({
-                take,
-                orderBy: { id: 'desc' }
-            })
-            cursor = await firstRequest.findLast(elem => elem.id)?.id
-            page = 1
+        const _take = Math.max(1, take);
+
+        const baseQuery = {
+            take: _take,
+            orderBy: { id: 'desc' as const },
+            ...(cursor ? { skip: 1, cursor: { id: cursor } } : {})
+        };
+
+        const products = await this.prisma.products.findMany(baseQuery);
+
+        if (!products.length) {
             return {
-                loaded: firstRequest,
-                meta: {
-                    cursor,
-                    page
-                }
-            }
+                loaded: [],
+                meta: { cursor, page }
+            };
         }
-        const loadCount = await this.prisma.products.findMany({
-            take,
-            skip: 1,
-            cursor: { id: cursor },
-            orderBy: { id: 'desc' }
-        })
-        cursor = await loadCount.findLast(elem => elem.id)?.id
-        page++
+
+        const productIds = products.map(p => p.id);
+
+        const attributes = await this.prisma.attributes.findMany({
+            where: { productsId: { in: productIds } }
+        });
+
+        const combined = products.map(product => {
+            const matchingAttribute = attributes.find(attr => attr.productsId === product.id);
+
+            const attributesObject = this.changeArrToObj(matchingAttribute);
+
+            return {
+                ...product,
+                attributes: attributesObject
+            };
+        });
+
+        const newCursor = combined.at(-1)?.id ?? null;
+
         return {
-            loaded: loadCount,
+            loaded: combined,
             meta: {
-                cursor,
-                page
+                cursor: newCursor,
+                page: page + 1
             }
-        }
+        };
     }
 
     async editProduct(data: Products & { file?: Express.Multer.File, attributes: string }) {

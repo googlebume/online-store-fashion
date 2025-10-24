@@ -10,5 +10,12 @@ export class CardsRenderController {
     getProducts() {
         return this.appService.getProducts();
     }
+
+    @Post(`shop-dynamically`)
+    async dynamicallyLoad(@Body() params:{take: number, page: number, cursor?: string}){
+        const loaded = await this.appService.dynamicallyLoad(params)
+        console.log(loaded)
+        return loaded
+    }
     
 }

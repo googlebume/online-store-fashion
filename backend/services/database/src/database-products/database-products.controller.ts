@@ -2,6 +2,7 @@ import { Controller } from '@nestjs/common';
 import { DatabaseProductsService } from './database-products.service';
 import { MessagePattern } from '@nestjs/microservices';
 import type {Products} from '@prisma/client';
+import { take } from 'rxjs';
 
 @Controller()
 export class DatabaseProductsController {
@@ -10,6 +11,12 @@ export class DatabaseProductsController {
   @MessagePattern('get_products')
   async getProducts() {
     const products = await this.databaseService.getAllProducts();
+    return products;
+  }
+
+  @MessagePattern('get_products_dynamically')
+  async dLoad(params: {take: number, page: number, cursor?: string}) {
+    const products = await this.databaseService.dynamicallyLoad(params);
     return products;
   }
 

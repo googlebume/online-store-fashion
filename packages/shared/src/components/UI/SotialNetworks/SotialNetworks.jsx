@@ -14,7 +14,7 @@ const SotialNetworks = () => {
                             <img src={item.icon} alt={item.title} className={cl.network__image} />
                         </a>
                     </div>
-            ))
+                ))
             }
         </div>
     );

@@ -14,6 +14,7 @@ type PriceRange = {
 
 const FiltersStickyBar: React.FC = () => {
   const [allProducts, setAllProducts] = useState<ProductType[]>(getAllProducts());
+  console.log("fbp", allProducts)
   const [updatedCategories, setUpdatedCategoriesState] = useState<string[]>(getUpdatedCategories());
   const [selectedColors, setSelectedColors] = useState<string[]>(getUpdatedColors());
   const [selectedPriceRange, setSelectedPriceRange] = useState<PriceRange | undefined>(undefined);
