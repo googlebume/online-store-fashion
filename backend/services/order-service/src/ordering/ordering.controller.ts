@@ -8,7 +8,6 @@ export class OrderingController {
 
   @Post("add")
   async add(@Body() order: OrderDTO){
-    // console.log(order.items)
     return await this.orderingService.add(order)
   }
 }

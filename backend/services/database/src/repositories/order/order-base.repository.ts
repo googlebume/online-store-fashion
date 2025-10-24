@@ -40,10 +40,7 @@ export class OrderBaseHandler {
     }
 
     async add(data: OrderDTO) {
-        console.log('Дані замовлення:', data);
-
         try {
-            // ✅ Перетворення на enum DeliveryMethod
             const deliveryMethodMap: Record<string, DeliveryMethod> = {
                 "Кур'єр": DeliveryMethod.Courier,
                 'Самовивіз': DeliveryMethod.Pickup
@@ -60,7 +57,7 @@ export class OrderBaseHandler {
             
             const order = await this.prisma.order.create({
                 data: {
-                    // userId: data.userId ?? null, // ← null = гість
+                    // userId: data.userId ?? null,
                     total: data.total,
                     deliveryMethod: mappedDeliveryMethod,
                     address: data.address,

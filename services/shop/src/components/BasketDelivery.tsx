@@ -139,9 +139,8 @@ const BasketDelivery: React.FC<{ setDeliveryParams: React.Dispatch<React.SetStat
             <form className={cl.form}>
                 <section className={cl.section}>
                     <div className={cl.gridTwoCols}>
-                        {/* <InputData type='text' id='firstName' placeholder='Іван' label="Ім'я" />
+                        <InputData type='text' id='firstName' placeholder='Іван' label="Ім'я" />
                         <InputData type='text' id='lastName' placeholder='Іванов' label="Прізвище" />
-                        <InputData type='tel' id='phone' placeholder='+380 ХХХ ХХХХ' label="Номер телефону" /> */}
                         <InputData type='email' id='email' placeholder='name@gmail.com' label="Email" onInput={(val) => email.current = val} />
                     </div>
                 </section>

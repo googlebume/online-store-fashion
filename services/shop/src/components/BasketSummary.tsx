@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import cl from '@shop/utils/styles/modules/BasketSummary.module.scss';
-import { getCartItems, getTotalPrice, subscribeToCartChanges } from '@shop/state/basketState';
+import { clearCart, getCartItems, getTotalPrice, subscribeToCartChanges } from '@shop/state/basketState';
 import SubmitButton from '@packages/shared/src/components/UI/SubmitButton/SubmitButton';
 import { useFetch } from '@packages/shared/src/utils/hooks/useFetch';
+import ErrorMassage from '@packages/shared/src/components/UI/ErrorMassage/ErrorMassage';
 
 const BasketSummary: React.FC<{ deliveryParams: any }> = ({ deliveryParams }) => {
     const [finalPrice, setFinalPrice] = useState(getTotalPrice());
@@ -46,7 +47,7 @@ const BasketSummary: React.FC<{ deliveryParams: any }> = ({ deliveryParams }) =>
 
     useEffect(() => {
         if (response?.success) {
-            console.log("EHF")
+            clearCart()
         }
     }, [response])
 
@@ -61,6 +62,7 @@ const BasketSummary: React.FC<{ deliveryParams: any }> = ({ deliveryParams }) =>
                 </div>
             </div>
             <div>
+                {error && <ErrorMassage massage='Помилка оформлення заповлення'/>}
                 <SubmitButton text='Замовити' onClick={() => onOrder()} />
             </div>
         </div>
