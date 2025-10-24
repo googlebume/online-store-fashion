@@ -3,6 +3,7 @@ import { PrismaService } from '../prisma.service';
 import * as path from 'path';
 import { Products } from '@prisma/client';
 import { ImageFileHandler } from '@packages/shared/dist/utils/libs/files/image-file.handler'
+import { table } from 'console';
 
 @Injectable()
 export class ProductRepository {
@@ -86,6 +87,40 @@ export class ProductRepository {
             ])
             : {};
         return attributesObject
+    }
+
+    async dynamicallyLoad(take: number, page: number, cursor?: string) {
+        take = Math.max(0, take)
+        if (!cursor) {
+            const firstRequest = await this.prisma.products.findMany({
+                take,
+                orderBy: { id: 'desc' }
+            })
+            cursor = await firstRequest.findLast(elem => elem.id)?.id
+            page = 1
+            return {
+                loaded: firstRequest,
+                meta: {
+                    cursor,
+                    page
+                }
+            }
+        }
+        const loadCount = await this.prisma.products.findMany({
+            take,
+            skip: 1,
+            cursor: { id: cursor },
+            orderBy: { id: 'desc' }
+        })
+        cursor = await loadCount.findLast(elem => elem.id)?.id
+        page++
+        return {
+            loaded: loadCount,
+            meta: {
+                cursor,
+                page
+            }
+        }
     }
 
     async editProduct(data: Products & { file?: Express.Multer.File, attributes: string }) {
