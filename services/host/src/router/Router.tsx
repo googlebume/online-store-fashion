@@ -12,20 +12,11 @@ import adminRoutes from 'admin/Router';
 import authRoutes from 'auth/Router'
 import ErrorNotFound from "@packages/shared/src/components/ErrorNotFound";
 import Cookies from "@packages/shared/src/utils/cookies";
+import JwtHandler from "@packages/shared/src/utils/jwt"
 
-const cookies = new Cookies();
-let isAdmin;
 
-const token = cookies.getCookie('token');
-
-try {
-    const base64Payload = token.split('.')[1];
-    const payload = atob(base64Payload.replace(/-/g, '+').replace(/_/g, '/'));
-    const parsedPayoad = JSON.parse(payload);
-    isAdmin = parsedPayoad.roles.some((role: string) => role === 'admin')
-} catch (error) {
-    throw new Error(error)
-}
+const jwtHandler = new JwtHandler()
+const isAdmin = jwtHandler.getIsAdmin()
 
 
 export const router = createBrowserRouter([
