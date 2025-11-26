@@ -1,0 +1,57 @@
+@use '@packages/shared/src/utils/styles/colorScheme' as colors;
+
+.widget {
+    max-width: 500px;
+    background-color: colors.$milkish;
+    border-radius: 16px;
+    padding: 8px;
+
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.06);
+
+    .altText {
+        font-size: 14px;
+        color: colors.$ashDarkenedText;
+        text-align: center;
+        padding: 2px 0;
+    }
+
+    .errorCard {
+        background-color: colors.$white;
+        color: colors.$black;
+        font-size: 13px;
+
+        padding: 12px;
+        border-radius: 10px;
+        border: 1px solid colors.$gray;
+
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+
+
+        &.critical {
+            border-color: red;
+        }
+
+        &.warning {
+            border-color: colors.$golden;
+        }
+
+        &.normal {
+            border-color: colors.$gray;
+        }
+
+        .errorMessage {
+            font-weight: 500;
+        }
+
+        .status {
+            font-size: 12px;
+            color: colors.$ashDarkenedText;
+        }
+    }
+}

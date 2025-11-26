@@ -5,8 +5,9 @@ import { api } from '@packages/shared/src/routes/api'
 import { LazyAdminUsers } from "@/pages/AdminUsers/AdminUsers.lazy";
 import { LazyAdminAnalytics } from "@/pages/AdminAnalytics/AdminAnalytics.lazy";
 
-import {adminRoutes} from '@packages/shared/src/routes/admin'
+import { adminRoutes } from '@packages/shared/src/routes/admin'
 import { LazyAdminProducts } from "@/pages/AdminProducts/AdminProducts.lazy";
+import ErrorTrackingWidget from "@/components/ErrorTrackingWidget";
 
 // import Cookies from "@packages/shared/src/utils/cookies"
 
@@ -23,6 +24,22 @@ const routes = [
         path: `${api}/admin`,
         element: <App />,
         children: [
+            {
+                index: true,
+                path: `${adminRoutes.index}`,
+                element: <Suspense fallback={'Loading...'}> <ErrorTrackingWidget errors={
+                    [
+                        {
+                            id: 'string',
+                            name: "ReferenceError",
+                            type: "critical",
+                            isFixed: false,
+                            message: 'string'
+                        }
+                    ]
+                }
+                /> </Suspense>
+            },
             {
                 index: true,
                 path: `${adminRoutes.users}`,
