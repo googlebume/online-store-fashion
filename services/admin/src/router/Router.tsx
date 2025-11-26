@@ -7,7 +7,7 @@ import { LazyAdminAnalytics } from "@/pages/AdminAnalytics/AdminAnalytics.lazy";
 
 import { adminRoutes } from '@packages/shared/src/routes/admin'
 import { LazyAdminProducts } from "@/pages/AdminProducts/AdminProducts.lazy";
-import ErrorTrackingWidget from "@/components/ErrorTrackingWidget";
+import { AdminIndexLazy } from "@/pages/AdminIndex/AdminIndex.lazy";
 
 // import Cookies from "@packages/shared/src/utils/cookies"
 
@@ -27,18 +27,7 @@ const routes = [
             {
                 index: true,
                 path: `${adminRoutes.index}`,
-                element: <Suspense fallback={'Loading...'}> <ErrorTrackingWidget errors={
-                    [
-                        {
-                            id: 'string',
-                            name: "ReferenceError",
-                            type: "critical",
-                            isFixed: false,
-                            message: 'string'
-                        }
-                    ]
-                }
-                /> </Suspense>
+                element: <Suspense fallback={'Loading...'}> <AdminIndexLazy /> </Suspense>
             },
             {
                 index: true,
