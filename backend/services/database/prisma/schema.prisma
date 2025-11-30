@@ -6,7 +6,7 @@
 
 generator client {
   provider = "prisma-client-js"
-  output   = "./generated"
+  // output   = "./generated"
 }
 
 datasource db {
@@ -143,11 +143,9 @@ enum DeliveryMethod {
 model ProducsAnalytics {
   id           String  @id @default(uuid())
   productId    String  @unique
-  url          String  @unique
-  ordersCount  Int
-  maxStarsMark Int
-  minStarsMark Int
+  ordersCount  Int @default(0)
+  maxStarsMark Int @default(0)
+  minStarsMark Int @default(0)
 
   product      Products @relation("ProductAnalytics", fields: [productId], references: [id])
 }
-
