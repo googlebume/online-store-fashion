@@ -172,10 +172,20 @@ exports.Prisma.OrderItemScalarFieldEnum = {
 exports.Prisma.ReviewsScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
+  productId: 'productId',
   userName: 'userName',
   reviewTitle: 'reviewTitle',
   rewiew: 'rewiew',
   stars: 'stars'
+};
+
+exports.Prisma.ProducsAnalyticsScalarFieldEnum = {
+  id: 'id',
+  productId: 'productId',
+  url: 'url',
+  ordersCount: 'ordersCount',
+  maxStarsMark: 'maxStarsMark',
+  minStarsMark: 'minStarsMark'
 };
 
 exports.Prisma.SortOrder = {
@@ -236,7 +246,8 @@ exports.Prisma.ModelName = {
   User: 'User',
   Order: 'Order',
   OrderItem: 'OrderItem',
-  Reviews: 'Reviews'
+  Reviews: 'Reviews',
+  ProducsAnalytics: 'ProducsAnalytics'
 };
 
 /**

@@ -6,7 +6,7 @@
 
 generator client {
   provider = "prisma-client-js"
-  output = "./generated"
+  output   = "./generated"
 }
 
 datasource db {
@@ -24,6 +24,9 @@ model Products {
   description String
   image       String
   attributes  Attributes[]
+
+  reviews   Reviews[]         @relation("ReviewProductId")
+  analytics ProducsAnalytics? @relation("ProductAnalytics")
 }
 
 model Attributes {
@@ -62,7 +65,7 @@ model Order {
   deliveryMethod DeliveryMethod
   address        String
   email          String
-  status         String    @default("pending")
+  status         String         @default("pending")
   createdAt      DateTime       @default(now())
   updatedAt      DateTime       @default(now()) @updatedAt
 
@@ -82,6 +85,7 @@ model OrderItem {
 model Reviews {
   id          String @id @default(uuid())
   userId      String
+  productId   String
   userName    String
   reviewTitle String
   rewiew      String
@@ -89,6 +93,8 @@ model Reviews {
 
   userID   User @relation("UserById", fields: [userId], references: [id])
   userNAME User @relation("UserByName", fields: [userName], references: [name])
+
+  product Products @relation("ReviewProductId", fields: [productId], references: [id])
 }
 
 enum Role {
@@ -133,3 +139,15 @@ enum DeliveryMethod {
   Courier
   Pickup
 }
+
+model ProducsAnalytics {
+  id           String  @id @default(uuid())
+  productId    String  @unique
+  url          String  @unique
+  ordersCount  Int
+  maxStarsMark Int
+  minStarsMark Int
+
+  product      Products @relation("ProductAnalytics", fields: [productId], references: [id])
+}
+
