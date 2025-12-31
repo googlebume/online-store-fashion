@@ -10,6 +10,7 @@ import {FilesHandlerModule} from '@packages/shared/dist/utils/libs/files/files.m
 import {CryptoHandlerModule} from '@packages/shared/dist/utils/libs/crypto/crypto.module'
 import {MimeHandlerModule} from '@packages/shared/dist/utils/libs/mime/mime.module'
 import { DatabaseOrdersModule } from './database-orders/database-orders.module';
+import { DatabaseAnalyticsModule } from './database-analytics/database-analytics.module';
 
 const productsPath = join(process.cwd(), 'products');
 
@@ -24,7 +25,8 @@ const productsPath = join(process.cwd(), 'products');
       rootPath: productsPath,
       serveRoot: '/products',
     }),
-    DatabaseOrdersModule
+    DatabaseOrdersModule,
+    DatabaseAnalyticsModule
 
   ],
   controllers: [],
