@@ -1,4 +1,5 @@
 import { PrismaService } from "src/prisma.service";
+import pickDefined from '@packages/shared/dist/src/utils/pick-defined'
 
 type EngagementMetrics = {
     views: number
@@ -24,53 +25,64 @@ class BaseProductsAnalyticsHandler {
         private readonly prisma: PrismaService
     ) { }
 
-    async create(params: ProductMetrics) {
-        const engagementMetrics = params.engagementMetrics;
-        const ratingMetrics = params.ratingMetrics;
-        try {
-            const created = this.prisma.producsAnalytics.create({
-                data: {
-                    views: engagementMetrics.views,
-                    clicks: engagementMetrics.clicks,
-                    orders: engagementMetrics.orders,
-                    reviews: ratingMetrics.reviews,
-                    maxRating: ratingMetrics.maxRating,
-                    minRating: ratingMetrics.minRating,
+    async createMetricsRecord(params: ProductMetrics) {
+        const { id, engagementMetrics, ratingMetrics } = params
 
-                    product: {
-                        connect: {
-                            id: params.id
-                        }
-                    }
+        return this.prisma.producsAnalytics.create({
+            data: {
+                views: engagementMetrics.views,
+                clicks: engagementMetrics.clicks,
+                orders: engagementMetrics.orders,
+
+                reviews: ratingMetrics.reviews,
+                maxRating: ratingMetrics.maxRating,
+                minRating: ratingMetrics.minRating,
+
+                product: {
+                    connect: { id }
                 }
-            })
-            return created
-        } catch (error) {
-            console.error("Create analytics error:", error);
-            throw error;
-        }
+            }
+        })
     }
 
-    async update(params: ProductMetrics) {
-        const engagementMetrics = params.engagementMetrics;
-        const ratingMetrics = params.ratingMetrics;
-        try {
-            const updated = this.prisma.producsAnalytics.update({
-                where: { id: params.id },
-                data: {
-                    views: engagementMetrics.views,
-                    clicks: engagementMetrics.clicks,
-                    orders: engagementMetrics.orders,
-                    reviews: ratingMetrics.reviews,
-                    maxRating: ratingMetrics.maxRating,
-                    minRating: ratingMetrics.minRating,
-                }
-            })
-            return updated
-        } catch (error) {
-            console.error("Update analytics error:", error);
-            throw error;
+    async updateEngagementMetrics(
+        productId: string,
+        metrics: Partial<EngagementMetrics>
+    ) {
+        const data = pickDefined({
+            views: metrics.views,
+            clicks: metrics.clicks,
+            orders: metrics.orders,
+        })
+
+        if (Object.keys(data).length === 0) {
+            return null
         }
+
+        return this.prisma.producsAnalytics.update({
+            where: { id: productId },
+            data,
+        })
+    }
+
+    async updateRatingMetrics(
+        productId: string,
+        metrics: Partial<RatingMetrics>
+    ) {
+        const data = pickDefined({
+            reviews: metrics.reviews,
+            maxRating: metrics.maxRating,
+            minRating: metrics.minRating,
+        })
+
+        if (Object.keys(data).length === 0) {
+            return null
+        }
+
+        return this.prisma.producsAnalytics.update({
+            where: { id: productId },
+            data,
+        })
     }
 }
 
