@@ -10,6 +10,11 @@ export class DatabaseAnalyticsController {
     private analyticsService: DatabaseAnalyticsService,
   ) {}
 
+  @MessagePattern('get_product_analytics_by_id')
+  async findById(id){
+    return this.analyticsService.findById(id)
+  }
+
   @MessagePattern('update-rating-metrics')
   async updateRatingMetrics(params){
     return this.analyticsService.updateRatingMetrics(params)
@@ -17,7 +22,7 @@ export class DatabaseAnalyticsController {
 
   @MessagePattern('update-engagement-metrics')
   async updateEngagementMetrics(params){
-    return this.analyticsService.updateRatingMetrics(params)
+    return this.analyticsService.updateEngagementMetrics(params)
   }
 
   @MessagePattern('create-metrics-record')
