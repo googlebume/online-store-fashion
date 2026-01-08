@@ -7,14 +7,18 @@ export class DatabaseAnalyticsService {
         private baseProductsAnalyticsHandler: BaseProductsAnalyticsHandler
     ){}
 
+    async findById(id:string) {
+        return this.baseProductsAnalyticsHandler.findById(id)
+    }
+
     async updateRatingMetrics(params) {
         const {productId, metrics} = params
         return this.baseProductsAnalyticsHandler.updateRatingMetrics(productId, metrics)
     }
 
     async updateEngagementMetrics(params) {
-        const {productId, metrics} = params
-        return this.baseProductsAnalyticsHandler.updateEngagementMetrics(productId, metrics)
+        const {id, metrics} = params
+        return this.baseProductsAnalyticsHandler.updateEngagementMetrics(id, metrics)
     }
 
     async createMetricsRecord(params) {
