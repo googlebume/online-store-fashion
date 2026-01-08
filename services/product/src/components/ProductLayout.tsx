@@ -8,6 +8,7 @@ import ProductInfo from './ProductInfo';
 import { ProductType, ProductAttrType } from '@packages/shared/src/utils/types/prosuctData.type';
 import cl from '@/utils/styles/modules/ProductLayout.module.scss';
 import { useFetch } from '@packages/shared/src/utils/hooks/useFetch';
+import { cli } from 'webpack-dev-server';
 
 const ProductLayout = () => {
     const [product, setProduct] = useState<ProductType | null>(null);
@@ -16,6 +17,45 @@ const ProductLayout = () => {
     const [currentColor, setCurrentColor] = useState<String>();
     const [currentImage, setCurrentImage] = useState<string>();
     const { response, error, isLoading, fetchData } = useFetch<null, ProductType[]>();
+    const clicksRef = useRef(0);
+
+
+
+    useEffect(() => {
+        const handleOnUnload = () => {
+            if (!product) return;
+            
+            fetch('http://localhost:5006/fashion/products-analytics/update-engagement-metrics', {
+                method: 'POST',
+                keepalive: true,
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    id: product.id,
+                    metrics: {
+                        views: 1,
+                        clicks: clicksRef.current,
+                        orders: 0
+                    }
+                })
+            });
+        }
+        const handleOnClick = () =>{
+            clicksRef.current++
+            console.log(clicksRef.current)
+        }
+
+        document.addEventListener('click', handleOnClick)
+        window.addEventListener('beforeunload', handleOnUnload)
+
+        return () => {
+            document.removeEventListener('click', handleOnClick)
+            window.removeEventListener('beforeunload', handleOnUnload)
+        }
+    }, [product])
+
+
 
     useEffect(() => {
         window.scrollTo({

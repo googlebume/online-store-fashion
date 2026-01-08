@@ -3,7 +3,15 @@ import { AppModule } from './app.module';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  await app.listen(process.env.PORT ?? 3007);
+
+  app.enableCors({
+    origin: true,
+    methods: 'GET,POST,DELETE,OPTIONS',
+    allowedHeaders: 'Content-Type,Authorization',
+    credentials: true
+  })
+
+  await app.listen(process.env.PORT ?? 5006);
   console.log("ANALYTICS SERVICE HAS BEEN STARTED")
 }
 bootstrap();
