@@ -1,291 +1,254 @@
 import { Injectable } from '@nestjs/common';
-import { PrismaService } from '../prisma.service';
+import { BaseRepository } from './core/base-repository.abstract';
+import { PrismaService } from './../prisma.service';
+import { Products, Attributes } from '@prisma/client';
+import { ICreateInput, IUpdateInput, IQueryOptions } from './core/types';
+import { ErrorHandler } from './core/error-handler';
+import { ImageFileHandler } from '@packages/shared/dist/utils/libs/files/image-file.handler';
 import * as path from 'path';
-import { Products } from '@prisma/client';
-import { ImageFileHandler } from '@packages/shared/dist/utils/libs/files/image-file.handler'
-import { table } from 'console';
+import {
+    ProductType,
+    ProductCategory,
+    ProductColor,
+    Size,
+} from '@prisma/client';
+
+
+export interface IProductWithAttributes extends Products {
+    attributes?: Attributes | Record<string, any>;
+}
+
+export interface ICreateProductInput extends ICreateInput<Products> {
+    name: string;
+    price: number;
+    brand: string;
+    description: string;
+    discount?: number;
+    image?: string;
+    attributes?: {
+        type?: string;
+        category?: string;
+        color?: string;
+        size?: string;
+        material?: string;
+        countryOfOrigin?: string;
+        weight?: number;
+    };
+}
+
+export interface IUpdateProductInput extends IUpdateInput<Products> {
+    name?: string;
+    price?: number;
+    brand?: string;
+    description?: string;
+    discount?: number;
+    image?: string;
+    attributes?: Record<string, any>;
+}
 
 @Injectable()
-export class ProductRepository {
+export class ProductRepository extends BaseRepository<Products> {
     private readonly imagesDir: string;
 
     constructor(
         private readonly prisma: PrismaService,
-        private readonly imageFileHandler: ImageFileHandler,
+        private readonly imageFileHandler: ImageFileHandler
     ) {
+        super();
         this.imagesDir = path.resolve(process.cwd(), 'products');
     }
 
-    async findById(id: string) {
-        return this.prisma.products.findUnique({ where: { id } });
+    protected getModel(): any {
+        return this.prisma.products;
     }
 
-    async findByName(name: string) {
-        const parsedName: string = name.split('-').slice(0, 2).join(' ');
-
-        const products = await this.prisma.products.findMany({
-            where: {
-                name: {
-                    startsWith: parsedName
-                }
-            }
-        });
-
-        if (!products.length) {
-            throw new Error('Products not found');
-        }
-
-        const productIds = products.map(p => p.id);
-
-        const attributes = await this.prisma.attributes.findMany({
-            where: {
-                productsId: {
-                    in: productIds
-                }
-            }
-        });
-
-        const attributesMap = attributes.reduce((acc, attr) => {
-            if (!acc[attr.productsId]) acc[attr.productsId] = [];
-            acc[attr.productsId].push(attr);
-            return acc;
-        }, {} as Record<number, any[]>);
-
-        return products.map(product => {
-            return {
-                ...product,
-                attributes: attributesMap[product.id]
-            };
-        });
-    }
-
-    async findAll() {
-        const products = await this.prisma.products.findMany();
-        const attributes = await this.prisma.attributes.findMany();
-
-        const combined = products.map(product => {
-            const matchingAttribute = attributes.find(attr => attr.productsId === product.id);
-
-            const attributesObject = this.changeArrToObj(matchingAttribute);
-
-            return {
-                ...product,
-                attributes: attributesObject
-            };
-        });
-        return combined;
-    }
-
-    changeArrToObj(arr) {
-        const attributesObject = arr
-            ? Object.fromEntries([
-                ["productsId", arr.productsId],
-                ["type", arr.type],
-                ["category", arr.category],
-                ["color", arr.color],
-                ["size", arr.size]
-            ])
-            : {};
-        return attributesObject
-    }
-
-    async dynamicallyLoad(take: number, page: number, cursor?: string) {
-        const _take = Math.max(1, take);
-
-        const baseQuery = {
-            take: _take,
-            orderBy: { id: 'desc' as const },
-            ...(cursor ? { skip: 1, cursor: { id: cursor } } : {})
-        };
-
-        const products = await this.prisma.products.findMany(baseQuery);
-
-        if (!products.length) {
-            return {
-                loaded: [],
-                meta: { cursor, page }
-            };
-        }
-
-        const productIds = products.map(p => p.id);
-
-        const attributes = await this.prisma.attributes.findMany({
-            where: { productsId: { in: productIds } }
-        });
-
-        const combined = products.map(product => {
-            const matchingAttribute = attributes.find(attr => attr.productsId === product.id);
-
-            const attributesObject = this.changeArrToObj(matchingAttribute);
-
-            return {
-                ...product,
-                attributes: attributesObject
-            };
-        });
-
-        const newCursor = combined.at(-1)?.id ?? null;
-
-        return {
-            loaded: combined,
-            meta: {
-                cursor: newCursor,
-                page: page + 1
-            }
-        };
-    }
-
-    async editProduct(data: Products & { file?: Express.Multer.File, attributes: string }) {
-        const attributes = JSON.parse(data?.attributes);
+    async findByIdWithAttributes(id: string): Promise<IProductWithAttributes | null> {
         try {
-            if (typeof data.file === 'object') {
-                await this.editImage(data.file, data.image);
-            }
-        } catch (error) {
-            console.error('Error editing image:', error);
-        }
-
-        return this.prisma.products.update({
-            where: { id: data.id },
-            data: {
-                name: data.name,
-                brand: data.brand,
-                description: data.description,
-                price: +data.price,
-                discount: +data.discount,
-                attributes: {
-                    update: [
-                        {
-                            where: { productsId: attributes.productsId },
-                            data: {
-                                type: attributes.type,
-                                category: attributes.category,
-                                color: attributes.color,
-                                size: attributes.size,
-                            }
-
-                        }
-                    ],
-                }
-            },
-        });
-    }
-
-    async addImage(file: Express.Multer.File, prodId: string) {
-        const saveData = await this.imageFileHandler.saveImage(path.resolve(process.cwd(), 'products'), file)
-
-        if (!saveData || !saveData?.success) {
-            throw new Error('Не вдалося зберегти файл');
-        }
-
-        const [originName, extName] = saveData?.filename.split('.');
-
-        try {
-            await this.prisma.products.update({
-                where: { id: prodId },
-                data: {
-                    image: `http://localhost:5002/products/${saveData?.filename}`,
+            return await this.findById(id, {
+                include: {
+                    attributes: true,
+                    reviews: true,
+                    analytics: true,
                 },
             });
-
-            return { success: true };
         } catch (error) {
-            console.error('Add image error:', error);
-            return { success: false, message: error.message, fileHash: originName };
+            ErrorHandler.handleError(error, 'Product');
         }
     }
 
-    async addProduct(data: Products & { attributes: string, image: Express.Multer.File }) {
-        const attributes = JSON.parse(data.attributes);
+    async findByName(namePattern: string): Promise<IProductWithAttributes[]> {
+        try {
+            const parsedName: string = namePattern.split('-').slice(0, 2).join(' ');
 
-        const createdProduct = await this.prisma.products.create({
-            data: {
-                name: data.name,
-                description: data.description,
-                price: +data.price,
-                discount: +data.discount,
-                brand: 'Generic Brand',
-                image: '',
-                attributes: {
-                    create: [
-                        {
-                            type: attributes.type,
-                            category: attributes.category,
-                            color: attributes.color,
-                            size: attributes.size,
-                            material: 'Generic Material',
-                            countryOfOrigin: 'Generic Country',
-                            weight: 0,
-                        }
-                    ],
+            const products = await this.find(
+                {
+                    name: {
+                        startsWith: parsedName,
+                    },
+                },
+                {
+                    include: {
+                        attributes: true,
+                    },
                 }
-            }
-        });
+            );
 
-        const fileHash = await (await this.addImage(data.image, createdProduct.id)).fileHash;
-        if (fileHash) {
-            await this.prisma.products.update({
-                where: { id: createdProduct.id },
-                data: {
-                    image: `http://localhost:5000/products/${fileHash}.webp`
-                }
+            return products;
+        } catch (error) {
+            ErrorHandler.handleError(error, 'Product');
+        }
+    }
+
+    async findAllWithAttributes(options?: IQueryOptions): Promise<IProductWithAttributes[]> {
+        try {
+            return await this.findAll({
+                ...options,
+                include: {
+                    attributes: true,
+                },
             });
+        } catch (error) {
+            ErrorHandler.handleError(error, 'Product');
         }
     }
 
-    async editImage(file: Express.Multer.File, imageURL: string) {
-        const fileName = path.basename(imageURL);
-        const fileExtname = path.extname(file.originalname);
-        const filePath = path.join(this.imagesDir, fileName)
-
-        if (fileExtname !== '.webp') throw new Error('Only .webp allowed');
-        if (!fileName) throw new Error('Invalid imageURL format');
-
+    override async create(data: ICreateProductInput): Promise<Products> {
         try {
-            await this.imageFileHandler.delete(filePath)
-        } catch (err) {
-            if (err.code !== 'ENOENT') {
-                throw new Error('Error deleting old image');
+            const { attributes, ...productData } = data;
+            const brand = productData.brand || 'Generic Brand';
+
+            return await this.prisma.products.create({
+                data: {
+                    ...productData,
+                    brand,
+                    discount: productData.discount || 0,
+                    image: productData.image || '',
+                    ...(attributes && {
+                        attributes: {
+                            create: [
+                                {
+                                    type: attributes.type as ProductType,
+                                    category: attributes.category as ProductCategory,
+                                    color: attributes.color as ProductColor,
+                                    size: attributes.size as Size,
+                                    material: attributes.material ?? 'Generic Material',
+                                    countryOfOrigin: attributes.countryOfOrigin ?? 'Generic Country',
+                                    weight: attributes.weight ?? 0,
+                                },
+                            ],
+                        },
+                    }),
+                },
+            });
+        } catch (error) {
+            ErrorHandler.handleError(error, 'Product');
+        }
+    }
+
+    override async updateById(
+        id: string | number,
+        data: IUpdateProductInput
+    ): Promise<Products> {
+        try {
+            const { attributes, ...productData } = data;
+
+            return await this.prisma.products.update({
+                where: { id: id as string },
+                data: {
+                    ...productData,
+                    ...(attributes && {
+                        attributes: {
+                            update: {
+                                where: { productsId: id as string },
+                                data: attributes,
+                            },
+                        },
+                    }),
+                },
+            });
+        } catch (error) {
+            ErrorHandler.handleError(error, 'Product');
+        }
+    }
+
+    override async deleteById(id: string | number): Promise<void> {
+        try {
+            const product = await this.findById(id as string);
+
+            if (!product) {
+                throw new Error(`Product with id ${id} not found`);
             }
+
+            await this.prisma.attributes.deleteMany({
+                where: { productsId: product.id },
+            });
+
+            await this.prisma.products.delete({
+                where: { id: product.id },
+            });
+
+            if (product.image) {
+                const fileName = path.basename(product.image);
+                try {
+                    await this.imageFileHandler.delete(path.join(this.imagesDir, fileName));
+                } catch (error) {
+                    console.error(`Failed to delete image ${fileName}:`, error);
+                }
+            }
+        } catch (error) {
+            ErrorHandler.handleError(error, 'Product');
         }
-
-        try {
-            const buffer = Buffer.isBuffer(file.buffer)
-                ? file.buffer
-                : Buffer.from((file.buffer as { data: number[] }).data);
-
-            await this.imageFileHandler.create(this.imagesDir, fileName, buffer)
-        } catch (err) {
-            throw new Error('Error writing new image');
-        }
-
-        return { success: true };
     }
 
-    async deleteProductById(id: string) {
-        const data = await this.prisma.products.findUnique({ where: { id: id } });
-        if (!data) {
-            throw new Error(`Product with id ${id} not found`);
-        }
-        const fileName = path.basename(data.image);
+    async saveImage(file: Express.Multer.File, productId: string): Promise<string> {
         try {
-            await this.prisma.attributes.delete({ where: { productsId: data.id } });
-        } catch (error) {
-            throw new Error(`Failed to delete attributes for product with id ${data.id}: ${error.message}`);
-        }
-        try {
-            await this.prisma.products.delete({ where: { id: data.id } });
-        } catch (error) {
-            throw new Error(`Failed to delete product with id ${data.id}: ${error.message}`);
-        }
+            const saveData = await this.imageFileHandler.saveImage(this.imagesDir, file);
 
-        try {
-            await this.imageFileHandler.delete(path.join(this.imagesDir, fileName));
-        } catch (error) {
-            throw new Error(`Failed to delete image with product id ${data.id}. Image name - ${fileName}: ${error.message}`);
-        }
+            if (!saveData || !saveData.success) {
+                throw new Error('Failed to save image');
+            }
 
-        return { success: true, message: 'Product and image deleted successfully' };
+            const imageUrl = `http://localhost:5002/products/${saveData.filename}`;
+
+            await this.prisma.products.update({
+                where: { id: productId },
+                data: { image: imageUrl },
+            });
+
+            return imageUrl;
+        } catch (error) {
+            ErrorHandler.handleError(error, 'Product');
+        }
     }
 
+    async updateImage(file: Express.Multer.File, productId: string): Promise<string> {
+        try {
+            const product = await this.findById(productId as string);
+
+            if (!product) {
+                throw new Error(`Product with id ${productId} not found`);
+            }
+
+            if (product.image) {
+                const fileName = path.basename(product.image);
+                try {
+                    await this.imageFileHandler.delete(path.join(this.imagesDir, fileName));
+                } catch (error) {
+                    console.error(`Failed to delete old image: ${error.message}`);
+                }
+            }
+
+            return this.saveImage(file, productId);
+        } catch (error) {
+            ErrorHandler.handleError(error, 'Product');
+        }
+    }
+
+    async countByFilter(filter?: Record<string, any>): Promise<number> {
+        try {
+            return this.count(filter);
+        } catch (error) {
+            ErrorHandler.handleError(error, 'Product');
+        }
+    }
 }

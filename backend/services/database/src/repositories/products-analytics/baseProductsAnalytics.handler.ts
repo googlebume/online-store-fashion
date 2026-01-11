@@ -1,111 +1,230 @@
-import { PrismaService } from "src/prisma.service";
-import pickDefined from '@packages/shared/dist/src/utils/pick-defined'
 import { Injectable } from '@nestjs/common';
+import { BaseRepository } from '../core/base-repository.abstract';
+import { PrismaService } from '../../prisma.service';
+import { ProducsAnalytics } from '@prisma/client';
+import { ICreateInput, IUpdateInput, IQueryOptions } from '../core/types';
+import { ErrorHandler } from '../core/error-handler';
 
-type EngagementMetrics = {
-    views: number
-    clicks: number
-    orders: number
+export interface IEngagementMetrics {
+  views?: number;
+  clicks?: number;
+  orders?: number;
 }
 
-type RatingMetrics = {
-    reviews: number
-    maxRating: number
-    minRating: number
+export interface IRatingMetrics {
+  reviews?: number;
+  maxRating?: number;
+  minRating?: number;
 }
 
-type ProductMetrics = {
-    id: string,
-    engagementMetrics: EngagementMetrics,
-    ratingMetrics: RatingMetrics,
+export interface ICreateAnalyticsInput extends ICreateInput<ProducsAnalytics> {
+  productId: string;
+  views?: number;
+  clicks?: number;
+  orders?: number;
+  reviews?: number;
+  maxRating?: number;
+  minRating?: number;
 }
 
+export interface IUpdateAnalyticsInput extends IUpdateInput<ProducsAnalytics> {
+  views?: number;
+  clicks?: number;
+  orders?: number;
+  reviews?: number;
+  maxRating?: number;
+  minRating?: number;
+}
 
+/**
+ * Product Analytics Repository - SOLID Principle: Single Responsibility
+ * Only responsible for analytics data persistence operations
+ */
 @Injectable()
-class BaseProductsAnalyticsHandler {
-    constructor(
-        private readonly prisma: PrismaService
-    ) { }
+export class ProductsAnalyticsRepository extends BaseRepository<ProducsAnalytics> {
+  constructor(private readonly prisma: PrismaService) {
+    super();
+  }
 
-    async findById(id: string) {
-        return await this.prisma.producsAnalytics.findUnique({ where: { productId: id } });
+  protected getModel(): any {
+    return this.prisma.producsAnalytics;
+  }
+
+  /**
+   * Find analytics by product ID
+   */
+  async findByProductId(productId: string): Promise<ProducsAnalytics | null> {
+    try {
+      return await this.findOne({ productId });
+    } catch (error) {
+      ErrorHandler.handleError(error, 'ProductAnalytics');
     }
+  }
 
-    async createMetricsRecord(params) {
-        const { id, metrics } = params
-
-        return this.prisma.producsAnalytics.create({
-            data: {
-                views: metrics.views || 0,
-                clicks: metrics.clicks || 0,
-                orders: metrics.orders || 0,
-
-                reviews: 0,
-                maxRating: 0,
-                minRating: 0,
-
-                product: {
-                    connect: { id }
-                }
-            }
-        })
+  /**
+   * Create analytics record for product
+   */
+  override async create(data: ICreateAnalyticsInput): Promise<ProducsAnalytics> {
+    try {
+      return await this.prisma.producsAnalytics.create({
+        data: {
+          productId: data.productId,
+          views: data.views || 0,
+          clicks: data.clicks || 0,
+          orders: data.orders || 0,
+          reviews: data.reviews || 0,
+          maxRating: data.maxRating || 0,
+          minRating: data.minRating || 0,
+        },
+      });
+    } catch (error) {
+      ErrorHandler.handleError(error, 'ProductAnalytics');
     }
+  }
 
-    async updateEngagementMetrics(
-        productId: string,
-        metrics: Partial<EngagementMetrics>
-    ) {
-        console.log('updateEngagementMetrics called with productId:', productId, 'metrics:', metrics)
+  /**
+   * Update engagement metrics (views, clicks, orders)
+   */
+  async updateEngagementMetrics(
+    productId: string,
+    metrics: IEngagementMetrics
+  ): Promise<ProducsAnalytics | null> {
+    try {
+      const record = await this.findByProductId(productId);
 
-        const lastRecord = await this.findById(productId)
-        console.log('lastRecord found:', lastRecord)
+      if (!record) {
+        return null;
+      }
 
-        if (!lastRecord) {
-            console.log('No record found, returning null')
-            return null
+      const updateData: IUpdateAnalyticsInput = {};
+
+      if (metrics.views !== undefined) {
+        updateData.views = record.views + metrics.views;
+      }
+
+      if (metrics.clicks !== undefined) {
+        updateData.clicks = record.clicks + metrics.clicks;
+      }
+
+      if (metrics.orders !== undefined) {
+        updateData.orders = record.orders + metrics.orders;
+      }
+
+      if (Object.keys(updateData).length === 0) {
+        return record;
+      }
+
+      return await this.updateById(record.id, updateData);
+    } catch (error) {
+      ErrorHandler.handleError(error, 'ProductAnalytics');
+    }
+  }
+
+  /**
+   * Update rating metrics (reviews, maxRating, minRating)
+   */
+  async updateRatingMetrics(
+    productId: string,
+    metrics: IRatingMetrics
+  ): Promise<ProducsAnalytics | null> {
+    try {
+      const record = await this.findByProductId(productId);
+
+      if (!record) {
+        return null;
+      }
+
+      const updateData: IUpdateAnalyticsInput = {};
+
+      if (metrics.reviews !== undefined) {
+        updateData.reviews = metrics.reviews;
+      }
+
+      if (metrics.maxRating !== undefined) {
+        updateData.maxRating = metrics.maxRating;
+      }
+
+      if (metrics.minRating !== undefined) {
+        updateData.minRating = metrics.minRating;
+      }
+
+      if (Object.keys(updateData).length === 0) {
+        return record;
+      }
+
+      return await this.updateById(record.id, updateData);
+    } catch (error) {
+      ErrorHandler.handleError(error, 'ProductAnalytics');
+    }
+  }
+
+  /**
+   * Increment single metric
+   */
+  async incrementMetric(
+    productId: string,
+    metric: 'views' | 'clicks' | 'orders',
+    value: number = 1
+  ): Promise<ProducsAnalytics | null> {
+    try {
+      return this.updateEngagementMetrics(productId, {
+        [metric]: value,
+      });
+    } catch (error) {
+      ErrorHandler.handleError(error, 'ProductAnalytics');
+    }
+  }
+
+  /**
+   * Get top products by metric
+   */
+  async getTopProductsByMetric(
+    metric: 'views' | 'clicks' | 'orders',
+    limit: number = 10
+  ): Promise<ProducsAnalytics[]> {
+    try {
+      return await this.findAll({
+        orderBy: {
+          [metric]: 'desc',
+        },
+        pagination: {
+          limit,
+          page: 1,
+        },
+      });
+    } catch (error) {
+      ErrorHandler.handleError(error, 'ProductAnalytics');
+    }
+  }
+
+  /**
+   * Get analytics with product data
+   */
+  async findWithProduct(productId: string): Promise<ProducsAnalytics | null> {
+    try {
+      return await this.findOne(
+        { productId },
+        {
+          include: {
+            product: true,
+          },
         }
-
-        const data = pickDefined({
-            views: lastRecord.views + (metrics.views || 0),
-            clicks: lastRecord.clicks + (metrics.clicks || 0),
-            orders: lastRecord.orders + (metrics.orders || 0),
-        })
-
-        console.log('Data to update:', data)
-
-        if (Object.keys(data).length === 0) {
-            console.log('No data to update')
-            return null
-        }
-
-        const result = await this.prisma.producsAnalytics.update({
-            where: { productId: productId },
-            data,
-        })
-        
-        console.log('Update result:', result)
-        return result
+      );
+    } catch (error) {
+      ErrorHandler.handleError(error, 'ProductAnalytics');
     }
+  }
 
-    async updateRatingMetrics(
-        productId: string,
-        metrics: Partial<RatingMetrics>
-    ) {
-        const data = pickDefined({
-            reviews: metrics.reviews,
-            maxRating: metrics.maxRating,
-            minRating: metrics.minRating,
-        })
-
-        if (Object.keys(data).length === 0) {
-            return null
-        }
-
-        return this.prisma.producsAnalytics.update({
-            where: { id: productId },
-            data,
-        })
+  /**
+   * Delete analytics record
+   */
+  override async deleteById(id: string | number): Promise<void> {
+    try {
+      await this.prisma.producsAnalytics.delete({
+        where: { id: id as string },
+      });
+    } catch (error) {
+      ErrorHandler.handleError(error, 'ProductAnalytics');
     }
+  }
 }
-
-export default BaseProductsAnalyticsHandler
