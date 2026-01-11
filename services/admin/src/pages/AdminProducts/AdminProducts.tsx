@@ -127,15 +127,16 @@ const AdminProducts = () => {
             )}
             <div className={cl.overview__prod}>
                 <ProdContext.Provider value={{ setSelectedProduct, selectedProduct, setDeletedProduct, deletedProduct }}>
-                    {Array.isArray(returnFiltered) && returnFiltered.length > 0 ? (
-                        returnFiltered.map((prod, index) => (
-                            <ProductCard key={index} data={prod as ProductType} />
+
+                    {Array.isArray(returnFiltered) && returnFiltered.length > 0
+                        ? returnFiltered.map((prod, index) => (
+                            <ProductCard key={prod.id || index} data={prod as ProductType} />
                         ))
-                    ) : Array.isArray(response) && response.length > 0 ? (
-                        response.map((prod, index) => (
-                            <ProductCard key={index} data={prod as ProductType} />
-                        ))
-                    ) : null}
+                        : Array.isArray(response) && response.length > 0
+                            ? response.map((prod, index) => (
+                                <ProductCard key={prod.id || index} data={prod as ProductType} />
+                            ))
+                            : null}
 
                     {selectedProduct !== null && (
                         <PopupEditProduct data={selectedProduct} popupRef={menuRef} type="edit" />

@@ -4,18 +4,18 @@ import FilterColor from './UI/FilterColor/FilterColor';
 import cl from '@packages/shared/src/utils/styles/modules/FilterColors.module.scss'
 
 import { setUpdatedColors } from '../state/filtersState';
-const FilterColors = () => {
 
-    const [SelectedColors, setSelectedColors] = useState([]);
+const FilterColors = ({ setSelectedColors }) => {
+        const [SelectedColorsLocal, setSelectedColorsLocal] = useState([]);
 
-    function getColorsValue({ value, checked }) {
-        const updatedColors = checked
-          ? [...SelectedColors, value]
-          : SelectedColors.filter((category) => category !== value);
-      
-        setSelectedColors(updatedColors);
-        setUpdatedColors(updatedColors);
-      }
+        function getColorsValue({ value, checked }) {
+                const updatedColors = checked
+                    ? [...SelectedColorsLocal, value]
+                    : SelectedColorsLocal.filter((category) => category !== value);
+                setSelectedColorsLocal(updatedColors);
+                setUpdatedColors(updatedColors);
+                setSelectedColors && setSelectedColors(updatedColors);
+        }
 
     return (
         <div className={cl.colors__group}>

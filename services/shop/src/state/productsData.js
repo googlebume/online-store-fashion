@@ -13,16 +13,26 @@
 // export const getFilteredProducts = () => {return filteredProducts };
 
 
+
 let products = [];
+let productsListeners = [];
 
 export const exportProducts = (data) => {
     products = [...data];
     console.log("✅ Дані збережено в `products`:", products);
+    productsListeners.forEach((callback) => callback(products));
 };
 
 export const getAllProducts = () => {
     console.log("📢 Отримання всіх продуктів:", products);
     return products;
+};
+
+export const subscribeToProducts = (callback) => {
+    productsListeners.push(callback);
+    return () => {
+        productsListeners = productsListeners.filter((cb) => cb !== callback);
+    };
 };
 
 

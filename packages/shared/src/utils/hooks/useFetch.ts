@@ -32,11 +32,16 @@ export const useFetch = <T = any, R = any>(): UseFetchReturn<R> => {
         setError(null);
 
         try {
+
+            // Не додавати Authorization для підтвердження коду
+            const isPublicConfirm =
+                url === 'register/confirm' || url === 'login/confirm';
+
             const fetchConfig: RequestInit = {
                 method,
                 headers: {
                     'Content-Type': 'application/json',
-                    'authorization': `Bearer ${cookies.getCookie('token')}`
+                    ...(isPublicConfirm ? {} : { 'authorization': `Bearer ${cookies.getCookie('token')}` })
                 },
             };
 
@@ -47,11 +52,22 @@ export const useFetch = <T = any, R = any>(): UseFetchReturn<R> => {
             }
 
             const res = await fetch(`http://localhost:${port}/${api}/${url}`, fetchConfig);
-            const data = await res.json();
+            let data;
+            let text;
+            try {
+                text = await res.text();
+                data = JSON.parse(text);
+            } catch (e) {
+                data = null;
+            }
 
             if (!res.ok) {
-                // throw new Error(`HTTP error! status: ${res.status}`);
-                throw new Error(`Сталася помилка. Скоротіть довжину тексту або спробуйте пізніше`);
+                // Якщо сервер повернув json з message, показати його
+                if (data && typeof data === 'object' && (data.message || data.error)) {
+                    throw new Error(data.message || data.error);
+                }
+                // Інакше показати статус і текст
+                throw new Error(`Помилка ${res.status}: ${text || res.statusText}`);
             }
 
             if (data && typeof data === 'object' && data.success === false) {
