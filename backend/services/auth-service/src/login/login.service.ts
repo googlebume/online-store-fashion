@@ -1,55 +1,67 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable, Inject } from '@nestjs/common';
 import { lastValueFrom } from 'rxjs';
-import { databaseClient } from 'src/database.client';
-import { VerifyService } from 'src/verify/verify.service';
-
+import { IDatabaseClient, IUserResponse } from '../interfaces/database-client.interface';
+import { VerifyService } from '../verify/verify.service';
 
 @Injectable()
 export class LoginService {
-    constructor(private verifyService: VerifyService) { }
-    async loginUser() {
-        const userData = await this.verifyService.getUserData();
-        const loginUser = await lastValueFrom(databaseClient.send('login_user', userData))
-        const token = loginUser && await this.verifyService.generateToken({
-            id: loginUser?.id,
-            email: loginUser?.email,
-            role: [loginUser?.role]
-        })
-        return {
-            userData: loginUser,
-            token: token
-        }
+  constructor(
+    private readonly verifyService: VerifyService,
+    @Inject('IDatabaseClient')
+    private readonly databaseClient: IDatabaseClient,
+  ) {}
+
+  /**
+   * Final login step after code verification
+   */
+  async confirmLoginAndLogin(code: string) {
+    const verified = await this.verifyService.verifyCode(code);
+    if (!verified.success) {
+      throw new HttpException('Невірний код', HttpStatus.UNAUTHORIZED);
     }
 
-    async setUserData(userData) {
-        await this.verifyService.setUserData(userData);
+    const userData = this.verifyService.getUserData();
+    if (!userData?.email || !userData?.password) {
+      throw new HttpException(
+        'Дані користувача відсутні',
+        HttpStatus.BAD_REQUEST,
+      );
     }
 
-    async sendCode() {
-        await this.verifyService.sendVerificationCode();
+    const response = await lastValueFrom<IUserResponse>(
+      this.databaseClient.send('login_user', {
+        email: userData.email,
+        password: userData.password,
+      }),
+    );
+
+    if (!response?.success || !response.user) {
+      throw new HttpException(
+        response?.message || 'Невірний email або пароль',
+        HttpStatus.UNAUTHORIZED,
+      );
     }
 
-    async confirmLogin(code: string) {
-        const verified = await this.verifyService.veryfyCode(code);
-        if (!verified.success) {
-            return { success: false, message: 'Невірний код' };
-        }
+    const token = await this.verifyService.generateToken({
+      id: response.user.id,
+      email: response.user.email,
+      role: [response.user.role],
+    });
 
-        const userData = this.verifyService.getUserData();
-        if (!userData) {
-            throw new HttpException('Дані користувача не знайдені', HttpStatus.BAD_REQUEST);
-        }
+    // 🔥 КРИТИЧНО: очищаємо state
+    this.verifyService.clear();
 
-        const success = await lastValueFrom(
-            databaseClient.send('login_user', userData)
-        );
+    return {
+      userData: response.user,
+      token,
+    };
+  }
 
-        if (!success) {
-            throw new HttpException('User already exists', HttpStatus.CONFLICT);
-        }
+  async setUserData(userData: any) {
+    await this.verifyService.setUserData(userData);
+  }
 
-        return { 
-            success: true,
-        };
-    }
+  async sendCode() {
+    await this.verifyService.sendVerificationCode();
+  }
 }

@@ -1,4 +1,4 @@
-import { Controller, Req, Sse } from '@nestjs/common';
+import { Controller, Req, Sse, Post, Body } from '@nestjs/common';
 import { Observable, Subject } from 'rxjs';
 import { VerifyService } from './verify.service';
 import { Request } from 'express';
@@ -18,5 +18,18 @@ export class VerifyController {
     })
 
     return this.verifyService.getTimerStream(5, stop$, (remaining) => console.log(remaining));
+  }
+
+  @Post('confirm')
+  async confirmCode(@Body() body: { code: string }) {
+    if (!body.code) {
+      return { success: false, message: 'Код не передано' };
+    }
+    const result = await this.verifyService.verifyCode(body.code);
+    if (result.success) {
+      return { success: true, message: 'Код підтверджено' };
+    } else {
+      return { success: false, message: 'Невірний код' };
+    }
   }
 }

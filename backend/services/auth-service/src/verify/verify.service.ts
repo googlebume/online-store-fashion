@@ -2,7 +2,8 @@ import { Injectable } from '@nestjs/common';
 import * as nodemailer from 'nodemailer';
 import * as dotenv from 'dotenv';
 import { JwtService } from '@nestjs/jwt';
-import { MailerHandler } from '@packages/shared/dist/src/utils/libs/mailer/mailer.handler'
+import { MailerHandler } from '@packages/shared/dist/src/utils/libs/mailer/mailer.handler';
+import { UserDataType } from '../types/UserData.type';
 
 import { interval, map, Observable, takeUntil, takeWhile, tap } from 'rxjs';
 
@@ -32,14 +33,18 @@ export class VerifyService {
         return this.code;
     }
 
-    async veryfyCode(userCode: string) {
-        console.log(`Код:${this.code} Юзер:${userCode}`)
-
-        if (this.code && userCode === this.code) {
-            this.verifyed = true
-            return { success: true }
+    async verifyCode(userCode: string) {
+        if (this.code === null) {
+            console.log('КОД НАЛЛЛЛЛ')
+            return { success: false };
         }
-        return { success: false }
+
+        if (this.code.toString() === userCode.toString()) {
+            this.verifyed = true;
+            return { success: true };
+        }
+
+        return { success: false };
     }
 
     private generateCode(): string {
@@ -100,6 +105,11 @@ export class VerifyService {
             takeWhile(() => totalTime > 0),
             takeUntil(stop$)
         );
+    }
+    clear() {
+        this.code = null;
+        this.userData = null;
+        this.verifyed = false;
     }
 
 }

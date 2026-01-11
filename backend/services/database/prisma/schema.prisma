@@ -31,7 +31,7 @@ model Products {
 
 model Attributes {
   productsId      String          @id
-  Products        Products?       @relation(fields: [productsId], references: [id])
+  Products        Products        @relation(fields: [productsId], references: [id])
   type            ProductType
   category        ProductCategory
   color           ProductColor
@@ -41,6 +41,7 @@ model Attributes {
   countryOfOrigin String?
   weight          Float?
 }
+
 
 model User {
   id        String   @id @default(uuid())

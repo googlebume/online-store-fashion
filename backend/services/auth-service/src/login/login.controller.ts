@@ -1,51 +1,29 @@
-import { Controller, Post, Body, Res } from '@nestjs/common';
+import { Controller, Post, Body, HttpException, HttpStatus } from '@nestjs/common';
 import { LoginService } from './login.service';
-import { Response, Request, NextFunction } from 'express';
-import { LoginUserDTO } from 'src/dto/login-user.dto';
-import { lastValueFrom } from 'rxjs';
-import { databaseClient } from 'src/database.client';
+import { LoginUserDTO } from '../dto/login-user.dto';
 
 @Controller('fashion')
 export class LoginController {
-    constructor(private readonly loginService: LoginService) { }
+  constructor(private readonly loginService: LoginService) {}
 
-    @Post('login/init')
-    async initLogin(@Body() userData: LoginUserDTO) {
-        try {
-            console.log("            ", userData.email)
-            await this.loginService.setUserData(userData);
-            await this.loginService.sendCode();
-            return { success: true };
-        } catch (error) {
-            return {
-                success: false,
-                message: 'Помилка при ініціалізації логування',
-                error: error.message || 'Невідома помилка',
-            };
-        }
+  @Post('login/init')
+  async initLogin(@Body() userData: LoginUserDTO) {
+    await this.loginService.setUserData(userData);
+    await this.loginService.sendCode();
+    return { success: true };
+  }
+
+  @Post('login/confirm')
+  async confirmLogin(@Body() body: { code: string }) {
+    if (!body.code) {
+      throw new HttpException('Код обовʼязковий', HttpStatus.BAD_REQUEST);
     }
 
-    @Post('login/confirm')
-    async confirmRegistration(@Body() body: { code: string }) {
-        try {
-            const result = await this.loginService.confirmLogin(body.code);
-            if (result.success) {
-                const userData = await this.loginService.loginUser();
-                console.log(userData)
-                return {
-                    success: true,
-                    ...userData,
-                }
-            } else {
-                return {success: false}
-            }
+    const result = await this.loginService.confirmLoginAndLogin(body.code);
 
-        } catch (error) {
-            return {
-                success: false,
-                message: 'Помилка підтвердження коду',
-                error: error.message || 'Невідома помилка',
-            };
-        }
-    }
+    return {
+      success: true,
+      ...result,
+    };
+  }
 }
