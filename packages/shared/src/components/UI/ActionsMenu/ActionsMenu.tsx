@@ -6,6 +6,8 @@ import { MenuActionType } from '@/utils/constants/actionsMenu';
 type ActionsMenuProps = {
     actionList: MenuActionType[];
     data?: any;
+    setIsOpen?: React.Dispatch<React.SetStateAction<any>>
+    isOpen?: any
 };
 
 const ActionsMenu = forwardRef<HTMLDivElement, ActionsMenuProps>(
