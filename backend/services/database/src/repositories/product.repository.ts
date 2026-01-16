@@ -146,30 +146,62 @@ export class ProductRepository extends BaseRepository<Products> {
     }
 
     override async updateById(
-        id: string | number,
-        data: IUpdateProductInput
-    ): Promise<Products> {
-        try {
-            const { attributes, ...productData } = data;
+    id: string | number,
+    data: IUpdateProductInput
+): Promise<Products> {
+    try {
+        const { attributes, event, ...productData } = data;
 
-            return await this.prisma.products.update({
-                where: { id: id as string },
-                data: {
-                    ...productData,
-                    ...(attributes && {
-                        attributes: {
-                            update: {
-                                where: { productsId: id as string },
-                                data: attributes,
+        let parsedAttributes: any | undefined;
+
+        if (attributes) {
+            if (Array.isArray(attributes)) {
+                parsedAttributes =
+                    typeof attributes[0] === 'string'
+                        ? JSON.parse(attributes[0])[0]
+                        : attributes[0];
+            } else if (typeof attributes === 'string') {
+                parsedAttributes = JSON.parse(attributes)[0];
+            } else {
+                parsedAttributes = attributes;
+            }
+        }
+
+        return await this.prisma.products.update({
+            where: { id: id as string },
+            data: {
+                ...productData,
+                discount: productData.discount !== undefined
+                    ? Number(productData.discount)
+                    : undefined,
+                price: productData.price !== undefined
+                    ? Number(productData.price)
+                    : undefined,
+
+                ...(parsedAttributes && {
+                    attributes: {
+                        update: {
+                            where: { productsId: id as string },
+                            data: {
+                                type: parsedAttributes.type,
+                                category: parsedAttributes.category,
+                                color: parsedAttributes.color,
+                                size: parsedAttributes.size,
+                                brand: parsedAttributes.brand,
+                                material: parsedAttributes.material,
+                                countryOfOrigin: parsedAttributes.countryOfOrigin,
+                                weight: parsedAttributes.weight,
                             },
                         },
-                    }),
-                },
-            });
-        } catch (error) {
-            ErrorHandler.handleError(error, 'Product');
-        }
+                    },
+                }),
+            },
+        });
+    } catch (error) {
+        ErrorHandler.handleError(error, 'Product');
     }
+}
+
 
     override async deleteById(id: string | number): Promise<void> {
         try {
