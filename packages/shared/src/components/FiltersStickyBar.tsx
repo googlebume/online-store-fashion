@@ -8,9 +8,9 @@ import { getUpdatedCategories, getUpdatedColors, subscribeToCategories, subscrib
 import { ProductType } from "@/utils/types/prosuctData.type";
 
 function FiltersStickyBar() {
-  const [allProducts, setAllProducts] = useState(getAllProducts());
+  const [allProducts, setAllProducts] = useState<ProductType[]>(getAllProducts());
   useEffect(() => {
-    const unsubscribe = subscribeToProducts((products) => {
+    const unsubscribe = subscribeToProducts((products: ProductType[]) => {
       setAllProducts(products);
     });
     setAllProducts(getAllProducts());
@@ -20,7 +20,7 @@ function FiltersStickyBar() {
   const [updatedCategories, setUpdatedCategoriesState] = useState([]);
   const [updatedTypes, setUpdatedTypesState] = useState([]);
   const [selectedColors, setSelectedColors] = useState(getUpdatedColors());
-  const [selectedPriceRange, setSelectedPriceRange] = useState();
+  const [selectedPriceRange, setSelectedPriceRange] = useState<{minPrice: number, maxPrice: number}>();
 
   useEffect(() => {
     const unsubscribeCategories = subscribeToCategories(setUpdatedCategoriesState);
@@ -31,7 +31,7 @@ function FiltersStickyBar() {
     };
   }, []);
 
-  function applyFiltersForProducts(products) {
+  function applyFiltersForProducts(products: ProductType[]) {
     let filtered = [...products];
     if (updatedCategories.length > 0) {
       filtered = filtered.filter(
