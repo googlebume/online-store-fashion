@@ -2,7 +2,6 @@ import React from 'react';
 import cl from '@packages/shared/src/utils/styles/modules/FooterContentPie.module.scss'
 
 import SotialNetworks from './UI/SotialNetworks/SotialNetworks';
-import FooterCopyright from './UI/FooterCopyright/FooterCopyright';
 import PaymentSystems from './UI/PaymentSystems/PaymentSystems';
 import FooterUsefulLinks from './FooterUsefulLinks';
 import ContactPhoneNumber from './UI/ContactPhoneNumber/ContactPhoneNumber';
@@ -22,7 +21,6 @@ const FooterContentPie = () => {
                 <SotialNetworks />
                 <PaymentSystems />
             </div>
-            <FooterCopyright />
         </div>
     );
 };
