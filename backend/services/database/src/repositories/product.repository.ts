@@ -59,7 +59,7 @@ export class ProductRepository extends BaseRepository<Products> {
     }
 
     protected getModel(): any {
-        return this.prisma.products;
+        return this.prisma.products
     }
 
     async findByIdWithAttributes(id: string): Promise<IProductWithAttributes | null> {

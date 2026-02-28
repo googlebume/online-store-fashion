@@ -48,7 +48,6 @@ export class LoginService {
       role: [response.user.role],
     });
 
-    // 🔥 КРИТИЧНО: очищаємо state
     this.verifyService.clear();
 
     return {
