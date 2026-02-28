@@ -7,3 +7,4 @@ export const bannerStageItems = [
     { id: 2, title: 'action_2', bannerSrc: actionBanner_2},
     { id: 3, title: 'action_3', bannerSrc: actionBanner_3},
 ]
+

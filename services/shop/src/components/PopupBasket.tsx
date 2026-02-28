@@ -67,3 +67,4 @@ const PopupBasket: React.FC<PopupBasketProps> = ({ setBasketOpenStatus, basketOp
 };
 
 export default PopupBasket;
+

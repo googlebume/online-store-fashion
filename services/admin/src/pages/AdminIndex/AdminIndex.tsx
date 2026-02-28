@@ -21,3 +21,4 @@ const AdminIndex = () => {
 };
 
 export default AdminIndex;
+

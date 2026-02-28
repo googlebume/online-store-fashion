@@ -58,3 +58,5 @@ export const subscribeToFilteredProducts = (callback) => {
         listeners = listeners.filter((cb) => cb !== callback);
     };
 };
+
+

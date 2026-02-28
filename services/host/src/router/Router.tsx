@@ -10,7 +10,7 @@ import shopRoutes from 'shop/Router';
 import adminRoutes from 'admin/Router';
 // @ts-ignore
 import authRoutes from 'auth/Router'
-import ErrorNotFound from "@packages/shared/src/components/ErrorNotFound";
+import ErrorNotFound from "@packages/shared/src/pages/ErrorNotFound/ErrorNotFound";
 import Cookies from "@packages/shared/src/utils/cookies";
 import JwtHandler from "@packages/shared/src/utils/jwt"
 
@@ -39,3 +39,5 @@ export const router = createBrowserRouter([
         ]
     },
 ]);
+
+

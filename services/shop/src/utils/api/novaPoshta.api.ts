@@ -99,3 +99,4 @@ class NovaPoshtaService {
 
 export const novaPoshtaService = new NovaPoshtaService();
 export default novaPoshtaService;
+

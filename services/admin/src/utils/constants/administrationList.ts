@@ -14,3 +14,4 @@ export const administrationListItems: AsideSectionType = {
         { href: adminRoutes.analytics, text: "Аналітика", icon: analyticsIcon },
     ]
 }
+

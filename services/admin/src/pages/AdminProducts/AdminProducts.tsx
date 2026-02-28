@@ -6,8 +6,8 @@ import ProductCard from '@packages/shared/src/components/ProductCard';
 import PopupEditProduct from '../../components/PopupEditProduct';
 
 import cl from './AdminProducts.module.scss';
-import SearchInput from '@packages/shared/src/components/UI/SearchInput/SearchInput';
-import SubmitButton from '@packages/shared/src/components/UI/SubmitButton/SubmitButton';
+import SearchInput from '@packages/shared/src/components/UI/form-controls/SearchInput/SearchInput';
+import Button from '@packages/shared/src/components/UI/Button/Button';
 import PlusIcon from '@packages/shared/src/assets/images/icons/plusIcon.svg';
 
 import Cookies from '@packages/shared/src/utils/cookies';
@@ -113,7 +113,7 @@ const AdminProducts = () => {
             {response && (
                 <div className={cl.searcherAdmin}>
                     <SearchInput allData={response} field="name" setReturnFiltered={setReturnFiltered} />
-                    <SubmitButton
+                    <Button
                         text='Додати новий'
                         img={PlusIcon}
                         onClick={() => setIsPopupOpen(!isPopupOpen)}
@@ -149,3 +149,7 @@ const AdminProducts = () => {
 };
 
 export default AdminProducts;
+
+
+
+

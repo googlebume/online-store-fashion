@@ -1,5 +1,6 @@
-import React from "react";
+﻿import React from "react";
 import cl from "./FullScreenArrowButton.module.scss";
+import Button from '@packages/shared/src/components/UI/Button/Button';
 
 const FullScreenArrowButton = () => {
     return (
@@ -8,11 +9,12 @@ const FullScreenArrowButton = () => {
                 <div className={cl.toConstructor__arrow}></div>
                 <div className={cl.toConstructor__arrow}></div>
                 <div className={cl.toConstructor__arrow}></div>
-                <a 
-                    className={cl.toConstructor__link} 
+                <Button
+                    as='a'
+                    variant='constructor-link'
                     href="https://googlebume.github.io/online-fashion-constructor/">
                     Створи унікальний принт!
-                </a>
+                </Button>
                 <div className={cl.toConstructor__arrow}></div>
             </div>
         </div>
@@ -20,3 +22,9 @@ const FullScreenArrowButton = () => {
 };
 
 export default FullScreenArrowButton;
+
+
+
+
+
+

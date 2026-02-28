@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import cl from '../utils/styles/modules/VerificationForm.module.scss';
 import { useFetch } from '@packages/shared/src/utils/hooks/useFetch';
-import SubmitButton from '@packages/shared/src/components/UI/SubmitButton/SubmitButton';
+import Button from '@packages/shared/src/components/UI/Button/Button';
 import { api } from '@packages/shared/src/routes/api';
 import Cookies from '@packages/shared/src/utils/cookies';
 
@@ -187,7 +187,7 @@ const VerificationForm: React.FC<VerificationCodeInputProps> = ({
                     autoComplete="one-time-code"
                 />
             ))}
-            <SubmitButton text={isLoading ? 'Зачекайте...' : 'Відправити'} />
+            <Button text={isLoading ? 'Зачекайте...' : 'Відправити'} />
         </form>
         {isError ? <div className={cl.error}>{errorMessage}</div> : <p>{convertedTime}</p>}
         </>
@@ -196,3 +196,5 @@ const VerificationForm: React.FC<VerificationCodeInputProps> = ({
 };
 
 export default VerificationForm;
+
+

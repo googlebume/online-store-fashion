@@ -2,7 +2,6 @@ import {createBrowserRouter, Navigate} from "react-router-dom";
 import {App} from "@/components/App/App";
 import {Suspense} from "react";
 import {Shop} from "@/pages/Shop";
-import {UserCard} from "@packages/shared/src/components/UserCard";
 import {api} from '@packages/shared/src/routes/api'
 
 const routes = [
@@ -29,3 +28,4 @@ const routes = [
 export const router = createBrowserRouter(routes);
 
 export default routes;
+

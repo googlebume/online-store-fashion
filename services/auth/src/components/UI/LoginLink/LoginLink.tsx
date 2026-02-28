@@ -24,3 +24,5 @@ const LoginLink: React.FC<LoginLinkProps> = ({ type, onClick }) => {
 
 
 export default LoginLink;
+
+

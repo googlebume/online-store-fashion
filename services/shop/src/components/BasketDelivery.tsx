@@ -1,8 +1,9 @@
-import React, { useState, useEffect, useRef } from 'react';
-import InputData from '@packages/shared/src/components/UI/InputData/InputData';
-import InputOption from '@packages/shared/src/components/UI/InputOption/InputOption';
+﻿import React, { useState, useEffect, useRef } from 'react';
+import InputData from '@packages/shared/src/components/UI/form-controls/InputData/InputData';
+import InputOption from '@packages/shared/src/components/UI/form-controls/InputOption/InputOption';
+import Button from '@packages/shared/src/components/UI/Button/Button';
 import cl from '@shop/utils/styles/modules/BasketDelivery.module.scss';
-import { getCartItems } from '@shop/state/basketState';
+import { getCartItems, subscribeToCartChanges } from '@shop/state/basketState';
 import novaPoshtaService from '../utils/api/novaPoshta.api';
 
 const BasketDelivery: React.FC<{ setDeliveryParams: React.Dispatch<React.SetStateAction<Object>> }> = ({ setDeliveryParams }) => {
@@ -20,11 +21,10 @@ const BasketDelivery: React.FC<{ setDeliveryParams: React.Dispatch<React.SetStat
     const [selectedWarehouseRef, setSelectedWarehouseRef] = useState('');
 
     const [selectedDeliveryMethod, setSelectedDeliveryMethod] = useState('');
-    const [prodInBasket, setProdInBasket] = useState(getCartItems());
-    const [hasProducts, setHasProducts] = useState(false);
+    const [hasProducts, setHasProducts] = useState(getCartItems().length > 0);
     const [isLoading, setIsLoading] = useState(false);
 
-    const email = useRef<string>('')
+    const email = useRef<string>('');
 
     useEffect(() => {
         const loadAreas = async () => {
@@ -89,11 +89,15 @@ const BasketDelivery: React.FC<{ setDeliveryParams: React.Dispatch<React.SetStat
     }, [selectedCityRef]);
 
     useEffect(() => {
-        const empty = prodInBasket.length > 0;
-        setHasProducts(empty);
-        const exportedProd = getCartItems();
-        setProdInBasket(exportedProd);
-    }, [prodInBasket, prodInBasket]);
+        const syncHasProducts = () => {
+            setHasProducts(getCartItems().length > 0);
+        };
+
+        syncHasProducts();
+        const unsubscribe = subscribeToCartChanges(syncHasProducts);
+
+        return () => unsubscribe();
+    }, []);
 
     const handleAreaChange = (areaName: string) => {
         const selectedAreaData = areas.find(area => area.name === areaName);
@@ -104,7 +108,6 @@ const BasketDelivery: React.FC<{ setDeliveryParams: React.Dispatch<React.SetStat
         setSelectedCityRef('');
         setSelectedWarehouse('');
         setSelectedWarehouseRef('');
-
     };
 
     const handleCityChange = (cityName: string) => {
@@ -121,6 +124,7 @@ const BasketDelivery: React.FC<{ setDeliveryParams: React.Dispatch<React.SetStat
         setSelectedWarehouse(warehouseName);
         setSelectedWarehouseRef(selectedWarehouseData?.ref || '');
     };
+
     useEffect(() => {
         setDeliveryParams(prev => ({
             ...prev,
@@ -140,8 +144,8 @@ const BasketDelivery: React.FC<{ setDeliveryParams: React.Dispatch<React.SetStat
                 <section className={cl.section}>
                     <div className={cl.gridTwoCols}>
                         <InputData type='text' id='firstName' placeholder='Іван' label="Ім'я" />
-                        <InputData type='text' id='lastName' placeholder='Іванов' label="Прізвище" />
-                        <InputData type='email' id='email' placeholder='name@gmail.com' label="Email" onInput={(val) => email.current = val} />
+                        <InputData type='text' id='lastName' placeholder='Іванов' label='Прізвище' />
+                        <InputData type='email' id='email' placeholder='name@gmail.com' label='Email' onInput={(val) => { email.current = val; }} />
                     </div>
                 </section>
 
@@ -177,7 +181,7 @@ const BasketDelivery: React.FC<{ setDeliveryParams: React.Dispatch<React.SetStat
                 <section className={cl.section}>
                     <div className={cl.gridSingle}>
                         <InputOption
-                            options={['Нова пошта', "Кур'єр", "Самовивіз"]}
+                            options={['Нова пошта', "Кур'єр", 'Самовивіз']}
                             label='Спосіб доставки'
                             optionBasic='Спосіб доставки'
                             value={selectedDeliveryMethod}
@@ -186,16 +190,16 @@ const BasketDelivery: React.FC<{ setDeliveryParams: React.Dispatch<React.SetStat
                         />
                     </div>
                     {!showCouponInput ? (
-                        <button
-                            type="button"
+                        <Button
+                            variant='coupon'
+                            type='button'
                             onClick={() => setShowCouponInput(true)}
-                            className={cl.couponButton}
                         >
                             Ввести купон
-                        </button>
+                        </Button>
                     ) : (
                         <div className={cl.gridSingle}>
-                            <InputData type='text' id='coupon' placeholder='PROMO2024' label="Купон" />
+                            <InputData type='text' id='coupon' placeholder='PROMO2024' label='Купон' />
                         </div>
                     )}
                 </section>
@@ -205,3 +209,7 @@ const BasketDelivery: React.FC<{ setDeliveryParams: React.Dispatch<React.SetStat
 };
 
 export default BasketDelivery;
+
+
+
+

@@ -3,13 +3,13 @@ import { api } from '@packages/shared/src/routes/api';
 import { useNavigate } from 'react-router-dom';
 import cl from '@/utils/styles/modules/RegisterForm.module.scss';
 
-import InputData from '@packages/shared/src/components/UI/InputData/InputData';
+import InputData from '@packages/shared/src/components/UI/form-controls/InputData/InputData';
 import ErrorMassage from '@packages/shared/src/components/UI/ErrorMassage/ErrorMassage';
 import SignWithGoogle from './UI/SignWithGoogle/SignWithGoogle';
 import Devider from './UI/Devider/Devider';
 import Terms from './UI/Terms/Terms';
 import LoginLink from './UI/LoginLink/LoginLink';
-import SubmitButton from '@packages/shared/src/components/UI/SubmitButton/SubmitButton';
+import Button from '@packages/shared/src/components/UI/Button/Button';
 import { useFetch } from '@packages/shared/src/utils/hooks/useFetch';
 
 type UserLoginType = {
@@ -111,7 +111,7 @@ const LoginForm = () => {
           onInput={(val) => handleInputChange('password', val)}
         />
         <Terms />
-        <SubmitButton text={isLoading ? 'Зачекайте...' : 'Увійти'} />
+        <Button text={isLoading ? 'Зачекайте...' : 'Увійти'} />
         {isError && <ErrorMassage massage={errorMessage} />}
       </div>
       <LoginLink type="login" onClick={() => navigate(`/${api}/register`)} />
@@ -120,3 +120,6 @@ const LoginForm = () => {
 };
 
 export default LoginForm;
+
+
+

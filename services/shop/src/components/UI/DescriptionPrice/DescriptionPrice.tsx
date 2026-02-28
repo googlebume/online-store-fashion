@@ -24,3 +24,4 @@ const DescriptionPrice: React.FC<DescriptionPriceProps> = ({discountT, priceT, d
 };
 
 export default DescriptionPrice;
+

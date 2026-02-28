@@ -4,3 +4,4 @@ export interface FormType {
 export interface FormPropsType {
     setSwitchForm: React.Dispatch<React.SetStateAction<FormType>>;
 }
+

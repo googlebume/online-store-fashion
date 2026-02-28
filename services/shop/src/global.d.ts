@@ -17,3 +17,4 @@ declare module "*.svg" {
 
 declare const __PLATFORM__: 'mobile' | 'desktop';
 declare const __ENV__: 'production' | 'development';
+

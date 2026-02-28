@@ -4,10 +4,10 @@ import cl from '../utils/styles/modules/PopupEditProduct.module.scss'
 
 import type { ProductAttrType, ProductType } from '@packages/shared/src/utils/types/prosuctData.type'
 
-import FileUploader from '@packages/shared/src/components/UI/FileUploader/FileUploader'
-import InputData from '@packages/shared/src/components/UI/InputData/InputData'
-import InputOption from '@packages/shared/src/components/UI/InputOption/InputOption'
-import SubmitButton from '@packages/shared/src/components/UI/SubmitButton/SubmitButton';
+import FileUploader from '@packages/shared/src/components/UI/form-controls/FileUploader/FileUploader'
+import InputData from '@packages/shared/src/components/UI/form-controls/InputData/InputData'
+import InputOption from '@packages/shared/src/components/UI/form-controls/InputOption/InputOption'
+import Button from '@packages/shared/src/components/UI/Button/Button';
 import { useFetch } from '@packages/shared/src/utils/hooks/useFetch';
 
 import Cookies from '@packages/shared/src/utils/cookies';
@@ -287,7 +287,7 @@ const PopupEditProduct = <T extends 'edit' | 'add'>({ ...props }: PopupEditProdu
                         </div>
                     </section>
                     <section className={cl.submit}>
-                        <SubmitButton
+                        <Button
                             text={!isLoading ? 'Підтвердити' : (isLoading ? "Обробка..." : (response?.success ? 'Успішно!' : "Помилка"))}
                         />
                     </section>
@@ -300,3 +300,7 @@ const PopupEditProduct = <T extends 'edit' | 'add'>({ ...props }: PopupEditProdu
 };
 
 export default PopupEditProduct;
+
+
+
+

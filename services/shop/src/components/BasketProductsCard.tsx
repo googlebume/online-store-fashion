@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import cl from '@shop/utils/styles/modules/BasketProductsCard.module.scss';
 import Counter from '@packages/shared/src/components/Counter';
-import ButtonTrash from '@packages/shared/src/components/UI/ButtonTrash/ButtonTrash';
+import Button from '@packages/shared/src/components/UI/Button/Button';
+import TrashIcon from '@packages/shared/src/assets/images/icons/trashIcon.svg'
 import DescriptionPrice from './UI/DescriptionPrice/DescriptionPrice';
 import { removeFromCart } from '@shop/state/basketState';
 import { ProductType } from '@packages/shared/src/utils/types/prosuctData.type';
@@ -38,7 +39,7 @@ const BasketProductsCard: React.FC<BasketProductsCardProps> = ({ data }) => {
                         priceT={data.price} 
                         direction='column-reverse' 
                     />
-                    <ButtonTrash onClick={handleRemove} />
+                    <Button variant='trash' img={TrashIcon} onClick={handleRemove} />
                 </div>
             </div>
         </div>
@@ -46,3 +47,6 @@ const BasketProductsCard: React.FC<BasketProductsCardProps> = ({ data }) => {
 };
 
 export default BasketProductsCard;
+
+
+

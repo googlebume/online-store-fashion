@@ -80,3 +80,4 @@ export const clearCart = () => {
   cartItems = [];
   notifyListeners();
 };
+

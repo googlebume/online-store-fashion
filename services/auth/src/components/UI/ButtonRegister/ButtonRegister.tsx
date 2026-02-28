@@ -14,3 +14,4 @@ const ButtonRegister: React.FC<ButtonRegisterType> = ({ text, onClick }) => {
 };
 
 export default ButtonRegister;
+

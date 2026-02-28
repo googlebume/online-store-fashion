@@ -19,3 +19,4 @@ const ShopPlaceholder = () => {
 };
 
 export default ShopPlaceholder;
+

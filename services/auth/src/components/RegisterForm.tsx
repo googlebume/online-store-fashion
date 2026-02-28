@@ -4,8 +4,8 @@
 // import { useFetch } from '@packages/shared/src/utils/hooks/useFetch';
 // import cl from '@/utils/styles/modules/RegisterForm.module.scss';
 
-// import InputData from '@packages/shared/src/components/UI/InputData/InputData';
-// import ErrorMassage from '@packages/shared/src/components/UI/ErrorMassage/ErrorMassage';
+// import InputData from '@packages/shared/src/components/UI/form-controls/InputData/InputData';
+// import ErrorMassage from '@packages/shared/src/components/library/UI/ErrorMassage/ErrorMassage';
 // import SignWithGoogle from './UI/SignWithGoogle/SignWithGoogle';
 // import Devider from './UI/Devider/Devider';
 // import Terms from './UI/Terms/Terms';
@@ -153,13 +153,13 @@ import { useNavigate } from 'react-router-dom';
 import { useFetch } from '@packages/shared/src/utils/hooks/useFetch';
 import cl from '@/utils/styles/modules/RegisterForm.module.scss';
 
-import InputData from '@packages/shared/src/components/UI/InputData/InputData';
+import InputData from '@packages/shared/src/components/UI/form-controls/InputData/InputData';
 import ErrorMassage from '@packages/shared/src/components/UI/ErrorMassage/ErrorMassage';
 import SignWithGoogle from './UI/SignWithGoogle/SignWithGoogle';
 import Devider from './UI/Devider/Devider';
 import Terms from './UI/Terms/Terms';
 import LoginLink from './UI/LoginLink/LoginLink';
-import SubmitButton from '@packages/shared/src/components/UI/SubmitButton/SubmitButton';
+import Button from '@packages/shared/src/components/UI/Button/Button';
 
 export type UserAuthType = {
   name?: string;
@@ -272,7 +272,7 @@ const RegisterForm = () => {
           onInput={(val) => handleInputChange('password', val)}
         />
         <Terms />
-        <SubmitButton text={isLoading ? 'Зачекайте...' : 'Зареєструватися'} />
+        <Button text={isLoading ? 'Зачекайте...' : 'Зареєструватися'} />
         {isError && <ErrorMassage massage={errorMessage} />}
       </div>
       <LoginLink type="register" onClick={() => navigate(`/${api}/login`)} />
@@ -281,3 +281,6 @@ const RegisterForm = () => {
 };
 
 export default RegisterForm;
+
+
+

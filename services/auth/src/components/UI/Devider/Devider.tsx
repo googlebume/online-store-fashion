@@ -8,3 +8,4 @@ const Devider = () => {
 };
 
 export default Devider;
+

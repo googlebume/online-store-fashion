@@ -1,7 +1,9 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { bannerStageItems } from '@/utils/constants/bannerStageItems.js';
 import cl from '@/utils/styles/modules/BannersCarousel.module.scss';
-import TransitionArrow from './UI/TransitionArrow/TransitionArrow';
+import Button from '@packages/shared/src/components/UI/Button/Button';
+import ArrowInCircle from '@packages/shared/src/assets/images/icons/arrowInCircle.svg';
+import variables from '@packages/shared/src/utils/styles/colorScheme'
 
 const BannersCarousel = () => {
     const refContainer = useRef();
@@ -86,34 +88,41 @@ const BannersCarousel = () => {
                     </div>
                 ))}
             </div>
-            <TransitionArrow 
+            <Button
+                variant='transition-arrow'
                 visible={isArrowVisible}
                 onClick={() => {
                     if (refContainer.current && scrollWidth > 0) {
-                        refContainer.current.scrollBy({ 
-                            left: -scrollWidth, 
+                        refContainer.current.scrollBy({
+                            left: -scrollWidth,
                             behavior: 'smooth'
                         });
                     }
                 }}
-                rotate="180deg" 
-                left="12px" 
+                rotate="180deg"
+                left="12px"
+                img={<ArrowInCircle height='35px' width='35px' color={`${variables.white}`} fill={`${variables.white}`}/>}
             />
-            <TransitionArrow 
-                visible={isArrowVisible} 
+            <Button
+                variant='transition-arrow'
+                visible={isArrowVisible}
                 onClick={() => {
                     if (refContainer.current && scrollWidth > 0) {
-                        refContainer.current.scrollBy({ 
-                            left: scrollWidth, 
+                        refContainer.current.scrollBy({
+                            left: scrollWidth,
                             behavior: 'smooth'
                         });
                     }
                 }}
-                rotate="0deg" 
-                left="calc(100% - 44px)" 
+                rotate="0deg"
+                left="calc(100% - 44px)"
+                img={<ArrowInCircle height='35px' width='35px' color={`${variables.white}`} fill={`${variables.white}`}/>}
             />
         </div>
     );
 };
 
 export default BannersCarousel;
+
+
+

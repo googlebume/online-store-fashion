@@ -6,3 +6,4 @@ export const filterColorDitchs = [
     {id: '5', name: 'Коричневий', color: 'rgb(133, 75, 37)', colorTxt: 'brown'},
     {id: '6', name: 'Синій', color: 'rgb(47, 136, 163)', colorTxt: 'blue'},
 ]
+

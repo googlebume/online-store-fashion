@@ -18,3 +18,4 @@ export const catalogListItems: AsideSectionType = {
         { href: "#", text: "Сорочки", icon: shirtIcon },
     ]
 }
+

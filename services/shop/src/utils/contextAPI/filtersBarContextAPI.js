@@ -13,3 +13,5 @@ export const FiltersProvider = ({ children }) => {
 };
 
 export const useFilters = () => useContext(FiltersContext);
+
+
