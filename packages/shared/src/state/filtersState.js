@@ -39,3 +39,4 @@ export const subscribeToColors = (callback) => {
         colorListeners = colorListeners.filter((cb) => cb !== callback);
     };
 };
+

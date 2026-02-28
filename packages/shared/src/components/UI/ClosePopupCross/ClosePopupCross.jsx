@@ -11,3 +11,5 @@ const ClosePopupCross = ({setOpenStatus}) => {
 };
 
 export default ClosePopupCross;
+
+

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+﻿import React, { useEffect, useState } from "react";
 import cl from "./HeaderToolsList.module.scss";
 import ShoppingCardIcon from "@packages/shared/src/assets/images/icons/shoppingCardIcon.svg";
 import FilterIcon from "@packages/shared/src/assets/images/icons/filterIcon.svg";
@@ -29,7 +29,7 @@ const HeaderToolsList = ({ setIsOpen }) => {
                 onClick={e => {setFilterOpenStatus(!filterOpenStatus)}}
             >
                 <FilterIcon height='28px' width='28px' color={`${variables.yellow}`} fill={`${variables.yellow}`}/>
-                <p>Фільтер</p>
+                <p>Фільтр</p>
             </div>
         </div>
 
@@ -40,3 +40,7 @@ const HeaderToolsList = ({ setIsOpen }) => {
 };
 
 export default HeaderToolsList;
+
+
+
+

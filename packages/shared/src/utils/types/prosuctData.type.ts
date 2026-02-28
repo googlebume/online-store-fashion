@@ -20,3 +20,4 @@ export type ProductAttrType = {
     countryOfOrigin: String
     weight: number
 }
+

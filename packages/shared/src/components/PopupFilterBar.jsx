@@ -29,3 +29,6 @@ const PopupFilterBar = ({ isOpen, setIsOpen }) => {
 };
 
 export default PopupFilterBar;
+
+
+

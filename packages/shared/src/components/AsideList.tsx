@@ -11,8 +11,8 @@ const AsideList: React.FC<Props> = ({ section = { title: '', links: [] } }) => {
     return (
         <div className={cl.catalog}>
             <ul className={cl.catalog__category}>
-                {section.links.map((item) => (
-                    <li className={cl.category__item} key={item.href}>
+                {section.links.map((item, index) => (
+                    <li className={cl.category__item} key={`${item.href}-${index}`}>
                         <Link to={item.href} >
                             <span className={cl.category__item_content}>
                                 {item.icon && typeof item.icon === 'string'
@@ -31,3 +31,6 @@ const AsideList: React.FC<Props> = ({ section = { title: '', links: [] } }) => {
 };
 
 export default AsideList;
+
+
+

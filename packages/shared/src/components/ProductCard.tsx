@@ -7,7 +7,7 @@ import DescriptionPrice from '../../../../services/shop/src/components/UI/Descri
 import { addToCart } from '../../../../services/shop/src/state/basketState';
 import { adminProductsAction } from '../utils/constants/actionsMenu';
 import ActionsMenu from './UI/ActionsMenu/ActionsMenu';
-import ButtonImage from './UI/ButtonImage/ButtonImage';
+import Button from './UI/Button/Button';
 import DisplayDiscount from './UI/DisplayDiscount/DisplayDiscount';
 import { ProductType } from '../utils/types/prosuctData.type'
 import { useProdContext } from '@admin/pages/AdminProducts/AdminProducts';
@@ -78,7 +78,8 @@ const ProductCard: React.FC<ProductCardProp> = ({ data, prevLocation }) => {
                                     ref={menuRef}
                                     data={data}
                                 />
-                                : <ButtonImage
+                                : <Button
+                                    variant='icon'
                                     img={<ShoppingCardIcon height='28px' width='28px' color={`${variables.yellow}`} fill={`${variables.yellow}`} />}
                                     onClick={handleCartClick}
                                 />
@@ -95,3 +96,7 @@ const ProductCard: React.FC<ProductCardProp> = ({ data, prevLocation }) => {
 };
 
 export default ProductCard;
+
+
+
+

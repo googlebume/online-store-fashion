@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import cl from '@packages/shared/src/utils/styles/modules/PriceWidget.module.scss';
-import PriceInput from './UI/PriceInput/PriceInput';
-import SubmitButton from '@packages/shared/src/components/UI/SubmitButton/SubmitButton';
-import DoubleRangeInput from './UI/DoubleRangeInput/DoubleRangeInput';
+import PriceInput from './UI/form-controls/PriceInput/PriceInput';
+import Button from '@packages/shared/src/components/UI/Button/Button';
+import DoubleRangeInput from './UI/form-controls/DoubleRangeInput/DoubleRangeInput';
 
 type PriceRange = {
     minPrice: number;
@@ -42,16 +42,16 @@ const PriceWidget: React.FC<PriceWidgetProps> = ({ setSelectedPriceRange }) => {
             <h3 className={cl.filters__title}>Ціна</h3>
             <div className={cl.price__inputs}>
                 <PriceInput
-                    placeholder={'Від'}
+                    placeholder={'з'}
                     onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleMinPrice(Number(e.target.value))}
                     value={minPrice}
                 />
                 <PriceInput
-                    placeholder={'До'}
+                    placeholder={'до'}
                     onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleMaxPrice(Number(e.target.value))}
                     value={maxPrice}
                 />
-                <SubmitButton text={'Ок'} variant={'secondary'} onClick={handlePriceChoose} />
+                <Button text={'Ок'} variant={'submit-secondary'} onClick={handlePriceChoose} />
             </div>
             <DoubleRangeInput
                 minInRange={100}
@@ -66,3 +66,5 @@ const PriceWidget: React.FC<PriceWidgetProps> = ({ setSelectedPriceRange }) => {
 };
 
 export default PriceWidget;
+
+

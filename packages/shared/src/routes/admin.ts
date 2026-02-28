@@ -5,3 +5,4 @@ export const adminRoutes = {
     products: `products`,
     analytics: `analytics`,
 }
+

@@ -1,11 +1,10 @@
 import React, { useState } from "react";
 import cl from "@packages/shared/src/utils/styles/modules/HeaderSearchPie.module.scss";
-import CategoriesButton from "./UI/CategoriesButton/CategoriesButton";
-import SearchInput from "./UI/SearchInput/SearchInput";
+import Button from "./UI/Button/Button";
+import SquaresIcon from '@packages/shared/src/assets/images/icons/squaresIcon.svg'
+import SearchInput from "./UI/form-controls/SearchInput/SearchInput";
 import HeaderToolsList from "./UI/HeaderToolsList/HeaderToolsList";
 import { getAllProducts } from "@shop/state/productsData";
-// import PopupFiltersBar from "./PopupFiltersBar";
-
 
 const SearchHeader = () => {
     const [isOpen, setIsOpen] = useState(false);
@@ -20,8 +19,15 @@ const SearchHeader = () => {
         <>
             <div className={cl.header_second}>
                 <nav className={cl.header__main}>
-                    <CategoriesButton />
-                    <SearchInput allData={searchData} field={'name'}/>
+                    <Button
+                        variant='categories'
+                        img={<SquaresIcon height='28px' width='28px' color='currentColor' fill='currentColor'/>}
+                        text={<p>По категоріям</p>}
+                    />
+                    <div className={cl.search}>
+                        <SearchInput allData={searchData} field={'name'}/>
+                    </div>
+
                     <HeaderToolsList setIsOpen={setIsOpen} />
                 </nav>
             </div>
@@ -29,8 +35,9 @@ const SearchHeader = () => {
             {/* {window.innerWidth >= 1069 && <PopupFiltersBar isOpen={isOpen} setIsOpen={setIsOpen} />} */}
         </>
     );
-
-
 };
 
 export default SearchHeader;
+
+
+

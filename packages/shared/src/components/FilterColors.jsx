@@ -1,6 +1,6 @@
-import React, {useState} from 'react';
+﻿import React, {useState} from 'react';
 import { filterColorDitchs } from '../../../../services/shop/src/utils/constants/filterColorDitchs';
-import FilterColor from './UI/FilterColor/FilterColor';
+import FilterColor from './UI/form-controls/FilterColor/FilterColor';
 import cl from '@packages/shared/src/utils/styles/modules/FilterColors.module.scss'
 
 import { setUpdatedColors } from '../state/filtersState';
@@ -22,7 +22,7 @@ const FilterColors = ({ setSelectedColors }) => {
             <h3 className={cl.filters__title}>Кольори</h3>
             <div className={cl.colors__palette}>
                 {filterColorDitchs.map((ditch) => (
-                    <FilterColor name={ditch.name} color={ditch.color} colorTxt={ditch.colorTxt} id={ditch.id} getColorsValue={getColorsValue} />
+                    <FilterColor key={ditch.id} name={ditch.name} color={ditch.color} colorTxt={ditch.colorTxt} id={ditch.id} getColorsValue={getColorsValue} />
                 ))}
             </div>
         </div>
@@ -31,3 +31,8 @@ const FilterColors = ({ setSelectedColors }) => {
 
 
 export default FilterColors;
+
+
+
+
+

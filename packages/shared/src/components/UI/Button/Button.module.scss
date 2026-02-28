@@ -1,0 +1,226 @@
+@use '@packages/shared/src/utils/styles/colorScheme' as colors;
+
+.button {
+  border: none;
+  outline: none;
+  background: transparent;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.button_submit_primary {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border-radius: 0.5rem;
+  font-weight: bold;
+  background-color: colors.$yellow;
+  color: colors.$black;
+  transition: background-color 0.3s ease;
+  gap: 0.5rem;
+
+  &:hover {
+    background-color: color-mix(in srgb, colors.$yellow 90%, transparent 10%);
+  }
+}
+
+.button_submit_secondary {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border-radius: 0.5rem;
+  font-weight: 500;
+  color: colors.$grayText;
+  background: transparent;
+  border: 2px solid colors.$gray;
+  gap: 0.5rem;
+  transition: all 0.3s ease;
+
+  &:hover {
+    color: colors.$whiteText;
+    border-color: colors.$yellow;
+    background: rgba(colors.$yellow, 0.1);
+    transform: translateY(-1px);
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+}
+
+.button_icon {
+  object-fit: cover;
+  object-position: center;
+
+  &:active {
+    filter: hue-rotate(50deg);
+  }
+}
+
+.button_trash {
+  display: flex;
+  align-items: center;
+  justify-content: end;
+}
+
+.button_counter {
+  padding: 8px 12px;
+  font-size: 18px;
+
+  &:hover {
+    background: #f3f4f6;
+    box-shadow: 0 0 0 1.5px colors.$black inset;
+  }
+}
+
+.button_transition_arrow {
+  width: 35px;
+  object-fit: contain;
+  object-position: center;
+  position: absolute;
+  overflow: hidden;
+  border-radius: 50%;
+  top: 46%;
+  box-shadow: colors.$gray 0 0 16px;
+  z-index: 4;
+  opacity: 0;
+  background-color: transparent;
+  transition: all 0.1s 0s;
+}
+
+.button_transition_arrow_visible {
+  transition: all 0.2s 0s;
+  opacity: 1;
+
+  &:hover {
+    filter: brightness(1.5);
+  }
+}
+
+.button_categories {
+  max-width: 180px;
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  flex-wrap: nowrap;
+  color: colors.$yellow;
+  font-size: 1rem;
+  font-weight: bold;
+  padding: 0.5rem 1rem;
+  background-color: transparent;
+  transition: all 0.3s;
+
+  &:hover {
+    background-color: colors.$yellow;
+    color: colors.$black;
+  }
+}
+
+.button_burger {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  width: 2rem;
+  height: 2rem;
+  background: transparent;
+  border: none;
+  position: relative;
+  z-index: 9999;
+}
+
+.button_burger_line {
+  width: 100%;
+  height: 3px;
+  background-color: colors.$gray;
+  border-radius: 5px;
+  transition: all 0.05s linear;
+}
+
+.button_burger_open {
+  .button_burger_line:nth-child(1) {
+    transform: rotate(45deg) translate(6px, 5px);
+  }
+
+  .button_burger_line:nth-child(2) {
+    opacity: 0;
+  }
+
+  .button_burger_line:nth-child(3) {
+    transform: rotate(-45deg) translate(7px, -7px);
+  }
+}
+
+.button_coupon {
+  flex: 1 0;
+  height: 40px;
+  padding: 8px 16px;
+  margin-top: 18px;
+  background-color: colors.$yellow;
+  border-radius: 8px;
+  font-weight: 500;
+  transition: all 0.3s ease-in-out;
+}
+
+.button_constructor_link {
+  display: block;
+  clip-path: polygon(95% 0%, 100% 50%, 95% 100%, 0% 100%, 5% 50%, 0% 0%);
+  padding: 16px 0;
+  background-color: colors.$yellow;
+  color: colors.$white;
+  font-size: 16px;
+  font-weight: 500;
+  text-align: center;
+  letter-spacing: 2px;
+  word-spacing: 3px;
+  flex: 15;
+  text-decoration: none;
+
+  @media (max-width: 768px) {
+    padding: 14px;
+    font-size: 14px;
+  }
+
+  @media (max-width: 479px) {
+    padding: 12px;
+    font-size: 12px;
+  }
+}
+
+.icon_submit {
+  width: 1.5rem;
+  height: 1.5rem;
+  flex-shrink: 0;
+}
+
+.icon_image {
+  object-fit: cover;
+  object-position: center;
+  max-width: 28px;
+}
+
+.icon_trash {
+  width: 18px;
+  height: 18px;
+  filter: invert(0.3);
+  object-fit: cover;
+  object-position: center;
+}
+
+@media (max-width: 866px) {
+  .button_categories {
+    flex: 1;
+    width: 53px;
+
+    p {
+      display: none;
+    }
+
+    &:hover {
+      background-color: transparent;
+      color: colors.$yellow;
+    }
+  }
+}
+
+
+

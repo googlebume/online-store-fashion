@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import FilterCategory from './UI/FilterCategory/FilterCategory';
+import FilterCategory from './UI/form-controls/FilterCategory/FilterCategory';
 import { filterCategorys } from '../../../../services/shop/src/utils/constants/filterCategorys';
 import { setUpdatedCategories, getUpdatedCategories } from "../state/filtersState";
 
@@ -40,3 +40,6 @@ function FilterCategorys({ setUpdatedCategoriesState, setUpdatedTypesState }) {
 }
 
 export default FilterCategorys;
+
+
+

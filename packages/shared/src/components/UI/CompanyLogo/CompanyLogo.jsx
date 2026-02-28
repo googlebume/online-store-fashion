@@ -24,3 +24,5 @@ const CompanyLogo = () => {
 };
 
 export default CompanyLogo;
+
+

@@ -25,3 +25,4 @@ export const useDiscountPrice = ({ price, discount }: UseDiscountPriceProps): Us
     discountPercent: discount,
   };
 };
+

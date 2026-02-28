@@ -14,3 +14,5 @@ const DisplayDiscount: React.FC<DisplayDiscountType> = ({ discount}) => {
 };
 
 export default DisplayDiscount;
+
+

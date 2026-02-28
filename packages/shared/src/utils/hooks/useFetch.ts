@@ -95,3 +95,4 @@ export const useFetch = <T = any, R = any>(): UseFetchReturn<R> => {
         fetchData,
     };
 };
+

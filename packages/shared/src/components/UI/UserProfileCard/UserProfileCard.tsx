@@ -31,3 +31,6 @@ const UserProfileCard = ({ url, style }: { url: string, style?: string }) => {
 };
 
 export default UserProfileCard;
+
+
+

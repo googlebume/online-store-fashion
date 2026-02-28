@@ -25,3 +25,4 @@ export interface TextareaType extends InputPropsType {
 }
 
 export type UnionInputTypes = InputPropsType | TextareaType
+

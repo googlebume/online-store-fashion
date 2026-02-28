@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 
 import { headerMenuItems } from '../../../utils/constants/headerMenuItems';
 import cl from './BurgerMenu.module.scss';
+import Button from '../Button/Button';
 
 import userIcon from '@packages/shared/src/assets/images/icons/userIcon.png';
 import UserProfileCard from '../UserProfileCard/UserProfileCard';
@@ -27,14 +28,11 @@ const BurgerMenu = () => {
 
     return (
         <div className={cl.burgerMenu}>
-            <button
-                className={`${cl.burgerIcon} ${isMenuOpen ? cl.open : ''}`}
+            <Button
+                variant='burger'
+                open={isMenuOpen}
                 onClick={toggleMenu}
-            >
-                <span></span>
-                <span></span>
-                <span></span>
-            </button>
+            />
 
             <nav
                 className={`${cl.header__menu} ${isMenuOpen ? cl.menu__open : ''}`}
@@ -63,3 +61,7 @@ const BurgerMenu = () => {
 };
 
 export default BurgerMenu;
+
+
+
+
