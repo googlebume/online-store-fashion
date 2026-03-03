@@ -1,19 +1,16 @@
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import cl from "@packages/shared/src/utils/styles/modules/HeaderSearchPie.module.scss";
 import Button from "./UI/Button/Button";
 import SquaresIcon from '@packages/shared/src/assets/images/icons/squaresIcon.svg'
 import SearchInput from "./UI/form-controls/SearchInput/SearchInput";
 import HeaderToolsList from "./UI/HeaderToolsList/HeaderToolsList";
-import { getAllProducts } from "@shop/state/productsData";
+import { useSelector } from "react-redux";
+import type { RootState } from "@packages/shared/src/store";
 
 const SearchHeader = () => {
     const [isOpen, setIsOpen] = useState(false);
-    const [searchData, setSearchData] = useState([])
-
-    setTimeout(() => {
-        setSearchData(getAllProducts());
-        console.log('searchData', searchData)
-    }, 50)
+    const products = useSelector((state: RootState) => state.products.products);
+    const searchData = useMemo(() => products, [products]);
 
     return (
         <>
@@ -38,6 +35,5 @@ const SearchHeader = () => {
 };
 
 export default SearchHeader;
-
 
 

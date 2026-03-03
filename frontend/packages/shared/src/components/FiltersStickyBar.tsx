@@ -3,33 +3,19 @@ import cl from '@packages/shared/src/utils/styles/modules/FiltersStickyBar.modul
 import FilterCategorys from "./FilterCategorys";
 import PriceWidget from "./PriceWidget";
 import FilterColors from "./FilterColors";
-import { exportFilteredProducts, getAllProducts, subscribeToProducts } from '../../../../services/shop/src/state/productsData';
-import { getUpdatedCategories, getUpdatedColors, subscribeToCategories, subscribeToColors } from '../state/filtersState';
 import { ProductType } from "@/utils/types/prosuctData.type";
+import { useDispatch, useSelector } from "react-redux";
+import type { RootState } from "@packages/shared/src/store";
+import { filteredProductsActions } from "@packages/shared/src/store";
 
 function FiltersStickyBar() {
-  const [allProducts, setAllProducts] = useState<ProductType[]>(getAllProducts());
-  useEffect(() => {
-    const unsubscribe = subscribeToProducts((products: ProductType[]) => {
-      setAllProducts(products);
-    });
-    setAllProducts(getAllProducts());
-    return () => unsubscribe();
-  }, []);
+  const dispatch = useDispatch();
+  const allProducts = useSelector((state: RootState) => state.products.products);
 
   const [updatedCategories, setUpdatedCategoriesState] = useState([]);
   const [updatedTypes, setUpdatedTypesState] = useState([]);
-  const [selectedColors, setSelectedColors] = useState(getUpdatedColors());
+  const [selectedColors, setSelectedColors] = useState([]);
   const [selectedPriceRange, setSelectedPriceRange] = useState<{minPrice: number, maxPrice: number}>();
-
-  useEffect(() => {
-    const unsubscribeCategories = subscribeToCategories(setUpdatedCategoriesState);
-    const unsubscribeColors = subscribeToColors(setSelectedColors);
-    return () => {
-      unsubscribeCategories();
-      unsubscribeColors();
-    };
-  }, []);
 
   function applyFiltersForProducts(products: ProductType[]) {
     let filtered = [...products];
@@ -77,8 +63,8 @@ function FiltersStickyBar() {
 
   useEffect(() => {
     const filtered = applyFilters();
-    exportFilteredProducts(filtered);
-  }, [allProducts, updatedCategories, updatedTypes, selectedColors, selectedPriceRange]);
+    dispatch(filteredProductsActions.setFilteredProducts(filtered));
+  }, [allProducts, updatedCategories, updatedTypes, selectedColors, selectedPriceRange, dispatch]);
 
   return (
     <aside className={cl.aside}>

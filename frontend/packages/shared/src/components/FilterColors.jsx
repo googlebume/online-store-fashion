@@ -3,8 +3,6 @@ import { filterColorDitchs } from '../../../../services/shop/src/utils/constants
 import FilterColor from './UI/form-controls/FilterColor/FilterColor';
 import cl from '@packages/shared/src/utils/styles/modules/FilterColors.module.scss'
 
-import { setUpdatedColors } from '../state/filtersState';
-
 const FilterColors = ({ setSelectedColors }) => {
         const [SelectedColorsLocal, setSelectedColorsLocal] = useState([]);
 
@@ -13,7 +11,6 @@ const FilterColors = ({ setSelectedColors }) => {
                     ? [...SelectedColorsLocal, value]
                     : SelectedColorsLocal.filter((category) => category !== value);
                 setSelectedColorsLocal(updatedColors);
-                setUpdatedColors(updatedColors);
                 setSelectedColors && setSelectedColors(updatedColors);
         }
 

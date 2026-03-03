@@ -1,17 +1,20 @@
-import React, { useEffect, useState } from "react";
-import { api } from "@packages/shared/src/routes/api";
+import React, { useEffect } from "react";
 import cl from "@/utils/styles/modules/ProductShopList.module.scss";
 import ProductCard from "@packages/shared/src/components/ProductCard";
-import { exportProducts, getFilteredProducts, subscribeToFilteredProducts } from "../state/productsData";
 import { useFetch } from "@packages/shared/src/utils/hooks/useFetch";
 import { ProductType } from "@packages/shared/src/utils/types/prosuctData.type";
+import { useDispatch, useSelector } from "react-redux";
+import type { RootState } from "@packages/shared/src/store";
+import { filteredProductsActions, productsActions } from "@packages/shared/src/store";
 
 const ProductShopList = () => {
-    const [products, setProducts] = useState<ProductType[]>([]);
-    const [filteredProducts, setFilteredProducts] = useState(getFilteredProducts());
+    const dispatch = useDispatch();
+    const products = useSelector((state: RootState) => state.products.products);
+    const filteredProducts = useSelector(
+        (state: RootState) => state.filteredProducts.filteredProducts
+    );
 
-
-    const { response, error, isLoading, fetchData } = useFetch<null, {meta:any, loaded:ProductType[]}>();
+    const { response, fetchData } = useFetch<null, {meta:any, loaded:ProductType[]}>();
 
     useEffect(() => {
         fetchData({
@@ -27,16 +30,10 @@ const ProductShopList = () => {
 
     useEffect(() => {
         if (response && Array.isArray(response.loaded)) {
-            setProducts(response.loaded);
-            exportProducts(response.loaded);
-            console.log("   ddd ",response.loaded)
+            dispatch(productsActions.setProducts(response.loaded));
+            dispatch(filteredProductsActions.clearFilteredProducts());
         }
-    }, [response]);
-
-    useEffect(() => {
-        const unsubscribe = subscribeToFilteredProducts(setFilteredProducts);
-        return () => unsubscribe();
-    }, []);
+    }, [dispatch, response]);
 
     return (
         <section className={cl.ProductShopList}>

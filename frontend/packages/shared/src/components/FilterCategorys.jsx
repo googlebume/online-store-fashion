@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import FilterCategory from './UI/form-controls/FilterCategory/FilterCategory';
 import { filterCategorys } from '../../../../services/shop/src/utils/constants/filterCategorys';
-import { setUpdatedCategories, getUpdatedCategories } from "../state/filtersState";
 
 function FilterCategorys({ setUpdatedCategoriesState, setUpdatedTypesState }) {
     const [selectedCategories, setSelectedCategories] = useState([]);
@@ -13,7 +12,6 @@ function FilterCategorys({ setUpdatedCategoriesState, setUpdatedTypesState }) {
                 ? [...selectedCategories, value]
                 : selectedCategories.filter((category) => category !== value);
             setSelectedCategories(updatedCategories);
-            setUpdatedCategories(updatedCategories);
             setUpdatedCategoriesState && setUpdatedCategoriesState(updatedCategories);
         } else if (name === 'type') {
             const updatedTypes = checked
@@ -40,6 +38,5 @@ function FilterCategorys({ setUpdatedCategoriesState, setUpdatedTypesState }) {
 }
 
 export default FilterCategorys;
-
 
 

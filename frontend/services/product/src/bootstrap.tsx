@@ -1,6 +1,8 @@
 import {createRoot} from "react-dom/client";
 import { RouterProvider} from "react-router-dom";
+import { Provider } from "react-redux";
 import {router} from "@/router/Router";
+import { store } from "@packages/shared/src/store";
 
 const root = document.getElementById('root')
 
@@ -13,5 +15,7 @@ const container = createRoot(root)
 
 
 container.render(
-    <RouterProvider router={router} />
+    <Provider store={store}>
+        <RouterProvider router={router} />
+    </Provider>
 )

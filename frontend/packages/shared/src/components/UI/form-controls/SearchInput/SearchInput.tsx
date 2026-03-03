@@ -4,8 +4,9 @@ import Button from '@packages/shared/src/components/UI/Button/Button';
 import magnifyingGlass from '@packages/shared/src/assets/images/icons/magnifyingGlassIcon.svg?url';
 
 import { useProductFilter, type SearchInputType } from '../../../../utils/hooks/useFilter';
+import { ProductType } from '@packages/shared/src/utils/types/prosuctData.type';
 
-const SearchInput = <T extends Record<string, any>>({
+const SearchInput = <T extends ProductType>({
     allData,
     field,
     setReturnFiltered
@@ -45,6 +46,5 @@ const SearchInput = <T extends Record<string, any>>({
 };
 
 export default SearchInput;
-
 
 
