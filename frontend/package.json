@@ -1,0 +1,20 @@
+{
+    "name": "monorepo-module-federation",
+    "version": "1.0.0",
+    "scripts": {
+        "start:frontend": "concurrently -n admin,host,shop,header,productPage,auth \"npm run start --workspace=services/admin\" \"npm run start --workspace=services/host\" \"npm run start --workspace=services/shop\" \"npm run start --workspace=services/product\" \"npm run start --workspace=services/auth\"",
+        "build:frontend": "concurrently -n admin,host,shop,header,productPage,auth \"npm run build:prod --workspace=services/admin\" \"npm run build:prod --workspace=services/host\" \"npm run build:prod --workspace=services/shop\" \"npm run build:prod --workspace=services/product\" \"npm run build:prod --workspace=services/auth\""
+    },
+    "workspaces": [
+        "packages/*",
+        "services/*",
+        "backend/*"
+    ],
+    "devDependencies": {
+        "@types/node": "^22.13.10",
+        "concurrently": "^9.1.2"
+    },
+    "dependencies": {
+        "dotenv": "^17.2.1"
+    }
+}
