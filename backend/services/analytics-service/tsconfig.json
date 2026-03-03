@@ -22,7 +22,7 @@
       "@packages/shared/*": ["../../packages/shared/dist/*"],
       "@packages/config/*": ["../../../packages/config/dist/*"]
     },
-    "typeRoots": ["../../../node_modules/@types"],
+    "typeRoots": ["../../node_modules/@types"],
     "types": ["express", "node"],
     "skipLibCheck": true
   },
