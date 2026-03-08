@@ -1,46 +1,109 @@
-import React, { useState } from 'react';
-import cl from './SignWithGoogle.module.scss';
-import { useNavigate } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { GoogleLogin, GoogleOAuthProvider } from '@react-oauth/google';
+import { useFetch } from '@packages/shared/src/utils/hooks/useFetch';
+import { currentUserActions } from '@packages/shared/src/store';
+import { UserDataType } from '@packages/shared/src/utils/types/userData.type';
+import { shopRoutes } from '@packages/shared/src/routes/shop';
+import Cookies from '@packages/shared/src/utils/cookies';
 import { api } from '@packages/shared/src/routes/api';
 
+const cookies = new Cookies();
+
+type GoogleAuthResponse = {
+  success?: boolean;
+  isNewUser?: boolean;
+  token?: string;
+  user?: {
+    id: number | string;
+    name: string;
+    email: string;
+    role: string | string[];
+    avatar?: string | null;
+    createdAt?: string;
+  };
+};
+
 const SignWithGoogle = () => {
-  const [loading, setLoading] = useState(false);
-  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const {
+    response,
+    fetchData,
+    isLoading,
+    error: clientIdError,
+  } = useFetch<{ clientId: string }>();
 
-  const handleMockGoogleLogin = async () => {
-    setLoading(true);
+  const authFetch = useFetch<Record<string, any>, GoogleAuthResponse>();
+  const [clientId, setClientId] = useState<string | null>(null);
 
-    await new Promise((res) => setTimeout(res, 2000));
+  useEffect(() => {
+    fetchData({
+      method: 'GET',
+      port: 4004,
+      url: 'google/clientid',
+    });
+  }, []);
 
-    const mockUser = {
-      name: 'Сергій Google',
-      email: 'serhii@gmail.com',
-      avatar: 'https://i.pravatar.cc/150?u=google',
-      provider: 'google'
-    };
+  useEffect(() => {
+    if (response?.clientId) {
+      setClientId(response.clientId);
+    }
+  }, [response]);
 
-    localStorage.setItem('user', JSON.stringify(mockUser));
-    navigate(`/${api}/shop`);
+  useEffect(() => {
+    if (!authFetch.response) {
+      return;
+    }
+
+    console.log('Google auth backend response:', authFetch.response);
+
+    if (authFetch.response.success && authFetch.response.user) {
+      const backendUser = authFetch.response.user;
+      const currentUser: UserDataType = {
+        id: backendUser.id as number,
+        name: backendUser.name,
+        email: backendUser.email,
+        role: Array.isArray(backendUser.role) ? backendUser.role : [backendUser.role],
+        avatar: backendUser.avatar ?? null,
+        createdAt: backendUser.createdAt,
+      };
+
+      dispatch(currentUserActions.setCurrentUser(currentUser));
+      if (authFetch.response.token) {
+        cookies.setCookie({
+          name: 'token',
+          data: authFetch.response.token,
+          path: `/${api}`,
+        });
+      }
+
+      window.location.assign(`/${shopRoutes.shop}`);
+    }
+  }, [authFetch.response, dispatch]);
+
+  const handleSuccess = (credentialResponse: any) => {
+    authFetch.fetchData({
+      method: 'POST',
+      port: 4004,
+      url: 'google/auth',
+      body: credentialResponse,
+    });
   };
 
-  return (
-    <button
-      className={cl.googleButton}
-      onClick={handleMockGoogleLogin}
-      disabled={loading}
-    >
-      <span className={cl.googleIcon}>
-        <img
-          src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c1/Google_%22G%22_logo.svg/480px-Google_%22G%22_logo.svg.png"
-          alt="Google logo"
-        />
-      </span>
+  if (isLoading) return <div>Loading...</div>;
 
-      {loading ? 'Завантаження...' : 'Продовжити з Google'}
-    </button>
+  if (clientIdError || !clientId) {
+    return <div>Google sign-in is unavailable</div>;
+  }
+
+  return (
+    <GoogleOAuthProvider clientId={clientId}>
+      <GoogleLogin
+        onSuccess={handleSuccess}
+        onError={() => console.error('Login Failed')}
+      />
+    </GoogleOAuthProvider>
   );
 };
 
 export default SignWithGoogle;
-
-

@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { api } from '@packages/shared/src/routes/api';
 import { useNavigate } from 'react-router-dom';
-import { useFetch } from '@packages/shared/src/utils/hooks/useFetch';
 import cl from '@/utils/styles/modules/RegisterForm.module.scss';
 
 import InputData from '@packages/shared/src/components/UI/form-controls/InputData/InputData';
@@ -11,9 +10,9 @@ import Devider from '@/components/UI/Devider/Devider';
 import Terms from '@/components/UI/Terms/Terms';
 import LoginLink from '@/components/UI/LoginLink/LoginLink';
 import Button from '@packages/shared/src/components/UI/Button/Button';
+import { useFetch } from '@packages/shared/src/utils/hooks/useFetch';
 
-export type UserAuthType = {
-  name?: string;
+type UserLoginType = {
   email: string;
   password: string;
 };
@@ -24,19 +23,18 @@ type InitAuthResponse = {
   message?: string;
 };
 
-const Register = () => {
+const Login = () => {
+  const navigate = useNavigate();
   const [isError, setIsError] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
-  const [userData, setUserData] = useState<UserAuthType>({
-    name: '',
+  const [userData, setUserData] = useState<UserLoginType>({
     email: '',
     password: '',
   });
 
-  const navigate = useNavigate();
-  const { response, error, fetchData, isLoading } = useFetch<UserAuthType, InitAuthResponse>();
+  const { response, error, isLoading, fetchData } = useFetch<UserLoginType, InitAuthResponse>();
 
-  const handleInputChange = (field: keyof UserAuthType, value: string) => {
+  const handleInputChange = (field: keyof UserLoginType, value: string) => {
     setUserData((prev) => ({
       ...prev,
       [field]: value,
@@ -55,12 +53,8 @@ const Register = () => {
     fetchData({
       method: 'POST',
       port: 4004,
-      url: 'register/init',
-      body: {
-        name: userData.name,
-        email: userData.email,
-        password: userData.password,
-      },
+      url: 'login/init',
+      body: userData,
     });
   };
 
@@ -69,19 +63,19 @@ const Register = () => {
 
     if (response.success && response.flowId) {
       navigate(`/${api}/verify`, {
-        state: { email: userData.email, event: 'register', flowId: response.flowId },
+        state: { email: userData.email, event: 'login', flowId: response.flowId },
       });
       return;
     }
 
-    setErrorMessage(response.message || 'Registration initialization failed');
     setIsError(true);
+    setErrorMessage(response.message || 'Login initialization failed');
   }, [response]);
 
   useEffect(() => {
     if (error) {
-      setErrorMessage(error.message || 'Registration error');
       setIsError(true);
+      setErrorMessage(error.message || 'Login error');
     }
   }, [error]);
 
@@ -91,15 +85,6 @@ const Register = () => {
       <form onSubmit={handleSubmit}>
         <Devider />
         <div className={cl.form}>
-          <InputData
-            type="text"
-            id="name"
-            placeholder="Ім'я"
-            label="Ім'я"
-            required
-            name="name"
-            onInput={(val: string) => handleInputChange('name', val)}
-          />
           <InputData
             type="email"
             id="email"
@@ -119,13 +104,13 @@ const Register = () => {
             onInput={(val: string) => handleInputChange('password', val)}
           />
           <Terms />
-          <Button text={isLoading ? 'Loading...' : 'Зареєстуватися'} />
+          <Button text={isLoading ? 'Loading...' : 'Увійти'} />
           {isError && <ErrorMassage massage={errorMessage} />}
         </div>
-        <LoginLink type="register" onClick={() => navigate(`/${api}/login`)} />
+        <LoginLink type="login" onClick={() => navigate(`/${api}/register`)} />
       </form>
     </div>
   );
 };
 
-export default Register;
+export default Login;
