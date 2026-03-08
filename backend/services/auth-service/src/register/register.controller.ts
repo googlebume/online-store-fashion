@@ -2,11 +2,6 @@ import { Controller, Post, Body, HttpException, HttpStatus } from '@nestjs/commo
 import { RegisterService } from './register.service';
 import { RegisterUserDTO } from '../dto/register-user.dto';
 
-/**
- * Register Controller
- * SOLID Principle: Single Responsibility
- * Handles HTTP requests for user registration
- */
 @Controller('fashion')
 export class RegisterController {
   constructor(private readonly registerService: RegisterService) {}
@@ -14,32 +9,29 @@ export class RegisterController {
   @Post('register/init')
   async initRegistration(@Body() userData: RegisterUserDTO) {
     try {
-      await this.registerService.setUserData(userData);
-      await this.registerService.sendCode();
-      return { success: true };
-    } catch (error) {
+      return await this.registerService.initRegistration(userData);
+    } catch (error: any) {
       throw new HttpException(
-        error.message || 'Помилка при ініціалізації реєстрації',
+        error.message || 'Registration initialization failed',
         error.status || HttpStatus.INTERNAL_SERVER_ERROR,
       );
     }
   }
 
   @Post('register/confirm')
-  async confirmRegistration(@Body() body: { code: string }) {
+  async confirmRegistration(@Body() body: { flowId: string; code: string }) {
     try {
-      if (!body.code || typeof body.code !== 'string') {
-        throw new HttpException('Код підтвердження обов\'язковий', HttpStatus.BAD_REQUEST);
+      if (!body.code || !body.flowId) {
+        throw new HttpException('flowId and code are required', HttpStatus.BAD_REQUEST);
       }
 
-      const result = await this.registerService.confirmRegistration(body.code);
-      return result;
-    } catch (error) {
+      return await this.registerService.confirmRegistration(body.flowId, body.code);
+    } catch (error: any) {
       if (error instanceof HttpException) {
         throw error;
       }
       throw new HttpException(
-        error.message || 'Помилка підтвердження коду',
+        error.message || 'Registration confirmation failed',
         error.status || HttpStatus.INTERNAL_SERVER_ERROR,
       );
     }

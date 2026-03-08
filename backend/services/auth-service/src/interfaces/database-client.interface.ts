@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
  * SOLID Principle: Dependency Inversion
  * Services depend on abstraction, not concrete implementation
  */
-export interface IDatabaseClient {
+export interface DatabaseClient {
   /**
    * Send message to database microservice
    * @param pattern Message pattern (e.g., 'login_user', 'add_new_user')
@@ -18,7 +18,7 @@ export interface IDatabaseClient {
 /**
  * Response structure from database service
  */
-export interface IDatabaseResponse<T = any> {
+export interface DatabaseResponse<T = any> {
   success: boolean;
   data?: T;
   message?: string;
@@ -28,7 +28,7 @@ export interface IDatabaseResponse<T = any> {
 /**
  * User response structure
  */
-export interface IUserResponse {
+export interface UserResponse {
   success: boolean;
   message?: string;
   user?: {

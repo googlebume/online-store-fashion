@@ -8,22 +8,22 @@ export class LoginController {
 
   @Post('login/init')
   async initLogin(@Body() userData: LoginUserDTO) {
-    await this.loginService.setUserData(userData);
-    await this.loginService.sendCode();
-    return { success: true };
+    try {
+      return await this.loginService.initLogin(userData);
+    } catch (error: any) {
+      throw new HttpException(
+        error.message || 'Login initialization failed',
+        error.status || HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
   }
 
   @Post('login/confirm')
-  async confirmLogin(@Body() body: { code: string }) {
-    if (!body.code) {
-      throw new HttpException('Код обовʼязковий', HttpStatus.BAD_REQUEST);
+  async confirmLogin(@Body() body: { flowId: string; code: string }) {
+    if (!body.code || !body.flowId) {
+      throw new HttpException('flowId and code are required', HttpStatus.BAD_REQUEST);
     }
 
-    const result = await this.loginService.confirmLoginAndLogin(body.code);
-
-    return {
-      success: true,
-      ...result,
-    };
+    return this.loginService.confirmLogin(body.flowId, body.code);
   }
 }

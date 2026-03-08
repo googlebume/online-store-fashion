@@ -23,7 +23,9 @@
   },
   "dependencies": {
     "@nestjs/jwt": "^11.0.0",
-    "@packages/config": "*"
+    "@nestjs/mapped-types": "*",
+    "@packages/config": "*",
+    "google-auth-library": "^10.6.1"
   },
   "jest": {
     "moduleFileExtensions": [

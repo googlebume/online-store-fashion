@@ -1,13 +1,9 @@
-import { forwardRef, Module } from '@nestjs/common';
-import { VerifyService } from './verify.service';
+import { Module } from '@nestjs/common';
 import { VerifyController } from './verify.controller';
-import { RegisterModule } from 'src/register/register.module';
-import { MailerHandlerModule } from '@packages/shared/dist/src/utils/libs/mailer/mailer.module'
+import { AuthCoreModule } from '../auth-core/auth-core.module';
 
 @Module({
   controllers: [VerifyController],
-  providers: [VerifyService,],
-  imports: [forwardRef(() => RegisterModule), MailerHandlerModule],
-  exports: [VerifyService],
+  imports: [AuthCoreModule],
 })
 export class VerifyModule {}

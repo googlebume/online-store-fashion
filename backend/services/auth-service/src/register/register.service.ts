@@ -1,94 +1,78 @@
-import { HttpException, HttpStatus, Injectable, Inject } from '@nestjs/common';
-import { lastValueFrom } from 'rxjs';
-import { IDatabaseClient, IUserResponse } from '../interfaces/database-client.interface';
-import * as bcrypt from 'bcryptjs';
-import { VerifyService } from '../verify/verify.service';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { OtpService } from '../auth-core/otp.service';
+import { TokenService } from '../auth-core/token.service';
+import { UserIdentityService } from '../auth-core/user-identity.service';
 import { RegisterUserDTO } from '../dto/register-user.dto';
 
-/**
- * Register Service
- * SOLID Principle: Single Responsibility
- * Handles user registration business logic
- */
 @Injectable()
 export class RegisterService {
   constructor(
-    private readonly verifyService: VerifyService,
-    @Inject('IDatabaseClient')
-    private readonly databaseClient: IDatabaseClient,
+    private readonly otpService: OtpService,
+    private readonly tokenService: TokenService,
+    private readonly userIdentityService: UserIdentityService,
   ) {}
 
-  /**
-   * Set user data for verification
-   */
-  async setUserData(userData: RegisterUserDTO) {
-    await this.verifyService.setUserData(userData);
-  }
+  async initRegistration(userData: RegisterUserDTO) {
+    const email = userData.email?.trim().toLowerCase();
 
-  /**
-   * Send verification code
-   */
-  async sendCode() {
-    await this.verifyService.sendVerificationCode();
-  }
-
-  /**
-   * Confirm registration with verification code
-   * @param code Verification code
-   * @returns Success status
-   */
-  async confirmRegistration(code: string) {
-    try {
-      const verified = await this.verifyService.verifyCode(code);
-      if (!verified.success) {
-        return { success: false, message: 'Невірний код' };
-      }
-
-      const userData = this.verifyService.getUserData();
-      if (!userData || !userData.email || !userData.password || !userData.name) {
-        throw new HttpException('Дані користувача не знайдені', HttpStatus.BAD_REQUEST);
-      }
-
-      const hashedPassword = await this.hashPassword(userData.password);
-      const userDataWithHashedPassword = {
-        name: userData.name,
-        email: userData.email,
-        password: hashedPassword,
-      };
-
-      const response = await lastValueFrom<IUserResponse>(
-        this.databaseClient.send('add_new_user', userDataWithHashedPassword),
-      );
-
-      if (!response.success) {
-        throw new HttpException(
-          response.message || 'Користувач з таким email вже існує',
-          HttpStatus.CONFLICT,
-        );
-      }
-
-      return {
-        success: true,
-        message: 'Користувач успішно зареєстрований',
-      };
-    } catch (error) {
-      if (error instanceof HttpException) {
-        throw error;
-      }
-      throw new HttpException(
-        error.message || 'Помилка реєстрації',
-        HttpStatus.INTERNAL_SERVER_ERROR,
-      );
+    if (!email || !userData.name || !userData.password) {
+      throw new HttpException('Missing required registration fields', HttpStatus.BAD_REQUEST);
     }
+
+    const existingUser = await this.userIdentityService.getUserByEmail(email);
+
+    if (!existingUser.success && existingUser.message) {
+      throw new HttpException(existingUser.message, HttpStatus.BAD_GATEWAY);
+    }
+
+    if (existingUser.user) {
+      throw new HttpException('User with this email already exists', HttpStatus.CONFLICT);
+    }
+
+    const otpSession = await this.otpService.createAndSendSession('register', email, {
+      name: userData.name,
+      email,
+      password: userData.password,
+    });
+
+    return {
+      success: true,
+      flowId: otpSession.flowId,
+      expiresIn: otpSession.expiresIn,
+      message: 'OTP code sent',
+    };
   }
 
-  /**
-   * Hash password using bcrypt
-   * @param password Plain text password
-   * @returns Hashed password
-   */
-  private async hashPassword(password: string): Promise<string> {
-    const salt = await bcrypt.genSalt(10);
-    return bcrypt.hash(password, salt);
+  async confirmRegistration(flowId: string, code: string) {
+    const otpResult = this.otpService.consumeSession(flowId, code, 'register');
+
+    if (!otpResult.success) {
+      throw new HttpException(otpResult.message || 'Invalid OTP code', HttpStatus.UNAUTHORIZED);
+    }
+
+    const pendingUser = otpResult.payload as RegisterUserDTO;
+
+    const createResult = await this.userIdentityService.createUser({
+      name: pendingUser.name,
+      email: pendingUser.email,
+      password: pendingUser.password,
+    });
+
+    if (!createResult.success || !createResult.user) {
+      throw new HttpException(createResult.message || 'Registration failed', HttpStatus.CONFLICT);
+    }
+
+    const token = await this.tokenService.generateToken({
+      id: createResult.user.id,
+      email: createResult.user.email,
+      role: this.userIdentityService.normalizeRoles(createResult.user.role),
+    });
+
+    return {
+      success: true,
+      message: 'Registration successful',
+      userData: createResult.user,
+      token,
+    };
   }
 }

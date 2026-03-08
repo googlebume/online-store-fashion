@@ -12,11 +12,8 @@
     "start:adminService": "cd services/admin-service && npm run start:dev",
     "start:orderService": "cd services/order-service && npm run start:dev",
     "start:analyticsService": "cd services/analytics-service && npm run start:dev",
-
     "build:shared:watch": "cd packages/shared && npm run build:watch",
     "build:config:watch": "cd packages/config && npm run build:watch",
-
-
     "start:backend": "concurrently \"npm run build:shared:watch\" \"npm run build:config:watch\" \"npm run start:database\" \"npm run start:productService\" \"npm run start:authService\" \"npm run start:adminService\" \"npm run start:orderService\" \" npm run start:analyticsService\"",
     "start:dev": "npm run start:backend",
     "prisma:generate": "cd services/database && npx prisma generate",
@@ -38,6 +35,7 @@
     "@nestjs/throttler": "^6.4.0",
     "axios": "^1.9.0",
     "bcryptjs": "^3.0.2",
+    "class-transformer": "^0.5.1",
     "class-validator": "^0.14.1",
     "dotenv": "^16.6.1",
     "nodemailer": "^7.0.3",
