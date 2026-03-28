@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { BaseRepository } from '../core/base-repository.abstract';
 import { PrismaService } from '../../prisma.service';
-import { Order, DeliveryMethod } from '@prisma/client';
+import { Order, DeliveryMethod, OrderStatus, Prisma } from '@prisma/client';
 import { ICreateInput, IUpdateInput, IQueryOptions } from '../core/types';
 import { ErrorHandler } from '../core/error-handler';
 
@@ -18,11 +18,11 @@ export interface ICreateOrderInput extends ICreateInput<Order> {
   deliveryMethod: DeliveryMethod | string;
   address: string;
   email: string;
-  status?: string;
+  status?: OrderStatus | string;
 }
 
 export interface IUpdateOrderInput extends IUpdateInput<Order> {
-  status?: string;
+  status?: OrderStatus | string;
   address?: string;
   email?: string;
   total?: number;
@@ -34,12 +34,37 @@ export interface IUpdateOrderInput extends IUpdateInput<Order> {
  */
 @Injectable()
 export class OrderBaseHandler extends BaseRepository<Order> {
+  private readonly orderStatusMap: Record<string, OrderStatus> = {
+    pending: OrderStatus.Pending,
+    delivered: OrderStatus.Delivered,
+    declined: OrderStatus.Declined,
+    canceled: OrderStatus.Canceled,
+    received: OrderStatus.Received,
+    processing: OrderStatus.Processing,
+    accepted: OrderStatus.Accepted,
+  };
+
   constructor(private readonly prisma: PrismaService) {
     super();
   }
 
   protected getModel(): any {
     return this.prisma.order;
+  }
+
+  private normalizeOrderStatus(status?: OrderStatus | string): OrderStatus | undefined {
+    if (!status) return undefined;
+
+    if (Object.values(OrderStatus).includes(status as OrderStatus)) {
+      return status as OrderStatus;
+    }
+
+    const normalized = this.orderStatusMap[status.toLowerCase()];
+    if (normalized) {
+      return normalized;
+    }
+
+    throw new Error(`Invalid order status: ${status}`);
   }
 
   /**
@@ -118,12 +143,13 @@ export class OrderBaseHandler extends BaseRepository<Order> {
           : data.deliveryMethod;
 
       const { items, ...orderData } = data;
+      const normalizedStatus = this.normalizeOrderStatus(data.status) ?? OrderStatus.Pending;
 
       return await this.prisma.order.create({
         data: {
           ...orderData,
           deliveryMethod: mappedDeliveryMethod,
-          status: data.status || 'pending',
+          status: normalizedStatus,
           items: {
             create: items,
           },
@@ -145,9 +171,18 @@ export class OrderBaseHandler extends BaseRepository<Order> {
     data: IUpdateOrderInput
   ): Promise<Order> {
     try {
+      const { status, ...restData } = data;
+      const updateData: Prisma.OrderUpdateInput = {
+        ...restData,
+      };
+
+      if (status !== undefined) {
+        updateData.status = this.normalizeOrderStatus(status);
+      }
+
       return await this.prisma.order.update({
         where: { id: id as string },
-        data,
+        data: updateData,
         include: {
           items: true,
         },

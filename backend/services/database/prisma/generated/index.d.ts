@@ -3,7 +3,7 @@
  * Client
 **/
 
-import * as runtime from './runtime/library.js';
+import * as runtime from './runtime/client.js';
 import $Types = runtime.Types // general types
 import $Public = runtime.Types.Public
 import $Utils = runtime.Types.Utils
@@ -53,7 +53,20 @@ export type ProducsAnalytics = $Result.DefaultSelection<Prisma.$ProducsAnalytics
  * Enums
  */
 export namespace $Enums {
-  export const Role: {
+  export const OrderStatus: {
+  Pending: 'Pending',
+  Delivered: 'Delivered',
+  Declined: 'Declined',
+  Canceled: 'Canceled',
+  Received: 'Received',
+  Processing: 'Processing',
+  Accepted: 'Accepted'
+};
+
+export type OrderStatus = (typeof OrderStatus)[keyof typeof OrderStatus]
+
+
+export const Role: {
   admin: 'admin',
   user: 'user',
   manager: 'manager',
@@ -115,6 +128,10 @@ export type DeliveryMethod = (typeof DeliveryMethod)[keyof typeof DeliveryMethod
 
 }
 
+export type OrderStatus = $Enums.OrderStatus
+
+export const OrderStatus: typeof $Enums.OrderStatus
+
 export type Role = $Enums.Role
 
 export const Role: typeof $Enums.Role
@@ -145,13 +162,15 @@ export const DeliveryMethod: typeof $Enums.DeliveryMethod
  * Type-safe database client for TypeScript & Node.js
  * @example
  * ```
- * const prisma = new PrismaClient()
+ * const prisma = new PrismaClient({
+ *   adapter: new PrismaPg({ connectionString: process.env.DATABASE_URL })
+ * })
  * // Fetch zero or more Products
  * const products = await prisma.products.findMany()
  * ```
  *
  *
- * Read more in our [docs](https://www.prisma.io/docs/reference/tools-and-interfaces/prisma-client).
+ * Read more in our [docs](https://pris.ly/d/client).
  */
 export class PrismaClient<
   ClientOptions extends Prisma.PrismaClientOptions = Prisma.PrismaClientOptions,
@@ -166,13 +185,15 @@ export class PrismaClient<
    * Type-safe database client for TypeScript & Node.js
    * @example
    * ```
-   * const prisma = new PrismaClient()
+   * const prisma = new PrismaClient({
+   *   adapter: new PrismaPg({ connectionString: process.env.DATABASE_URL })
+   * })
    * // Fetch zero or more Products
    * const products = await prisma.products.findMany()
    * ```
    *
    *
-   * Read more in our [docs](https://www.prisma.io/docs/reference/tools-and-interfaces/prisma-client).
+   * Read more in our [docs](https://pris.ly/d/client).
    */
 
   constructor(optionsArg ?: Prisma.Subset<ClientOptions, Prisma.PrismaClientOptions>);
@@ -195,7 +216,7 @@ export class PrismaClient<
    * const result = await prisma.$executeRaw`UPDATE User SET cool = ${true} WHERE email = ${'user@email.com'};`
    * ```
    *
-   * Read more in our [docs](https://www.prisma.io/docs/reference/tools-and-interfaces/prisma-client/raw-database-access).
+   * Read more in our [docs](https://pris.ly/d/raw-queries).
    */
   $executeRaw<T = unknown>(query: TemplateStringsArray | Prisma.Sql, ...values: any[]): Prisma.PrismaPromise<number>;
 
@@ -207,7 +228,7 @@ export class PrismaClient<
    * const result = await prisma.$executeRawUnsafe('UPDATE User SET cool = $1 WHERE email = $2 ;', true, 'user@email.com')
    * ```
    *
-   * Read more in our [docs](https://www.prisma.io/docs/reference/tools-and-interfaces/prisma-client/raw-database-access).
+   * Read more in our [docs](https://pris.ly/d/raw-queries).
    */
   $executeRawUnsafe<T = unknown>(query: string, ...values: any[]): Prisma.PrismaPromise<number>;
 
@@ -218,7 +239,7 @@ export class PrismaClient<
    * const result = await prisma.$queryRaw`SELECT * FROM User WHERE id = ${1} OR email = ${'user@email.com'};`
    * ```
    *
-   * Read more in our [docs](https://www.prisma.io/docs/reference/tools-and-interfaces/prisma-client/raw-database-access).
+   * Read more in our [docs](https://pris.ly/d/raw-queries).
    */
   $queryRaw<T = unknown>(query: TemplateStringsArray | Prisma.Sql, ...values: any[]): Prisma.PrismaPromise<T>;
 
@@ -230,7 +251,7 @@ export class PrismaClient<
    * const result = await prisma.$queryRawUnsafe('SELECT * FROM User WHERE id = $1 OR email = $2;', 1, 'user@email.com')
    * ```
    *
-   * Read more in our [docs](https://www.prisma.io/docs/reference/tools-and-interfaces/prisma-client/raw-database-access).
+   * Read more in our [docs](https://pris.ly/d/raw-queries).
    */
   $queryRawUnsafe<T = unknown>(query: string, ...values: any[]): Prisma.PrismaPromise<T>;
 
@@ -246,12 +267,11 @@ export class PrismaClient<
    * ])
    * ```
    * 
-   * Read more in our [docs](https://www.prisma.io/docs/concepts/components/prisma-client/transactions).
+   * Read more in our [docs](https://www.prisma.io/docs/orm/prisma-client/queries/transactions).
    */
   $transaction<P extends Prisma.PrismaPromise<any>[]>(arg: [...P], options?: { isolationLevel?: Prisma.TransactionIsolationLevel }): $Utils.JsPromise<runtime.Types.Utils.UnwrapTuple<P>>
 
   $transaction<R>(fn: (prisma: Omit<PrismaClient, runtime.ITXClientDenyList>) => $Utils.JsPromise<R>, options?: { maxWait?: number, timeout?: number, isolationLevel?: Prisma.TransactionIsolationLevel }): $Utils.JsPromise<R>
-
 
   $extends: $Extensions.ExtendsHook<"extends", Prisma.TypeMapCb<ClientOptions>, ExtArgs, $Utils.Call<Prisma.TypeMapCb<ClientOptions>, {
     extArgs: ExtArgs
@@ -366,14 +386,6 @@ export namespace Prisma {
   export type DecimalJsLike = runtime.DecimalJsLike
 
   /**
-   * Metrics
-   */
-  export type Metrics = runtime.Metrics
-  export type Metric<T> = runtime.Metric<T>
-  export type MetricHistogram = runtime.MetricHistogram
-  export type MetricHistogramBucket = runtime.MetricHistogramBucket
-
-  /**
   * Extensions
   */
   export import Extension = $Extensions.UserArgs
@@ -384,11 +396,12 @@ export namespace Prisma {
   export import Exact = $Public.Exact
 
   /**
-   * Prisma Client JS version: 6.14.0
-   * Query Engine version: 717184b7b35ea05dfa71a3236b7af656013e1e49
+   * Prisma Client JS version: 7.6.0
+   * Query Engine version: 75cbdc1eb7150937890ad5465d861175c6624711
    */
   export type PrismaVersion = {
     client: string
+    engine: string
   }
 
   export const prismaVersion: PrismaVersion
@@ -398,6 +411,7 @@ export namespace Prisma {
    */
 
 
+  export import Bytes = runtime.Bytes
   export import JsonObject = runtime.JsonObject
   export import JsonArray = runtime.JsonArray
   export import JsonValue = runtime.JsonValue
@@ -778,9 +792,6 @@ export namespace Prisma {
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
 
 
-  export type Datasources = {
-    db?: Datasource
-  }
 
   interface TypeMapCb<ClientOptions = {}> extends $Utils.Fn<{extArgs: $Extensions.InternalArgs }, $Utils.Record<string, any>> {
     returns: Prisma.TypeMap<this['params']['extArgs'], ClientOptions extends { omit: infer OmitOptions } ? OmitOptions : {}>
@@ -1342,14 +1353,6 @@ export namespace Prisma {
   export type ErrorFormat = 'pretty' | 'colorless' | 'minimal'
   export interface PrismaClientOptions {
     /**
-     * Overwrites the datasource url from your schema.prisma file
-     */
-    datasources?: Datasources
-    /**
-     * Overwrites the datasource url from your schema.prisma file
-     */
-    datasourceUrl?: string
-    /**
      * @default "colorless"
      */
     errorFormat?: ErrorFormat
@@ -1375,7 +1378,7 @@ export namespace Prisma {
      *  { emit: 'stdout', level: 'error' }
      * 
      * ```
-     * Read more in our [docs](https://www.prisma.io/docs/reference/tools-and-interfaces/prisma-client/logging#the-log-option).
+     * Read more in our [docs](https://pris.ly/d/logging).
      */
     log?: (LogLevel | LogDefinition)[]
     /**
@@ -1388,6 +1391,14 @@ export namespace Prisma {
       timeout?: number
       isolationLevel?: Prisma.TransactionIsolationLevel
     }
+    /**
+     * Instance of a Driver Adapter, e.g., like one provided by `@prisma/adapter-planetscale`
+     */
+    adapter?: runtime.SqlDriverAdapterFactory
+    /**
+     * Prisma Accelerate URL allowing the client to connect through Accelerate instead of a direct database.
+     */
+    accelerateUrl?: string
     /**
      * Global configuration for omitting model fields by default.
      * 
@@ -1403,6 +1414,22 @@ export namespace Prisma {
      * ```
      */
     omit?: Prisma.GlobalOmitConfig
+    /**
+     * SQL commenter plugins that add metadata to SQL queries as comments.
+     * Comments follow the sqlcommenter format: https://google.github.io/sqlcommenter/
+     * 
+     * @example
+     * ```
+     * const prisma = new PrismaClient({
+     *   adapter,
+     *   comments: [
+     *     traceContext(),
+     *     queryInsights(),
+     *   ],
+     * })
+     * ```
+     */
+    comments?: runtime.SqlCommenterPlugin[]
   }
   export type GlobalOmitConfig = {
     products?: ProductsOmit
@@ -2519,6 +2546,11 @@ export namespace Prisma {
      * Skip the first `n` Products.
      */
     skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Products.
+     */
     distinct?: ProductsScalarFieldEnum | ProductsScalarFieldEnum[]
   }
 
@@ -3024,7 +3056,7 @@ export namespace Prisma {
     material?: boolean
     countryOfOrigin?: boolean
     weight?: boolean
-    Products?: boolean | Attributes$ProductsArgs<ExtArgs>
+    Products?: boolean | ProductsDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["attributes"]>
 
   export type AttributesSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -3037,7 +3069,7 @@ export namespace Prisma {
     material?: boolean
     countryOfOrigin?: boolean
     weight?: boolean
-    Products?: boolean | Attributes$ProductsArgs<ExtArgs>
+    Products?: boolean | ProductsDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["attributes"]>
 
   export type AttributesSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -3050,7 +3082,7 @@ export namespace Prisma {
     material?: boolean
     countryOfOrigin?: boolean
     weight?: boolean
-    Products?: boolean | Attributes$ProductsArgs<ExtArgs>
+    Products?: boolean | ProductsDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["attributes"]>
 
   export type AttributesSelectScalar = {
@@ -3067,19 +3099,19 @@ export namespace Prisma {
 
   export type AttributesOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"productsId" | "type" | "category" | "color" | "size" | "brand" | "material" | "countryOfOrigin" | "weight", ExtArgs["result"]["attributes"]>
   export type AttributesInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    Products?: boolean | Attributes$ProductsArgs<ExtArgs>
+    Products?: boolean | ProductsDefaultArgs<ExtArgs>
   }
   export type AttributesIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    Products?: boolean | Attributes$ProductsArgs<ExtArgs>
+    Products?: boolean | ProductsDefaultArgs<ExtArgs>
   }
   export type AttributesIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    Products?: boolean | Attributes$ProductsArgs<ExtArgs>
+    Products?: boolean | ProductsDefaultArgs<ExtArgs>
   }
 
   export type $AttributesPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Attributes"
     objects: {
-      Products: Prisma.$ProductsPayload<ExtArgs> | null
+      Products: Prisma.$ProductsPayload<ExtArgs>
     }
     scalars: $Extensions.GetPayloadResult<{
       productsId: string
@@ -3485,7 +3517,7 @@ export namespace Prisma {
    */
   export interface Prisma__AttributesClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    Products<T extends Attributes$ProductsArgs<ExtArgs> = {}>(args?: Subset<T, Attributes$ProductsArgs<ExtArgs>>): Prisma__ProductsClient<$Result.GetResult<Prisma.$ProductsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    Products<T extends ProductsDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ProductsDefaultArgs<ExtArgs>>): Prisma__ProductsClient<$Result.GetResult<Prisma.$ProductsPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -3720,6 +3752,11 @@ export namespace Prisma {
      * Skip the first `n` Attributes.
      */
     skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Attributes.
+     */
     distinct?: AttributesScalarFieldEnum | AttributesScalarFieldEnum[]
   }
 
@@ -3915,25 +3952,6 @@ export namespace Prisma {
      * Limit how many Attributes to delete.
      */
     limit?: number
-  }
-
-  /**
-   * Attributes.Products
-   */
-  export type Attributes$ProductsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Products
-     */
-    select?: ProductsSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Products
-     */
-    omit?: ProductsOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: ProductsInclude<ExtArgs> | null
-    where?: ProductsWhereInput
   }
 
   /**
@@ -4825,6 +4843,11 @@ export namespace Prisma {
      * Skip the first `n` Users.
      */
     skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Users.
+     */
     distinct?: UserScalarFieldEnum | UserScalarFieldEnum[]
   }
 
@@ -5132,7 +5155,7 @@ export namespace Prisma {
     deliveryMethod: $Enums.DeliveryMethod | null
     address: string | null
     email: string | null
-    status: string | null
+    status: $Enums.OrderStatus | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -5144,7 +5167,7 @@ export namespace Prisma {
     deliveryMethod: $Enums.DeliveryMethod | null
     address: string | null
     email: string | null
-    status: string | null
+    status: $Enums.OrderStatus | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -5301,7 +5324,7 @@ export namespace Prisma {
     deliveryMethod: $Enums.DeliveryMethod
     address: string
     email: string
-    status: string
+    status: $Enums.OrderStatus
     createdAt: Date
     updatedAt: Date
     _count: OrderCountAggregateOutputType | null
@@ -5404,7 +5427,7 @@ export namespace Prisma {
       deliveryMethod: $Enums.DeliveryMethod
       address: string
       email: string
-      status: string
+      status: $Enums.OrderStatus
       createdAt: Date
       updatedAt: Date
     }, ExtArgs["result"]["order"]>
@@ -5838,7 +5861,7 @@ export namespace Prisma {
     readonly deliveryMethod: FieldRef<"Order", 'DeliveryMethod'>
     readonly address: FieldRef<"Order", 'String'>
     readonly email: FieldRef<"Order", 'String'>
-    readonly status: FieldRef<"Order", 'String'>
+    readonly status: FieldRef<"Order", 'OrderStatus'>
     readonly createdAt: FieldRef<"Order", 'DateTime'>
     readonly updatedAt: FieldRef<"Order", 'DateTime'>
   }
@@ -6037,6 +6060,11 @@ export namespace Prisma {
      * Skip the first `n` Orders.
      */
     skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Orders.
+     */
     distinct?: OrderScalarFieldEnum | OrderScalarFieldEnum[]
   }
 
@@ -7174,6 +7202,11 @@ export namespace Prisma {
      * Skip the first `n` OrderItems.
      */
     skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of OrderItems.
+     */
     distinct?: OrderItemScalarFieldEnum | OrderItemScalarFieldEnum[]
   }
 
@@ -8306,6 +8339,11 @@ export namespace Prisma {
      * Skip the first `n` Reviews.
      */
     skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Reviews.
+     */
     distinct?: ReviewsScalarFieldEnum | ReviewsScalarFieldEnum[]
   }
 
@@ -8535,83 +8573,119 @@ export namespace Prisma {
   }
 
   export type ProducsAnalyticsAvgAggregateOutputType = {
-    ordersCount: number | null
-    maxStarsMark: number | null
-    minStarsMark: number | null
+    views: number | null
+    clicks: number | null
+    orders: number | null
+    reviews: number | null
+    maxRating: number | null
+    minRating: number | null
   }
 
   export type ProducsAnalyticsSumAggregateOutputType = {
-    ordersCount: number | null
-    maxStarsMark: number | null
-    minStarsMark: number | null
+    views: number | null
+    clicks: number | null
+    orders: number | null
+    reviews: number | null
+    maxRating: number | null
+    minRating: number | null
   }
 
   export type ProducsAnalyticsMinAggregateOutputType = {
     id: string | null
     productId: string | null
-    url: string | null
-    ordersCount: number | null
-    maxStarsMark: number | null
-    minStarsMark: number | null
+    views: number | null
+    clicks: number | null
+    orders: number | null
+    reviews: number | null
+    maxRating: number | null
+    minRating: number | null
+    createdAt: Date | null
+    updatedAt: Date | null
   }
 
   export type ProducsAnalyticsMaxAggregateOutputType = {
     id: string | null
     productId: string | null
-    url: string | null
-    ordersCount: number | null
-    maxStarsMark: number | null
-    minStarsMark: number | null
+    views: number | null
+    clicks: number | null
+    orders: number | null
+    reviews: number | null
+    maxRating: number | null
+    minRating: number | null
+    createdAt: Date | null
+    updatedAt: Date | null
   }
 
   export type ProducsAnalyticsCountAggregateOutputType = {
     id: number
     productId: number
-    url: number
-    ordersCount: number
-    maxStarsMark: number
-    minStarsMark: number
+    views: number
+    clicks: number
+    orders: number
+    reviews: number
+    maxRating: number
+    minRating: number
+    createdAt: number
+    updatedAt: number
     _all: number
   }
 
 
   export type ProducsAnalyticsAvgAggregateInputType = {
-    ordersCount?: true
-    maxStarsMark?: true
-    minStarsMark?: true
+    views?: true
+    clicks?: true
+    orders?: true
+    reviews?: true
+    maxRating?: true
+    minRating?: true
   }
 
   export type ProducsAnalyticsSumAggregateInputType = {
-    ordersCount?: true
-    maxStarsMark?: true
-    minStarsMark?: true
+    views?: true
+    clicks?: true
+    orders?: true
+    reviews?: true
+    maxRating?: true
+    minRating?: true
   }
 
   export type ProducsAnalyticsMinAggregateInputType = {
     id?: true
     productId?: true
-    url?: true
-    ordersCount?: true
-    maxStarsMark?: true
-    minStarsMark?: true
+    views?: true
+    clicks?: true
+    orders?: true
+    reviews?: true
+    maxRating?: true
+    minRating?: true
+    createdAt?: true
+    updatedAt?: true
   }
 
   export type ProducsAnalyticsMaxAggregateInputType = {
     id?: true
     productId?: true
-    url?: true
-    ordersCount?: true
-    maxStarsMark?: true
-    minStarsMark?: true
+    views?: true
+    clicks?: true
+    orders?: true
+    reviews?: true
+    maxRating?: true
+    minRating?: true
+    createdAt?: true
+    updatedAt?: true
   }
 
   export type ProducsAnalyticsCountAggregateInputType = {
     id?: true
     productId?: true
-    url?: true
-    ordersCount?: true
-    maxStarsMark?: true
-    minStarsMark?: true
+    views?: true
+    clicks?: true
+    orders?: true
+    reviews?: true
+    maxRating?: true
+    minRating?: true
+    createdAt?: true
+    updatedAt?: true
     _all?: true
   }
 
@@ -8704,10 +8778,14 @@ export namespace Prisma {
   export type ProducsAnalyticsGroupByOutputType = {
     id: string
     productId: string
-    url: string
-    ordersCount: number
-    maxStarsMark: number
-    minStarsMark: number
+    views: number
+    clicks: number
+    orders: number
+    reviews: number
+    maxRating: number
+    minRating: number
+    createdAt: Date
+    updatedAt: Date
     _count: ProducsAnalyticsCountAggregateOutputType | null
     _avg: ProducsAnalyticsAvgAggregateOutputType | null
     _sum: ProducsAnalyticsSumAggregateOutputType | null
@@ -8732,43 +8810,59 @@ export namespace Prisma {
   export type ProducsAnalyticsSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     productId?: boolean
-    url?: boolean
-    ordersCount?: boolean
-    maxStarsMark?: boolean
-    minStarsMark?: boolean
+    views?: boolean
+    clicks?: boolean
+    orders?: boolean
+    reviews?: boolean
+    maxRating?: boolean
+    minRating?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
     product?: boolean | ProductsDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["producsAnalytics"]>
 
   export type ProducsAnalyticsSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     productId?: boolean
-    url?: boolean
-    ordersCount?: boolean
-    maxStarsMark?: boolean
-    minStarsMark?: boolean
+    views?: boolean
+    clicks?: boolean
+    orders?: boolean
+    reviews?: boolean
+    maxRating?: boolean
+    minRating?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
     product?: boolean | ProductsDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["producsAnalytics"]>
 
   export type ProducsAnalyticsSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     productId?: boolean
-    url?: boolean
-    ordersCount?: boolean
-    maxStarsMark?: boolean
-    minStarsMark?: boolean
+    views?: boolean
+    clicks?: boolean
+    orders?: boolean
+    reviews?: boolean
+    maxRating?: boolean
+    minRating?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
     product?: boolean | ProductsDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["producsAnalytics"]>
 
   export type ProducsAnalyticsSelectScalar = {
     id?: boolean
     productId?: boolean
-    url?: boolean
-    ordersCount?: boolean
-    maxStarsMark?: boolean
-    minStarsMark?: boolean
+    views?: boolean
+    clicks?: boolean
+    orders?: boolean
+    reviews?: boolean
+    maxRating?: boolean
+    minRating?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
   }
 
-  export type ProducsAnalyticsOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "productId" | "url" | "ordersCount" | "maxStarsMark" | "minStarsMark", ExtArgs["result"]["producsAnalytics"]>
+  export type ProducsAnalyticsOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "productId" | "views" | "clicks" | "orders" | "reviews" | "maxRating" | "minRating" | "createdAt" | "updatedAt", ExtArgs["result"]["producsAnalytics"]>
   export type ProducsAnalyticsInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     product?: boolean | ProductsDefaultArgs<ExtArgs>
   }
@@ -8787,10 +8881,14 @@ export namespace Prisma {
     scalars: $Extensions.GetPayloadResult<{
       id: string
       productId: string
-      url: string
-      ordersCount: number
-      maxStarsMark: number
-      minStarsMark: number
+      views: number
+      clicks: number
+      orders: number
+      reviews: number
+      maxRating: number
+      minRating: number
+      createdAt: Date
+      updatedAt: Date
     }, ExtArgs["result"]["producsAnalytics"]>
     composites: {}
   }
@@ -9217,10 +9315,14 @@ export namespace Prisma {
   interface ProducsAnalyticsFieldRefs {
     readonly id: FieldRef<"ProducsAnalytics", 'String'>
     readonly productId: FieldRef<"ProducsAnalytics", 'String'>
-    readonly url: FieldRef<"ProducsAnalytics", 'String'>
-    readonly ordersCount: FieldRef<"ProducsAnalytics", 'Int'>
-    readonly maxStarsMark: FieldRef<"ProducsAnalytics", 'Int'>
-    readonly minStarsMark: FieldRef<"ProducsAnalytics", 'Int'>
+    readonly views: FieldRef<"ProducsAnalytics", 'Int'>
+    readonly clicks: FieldRef<"ProducsAnalytics", 'Int'>
+    readonly orders: FieldRef<"ProducsAnalytics", 'Int'>
+    readonly reviews: FieldRef<"ProducsAnalytics", 'Int'>
+    readonly maxRating: FieldRef<"ProducsAnalytics", 'Float'>
+    readonly minRating: FieldRef<"ProducsAnalytics", 'Float'>
+    readonly createdAt: FieldRef<"ProducsAnalytics", 'DateTime'>
+    readonly updatedAt: FieldRef<"ProducsAnalytics", 'DateTime'>
   }
     
 
@@ -9417,6 +9519,11 @@ export namespace Prisma {
      * Skip the first `n` ProducsAnalytics.
      */
     skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of ProducsAnalytics.
+     */
     distinct?: ProducsAnalyticsScalarFieldEnum | ProducsAnalyticsScalarFieldEnum[]
   }
 
@@ -9727,10 +9834,14 @@ export namespace Prisma {
   export const ProducsAnalyticsScalarFieldEnum: {
     id: 'id',
     productId: 'productId',
-    url: 'url',
-    ordersCount: 'ordersCount',
-    maxStarsMark: 'maxStarsMark',
-    minStarsMark: 'minStarsMark'
+    views: 'views',
+    clicks: 'clicks',
+    orders: 'orders',
+    reviews: 'reviews',
+    maxRating: 'maxRating',
+    minRating: 'minRating',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
   };
 
   export type ProducsAnalyticsScalarFieldEnum = (typeof ProducsAnalyticsScalarFieldEnum)[keyof typeof ProducsAnalyticsScalarFieldEnum]
@@ -9817,6 +9928,13 @@ export namespace Prisma {
    * Reference to a field of type 'DeliveryMethod'
    */
   export type EnumDeliveryMethodFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DeliveryMethod'>
+    
+
+
+  /**
+   * Reference to a field of type 'OrderStatus'
+   */
+  export type EnumOrderStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'OrderStatus'>
     
 
 
@@ -9916,7 +10034,7 @@ export namespace Prisma {
     material?: StringNullableFilter<"Attributes"> | string | null
     countryOfOrigin?: StringNullableFilter<"Attributes"> | string | null
     weight?: FloatNullableFilter<"Attributes"> | number | null
-    Products?: XOR<ProductsNullableScalarRelationFilter, ProductsWhereInput> | null
+    Products?: XOR<ProductsScalarRelationFilter, ProductsWhereInput>
   }
 
   export type AttributesOrderByWithRelationInput = {
@@ -9945,7 +10063,7 @@ export namespace Prisma {
     material?: StringNullableFilter<"Attributes"> | string | null
     countryOfOrigin?: StringNullableFilter<"Attributes"> | string | null
     weight?: FloatNullableFilter<"Attributes"> | number | null
-    Products?: XOR<ProductsNullableScalarRelationFilter, ProductsWhereInput> | null
+    Products?: XOR<ProductsScalarRelationFilter, ProductsWhereInput>
   }, "productsId">
 
   export type AttributesOrderByWithAggregationInput = {
@@ -10061,7 +10179,7 @@ export namespace Prisma {
     deliveryMethod?: EnumDeliveryMethodFilter<"Order"> | $Enums.DeliveryMethod
     address?: StringFilter<"Order"> | string
     email?: StringFilter<"Order"> | string
-    status?: StringFilter<"Order"> | string
+    status?: EnumOrderStatusFilter<"Order"> | $Enums.OrderStatus
     createdAt?: DateTimeFilter<"Order"> | Date | string
     updatedAt?: DateTimeFilter<"Order"> | Date | string
     items?: OrderItemListRelationFilter
@@ -10092,7 +10210,7 @@ export namespace Prisma {
     deliveryMethod?: EnumDeliveryMethodFilter<"Order"> | $Enums.DeliveryMethod
     address?: StringFilter<"Order"> | string
     email?: StringFilter<"Order"> | string
-    status?: StringFilter<"Order"> | string
+    status?: EnumOrderStatusFilter<"Order"> | $Enums.OrderStatus
     createdAt?: DateTimeFilter<"Order"> | Date | string
     updatedAt?: DateTimeFilter<"Order"> | Date | string
     items?: OrderItemListRelationFilter
@@ -10126,7 +10244,7 @@ export namespace Prisma {
     deliveryMethod?: EnumDeliveryMethodWithAggregatesFilter<"Order"> | $Enums.DeliveryMethod
     address?: StringWithAggregatesFilter<"Order"> | string
     email?: StringWithAggregatesFilter<"Order"> | string
-    status?: StringWithAggregatesFilter<"Order"> | string
+    status?: EnumOrderStatusWithAggregatesFilter<"Order"> | $Enums.OrderStatus
     createdAt?: DateTimeWithAggregatesFilter<"Order"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Order"> | Date | string
   }
@@ -10267,43 +10385,59 @@ export namespace Prisma {
     NOT?: ProducsAnalyticsWhereInput | ProducsAnalyticsWhereInput[]
     id?: StringFilter<"ProducsAnalytics"> | string
     productId?: StringFilter<"ProducsAnalytics"> | string
-    url?: StringFilter<"ProducsAnalytics"> | string
-    ordersCount?: IntFilter<"ProducsAnalytics"> | number
-    maxStarsMark?: IntFilter<"ProducsAnalytics"> | number
-    minStarsMark?: IntFilter<"ProducsAnalytics"> | number
+    views?: IntFilter<"ProducsAnalytics"> | number
+    clicks?: IntFilter<"ProducsAnalytics"> | number
+    orders?: IntFilter<"ProducsAnalytics"> | number
+    reviews?: IntFilter<"ProducsAnalytics"> | number
+    maxRating?: FloatFilter<"ProducsAnalytics"> | number
+    minRating?: FloatFilter<"ProducsAnalytics"> | number
+    createdAt?: DateTimeFilter<"ProducsAnalytics"> | Date | string
+    updatedAt?: DateTimeFilter<"ProducsAnalytics"> | Date | string
     product?: XOR<ProductsScalarRelationFilter, ProductsWhereInput>
   }
 
   export type ProducsAnalyticsOrderByWithRelationInput = {
     id?: SortOrder
     productId?: SortOrder
-    url?: SortOrder
-    ordersCount?: SortOrder
-    maxStarsMark?: SortOrder
-    minStarsMark?: SortOrder
+    views?: SortOrder
+    clicks?: SortOrder
+    orders?: SortOrder
+    reviews?: SortOrder
+    maxRating?: SortOrder
+    minRating?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
     product?: ProductsOrderByWithRelationInput
   }
 
   export type ProducsAnalyticsWhereUniqueInput = Prisma.AtLeast<{
     id?: string
     productId?: string
-    url?: string
     AND?: ProducsAnalyticsWhereInput | ProducsAnalyticsWhereInput[]
     OR?: ProducsAnalyticsWhereInput[]
     NOT?: ProducsAnalyticsWhereInput | ProducsAnalyticsWhereInput[]
-    ordersCount?: IntFilter<"ProducsAnalytics"> | number
-    maxStarsMark?: IntFilter<"ProducsAnalytics"> | number
-    minStarsMark?: IntFilter<"ProducsAnalytics"> | number
+    views?: IntFilter<"ProducsAnalytics"> | number
+    clicks?: IntFilter<"ProducsAnalytics"> | number
+    orders?: IntFilter<"ProducsAnalytics"> | number
+    reviews?: IntFilter<"ProducsAnalytics"> | number
+    maxRating?: FloatFilter<"ProducsAnalytics"> | number
+    minRating?: FloatFilter<"ProducsAnalytics"> | number
+    createdAt?: DateTimeFilter<"ProducsAnalytics"> | Date | string
+    updatedAt?: DateTimeFilter<"ProducsAnalytics"> | Date | string
     product?: XOR<ProductsScalarRelationFilter, ProductsWhereInput>
-  }, "id" | "productId" | "url">
+  }, "id" | "productId">
 
   export type ProducsAnalyticsOrderByWithAggregationInput = {
     id?: SortOrder
     productId?: SortOrder
-    url?: SortOrder
-    ordersCount?: SortOrder
-    maxStarsMark?: SortOrder
-    minStarsMark?: SortOrder
+    views?: SortOrder
+    clicks?: SortOrder
+    orders?: SortOrder
+    reviews?: SortOrder
+    maxRating?: SortOrder
+    minRating?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
     _count?: ProducsAnalyticsCountOrderByAggregateInput
     _avg?: ProducsAnalyticsAvgOrderByAggregateInput
     _max?: ProducsAnalyticsMaxOrderByAggregateInput
@@ -10317,10 +10451,14 @@ export namespace Prisma {
     NOT?: ProducsAnalyticsScalarWhereWithAggregatesInput | ProducsAnalyticsScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"ProducsAnalytics"> | string
     productId?: StringWithAggregatesFilter<"ProducsAnalytics"> | string
-    url?: StringWithAggregatesFilter<"ProducsAnalytics"> | string
-    ordersCount?: IntWithAggregatesFilter<"ProducsAnalytics"> | number
-    maxStarsMark?: IntWithAggregatesFilter<"ProducsAnalytics"> | number
-    minStarsMark?: IntWithAggregatesFilter<"ProducsAnalytics"> | number
+    views?: IntWithAggregatesFilter<"ProducsAnalytics"> | number
+    clicks?: IntWithAggregatesFilter<"ProducsAnalytics"> | number
+    orders?: IntWithAggregatesFilter<"ProducsAnalytics"> | number
+    reviews?: IntWithAggregatesFilter<"ProducsAnalytics"> | number
+    maxRating?: FloatWithAggregatesFilter<"ProducsAnalytics"> | number
+    minRating?: FloatWithAggregatesFilter<"ProducsAnalytics"> | number
+    createdAt?: DateTimeWithAggregatesFilter<"ProducsAnalytics"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"ProducsAnalytics"> | Date | string
   }
 
   export type ProductsCreateInput = {
@@ -10414,7 +10552,7 @@ export namespace Prisma {
     material?: string | null
     countryOfOrigin?: string | null
     weight?: number | null
-    Products?: ProductsCreateNestedOneWithoutAttributesInput
+    Products: ProductsCreateNestedOneWithoutAttributesInput
   }
 
   export type AttributesUncheckedCreateInput = {
@@ -10438,7 +10576,7 @@ export namespace Prisma {
     material?: NullableStringFieldUpdateOperationsInput | string | null
     countryOfOrigin?: NullableStringFieldUpdateOperationsInput | string | null
     weight?: NullableFloatFieldUpdateOperationsInput | number | null
-    Products?: ProductsUpdateOneWithoutAttributesNestedInput
+    Products?: ProductsUpdateOneRequiredWithoutAttributesNestedInput
   }
 
   export type AttributesUncheckedUpdateInput = {
@@ -10576,7 +10714,7 @@ export namespace Prisma {
     deliveryMethod: $Enums.DeliveryMethod
     address: string
     email: string
-    status?: string
+    status?: $Enums.OrderStatus
     createdAt?: Date | string
     updatedAt?: Date | string
     items?: OrderItemCreateNestedManyWithoutOrderInput
@@ -10590,7 +10728,7 @@ export namespace Prisma {
     deliveryMethod: $Enums.DeliveryMethod
     address: string
     email: string
-    status?: string
+    status?: $Enums.OrderStatus
     createdAt?: Date | string
     updatedAt?: Date | string
     items?: OrderItemUncheckedCreateNestedManyWithoutOrderInput
@@ -10602,7 +10740,7 @@ export namespace Prisma {
     deliveryMethod?: EnumDeliveryMethodFieldUpdateOperationsInput | $Enums.DeliveryMethod
     address?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
-    status?: StringFieldUpdateOperationsInput | string
+    status?: EnumOrderStatusFieldUpdateOperationsInput | $Enums.OrderStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     items?: OrderItemUpdateManyWithoutOrderNestedInput
@@ -10616,7 +10754,7 @@ export namespace Prisma {
     deliveryMethod?: EnumDeliveryMethodFieldUpdateOperationsInput | $Enums.DeliveryMethod
     address?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
-    status?: StringFieldUpdateOperationsInput | string
+    status?: EnumOrderStatusFieldUpdateOperationsInput | $Enums.OrderStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     items?: OrderItemUncheckedUpdateManyWithoutOrderNestedInput
@@ -10629,7 +10767,7 @@ export namespace Prisma {
     deliveryMethod: $Enums.DeliveryMethod
     address: string
     email: string
-    status?: string
+    status?: $Enums.OrderStatus
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -10640,7 +10778,7 @@ export namespace Prisma {
     deliveryMethod?: EnumDeliveryMethodFieldUpdateOperationsInput | $Enums.DeliveryMethod
     address?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
-    status?: StringFieldUpdateOperationsInput | string
+    status?: EnumOrderStatusFieldUpdateOperationsInput | $Enums.OrderStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -10652,7 +10790,7 @@ export namespace Prisma {
     deliveryMethod?: EnumDeliveryMethodFieldUpdateOperationsInput | $Enums.DeliveryMethod
     address?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
-    status?: StringFieldUpdateOperationsInput | string
+    status?: EnumOrderStatusFieldUpdateOperationsInput | $Enums.OrderStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -10781,64 +10919,92 @@ export namespace Prisma {
 
   export type ProducsAnalyticsCreateInput = {
     id?: string
-    url: string
-    ordersCount: number
-    maxStarsMark: number
-    minStarsMark: number
+    views: number
+    clicks: number
+    orders: number
+    reviews: number
+    maxRating: number
+    minRating: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
     product: ProductsCreateNestedOneWithoutAnalyticsInput
   }
 
   export type ProducsAnalyticsUncheckedCreateInput = {
     id?: string
     productId: string
-    url: string
-    ordersCount: number
-    maxStarsMark: number
-    minStarsMark: number
+    views: number
+    clicks: number
+    orders: number
+    reviews: number
+    maxRating: number
+    minRating: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type ProducsAnalyticsUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
-    url?: StringFieldUpdateOperationsInput | string
-    ordersCount?: IntFieldUpdateOperationsInput | number
-    maxStarsMark?: IntFieldUpdateOperationsInput | number
-    minStarsMark?: IntFieldUpdateOperationsInput | number
+    views?: IntFieldUpdateOperationsInput | number
+    clicks?: IntFieldUpdateOperationsInput | number
+    orders?: IntFieldUpdateOperationsInput | number
+    reviews?: IntFieldUpdateOperationsInput | number
+    maxRating?: FloatFieldUpdateOperationsInput | number
+    minRating?: FloatFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     product?: ProductsUpdateOneRequiredWithoutAnalyticsNestedInput
   }
 
   export type ProducsAnalyticsUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     productId?: StringFieldUpdateOperationsInput | string
-    url?: StringFieldUpdateOperationsInput | string
-    ordersCount?: IntFieldUpdateOperationsInput | number
-    maxStarsMark?: IntFieldUpdateOperationsInput | number
-    minStarsMark?: IntFieldUpdateOperationsInput | number
+    views?: IntFieldUpdateOperationsInput | number
+    clicks?: IntFieldUpdateOperationsInput | number
+    orders?: IntFieldUpdateOperationsInput | number
+    reviews?: IntFieldUpdateOperationsInput | number
+    maxRating?: FloatFieldUpdateOperationsInput | number
+    minRating?: FloatFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type ProducsAnalyticsCreateManyInput = {
     id?: string
     productId: string
-    url: string
-    ordersCount: number
-    maxStarsMark: number
-    minStarsMark: number
+    views: number
+    clicks: number
+    orders: number
+    reviews: number
+    maxRating: number
+    minRating: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type ProducsAnalyticsUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
-    url?: StringFieldUpdateOperationsInput | string
-    ordersCount?: IntFieldUpdateOperationsInput | number
-    maxStarsMark?: IntFieldUpdateOperationsInput | number
-    minStarsMark?: IntFieldUpdateOperationsInput | number
+    views?: IntFieldUpdateOperationsInput | number
+    clicks?: IntFieldUpdateOperationsInput | number
+    orders?: IntFieldUpdateOperationsInput | number
+    reviews?: IntFieldUpdateOperationsInput | number
+    maxRating?: FloatFieldUpdateOperationsInput | number
+    minRating?: FloatFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type ProducsAnalyticsUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
     productId?: StringFieldUpdateOperationsInput | string
-    url?: StringFieldUpdateOperationsInput | string
-    ordersCount?: IntFieldUpdateOperationsInput | number
-    maxStarsMark?: IntFieldUpdateOperationsInput | number
-    minStarsMark?: IntFieldUpdateOperationsInput | number
+    views?: IntFieldUpdateOperationsInput | number
+    clicks?: IntFieldUpdateOperationsInput | number
+    orders?: IntFieldUpdateOperationsInput | number
+    reviews?: IntFieldUpdateOperationsInput | number
+    maxRating?: FloatFieldUpdateOperationsInput | number
+    minRating?: FloatFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type StringFilter<$PrismaModel = never> = {
@@ -11017,9 +11183,9 @@ export namespace Prisma {
     not?: NestedFloatNullableFilter<$PrismaModel> | number | null
   }
 
-  export type ProductsNullableScalarRelationFilter = {
-    is?: ProductsWhereInput | null
-    isNot?: ProductsWhereInput | null
+  export type ProductsScalarRelationFilter = {
+    is?: ProductsWhereInput
+    isNot?: ProductsWhereInput
   }
 
   export type SortOrderInput = {
@@ -11233,6 +11399,13 @@ export namespace Prisma {
     not?: NestedEnumDeliveryMethodFilter<$PrismaModel> | $Enums.DeliveryMethod
   }
 
+  export type EnumOrderStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.OrderStatus | EnumOrderStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.OrderStatus[]
+    notIn?: $Enums.OrderStatus[]
+    not?: NestedEnumOrderStatusFilter<$PrismaModel> | $Enums.OrderStatus
+  }
+
   export type OrderItemListRelationFilter = {
     every?: OrderItemWhereInput
     some?: OrderItemWhereInput
@@ -11300,6 +11473,16 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumDeliveryMethodFilter<$PrismaModel>
     _max?: NestedEnumDeliveryMethodFilter<$PrismaModel>
+  }
+
+  export type EnumOrderStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.OrderStatus | EnumOrderStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.OrderStatus[]
+    notIn?: $Enums.OrderStatus[]
+    not?: NestedEnumOrderStatusWithAggregatesFilter<$PrismaModel> | $Enums.OrderStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumOrderStatusFilter<$PrismaModel>
+    _max?: NestedEnumOrderStatusFilter<$PrismaModel>
   }
 
   export type IntFilter<$PrismaModel = never> = {
@@ -11373,11 +11556,6 @@ export namespace Prisma {
     isNot?: UserWhereInput
   }
 
-  export type ProductsScalarRelationFilter = {
-    is?: ProductsWhereInput
-    isNot?: ProductsWhereInput
-  }
-
   export type ReviewsCountOrderByAggregateInput = {
     id?: SortOrder
     userId?: SortOrder
@@ -11419,40 +11597,58 @@ export namespace Prisma {
   export type ProducsAnalyticsCountOrderByAggregateInput = {
     id?: SortOrder
     productId?: SortOrder
-    url?: SortOrder
-    ordersCount?: SortOrder
-    maxStarsMark?: SortOrder
-    minStarsMark?: SortOrder
+    views?: SortOrder
+    clicks?: SortOrder
+    orders?: SortOrder
+    reviews?: SortOrder
+    maxRating?: SortOrder
+    minRating?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type ProducsAnalyticsAvgOrderByAggregateInput = {
-    ordersCount?: SortOrder
-    maxStarsMark?: SortOrder
-    minStarsMark?: SortOrder
+    views?: SortOrder
+    clicks?: SortOrder
+    orders?: SortOrder
+    reviews?: SortOrder
+    maxRating?: SortOrder
+    minRating?: SortOrder
   }
 
   export type ProducsAnalyticsMaxOrderByAggregateInput = {
     id?: SortOrder
     productId?: SortOrder
-    url?: SortOrder
-    ordersCount?: SortOrder
-    maxStarsMark?: SortOrder
-    minStarsMark?: SortOrder
+    views?: SortOrder
+    clicks?: SortOrder
+    orders?: SortOrder
+    reviews?: SortOrder
+    maxRating?: SortOrder
+    minRating?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type ProducsAnalyticsMinOrderByAggregateInput = {
     id?: SortOrder
     productId?: SortOrder
-    url?: SortOrder
-    ordersCount?: SortOrder
-    maxStarsMark?: SortOrder
-    minStarsMark?: SortOrder
+    views?: SortOrder
+    clicks?: SortOrder
+    orders?: SortOrder
+    reviews?: SortOrder
+    maxRating?: SortOrder
+    minRating?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type ProducsAnalyticsSumOrderByAggregateInput = {
-    ordersCount?: SortOrder
-    maxStarsMark?: SortOrder
-    minStarsMark?: SortOrder
+    views?: SortOrder
+    clicks?: SortOrder
+    orders?: SortOrder
+    reviews?: SortOrder
+    maxRating?: SortOrder
+    minRating?: SortOrder
   }
 
   export type AttributesCreateNestedManyWithoutProductsInput = {
@@ -11617,12 +11813,10 @@ export namespace Prisma {
     divide?: number
   }
 
-  export type ProductsUpdateOneWithoutAttributesNestedInput = {
+  export type ProductsUpdateOneRequiredWithoutAttributesNestedInput = {
     create?: XOR<ProductsCreateWithoutAttributesInput, ProductsUncheckedCreateWithoutAttributesInput>
     connectOrCreate?: ProductsCreateOrConnectWithoutAttributesInput
     upsert?: ProductsUpsertWithoutAttributesInput
-    disconnect?: ProductsWhereInput | boolean
-    delete?: ProductsWhereInput | boolean
     connect?: ProductsWhereUniqueInput
     update?: XOR<XOR<ProductsUpdateToOneWithWhereWithoutAttributesInput, ProductsUpdateWithoutAttributesInput>, ProductsUncheckedUpdateWithoutAttributesInput>
   }
@@ -11783,6 +11977,10 @@ export namespace Prisma {
 
   export type EnumDeliveryMethodFieldUpdateOperationsInput = {
     set?: $Enums.DeliveryMethod
+  }
+
+  export type EnumOrderStatusFieldUpdateOperationsInput = {
+    set?: $Enums.OrderStatus
   }
 
   export type OrderItemUpdateManyWithoutOrderNestedInput = {
@@ -12156,6 +12354,13 @@ export namespace Prisma {
     not?: NestedEnumDeliveryMethodFilter<$PrismaModel> | $Enums.DeliveryMethod
   }
 
+  export type NestedEnumOrderStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.OrderStatus | EnumOrderStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.OrderStatus[]
+    notIn?: $Enums.OrderStatus[]
+    not?: NestedEnumOrderStatusFilter<$PrismaModel> | $Enums.OrderStatus
+  }
+
   export type NestedEnumDeliveryMethodWithAggregatesFilter<$PrismaModel = never> = {
     equals?: $Enums.DeliveryMethod | EnumDeliveryMethodFieldRefInput<$PrismaModel>
     in?: $Enums.DeliveryMethod[]
@@ -12164,6 +12369,16 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumDeliveryMethodFilter<$PrismaModel>
     _max?: NestedEnumDeliveryMethodFilter<$PrismaModel>
+  }
+
+  export type NestedEnumOrderStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.OrderStatus | EnumOrderStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.OrderStatus[]
+    notIn?: $Enums.OrderStatus[]
+    not?: NestedEnumOrderStatusWithAggregatesFilter<$PrismaModel> | $Enums.OrderStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumOrderStatusFilter<$PrismaModel>
+    _max?: NestedEnumOrderStatusFilter<$PrismaModel>
   }
 
   export type NestedIntWithAggregatesFilter<$PrismaModel = never> = {
@@ -12242,18 +12457,26 @@ export namespace Prisma {
 
   export type ProducsAnalyticsCreateWithoutProductInput = {
     id?: string
-    url: string
-    ordersCount: number
-    maxStarsMark: number
-    minStarsMark: number
+    views: number
+    clicks: number
+    orders: number
+    reviews: number
+    maxRating: number
+    minRating: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type ProducsAnalyticsUncheckedCreateWithoutProductInput = {
     id?: string
-    url: string
-    ordersCount: number
-    maxStarsMark: number
-    minStarsMark: number
+    views: number
+    clicks: number
+    orders: number
+    reviews: number
+    maxRating: number
+    minRating: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type ProducsAnalyticsCreateOrConnectWithoutProductInput = {
@@ -12334,18 +12557,26 @@ export namespace Prisma {
 
   export type ProducsAnalyticsUpdateWithoutProductInput = {
     id?: StringFieldUpdateOperationsInput | string
-    url?: StringFieldUpdateOperationsInput | string
-    ordersCount?: IntFieldUpdateOperationsInput | number
-    maxStarsMark?: IntFieldUpdateOperationsInput | number
-    minStarsMark?: IntFieldUpdateOperationsInput | number
+    views?: IntFieldUpdateOperationsInput | number
+    clicks?: IntFieldUpdateOperationsInput | number
+    orders?: IntFieldUpdateOperationsInput | number
+    reviews?: IntFieldUpdateOperationsInput | number
+    maxRating?: FloatFieldUpdateOperationsInput | number
+    minRating?: FloatFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type ProducsAnalyticsUncheckedUpdateWithoutProductInput = {
     id?: StringFieldUpdateOperationsInput | string
-    url?: StringFieldUpdateOperationsInput | string
-    ordersCount?: IntFieldUpdateOperationsInput | number
-    maxStarsMark?: IntFieldUpdateOperationsInput | number
-    minStarsMark?: IntFieldUpdateOperationsInput | number
+    views?: IntFieldUpdateOperationsInput | number
+    clicks?: IntFieldUpdateOperationsInput | number
+    orders?: IntFieldUpdateOperationsInput | number
+    reviews?: IntFieldUpdateOperationsInput | number
+    maxRating?: FloatFieldUpdateOperationsInput | number
+    minRating?: FloatFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type ProductsCreateWithoutAttributesInput = {
@@ -12418,7 +12649,7 @@ export namespace Prisma {
     deliveryMethod: $Enums.DeliveryMethod
     address: string
     email: string
-    status?: string
+    status?: $Enums.OrderStatus
     createdAt?: Date | string
     updatedAt?: Date | string
     items?: OrderItemCreateNestedManyWithoutOrderInput
@@ -12430,7 +12661,7 @@ export namespace Prisma {
     deliveryMethod: $Enums.DeliveryMethod
     address: string
     email: string
-    status?: string
+    status?: $Enums.OrderStatus
     createdAt?: Date | string
     updatedAt?: Date | string
     items?: OrderItemUncheckedCreateNestedManyWithoutOrderInput
@@ -12525,7 +12756,7 @@ export namespace Prisma {
     deliveryMethod?: EnumDeliveryMethodFilter<"Order"> | $Enums.DeliveryMethod
     address?: StringFilter<"Order"> | string
     email?: StringFilter<"Order"> | string
-    status?: StringFilter<"Order"> | string
+    status?: EnumOrderStatusFilter<"Order"> | $Enums.OrderStatus
     createdAt?: DateTimeFilter<"Order"> | Date | string
     updatedAt?: DateTimeFilter<"Order"> | Date | string
   }
@@ -12682,7 +12913,7 @@ export namespace Prisma {
     deliveryMethod: $Enums.DeliveryMethod
     address: string
     email: string
-    status?: string
+    status?: $Enums.OrderStatus
     createdAt?: Date | string
     updatedAt?: Date | string
     user?: UserCreateNestedOneWithoutOrdersInput
@@ -12695,7 +12926,7 @@ export namespace Prisma {
     deliveryMethod: $Enums.DeliveryMethod
     address: string
     email: string
-    status?: string
+    status?: $Enums.OrderStatus
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -12722,7 +12953,7 @@ export namespace Prisma {
     deliveryMethod?: EnumDeliveryMethodFieldUpdateOperationsInput | $Enums.DeliveryMethod
     address?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
-    status?: StringFieldUpdateOperationsInput | string
+    status?: EnumOrderStatusFieldUpdateOperationsInput | $Enums.OrderStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneWithoutOrdersNestedInput
@@ -12735,7 +12966,7 @@ export namespace Prisma {
     deliveryMethod?: EnumDeliveryMethodFieldUpdateOperationsInput | $Enums.DeliveryMethod
     address?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
-    status?: StringFieldUpdateOperationsInput | string
+    status?: EnumOrderStatusFieldUpdateOperationsInput | $Enums.OrderStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -13082,7 +13313,7 @@ export namespace Prisma {
     deliveryMethod: $Enums.DeliveryMethod
     address: string
     email: string
-    status?: string
+    status?: $Enums.OrderStatus
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -13111,7 +13342,7 @@ export namespace Prisma {
     deliveryMethod?: EnumDeliveryMethodFieldUpdateOperationsInput | $Enums.DeliveryMethod
     address?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
-    status?: StringFieldUpdateOperationsInput | string
+    status?: EnumOrderStatusFieldUpdateOperationsInput | $Enums.OrderStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     items?: OrderItemUpdateManyWithoutOrderNestedInput
@@ -13123,7 +13354,7 @@ export namespace Prisma {
     deliveryMethod?: EnumDeliveryMethodFieldUpdateOperationsInput | $Enums.DeliveryMethod
     address?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
-    status?: StringFieldUpdateOperationsInput | string
+    status?: EnumOrderStatusFieldUpdateOperationsInput | $Enums.OrderStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     items?: OrderItemUncheckedUpdateManyWithoutOrderNestedInput
@@ -13135,7 +13366,7 @@ export namespace Prisma {
     deliveryMethod?: EnumDeliveryMethodFieldUpdateOperationsInput | $Enums.DeliveryMethod
     address?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
-    status?: StringFieldUpdateOperationsInput | string
+    status?: EnumOrderStatusFieldUpdateOperationsInput | $Enums.OrderStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
