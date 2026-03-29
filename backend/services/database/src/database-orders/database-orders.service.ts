@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { OrderBaseHandler, ICreateOrderInput } from '../repositories/order/order-base.repository';
 
 /**
@@ -8,6 +8,8 @@ import { OrderBaseHandler, ICreateOrderInput } from '../repositories/order/order
  */
 @Injectable()
 export class DatabaseOrdersService {
+  private readonly logger = new Logger(DatabaseOrdersService.name);
+
   constructor(private readonly orderRepository: OrderBaseHandler) {}
 
   /**
@@ -27,6 +29,7 @@ export class DatabaseOrdersService {
         data: order
       };
     } catch (error) {
+      this.logger.error(`[createOrder] Failed to create order: ${error?.message || error}`, error?.stack);
       return {
         success: false,
         message: error.message
@@ -39,7 +42,13 @@ export class DatabaseOrdersService {
    */
   async createOrder(data: ICreateOrderInput) {
     try {
+      this.logger.log(
+        `[createOrder] Incoming request. items=${data?.items?.length ?? 0}, total=${data?.total}, email=${data?.email}`
+      );
+      this.logger.debug(`[createOrder] Payload: ${JSON.stringify(data)}`);
+
       const order = await this.orderRepository.create(data);
+      this.logger.log(`[createOrder] Order created successfully. id=${order.id}`);
       return {
         success: true,
         message: 'Order created successfully',
@@ -102,6 +111,26 @@ export class DatabaseOrdersService {
         data: order
       };
     } catch (error) {
+      return {
+        success: false,
+        message: error.message
+      };
+    }
+  }
+
+  /**
+   * Update order fields
+   */
+  async updateOrder(orderId: string, data: { status?: string; address?: string; email?: string; total?: number }) {
+    try {
+      const order = await this.orderRepository.updateById(orderId, data);
+      return {
+        success: true,
+        message: 'Order updated successfully',
+        data: order
+      };
+    } catch (error) {
+      this.logger.error(`[updateOrder] Failed to update order ${orderId}: ${error?.message || error}`, error?.stack);
       return {
         success: false,
         message: error.message

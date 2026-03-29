@@ -1,4 +1,4 @@
-import { Controller } from '@nestjs/common';
+import { Controller, Logger } from '@nestjs/common';
 import { DatabaseOrdersService } from './database-orders.service';
 import { MessagePattern, Payload } from '@nestjs/microservices';
 
@@ -9,6 +9,8 @@ import { MessagePattern, Payload } from '@nestjs/microservices';
  */
 @Controller('database-orders')
 export class DatabaseOrdersController {
+  private readonly logger = new Logger(DatabaseOrdersController.name);
+
   constructor(private readonly databaseOrdersService: DatabaseOrdersService) {}
 
   /**
@@ -24,6 +26,9 @@ export class DatabaseOrdersController {
    */
   @MessagePattern('add_order')
   async createOrder(@Payload() data: any) {
+    this.logger.log(
+      `[Message:add_order] Received payload. items=${data?.items?.length ?? 0}, total=${data?.total}, email=${data?.email}`
+    );
     return this.databaseOrdersService.createOrder(data);
   }
 
@@ -49,6 +54,16 @@ export class DatabaseOrdersController {
   @MessagePattern('update_order_status')
   async updateOrderStatus(@Payload() data: { orderId: string; status: string }) {
     return this.databaseOrdersService.updateOrderStatus(data.orderId, data.status);
+  }
+
+  /**
+   * Update order - microservice message pattern
+   */
+  @MessagePattern('update_order')
+  async updateOrder(
+    @Payload() data: { id: string; data: { status?: string; address?: string; email?: string; total?: number } }
+  ) {
+    return this.databaseOrdersService.updateOrder(data.id, data.data);
   }
 
   /**
