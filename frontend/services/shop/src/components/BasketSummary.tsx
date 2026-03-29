@@ -25,7 +25,7 @@ const BasketSummary: React.FC<{ deliveryParams: any }> = ({ deliveryParams }) =>
         setProducts(orderProducts)
 
         deliveryParams.total = +formattedPrice
-        console.log(deliveryParams.total)
+        console.log('[Shop][BasketSummary][onOrder] total:', deliveryParams.total)
         const order = {
             ...deliveryParams,
             items: orderProducts.map((item) => {
@@ -36,6 +36,7 @@ const BasketSummary: React.FC<{ deliveryParams: any }> = ({ deliveryParams }) =>
                 }
             }),
         }
+        console.log('[Shop][BasketSummary][onOrder] payload:', order);
 
         fetchData({
             method: 'POST',
@@ -47,9 +48,18 @@ const BasketSummary: React.FC<{ deliveryParams: any }> = ({ deliveryParams }) =>
 
     useEffect(() => {
         if (response?.success) {
+            console.log('[Shop][BasketSummary] order success response:', response);
             clearCart()
         }
     }, [response])
+
+    useEffect(() => {
+        if (error) {
+            console.error('[Shop][BasketSummary] order error:', error);
+            console.error('[Shop][BasketSummary] deliveryParams snapshot:', deliveryParams);
+            console.error('[Shop][BasketSummary] cart snapshot:', getCartItems());
+        }
+    }, [error]);
 
     return (
         <div className={cl.basketSummary}>

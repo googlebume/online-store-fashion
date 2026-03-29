@@ -35,6 +35,7 @@ const SignWithGoogle = () => {
 
   const authFetch = useFetch<Record<string, any>, GoogleAuthResponse>();
   const [clientId, setClientId] = useState<string | null>(null);
+  const [googleAuthError, setGoogleAuthError] = useState<string | null>(null);
 
   useEffect(() => {
     fetchData({
@@ -51,6 +52,12 @@ const SignWithGoogle = () => {
   }, [response]);
 
   useEffect(() => {
+    if (clientIdError) {
+      console.error('Google client id fetch error:', clientIdError);
+    }
+  }, [clientIdError]);
+
+  useEffect(() => {
     if (!authFetch.response) {
       return;
     }
@@ -60,7 +67,7 @@ const SignWithGoogle = () => {
     if (authFetch.response.success && authFetch.response.user) {
       const backendUser = authFetch.response.user;
       const currentUser: UserDataType = {
-        id: backendUser.id as number,
+        id: backendUser.id,
         name: backendUser.name,
         email: backendUser.email,
         role: Array.isArray(backendUser.role) ? backendUser.role : [backendUser.role],
@@ -78,10 +85,23 @@ const SignWithGoogle = () => {
       }
 
       window.location.assign(`/${shopRoutes.shop}`);
+      return;
+    }
+
+    if (authFetch.response?.success === false) {
+      setGoogleAuthError('Google sign-in failed. Please try again.');
     }
   }, [authFetch.response, dispatch]);
 
+  useEffect(() => {
+    if (!authFetch.error) return;
+    console.error('Google auth request error:', authFetch.error);
+    setGoogleAuthError(authFetch.error.message || 'Google sign-in failed');
+  }, [authFetch.error]);
+
   const handleSuccess = (credentialResponse: any) => {
+    setGoogleAuthError(null);
+    console.log('Google credential response received:', credentialResponse);
     authFetch.fetchData({
       method: 'POST',
       port: 4004,
@@ -97,12 +117,18 @@ const SignWithGoogle = () => {
   }
 
   return (
-    <GoogleOAuthProvider clientId={clientId}>
-      <GoogleLogin
-        onSuccess={handleSuccess}
-        onError={() => console.error('Login Failed')}
-      />
-    </GoogleOAuthProvider>
+    <>
+      <GoogleOAuthProvider clientId={clientId}>
+        <GoogleLogin
+          onSuccess={handleSuccess}
+          onError={() => {
+            console.error('Google popup login failed');
+            setGoogleAuthError('Google popup login failed');
+          }}
+        />
+      </GoogleOAuthProvider>
+      {googleAuthError && <div>{googleAuthError}</div>}
+    </>
   );
 };
 

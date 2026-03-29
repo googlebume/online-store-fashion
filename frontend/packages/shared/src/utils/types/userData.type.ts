@@ -1,5 +1,5 @@
 export type UserDataType = {
-    id: number;
+    id: number | string;
     name: string;
     email: string;
     role: string[];
@@ -8,7 +8,7 @@ export type UserDataType = {
 }
 
 export type UserViewDataType = {
-    id: number;
+    id: number | string;
     name: string;
     role: Role;
 }
