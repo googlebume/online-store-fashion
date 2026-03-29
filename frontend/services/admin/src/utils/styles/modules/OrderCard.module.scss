@@ -1,0 +1,221 @@
+@use '@packages/shared/src/utils/styles/colorScheme' as colors;
+
+.card {
+  width: 100%;
+  background: colors.$white;
+  border: 1px solid colors.$gray;
+  border-radius: 24px;
+  padding: 16px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+  display: grid;
+  gap: 12px;
+  transition: box-shadow 0.2s ease;
+
+  &:hover {
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+  }
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.title {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 600;
+  color: colors.$black;
+}
+
+.subTitle {
+  margin: 4px 0 0;
+  font-size: 12px;
+  color: colors.$ashDarkenedText;
+}
+
+.statusControl {
+  min-width: 170px;
+  display: grid;
+  gap: 6px;
+}
+
+.statusBadge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: fit-content;
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 500;
+  background: colors.$yellow;
+  color: colors.$black;
+}
+
+.statusSelect {
+  width: 100%;
+  border: 1px solid colors.$gray;
+  border-radius: 8px;
+  padding: 8px 10px;
+  font-size: 13px;
+  color: colors.$black;
+  background: colors.$white;
+
+  &:focus {
+    outline: none;
+    border-color: colors.$golden;
+  }
+}
+
+.metaGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.metaItem {
+  display: grid;
+  gap: 2px;
+  background: colors.$milkish;
+  border: 1px solid rgba(colors.$gray, 0.7);
+  border-radius: 10px;
+  padding: 8px 10px;
+}
+
+.metaLabel {
+  font-size: 11px;
+  color: colors.$ashText;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+.metaValue {
+  font-size: 13px;
+  color: colors.$black;
+  overflow-wrap: anywhere;
+}
+
+.addressBox {
+  border: 1px solid rgba(colors.$gray, 0.8);
+  border-radius: 10px;
+  padding: 8px 10px;
+  background: colors.$white;
+}
+
+.addressValue {
+  margin: 4px 0 0;
+  font-size: 13px;
+  color: colors.$ashDarkenedText;
+  overflow-wrap: anywhere;
+}
+
+.itemsBox {
+  border: 1px solid rgba(colors.$gray, 0.8);
+  border-radius: 10px;
+  padding: 10px;
+}
+
+.itemsHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+
+  h4 {
+    margin: 0;
+    font-size: 14px;
+    color: colors.$black;
+  }
+}
+
+.itemsCount {
+  font-size: 12px;
+  color: colors.$ashDarkenedText;
+}
+
+.itemRow {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto auto auto;
+  gap: 8px;
+  padding: 6px 0;
+  border-bottom: 1px solid rgba(colors.$gray, 0.7);
+
+  &:last-child {
+    border-bottom: none;
+  }
+}
+
+.itemProduct {
+  font-size: 12px;
+  color: colors.$ashDarkenedText;
+  overflow-wrap: anywhere;
+}
+
+.itemCell {
+  font-size: 12px;
+  color: colors.$ashDarkenedText;
+  white-space: nowrap;
+}
+
+.itemTotal {
+  font-size: 12px;
+  color: colors.$black;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.emptyItems {
+  margin: 0;
+  font-size: 13px;
+  color: colors.$ashText;
+}
+
+.footer {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+  background-color: colors.$white;
+
+  p {
+    margin: 0;
+    background: colors.$milkish;
+    border: 1px solid rgba(colors.$gray, 0.7);
+    border-radius: 10px;
+    padding: 8px 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 6px;
+    font-size: 13px;
+
+    span {
+      color: colors.$ashDarkenedText;
+    }
+
+    strong {
+      color: colors.$black;
+      font-size: 14px;
+    }
+  }
+}
+
+@media (max-width: 640px) {
+  .header {
+    flex-direction: column;
+  }
+
+  .statusControl {
+    width: 100%;
+  }
+
+  .metaGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .footer {
+    grid-template-columns: 1fr;
+  }
+}

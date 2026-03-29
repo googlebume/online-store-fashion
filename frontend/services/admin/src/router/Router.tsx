@@ -8,6 +8,7 @@ import { LazyAdminAnalytics } from "@/pages/AdminAnalytics/AdminAnalytics.lazy";
 import { adminRoutes } from '@packages/shared/src/routes/admin'
 import { LazyAdminProducts } from "@/pages/AdminProducts/AdminProducts.lazy";
 import { AdminIndexLazy } from "@/pages/AdminIndex/AdminIndex.lazy";
+import { LazyAdminOrders } from "@/pages/AdminOrders/AdminOrders.lazy";
 
 // import Cookies from "@packages/shared/src/utils/cookies"
 
@@ -38,6 +39,11 @@ const routes = [
                 index: true,
                 path: `${adminRoutes.products}`,
                 element: <Suspense fallback={'Loading...'}><LazyAdminProducts /></Suspense>
+            },
+            {
+                index: true,
+                path: `${adminRoutes.orders}`,
+                element: <Suspense fallback={'Loading...'}><LazyAdminOrders /></Suspense>
             },
             {
                 index: true,

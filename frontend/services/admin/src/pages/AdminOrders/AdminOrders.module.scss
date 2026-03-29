@@ -1,0 +1,63 @@
+@use '@packages/shared/src/utils/styles/colorScheme' as colors;
+
+.layout {
+  width: 100%;
+  display: grid;
+  gap: 12px;
+}
+
+.toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 0 4px;
+}
+
+.title {
+  margin: 0;
+  font-size: 20px;
+  color: colors.$black;
+}
+
+.counter {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 34px;
+  height: 28px;
+  padding: 0 10px;
+  border-radius: 14px;
+  border: 1px solid colors.$gray;
+  background: colors.$milkish;
+  font-size: 13px;
+  color: colors.$ashDarkenedText;
+  font-weight: 500;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(360px, 1fr));
+  gap: 10px;
+  width: 100%;
+  margin-bottom: 16px;
+}
+
+.empty {
+  width: 100%;
+  min-height: 240px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  color: colors.$ashDarkenedText;
+  border: 1px dashed colors.$gray;
+  border-radius: 24px;
+  background: colors.$milkish;
+}
+
+@media (max-width: 860px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+}
