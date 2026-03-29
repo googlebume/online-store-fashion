@@ -5,6 +5,8 @@ import { UsersService } from './users/users.service';
 import { ProductsModule } from './products/products.module';
 import { ProductsController } from './products/products.controller';
 import { ProductsService } from './products/products.service';
+import { OrdersModule } from './orders/orders.module';
+import { OrdersService } from './orders/orders.service';
 import { APP_GUARD } from '@nestjs/core';
 
 //ТИМЧАСОВО
@@ -21,6 +23,7 @@ import { registerJwt, basePipline } from '@packages/config/dist/register-jwt'
   imports: [
     UsersModule,
     ProductsModule,
+    OrdersModule,
     JwtModule.register(
       registerJwt(basePipline)
     ),
@@ -28,6 +31,7 @@ import { registerJwt, basePipline } from '@packages/config/dist/register-jwt'
   providers: [
     UsersService,
     ProductsService,
+    OrdersService,
     {
       provide: APP_GUARD,
       useClass: JwtAuthGuard,
