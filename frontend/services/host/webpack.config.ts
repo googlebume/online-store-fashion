@@ -15,6 +15,7 @@ interface EnvVariables {
     HEADER_REMOTE_URL?: string
     PRODUCT_REMOTE_URL?: string
     AUTH_REMOTE_URL?: string
+    USER_PROFILE_REMOTE_URL?: string
 }
 
 export default (env: EnvVariables) => {
@@ -29,6 +30,7 @@ export default (env: EnvVariables) => {
     const ADMIN_REMOTE_URL = env.ADMIN_REMOTE_URL ?? 'http://localhost:3002'
     const PRODUCT_REMOTE_URL = env.PRODUCT_REMOTE_URL ?? 'http://localhost:3003'
     const AUTH_REMOTE_URL = env.AUTH_REMOTE_URL ?? 'http://localhost:3004'
+    const USER_PROFILE_REMOTE_URL = env.USER_PROFILE_REMOTE_URL ?? 'http://localhost:3005'
 
     const config: webpack.Configuration = buildWebpack({
         port: env.port ?? 3000,
@@ -47,6 +49,7 @@ export default (env: EnvVariables) => {
             admin: `admin@${ADMIN_REMOTE_URL}/remoteEntry.js`,
             product: `product@${PRODUCT_REMOTE_URL}/remoteEntry.js`,
             auth: `auth@${AUTH_REMOTE_URL}/remoteEntry.js`,
+            user_profile: `user_profile@${USER_PROFILE_REMOTE_URL}/remoteEntry.js`,
         },
         shared: {
             ...packageJson.dependencies,
@@ -67,4 +70,3 @@ export default (env: EnvVariables) => {
 
     return config;
 }
-
