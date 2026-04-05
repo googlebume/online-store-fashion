@@ -7,7 +7,9 @@ export class TokenService {
 
   async generateToken(data: { id: string; email: string; role: string[] }): Promise<string> {
     return this.jwtService.sign({
+      sub: data.id,
       id: data.id,
+      userId: data.id,
       email: data.email,
       roles: data.role,
     });
