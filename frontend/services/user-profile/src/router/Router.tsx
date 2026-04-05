@@ -1,7 +1,7 @@
 import {createBrowserRouter, Navigate} from "react-router-dom";
 import {App} from "@/components/App/App";
-import {Suspense} from "react";
 import {api} from '@packages/shared/src/routes/api'
+import UserProfilePage from "@/pages/UserProfile/UserProfilePage";
 
 const routes = [
     {
@@ -12,12 +12,20 @@ const routes = [
         path: `${api}/user-profile`,
         element: <App />,
         children: [
+            {
+                index: true,
+                element: <UserProfilePage />,
+            },
         ]
     },
     {
         path: `${api}/user-profile/:id`,
         element: <App />,
         children: [
+            {
+                index: true,
+                element: <UserProfilePage />,
+            },
         ]
     },
 ]
