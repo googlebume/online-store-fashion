@@ -78,7 +78,7 @@ export class UserRepository extends BaseRepository<User> {
       const updateData: any = {};
 
       if (data.email) updateData.email = data.email;
-      if (data.username) updateData.username = data.username;
+      if (data.name) updateData.name = data.name;
       if (data.password) updateData.password = await this.hashPassword(data.password);
       if (data.role) updateData.role = data.role as any;
 
