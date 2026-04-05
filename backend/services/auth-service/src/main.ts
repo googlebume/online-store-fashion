@@ -15,7 +15,7 @@ async function bootstrap() {
     }),
   );
   app.enableCors({
-    origin: ['http://localhost:3000', 'http://localhost:3004'],
+    origin: ['http://localhost:3000', 'http://localhost:3004', 'http://localhost:3005'],
     methods: 'GET,POST',
     allowedHeaders: 'Content-Type, Authorization',
     credentials: true,
