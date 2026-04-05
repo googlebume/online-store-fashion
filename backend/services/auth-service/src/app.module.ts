@@ -7,6 +7,7 @@ import { JwtModule } from '@nestjs/jwt';
 // import { registerJwt, basePipline } from '@packages/config/dist/register-jwt'
 import { registerJwt, basePipline } from '@packages/config/dist/register-jwt'
 import { GoogleAuthModule } from './google-auth/google-auth.module';
+import { ProfileModule } from './profile/profile.module';
 
 @Module({
   imports: [
@@ -16,7 +17,8 @@ import { GoogleAuthModule } from './google-auth/google-auth.module';
     JwtModule.register(
       registerJwt(basePipline)
     ),
-    GoogleAuthModule
+    GoogleAuthModule,
+    ProfileModule,
   ],
   controllers: [],
   providers: [],

@@ -25,6 +25,18 @@ export class UserIdentityService {
     };
   }
 
+  async getUserById(id: string) {
+    const response = await lastValueFrom<DatabaseResponse<any>>(
+      this.databaseClient.send('get_user_by_id', { id }),
+    );
+
+    return {
+      success: !!response?.success,
+      user: response?.data ? this.toSafeUser(response.data) : null,
+      message: response?.message,
+    };
+  }
+
   async createUser(input: { name: string; email: string; password: string }) {
     const response = await lastValueFrom<UserResponse>(
       this.databaseClient.send('add_new_user', input),
@@ -40,6 +52,21 @@ export class UserIdentityService {
   async authenticate(input: { email: string; password: string }) {
     const response = await lastValueFrom<UserResponse>(
       this.databaseClient.send('login_user', input),
+    );
+
+    return {
+      success: !!response?.success,
+      user: response?.user ? this.toSafeUser(response.user) : null,
+      message: response?.message,
+    };
+  }
+
+  async updateUser(
+    id: string,
+    input: { name?: string; email?: string; password?: string },
+  ) {
+    const response = await lastValueFrom<UserResponse>(
+      this.databaseClient.send('update_user', { id, ...input }),
     );
 
     return {
