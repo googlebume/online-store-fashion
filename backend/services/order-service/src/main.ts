@@ -5,9 +5,9 @@ import { MicroserviceOptions, Transport } from '@nestjs/microservices';
 async function bootstrap() {
   const app = await NestFactory.create(OrderModule);
   app.enableCors({
-    origin: 'http://localhost:3000',
-    methods: "GET,POST",
-    asllowedHeaders: "Content-Type"
+    origin: ['http://localhost:3000', 'http://localhost:3005'],
+    methods: 'GET,POST',
+    allowedHeaders: 'Content-Type, Authorization',
   })
   await app.listen(process.env.PORT ?? 4006);
 

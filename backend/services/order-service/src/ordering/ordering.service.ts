@@ -31,6 +31,11 @@ export class OrderingService {
     return response?.data ?? response;
   }
 
+  async getUserOrders(userId: string) {
+    const response = await lastValueFrom(databaseClient.send('get_user_orders', { userId }));
+    return response?.data ?? response;
+  }
+
   async createOrder(order: OrderDTO) {
     this.logger.log('[createOrder] Sending add_order message to database service');
     const response = await lastValueFrom(databaseClient.send('add_order', order));
