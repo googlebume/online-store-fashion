@@ -1,10 +1,13 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 import cl from '@/utils/styles/modules/VerificationForm.module.scss';
 import { useFetch } from '@packages/shared/src/utils/hooks/useFetch';
 import Button from '@packages/shared/src/components/UI/Button/Button';
 import { api } from '@packages/shared/src/routes/api';
 import Cookies from '@packages/shared/src/utils/cookies';
+import { currentUserActions } from '@packages/shared/src/store';
+import { UserDataType } from '@packages/shared/src/utils/types/userData.type';
 
 interface VerificationCodeInputProps {
   length?: number;
@@ -28,6 +31,7 @@ const Verify: React.FC<VerificationCodeInputProps> = ({
   autoFocus = true,
   className = '',
 }) => {
+  const dispatch = useDispatch();
   const [code, setCode] = useState<string[]>(Array(length).fill(''));
   const [isError, setIsError] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
@@ -59,6 +63,20 @@ const Verify: React.FC<VerificationCodeInputProps> = ({
     if (!response) return;
 
     if (response.success) {
+      if (response.userData) {
+        const currentUser: UserDataType = {
+          id: response.userData.id,
+          name: response.userData.name,
+          email: response.userData.email,
+          role: Array.isArray(response.userData.role)
+            ? response.userData.role
+            : [response.userData.role],
+          avatar: response.userData.avatar ?? null,
+          createdAt: response.userData.createdAt,
+        };
+        dispatch(currentUserActions.setCurrentUser(currentUser));
+      }
+
       if (response.token) {
         cookies.setCookie({
           name: 'token',
@@ -73,7 +91,7 @@ const Verify: React.FC<VerificationCodeInputProps> = ({
 
     setIsError(true);
     setErrorMessage(response.message || 'Код не валідний');
-  }, [response]);
+  }, [response, dispatch, navigate]);
 
   useEffect(() => {
     if (error) {
