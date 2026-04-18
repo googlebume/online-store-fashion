@@ -133,7 +133,8 @@ export class PrismaProductRepository implements IProductRepository {
   async save(product: ProductEntity): Promise<Result<ProductEntity, Error>> {
     try {
       const data = ProductMapper.toPersistence(product);
-      const created = await this.prisma.products.create({ data });
+      const { createdAt, updatedAt, ...createData } = data;
+      const created = await this.prisma.products.create({ data: createData });
       return ok(ProductMapper.toDomain(created));
     } catch (error) {
       return fail(new Error(`Failed to save product: ${error}`));
