@@ -19,8 +19,11 @@ export class ProductsService {
     async editOneProduct(data, file?: Express.Multer.File) {
         console.log('[ProductsService][editOneProduct] Вхідні дані:', data, 'file:', !!file);
         try {
+            const price = typeof data.price === 'string' ? Number(data.price) : data.price;
+            const discount = typeof data.discount === 'string' ? Number(data.discount) : data.discount;
+            const payload = { ...data, price, discount };
             const response = await lastValueFrom(
-                databaseClient.send('edit_product', file ? {...data, file: file} : data)
+                databaseClient.send('edit_product', file ? {...payload, file: file} : payload)
             );
             console.log('[ProductsService][editOneProduct] Відповідь від БД:', response);
             return response;
