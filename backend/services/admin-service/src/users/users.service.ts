@@ -5,11 +5,11 @@ import { databaseClient } from './../database.client';
 @Injectable()
 export class UsersService {
     async getAllUsers(): Promise<object[]> {
-        const allUsers: any[] = await lastValueFrom(databaseClient.send("get_all_users", {}))
-        return allUsers;
+        const response = await lastValueFrom(databaseClient.send("get_all_users", {}))
+        return response?.data ?? [];
     }
     async deleteUser(id: string):Promise<object> {
-        const deleteUser = await lastValueFrom(databaseClient.send('delete_user', {id: id}))
-        return deleteUser
+        const response = await lastValueFrom(databaseClient.send('delete_user', {id: id}))
+        return response;
     }
 }
