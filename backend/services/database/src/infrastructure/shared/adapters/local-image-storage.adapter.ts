@@ -13,7 +13,7 @@ export class LocalImageStorageAdapter implements IImageStorage {
       if (!saveData || !saveData.success) {
         return { success: false, error: 'Failed to save image' };
       }
-      const url = `http://localhost:5002/products/${saveData.filename}`;
+      const url = `/products/${saveData.filename}`;
       return {
         success: true,
         filename: saveData.filename,
