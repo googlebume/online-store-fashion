@@ -1,6 +1,6 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { lastValueFrom } from 'rxjs';
-import { databaseClient } from 'src/database.client';
+import { databaseClient } from '../database.client';
 
 @Injectable()
 export class ProductsAnalyticsService {

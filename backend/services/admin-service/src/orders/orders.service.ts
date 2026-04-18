@@ -1,6 +1,6 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { lastValueFrom } from 'rxjs';
-import { orderClient } from 'src/order.client';
+import { orderClient } from '../order.client';
 
 @Injectable()
 export class OrdersService {

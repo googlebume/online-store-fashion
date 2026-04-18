@@ -11,8 +11,7 @@
     "sourceMap": true,
     "outDir": "./dist",
     "baseUrl": ".",
-    "rootDir": ".",
-    "incremental": true,
+    "rootDir": "src",
     "skipLibCheck": true,
     "strictNullChecks": true,
     "forceConsistentCasingInFileNames": true,
@@ -20,14 +19,13 @@
     "strictBindCallApply": false,
     "noFallthroughCasesInSwitch": false,
     "paths": {
-      "@packages/shared/*": ["../../packages/shared/*"],
-      "@database/*": ["../database/*"]
+      "@packages/shared/*": ["../../packages/shared/dist/*"],
+      "@packages/config/*": ["../../packages/config/dist/*"]
     },
-    
+    "typeRoots": ["../../node_modules/@types"],
+    "types": ["express", "node"]
   },
   "include": [
-    "src",
-    "products"
-    // "../../packages/shared"
+    "src"
   ]
 }

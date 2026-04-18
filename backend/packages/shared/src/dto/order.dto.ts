@@ -1,5 +1,4 @@
-import { DeliveryMethod } from "@prisma/client"
-import { IsArray, IsBoolean, IsEmail, isEmail, IsEnum, IsNumber, IsOptional, IsString, IsUUID, ValidateNested } from "class-validator"
+import { IsArray, IsEmail, IsEnum, IsNumber, IsOptional, IsString, IsUUID, ValidateNested } from "class-validator"
 
 
 export class OrderItemDTO {

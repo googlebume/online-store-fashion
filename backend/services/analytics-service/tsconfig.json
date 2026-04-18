@@ -1,7 +1,7 @@
 {
   "extends": "../../tsconfig.json",
   "compilerOptions": {
-    "module": "nodenext",
+    "module": "commonjs",
     "declaration": true,
     "removeComments": true,
     "emitDecoratorMetadata": true,
@@ -11,8 +11,7 @@
     "sourceMap": true,
     "outDir": "./dist",
     "baseUrl": ".",
-    "rootDir": ".",
-    "incremental": true,
+    "rootDir": "src",
     "strictNullChecks": true,
     "forceConsistentCasingInFileNames": true,
     "noImplicitAny": false,
@@ -20,7 +19,7 @@
     "noFallthroughCasesInSwitch": false,
     "paths": {
       "@packages/shared/*": ["../../packages/shared/dist/*"],
-      "@packages/config/*": ["../../../packages/config/dist/*"]
+      "@packages/config/*": ["../../packages/config/dist/*"]
     },
     "typeRoots": ["../../node_modules/@types"],
     "types": ["express", "node"],

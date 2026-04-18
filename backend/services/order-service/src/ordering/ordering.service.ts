@@ -1,7 +1,7 @@
 import { HttpException, HttpStatus, Injectable, Logger } from '@nestjs/common';
-import { OrderDTO } from '@packages/shared/dist/src/dto/order.dto';
+import { OrderDTO } from '@packages/shared/dto/order.dto';
 import { lastValueFrom } from 'rxjs';
-import { databaseClient } from 'src/database.client';
+import { databaseClient } from '../database.client';
 
 @Injectable()
 export class OrderingService {

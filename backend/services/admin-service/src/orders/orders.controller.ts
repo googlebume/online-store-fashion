@@ -1,5 +1,5 @@
 import { Body, Controller, Delete, Get, Param, Post } from '@nestjs/common';
-import { Roles } from 'src/common/decorators/roles-metadata.decorator';
+import { Roles } from '../common/decorators/roles-metadata.decorator';
 import { OrdersService } from './orders.service';
 
 @Controller('fashion/admin/orders')

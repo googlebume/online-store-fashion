@@ -1,14 +1,14 @@
 import { MimeInterface } from "src/utils/interfaces/mime.interface"
-import mime from 'mime'
+import mimeTypes from 'mime-types'
 
 export class MimeHandler implements MimeInterface {
     constructor(){}
 
-    async getMimeType(fileName: string): Promise<string | null>{
-        return await mime.getType(fileName)
+    async getMimeType(fileName: string): Promise<string | false>{
+        return mimeTypes.lookup(fileName)
     }
 
     async getExtname(mimeType: string){
-        return await mime.getExtension(mimeType)
+        return mimeTypes.extension(mimeType)
     }
 }

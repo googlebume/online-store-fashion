@@ -10,5 +10,5 @@
     "outDir": "./dist",
     "removeComments": true,
     "sourceMap": true
-  },
+  }
 }

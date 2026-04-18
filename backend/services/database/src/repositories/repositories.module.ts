@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { PrismaService } from '../prisma.service';
-import { ImageFileHandler } from '@packages/shared/dist/utils/libs/files/image-file.handler';
+import { ImageFileHandler } from '@packages/shared/utils/libs/files/image-file.handler';
 
 // Import all repositories
 import { UserRepository } from './user.repository';

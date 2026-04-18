@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { MailerHandlerModule } from '@packages/shared/dist/src/utils/libs/mailer/mailer.module';
+import { MailerHandlerModule } from '@packages/shared/utils/libs/mailer/mailer.module';
 import { OtpService } from './otp.service';
 import { TokenService } from './token.service';
 import { UserIdentityService } from './user-identity.service';

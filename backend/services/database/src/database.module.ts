@@ -6,9 +6,9 @@ import { DatabaseUsersModule } from './database-users/database-users.module';
 import { UserRepository } from './repositories/user.repository';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
-import {FilesHandlerModule} from '@packages/shared/dist/utils/libs/files/files.module'
-import {CryptoHandlerModule} from '@packages/shared/dist/utils/libs/crypto/crypto.module'
-import {MimeHandlerModule} from '@packages/shared/dist/utils/libs/mime/mime.module'
+import {FilesHandlerModule} from '@packages/shared/utils/libs/files/files.module'
+import {CryptoHandlerModule} from '@packages/shared/utils/libs/crypto/crypto.module'
+import {MimeHandlerModule} from '@packages/shared/utils/libs/mime/mime.module'
 import { DatabaseOrdersModule } from './database-orders/database-orders.module';
 import { DatabaseAnalyticsModule } from './database-analytics/database-analytics.module';
 

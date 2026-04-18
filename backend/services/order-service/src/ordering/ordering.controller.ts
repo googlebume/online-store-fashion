@@ -1,7 +1,7 @@
 import { Body, Controller, Get, Logger, Post, Req, UseGuards } from '@nestjs/common';
 import { OrderingService } from './ordering.service';
-import { OrderDTO } from '@packages/shared/dist/src/dto/order.dto';
-import { JwtAuthGuard } from '@packages/shared/dist/common/guards/jwt-auth.guard';
+import { OrderDTO } from '@packages/shared/dto/order.dto';
+import { JwtAuthGuard } from '@packages/shared/common/guards/jwt-auth.guard';
 import type { Request } from 'express';
 
 type AuthUserPayload = {

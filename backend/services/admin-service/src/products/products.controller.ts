@@ -1,12 +1,9 @@
 import { Body, Controller, Delete, Get, Param, Post, UploadedFile, UseGuards, UseInterceptors } from '@nestjs/common';
 import { ProductsService } from './products.service';
 import { FileInterceptor } from '@nestjs/platform-express';
-import type { Products } from '@prisma/client';
-import { Roles } from 'src/common/decorators/roles-metadata.decorator';
-
-//ТИМЧАСОВО
-import { JwtAuthGuard } from 'D:/projects/online-store-fashion/backend/packages/shared/dist/common/guards/jwt-auth.guard';
-import { RolesGuard } from 'D:/projects/online-store-fashion/backend/packages/shared/dist/common/guards/roles.guard';
+import { Roles } from '../common/decorators/roles-metadata.decorator';
+import { JwtAuthGuard } from '@packages/shared/common/guards/jwt-auth.guard';
+import { RolesGuard } from '@packages/shared/common/guards/roles.guard';
 
 
 @Roles('admin')
@@ -24,7 +21,7 @@ export class ProductsController {
   @Post('edit')
   editProduct(
     @UploadedFile() image: Express.Multer.File,
-    @Body() body: Products
+    @Body() body: any
   ) {
     // console.log('body:', body);
     return this.productsService.editOneProduct({ ...body, 'file': image });
@@ -34,7 +31,7 @@ export class ProductsController {
   @Post('add')
   addProduct(
     @UploadedFile() image: Express.Multer.File,
-    @Body() body: Products
+    @Body() body: any
   ) {
     // console.log('Adding product with image:', body, image);
     return this.productsService.addOneProduct(body, image);

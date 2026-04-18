@@ -39,11 +39,11 @@ exports.Prisma = Prisma
 exports.$Enums = {}
 
 /**
- * Prisma Client JS version: 7.6.0
+ * Prisma Client JS version: 7.7.0
  * Query Engine version: 75cbdc1eb7150937890ad5465d861175c6624711
  */
 Prisma.prismaVersion = {
-  client: "7.6.0",
+  client: "7.7.0",
   engine: "75cbdc1eb7150937890ad5465d861175c6624711"
 }
 
@@ -240,7 +240,7 @@ exports.Prisma.ModelName = {
  */
 const config = {
   "previewFeatures": [],
-  "clientVersion": "7.6.0",
+  "clientVersion": "7.7.0",
   "engineVersion": "75cbdc1eb7150937890ad5465d861175c6624711",
   "activeProvider": "sqlite",
   "inlineSchema": "// This is your Prisma schema file,\n// learn more about it in the docs: https://pris.ly/d/prisma-schema\n\n// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?\n// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init\n\ngenerator client {\n  provider = \"prisma-client-js\"\n  output   = \"./generated\"\n}\n\ndatasource db {\n  provider = \"sqlite\"\n  // url      = env(\"DATABASE_URL\")\n}\n\nmodel Products {\n  id          String       @id @default(uuid())\n  name        String       @unique\n  brand       String\n  price       Float\n  discount    Float\n  description String\n  image       String\n  attributes  Attributes[]\n\n  reviews   Reviews[]         @relation(\"ReviewProductId\")\n  analytics ProducsAnalytics? @relation(\"ProductAnalytics\")\n}\n\nmodel Attributes {\n  productsId      String          @id\n  Products        Products        @relation(fields: [productsId], references: [id])\n  type            ProductType\n  category        ProductCategory\n  color           ProductColor\n  size            Size\n  brand           String?\n  material        String?\n  countryOfOrigin String?\n  weight          Float?\n}\n\nmodel User {\n  id        String   @id @default(uuid())\n  name      String   @unique\n  email     String   @unique\n  password  String\n  role      Role     @default(user)\n  createdAt DateTime @default(now())\n  updatedAt DateTime @default(now()) @updatedAt\n\n  orders Order[]\n\n  reviewsById   Reviews[] @relation(\"UserById\")\n  reviewsByName Reviews[] @relation(\"UserByName\")\n}\n\nmodel Order {\n  id             String         @id @default(uuid())\n  userId         String?\n  items          OrderItem[]    @relation(\"OrderToOrderItem\")\n  total          Float\n  deliveryMethod DeliveryMethod\n  address        String\n  email          String\n  status         OrderStatus    @default(Accepted)\n  createdAt      DateTime       @default(now())\n  updatedAt      DateTime       @default(now()) @updatedAt\n\n  user User? @relation(fields: [userId], references: [id])\n}\n\nenum OrderStatus {\n  Pending\n  Delivered\n  Declined\n  Canceled\n  Received\n  Processing\n  Accepted\n}\n\nmodel OrderItem {\n  id        String @id @default(uuid())\n  orderId   String\n  productId String\n  quantity  Int\n  price     Float\n\n  order Order @relation(fields: [orderId], references: [id], name: \"OrderToOrderItem\")\n}\n\nmodel Reviews {\n  id          String @id @default(uuid())\n  userId      String\n  productId   String\n  userName    String\n  reviewTitle String\n  rewiew      String\n  stars       Int\n\n  userID   User @relation(\"UserById\", fields: [userId], references: [id])\n  userNAME User @relation(\"UserByName\", fields: [userName], references: [name])\n\n  product Products @relation(\"ReviewProductId\", fields: [productId], references: [id])\n}\n\nenum Role {\n  admin\n  user\n  manager\n  support\n  system\n}\n\nenum ProductType {\n  hoodie\n  sweatshirt\n  shirt\n  tshirt\n}\n\nenum ProductCategory {\n  male\n  female\n}\n\nenum ProductColor {\n  black\n  white\n  yellow\n  pink\n  brown\n  blue\n}\n\nenum Size {\n  XS\n  S\n  M\n  L\n  XL\n  XXL\n}\n\nenum DeliveryMethod {\n  Courier\n  Pickup\n}\n\nmodel ProducsAnalytics {\n  id        String @id @default(uuid())\n  productId String @unique\n  views     Int\n  clicks    Int\n  orders    Int\n  reviews   Int\n  maxRating Float\n  minRating Float\n\n  createdAt DateTime @default(now())\n  updatedAt DateTime @updatedAt\n\n  product Products @relation(\"ProductAnalytics\", fields: [productId], references: [id])\n}\n"

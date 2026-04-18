@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { interval, Observable, takeUntil } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { randomUUID } from 'crypto';
-import { MailerHandler } from '@packages/shared/dist/src/utils/libs/mailer/mailer.handler';
+import { MailerHandler } from '@packages/shared/utils/libs/mailer/mailer.handler';
 
 export type AuthFlowType = 'register' | 'login';
 

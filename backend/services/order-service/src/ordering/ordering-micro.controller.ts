@@ -1,7 +1,7 @@
 import { Controller } from '@nestjs/common';
 import { MessagePattern, Payload } from '@nestjs/microservices';
 import { OrderingService } from './ordering.service';
-import { OrderDTO } from '@packages/shared/dist/src/dto/order.dto';
+import { OrderDTO } from '@packages/shared/dto/order.dto';
 
 @Controller('ordering-micro')
 export class OrderingMicroController {

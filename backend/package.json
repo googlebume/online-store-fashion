@@ -6,6 +6,7 @@
   "author": "",
   "type": "commonjs",
   "scripts": {
+    "postinstall": "npm run prisma:generate && mkdir -p node_modules/@prisma/client && rm -f node_modules/@prisma/client/.prisma && ln -sf ../../../.prisma node_modules/@prisma/client/",
     "start:database": "cd services/database && npm run start:dev",
     "start:productService": "cd services/product-service && npm run start:dev",
     "start:authService": "cd services/auth-service && npm run start:dev",
@@ -14,7 +15,8 @@
     "start:analyticsService": "cd services/analytics-service && npm run start:dev",
     "build:shared:watch": "cd packages/shared && npm run build:watch",
     "build:config:watch": "cd packages/config && npm run build:watch",
-    "start:backend": "concurrently \"npm run build:shared:watch\" \"npm run build:config:watch\" \"npm run start:database\" \"npm run start:productService\" \"npm run start:authService\" \"npm run start:adminService\" \"npm run start:orderService\" \" npm run start:analyticsService\"",
+    "build:all": "npm run build -w packages/shared && npm run build -w packages/config && npm run build -w services/admin-service && npm run build -w services/auth-service && npm run build -w services/database && npm run build -w services/order-service && npm run build -w services/product-service && npm run build -w services/analytics-service",
+    "start:backend": "mkdir -p node_modules/@prisma/client && rm -f node_modules/@prisma/client/.prisma && ln -sf ../../../.prisma node_modules/@prisma/client/ && npm run build:all && concurrently \"npm run build:shared:watch\" \"npm run build:config:watch\" \"npm run start:database\" \"npm run start:productService\" \"npm run start:authService\" \"npm run start:adminService\" \"npm run start:orderService\" \"npm run start:analyticsService\"",
     "start:dev": "npm run start:backend",
     "prisma:generate": "cd services/database && npx prisma generate",
     "prisma": "cd services/database && npx prisma studio"
@@ -43,6 +45,7 @@
     "rxjs": "^7.8.1"
   },
   "devDependencies": {
+    "concurrently": "^9.0.0",
     "@eslint/eslintrc": "^3.2.0",
     "@eslint/js": "^9.18.0",
     "@nestjs/cli": "^11.0.7",
