@@ -11,7 +11,7 @@ export class DeliveryMethod {
 
   static create(raw: string): Result<DeliveryMethod, InvalidDeliveryMethodException> {
     const normalized = [
-      { input: ["Кур'єр", 'Courier', 'courier'], output: DeliveryMethodEnum.COURIER },
+      { input: ["Кур'єр", 'Courier', 'courier', 'Нова пошта', 'nova poshta'], output: DeliveryMethodEnum.COURIER },
       { input: ['Самовивіз', 'Pickup', 'pickup'], output: DeliveryMethodEnum.PICKUP },
     ].find(m => m.input.some(i => i.toLowerCase() === raw?.toLowerCase().trim()));
 
