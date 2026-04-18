@@ -19,17 +19,18 @@ export class ImageFileHandler extends BaseFileHandler {
         : Buffer.from((file.buffer as { data: number[] }).data);
 
         const fileName = await this.hashHandler.cryptoHash(buffer, 10);
-        const fileExtName = await this.mime.getExtname(file.mimetype)
+        const fileExtName = await this.mime.getExtname(file.mimetype);
+        const fullFileName = `${fileName}.${fileExtName}`;
 
-        const originName = await `${fileName}.${fileExtName}`
         try {
-            const success = await (await this.create(paths, originName, buffer)).success
-        return {
-            success,
-            filename: `${fileName}.${fileExtName}`
-        }
+            const result = await this.create(paths, fullFileName, buffer);
+            return {
+                success: result.success,
+                filename: fullFileName
+            };
         } catch(error){
-            return false
+            console.error(`[ImageFileHandler] Failed to save image: ${error}`);
+            return { success: false };
         }
     }
 }
