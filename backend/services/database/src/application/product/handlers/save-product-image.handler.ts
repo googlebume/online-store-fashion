@@ -14,7 +14,22 @@ export class SaveProductImageHandler {
 
   async execute(command: SaveProductImageCommand): Promise<Result<string, Error>> {
     const imagesDir = path.resolve(process.cwd(), 'products');
-    const saveResult = await this.imageStorage.saveImage(command.file, imagesDir);
+    console.log('[SaveProductImageHandler] Executing with productId:', command.productId);
+    console.log('[SaveProductImageHandler] Buffer length (base64):', command.buffer.length);
+    console.log('[SaveProductImageHandler] Mimetype:', command.mimetype);
+    console.log('[SaveProductImageHandler] Original filename:', command.originalname);
+    console.log('[SaveProductImageHandler] Images directory:', imagesDir);
+
+    const reconstructedFile = {
+      buffer: Buffer.from(command.buffer, 'base64'),
+      mimetype: command.mimetype,
+      originalname: command.originalname,
+    };
+
+    console.log('[SaveProductImageHandler] Reconstructed buffer size:', reconstructedFile.buffer.length);
+
+    const saveResult = await this.imageStorage.saveImage(reconstructedFile, imagesDir);
+    console.log('[SaveProductImageHandler] Save result:', saveResult);
 
     if (!saveResult.success) {
       return fail(new Error(saveResult.error || 'Failed to save image'));

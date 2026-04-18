@@ -7,8 +7,14 @@ export interface ImageSaveResult {
   error?: string;
 }
 
+export interface FileData {
+  buffer: Buffer | string;
+  mimetype: string;
+  originalname: string;
+}
+
 export interface IImageStorage {
-  saveImage(file: Express.Multer.File, dir: string): Promise<ImageSaveResult>;
+  saveImage(file: FileData, dir: string): Promise<ImageSaveResult>;
   deleteImage(filePath: string): Promise<boolean>;
-  updateImage(newFile: Express.Multer.File, oldFilePath: string, dir: string): Promise<ImageSaveResult>;
+  updateImage(newFile: FileData, oldFilePath: string, dir: string): Promise<ImageSaveResult>;
 }

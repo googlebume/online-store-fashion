@@ -13,13 +13,26 @@ export class UpdateProductImageHandler {
   ) {}
 
   async execute(command: UpdateProductImageCommand): Promise<Result<string, Error>> {
+    console.log('[UpdateProductImageHandler] Executing with productId:', command.productId);
+    console.log('[UpdateProductImageHandler] Buffer length (base64):', command.buffer.length);
+
     const productResult = await this.productRepository.findById(command.productId);
     if (!productResult.ok) return fail(productResult.error);
 
     const imagesDir = path.resolve(process.cwd(), 'products');
     const oldImagePath = productResult.value.image ? path.join(imagesDir, path.basename(productResult.value.image)) : null;
+    console.log('[UpdateProductImageHandler] Old image path:', oldImagePath);
 
-    const saveResult = await this.imageStorage.updateImage(command.file, oldImagePath || '', imagesDir);
+    const reconstructedFile = {
+      buffer: Buffer.from(command.buffer, 'base64'),
+      mimetype: command.mimetype,
+      originalname: command.originalname,
+    };
+
+    console.log('[UpdateProductImageHandler] Reconstructed buffer size:', reconstructedFile.buffer.length);
+
+    const saveResult = await this.imageStorage.updateImage(reconstructedFile, oldImagePath || '', imagesDir);
+    console.log('[UpdateProductImageHandler] Update result:', saveResult);
 
     if (!saveResult.success) {
       return fail(new Error(saveResult.error || 'Failed to update image'));
