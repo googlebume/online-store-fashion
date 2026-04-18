@@ -46,8 +46,15 @@ export class ProductsService {
             }
             const price = typeof data.price === 'string' ? Number(data.price) : data.price;
             const discount = typeof data.discount === 'string' ? Number(data.discount) : data.discount;
-            const { event, ...rest } = data;
-            const payload = { ...rest, price, discount, attributes, image: '' };
+            const payload = {
+                name: data.name,
+                description: data.description,
+                price,
+                discount,
+                brand: data.brand || '',
+                image: '',
+                attributes,
+            };
             console.log('[ProductsService][addOneProduct] Payload для add_product:', payload);
             const createResult = await lastValueFrom(databaseClient.send('add_product', payload));
             console.log('[ProductsService][addOneProduct] Продукт створено:', createResult);
