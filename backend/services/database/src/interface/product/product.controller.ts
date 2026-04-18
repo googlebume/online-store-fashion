@@ -84,7 +84,7 @@ export class ProductController {
       ),
     );
     if (!result.ok) return { success: false, message: result.error.message };
-    return { success: true, message: 'Product created successfully', data: result.value };
+    return { success: true, message: 'Product created successfully', data: Serializers.productToObject(result.value) };
   }
 
   @MessagePattern('edit_product')
@@ -103,7 +103,7 @@ export class ProductController {
       ),
     );
     if (!result.ok) return { success: false, message: result.error.message };
-    return { success: true, message: 'Product updated successfully', data: result.value };
+    return { success: true, message: 'Product updated successfully', data: Serializers.productToObject(result.value) };
   }
 
   @MessagePattern('delete_product_by_id')
