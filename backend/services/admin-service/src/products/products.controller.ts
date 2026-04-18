@@ -4,6 +4,7 @@ import { FileInterceptor } from '@nestjs/platform-express';
 import { Roles } from '../common/decorators/roles-metadata.decorator';
 import { JwtAuthGuard } from '@packages/shared/common/guards/jwt-auth.guard';
 import { RolesGuard } from '@packages/shared/common/guards/roles.guard';
+import { ValidateWebpOnlyPipe } from '@packages/shared/common/pipes/validate-webp-only.pipe';
 
 
 @Roles('admin')
@@ -20,17 +21,17 @@ export class ProductsController {
   @UseInterceptors(FileInterceptor('image'))
   @Post('edit')
   editProduct(
-    @UploadedFile() image: Express.Multer.File,
+    @UploadedFile(ValidateWebpOnlyPipe) image: Express.Multer.File,
     @Body() body: any
   ) {
     // console.log('body:', body);
-    return this.productsService.editOneProduct({ ...body, 'file': image });
+    return this.productsService.editOneProduct(body, image);
   }
 
   @UseInterceptors(FileInterceptor('image'))
   @Post('add')
   addProduct(
-    @UploadedFile() image: Express.Multer.File,
+    @UploadedFile(ValidateWebpOnlyPipe) image: Express.Multer.File,
     @Body() body: any
   ) {
     // console.log('Adding product with image:', body, image);
