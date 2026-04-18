@@ -1,5 +1,5 @@
 import { MimeInterface } from "src/utils/interfaces/mime.interface"
-import mimeTypes from 'mime-types'
+import * as mimeTypes from 'mime-types'
 
 export class MimeHandler implements MimeInterface {
     constructor(){}
@@ -9,6 +9,13 @@ export class MimeHandler implements MimeInterface {
     }
 
     async getExtname(mimeType: string){
-        return mimeTypes.extension(mimeType)
+        console.log('[MimeHandler] getExtname called with mimeType:', mimeType);
+        const ext = mimeTypes.extension(mimeType);
+        console.log('[MimeHandler] getExtname result:', ext);
+        if (!ext) {
+            console.warn('[MimeHandler] No extension found for mimetype:', mimeType);
+            return 'unknown';
+        }
+        return ext;
     }
 }

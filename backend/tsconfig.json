@@ -7,7 +7,7 @@
         "skipLibCheck": true,
         "forceConsistentCasingInFileNames": true,
         "resolveJsonModule": true,
-        "composite": true,
+        "composite": false,
         // "paths": {
         //     "@packages/shared/*": [
         //         "packages/shared/*"

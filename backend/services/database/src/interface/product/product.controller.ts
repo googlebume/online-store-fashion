@@ -42,9 +42,16 @@ export class ProductController {
 
   @MessagePattern('get_products')
   async getProducts() {
+    console.log('[ProductController] get_products called');
     const result = await this.getAllProductsHandler.execute(new GetAllProductsQuery(false));
-    if (!result.ok) return { success: false, message: result.error.message };
-    return { success: true, data: result.value.map(p => Serializers.productToObject(p)) };
+    console.log('[ProductController] getAllProductsHandler result.ok:', result.ok);
+    if (!result.ok) {
+      console.error('[ProductController] Error:', result.error.message);
+      return { success: false, message: result.error.message };
+    }
+    const serialized = result.value.map(p => Serializers.productToObject(p));
+    console.log('[ProductController] Returning products count:', serialized.length);
+    return { success: true, data: serialized };
   }
 
   @MessagePattern('get_products_dynamically')
@@ -116,7 +123,7 @@ export class ProductController {
   @MessagePattern('save_product_image')
   async saveProductImage(@Payload() data: any) {
     const result = await this.saveProductImageHandler.execute(
-      new SaveProductImageCommand(data.productId, data.file),
+      new SaveProductImageCommand(data.productId, data.buffer, data.mimetype, data.originalname),
     );
     if (!result.ok) return { success: false, message: result.error.message };
     return { success: true, url: result.value };
@@ -125,7 +132,7 @@ export class ProductController {
   @MessagePattern('edit_image')
   async updateProductImage(@Payload() data: any) {
     const result = await this.updateProductImageHandler.execute(
-      new UpdateProductImageCommand(data.productId, data.file),
+      new UpdateProductImageCommand(data.productId, data.buffer, data.mimetype, data.originalname),
     );
     if (!result.ok) return { success: false, message: result.error.message };
     return { success: true, url: result.value };
