@@ -21,7 +21,15 @@ export class ProductsService {
         try {
             const price = typeof data.price === 'string' ? Number(data.price) : data.price;
             const discount = typeof data.discount === 'string' ? Number(data.discount) : data.discount;
-            const payload = { ...data, price, discount };
+            const payload = {
+                id: data.id,
+                name: data.name,
+                description: data.description,
+                price,
+                discount,
+                brand: data.brand || '',
+                image: data.image || '',
+            };
             const response = await lastValueFrom(
                 databaseClient.send('edit_product', file ? {...payload, file: file} : payload)
             );
