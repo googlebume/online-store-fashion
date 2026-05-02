@@ -41,12 +41,36 @@ export class PrismaProductRepository implements IProductRepository {
 
   async findByName(name: ProductName | string): Promise<Result<ProductEntity[], Error>> {
     try {
-      const searchTerm = typeof name === 'string' ? name : name.toString();
-      const products = await this.prisma.products.findMany({
-        where: { name: { startsWith: searchTerm } },
+      const searchTerm = (typeof name === 'string' ? name : name.toString()).trim();
+      if (!searchTerm) {
+        return ok([]);
+      }
+
+      /** Slug у URL часто з дефісами, у БД — з пробілами («Classic-Sweatshirt» vs «Classic Sweatshirt»). */
+      const hyphenAsSpace = searchTerm.replace(/-/g, ' ');
+      const spaceAsHyphen = hyphenAsSpace.replace(/\s+/g, '-');
+
+      const rows = await this.prisma.products.findMany({
+        where: {
+          OR: [
+            { name: { equals: searchTerm } },
+            { name: { equals: hyphenAsSpace } },
+            { name: { equals: spaceAsHyphen } },
+            { name: { startsWith: searchTerm } },
+            { name: { startsWith: hyphenAsSpace } },
+            { name: { startsWith: spaceAsHyphen } },
+          ],
+        },
         include: { attributes: true },
       });
-      return ok(products.map(p => ProductMapper.toDomain(p)));
+
+      const normalize = (s: string) =>
+        s.replace(/-/g, ' ').replace(/\s+/g, ' ').trim().toLowerCase();
+      const queryNorm = normalize(searchTerm);
+      const exactMatches = rows.filter(r => normalize(r.name) === queryNorm);
+      const chosen = exactMatches.length > 0 ? exactMatches : rows;
+
+      return ok(chosen.map(p => ProductMapper.toDomain(p)));
     } catch (error) {
       return fail(new Error(`Failed to find products by name: ${error}`));
     }

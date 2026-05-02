@@ -40,7 +40,8 @@ export class ProductCardsLinksController {
         throw new HttpException('Product not found', HttpStatus.NOT_FOUND);
       }
 
-      return product;
+      /** Фронтенд очікує масив (наприклад product-мікрофронт). */
+      return [product];
     } catch (error) {
       console.error('Error fetching product:', error);
       if (error instanceof HttpException) {

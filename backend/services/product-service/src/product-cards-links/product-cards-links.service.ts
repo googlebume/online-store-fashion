@@ -33,7 +33,17 @@ export class ProductCardsLinksService {
         );
       }
 
-      return response.data || null;
+      const data = response.data as IProduct | IProduct[] | null | undefined;
+      if (data == null) {
+        return null;
+      }
+
+      /** БД повертає масив (findByName); для HTTP і відгуків потрібен один товар. */
+      if (Array.isArray(data)) {
+        return data[0] ?? null;
+      }
+
+      return data;
     } catch (error) {
       console.error('Microservice error:', error);
       if (error instanceof HttpException) {
