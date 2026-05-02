@@ -17,7 +17,7 @@ export const App = () => {
                     <ProductLayout key={name} />
                 </div>
                 <ProductsRelated />
-                <ReviewsSection />
+                <ReviewsSection key={name ?? ''} />
             </div>
         </div>
     );

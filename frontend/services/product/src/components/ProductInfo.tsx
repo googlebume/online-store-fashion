@@ -15,11 +15,13 @@ type Color = {
 }
 type ProductInfoType = {
     product: ProductType;
+    /** Варіант товару (колір/зображення) для рядка в кошику */
+    productForCart: ProductType;
     colorsList: Color[];
     curentColor: String;
     setCurrentColor: React.Dispatch<React.SetStateAction<string>>;
 }
-const ProductInfo: React.FC<ProductInfoType> = ({product, colorsList, curentColor, setCurrentColor}) => {
+const ProductInfo: React.FC<ProductInfoType> = ({product, productForCart, colorsList, curentColor, setCurrentColor}) => {
     return (
         <div className={cl.productInfo}>
             <ProductDetails title={product.name} discoint={product.discount} price={product.price} description={product.description}/>
@@ -31,7 +33,7 @@ const ProductInfo: React.FC<ProductInfoType> = ({product, colorsList, curentColo
             <ProductSizeSelection />
 
             {/* Quantity & Add to Cart          Тут треба щось рішать*/}
-            <ProductDetailedSelection />
+            <ProductDetailedSelection productForCart={productForCart} />
 
             {/* Product Details Accordion */}
             <ProductDetailsAccordion product={product}/>

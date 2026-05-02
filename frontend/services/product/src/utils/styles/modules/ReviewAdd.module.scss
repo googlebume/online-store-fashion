@@ -1,8 +1,32 @@
 @use '@packages/shared/src/utils/styles/colorScheme' as colors;
+
+/** Займає обидві колонки сітки в ReviewsSection на широкому екрані */
+.reviewAddOuterGuest {
+    @media (min-width: 768px) {
+        grid-column: 1 / -1;
+    }
+}
+
+.reviewAddOuter {
+    min-width: 0;
+}
+
+.guestHint {
+    margin-bottom: 16px;
+    opacity: 0.9;
+}
+
+.formError {
+    color: #b00020;
+    margin-bottom: 8px;
+}
+
 .addReview {
     background: colors.$milkish;
     padding: 24px;
     border-radius: 8px;
+    width: 100%;
+    box-sizing: border-box;
 
     .addReviewTitle {
       font-weight: bold;
@@ -20,12 +44,43 @@
 
       .ratingStarsInput {
         display: flex;
-        gap: 4px;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 6px;
+      }
 
-        i {
-          color: colors.$yellow;
-          font-size: 20px;
+      .starButton {
+        border: none;
+        background: transparent;
+        padding: 4px;
+        margin: 0;
+        cursor: pointer;
+        line-height: 1;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 4px;
+        max-height: 16px;
+
+        &:focus-visible {
+          outline: 2px solid colors.$yellow;
+          outline-offset: 2px;
         }
+
+        &:hover .starSymbol:not(.starSymbolFilled) {
+          color: color-mix(in srgb, colors.$yellow 45%, #d1d5db);
+        }
+      }
+
+      .starSymbol {
+        font-size: 28px;
+        color: #d1d5db;
+        user-select: none;
+        transition: color 0.15s ease;
+      }
+
+      .starSymbolFilled {
+        color: colors.$yellow;
       }
     }
 
@@ -41,7 +96,6 @@
 
       .textareaInput {
         max-width: 520px;
-        // min-width: 100px;
         max-height: 100px;
 
       }
@@ -70,6 +124,17 @@
 
       &:hover {
         background: rgba(colors.$black, 0.9);
+      }
+
+      &:disabled {
+        cursor: not-allowed;
+        opacity: 0.55;
+      }
+    }
+
+    &.addReviewGuest {
+      .reviewInput .textareaInput {
+        max-width: none;
       }
     }
   }

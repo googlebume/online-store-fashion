@@ -1,6 +1,5 @@
-import React, { useEffect, useState, useRef } from 'react';
-import { useLocation, useParams, useNavigate } from 'react-router-dom';
-import { api } from '@packages/shared/src/routes/api';
+import React, { useEffect, useMemo, useState, useRef } from 'react';
+import { useParams } from 'react-router-dom';
 
 import ProductGallery from './ProductGallery';
 import ProductInfo from './ProductInfo';
@@ -8,9 +7,9 @@ import ProductInfo from './ProductInfo';
 import { ProductType, ProductAttrType } from '@packages/shared/src/utils/types/prosuctData.type';
 import cl from '@/utils/styles/modules/ProductLayout.module.scss';
 import { useFetch } from '@packages/shared/src/utils/hooks/useFetch';
-import { cli } from 'webpack-dev-server';
 
 const ProductLayout = () => {
+    const { name: productNameFromRoute } = useParams<{ name: string }>();
     const [product, setProduct] = useState<ProductType | null>(null);
     const [allResponce, setAllResponce] = useState<ProductType[] | null>(null);
     const [colorsList, setColorsList] = useState(null);
@@ -25,7 +24,7 @@ const ProductLayout = () => {
         const handleOnUnload = () => {
             if (!product) return;
             
-            fetch('http://localhost:5006/fashion/products-analytics/update-engagement-metrics', {
+            fetch('http://localhost:5007/fashion/products-analytics/update-engagement-metrics', {
                 method: 'POST',
                 keepalive: true,
                 headers: {
@@ -64,19 +63,17 @@ const ProductLayout = () => {
             behavior: 'smooth',
         });
 
-        const productURL = window.location.href;
-        const productName = productURL.split('/').at(-1);
-
-        console.log('Product Name for GET:', productName);
-
-        if (productName) {
-            fetchData({
-                method: 'GET',
-                url: `shop/product/${encodeURIComponent(productName)}`,
-                port: 5000,
-            });
+        const productName = productNameFromRoute?.trim();
+        if (!productName) {
+            return;
         }
-    }, []);
+
+        fetchData({
+            method: 'GET',
+            url: `shop/product/${encodeURIComponent(productName)}`,
+            port: 5000,
+        });
+    }, [productNameFromRoute, fetchData]);
 
     useEffect(() => {
         if (response && Array.isArray(response) && response.length > 0) {
@@ -118,13 +115,31 @@ const ProductLayout = () => {
         }
     }, [allResponce, currentColor]);
 
+    const productForCart = useMemo(() => {
+        if (!product) {
+            return null;
+        }
+        if (!allResponce?.length) {
+            return product;
+        }
+        const colorVal = currentColor as string | undefined;
+        if (!colorVal) {
+            return product;
+        }
+        const variant = allResponce.find(
+            (p) => (p?.attributes?.[0] as ProductAttrType)?.color === colorVal,
+        );
+        return variant ?? product;
+    }, [product, allResponce, currentColor]);
+
     return (
         <div className={cl.productLayout}>
-            {product && (
+            {product && productForCart && (
                 <>
                     <ProductGallery image={currentImage || product.image} alt={product.name} />
                     <ProductInfo
                         product={product}
+                        productForCart={productForCart}
                         colorsList={colorsList}
                         curentColor={currentColor}
                         setCurrentColor={setCurrentColor}
