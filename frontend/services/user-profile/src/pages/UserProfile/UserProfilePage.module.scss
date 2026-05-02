@@ -10,6 +10,63 @@
   gap: 4px;
 }
 
+.headerRow {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  width: 100%;
+}
+
+.headerTitles {
+  display: grid;
+  gap: 4px;
+  min-width: 0;
+  flex: 1;
+}
+
+.headerLogout {
+  flex-shrink: 0;
+  align-self: flex-start;
+}
+
+/* Перебиваємо .button_submit_secondary (hover/focus змінюють color/bg через інший порядок CSS) */
+.logoutButton {
+  width: auto;
+  transition: none !important;
+  transform: none !important;
+
+  color: colors.$black !important;
+  background-color: transparent !important;
+  border: 2px solid colors.$ashDarkened !important;
+
+  &:hover,
+  &:active {
+    color: colors.$black !important;
+    background-color: transparent !important;
+    border-color: colors.$ashDarkened !important;
+    transform: none !important;
+    box-shadow: none !important;
+  }
+
+  &:focus {
+    color: colors.$black !important;
+    background-color: transparent !important;
+    border-color: colors.$ashDarkened !important;
+    transform: none !important;
+  }
+
+  &:focus-visible {
+    color: colors.$black !important;
+    background-color: transparent !important;
+    border-color: colors.$ashDarkened !important;
+    outline: 2px solid colors.$yellow !important;
+    outline-offset: 3px;
+    transform: none !important;
+  }
+}
+
 .title {
   margin: 0;
   font-size: 28px;

@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import Button from '@packages/shared/src/components/UI/Button/Button';
@@ -81,6 +81,18 @@ const extractOrders = (payload: unknown): OrderDataType[] => {
 
   if (Array.isArray(typed.orders)) return typed.orders;
   return [];
+};
+
+/** При порожньому списку не показувати типові мережеві помилки (order-service недоступний) — лишається повідомлення «немає замовлень». */
+const shouldShowOrdersFetchError = (error: Error | null, ordersLength: number): boolean => {
+  if (!error) return false;
+  if (ordersLength > 0) return true;
+  const msg = error.message ?? '';
+  const looksLikeUnreachableOrderService =
+    /failed to fetch/i.test(msg) ||
+    /networkerror/i.test(msg) ||
+    /load failed/i.test(msg);
+  return !looksLikeUnreachableOrderService;
 };
 
 const normalizeUserData = (user: (UserDataType & { role?: string[] | string }) | null | undefined): UserDataType | null => {
@@ -190,15 +202,36 @@ const UserProfilePage = () => {
     });
   };
 
+  const handleLogout = useCallback(() => {
+    cookies.removeCookie('token', `/${api}`);
+    dispatch(currentUserActions.clearCurrentUser());
+    setProfile(null);
+    setFormData({ name: '', email: '', password: '' });
+    navigate(`/${api}/shop`, { replace: true });
+  }, [cookies, dispatch, navigate]);
+
   return (
     <section className={cl.page}>
       <header className={cl.header}>
-        <h1 className={cl.title}>Профіль користувача</h1>
-        {profile ? (
-          <p className={cl.subtitle}>
-            ID: <span>{profile.id}</span>
-          </p>
-        ) : null}
+        <div className={cl.headerRow}>
+          <div className={cl.headerTitles}>
+            <h1 className={cl.title}>Профіль користувача</h1>
+            {profile ? (
+              <p className={cl.subtitle}>
+                ID: <span>{profile.id}</span>
+              </p>
+            ) : null}
+          </div>
+          <div className={cl.headerLogout}>
+            <Button
+              variant="submit-secondary"
+              text="Вийти"
+              type="button"
+              className={cl.logoutButton}
+              onClick={handleLogout}
+            />
+          </div>
+        </div>
       </header>
 
       {(profileRequest.error || updateRequest.error) && (
@@ -283,7 +316,9 @@ const UserProfilePage = () => {
           <p className={cl.muted}>Завантаження замовлень...</p>
         ) : null}
 
-        {ordersRequest.error ? <ErrorMassage massage={ordersRequest.error.message} /> : null}
+        {shouldShowOrdersFetchError(ordersRequest.error, orders.length) ? (
+          <ErrorMassage massage={ordersRequest.error.message} />
+        ) : null}
 
         {!ordersRequest.isLoading && !orders.length ? (
           <p className={cl.muted}>У вас поки що немає замовлень.</p>

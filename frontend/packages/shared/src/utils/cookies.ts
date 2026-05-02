@@ -33,6 +33,11 @@ class Cookies {
         const found = cookies.find(row => row.startsWith(name + '='))
         return found ? decodeURIComponent(found.split('=')[1]) : null
     }
+
+    /** Шлях має збігатися з тим, що використовувався в `setCookie` (часто `/${api}` для token). */
+    removeCookie = (name: string, path: string = '/'): void => {
+        document.cookie = `${name}=; path=${path}; max-age=0`
+    }
 }
 
 export default Cookies

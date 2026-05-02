@@ -3,36 +3,42 @@
 .profile {
     margin-left: 2.5rem;
     display: flex;
+    flex-direction: row;
     align-items: center;
+    justify-content: flex-start;
+    gap: 12px;
+    min-width: 0;
+    border-left: 1px solid colors.$gray;
+    padding: 0 0 0 14px;
+    .profile__name {
+        flex-shrink: 1;
+        min-width: 0;
+        max-width: min(220px, 38vw);
+        text-align: left;
+
+        .profile__naming {
+            margin: 0;
+            font-style: normal;
+            color: colors.$white;
+            text-align: left;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+    }
 
     .profile__icon {
+        flex-shrink: 0;
         border-radius: 50%;
         cursor: pointer;
         position: relative;
-        margin-right: 12px;
-
-        &::before {
-            content: '';
-            position: absolute;
-            width: 1px;
-            height: 100%;
-            background-color: colors.$gray;
-            left: -18px;
-            z-index: 3;
-        }
 
         img {
             object-fit: cover;
             object-position: center;
             width: 40px;
-        }
-    }
-
-    .profile__name {
-        .profile__naming {
-            font-style: none;
-            color: colors.$white;
-            text-wrap: wrap;
+            height: 40px;
+            display: block;
         }
     }
 }
@@ -40,20 +46,42 @@
 
 .profileBurger {
     width: 70vw;
+    max-width: 100%;
+    box-sizing: border-box;
     padding: 10px 16px;
     display: flex;
+    flex-direction: row;
     align-items: center;
+    justify-content: flex-start;
+    gap: 12px;
+    min-width: 0;
     border-radius: 16px;
     border: 1px solid colors.$white;
     background-color: color-mix(in srgb, colors.$white 10%, transparent 70%);
-    // backdrop-filter: blur(30px);
     transition: transform 0.3s;
     cursor: pointer;
     &:hover {
         transform: scale(1.03);
     }
 
+    .profile__name {
+        flex: 1;
+        min-width: 0;
+        text-align: left;
+
+        .profile__naming {
+            margin: 0;
+            font-size: 1.2rem;
+            color: colors.$white;
+            text-align: left;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+    }
+
     .profile__icon {
+        flex-shrink: 0;
         border-radius: 50%;
         cursor: pointer;
 
@@ -61,16 +89,8 @@
             object-fit: cover;
             object-position: center;
             width: 40px;
-        }
-    }
-
-    .profile__name {
-        margin-left: 1rem;
-        width: 100%;
-
-        .profile__naming {
-            font-size: 1.2rem;
-            color: colors.$white;
+            height: 40px;
+            display: block;
         }
     }
 }
