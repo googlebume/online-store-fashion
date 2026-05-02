@@ -1,28 +1,30 @@
 import { NestFactory } from '@nestjs/core';
-import { MicroserviceOptions, Transport } from '@nestjs/microservices';
+import { Transport } from '@nestjs/microservices';
 import { AppModule } from './interface/app.module';
 
+/**
+ * Один Nest-додаток: TCP microservice (5001) + HTTP (5002).
+ * Два окремі NestFactory на одному модулі небажані для стабільного TCP.
+ */
 async function bootstrap() {
-  const httpApp = await NestFactory.create(AppModule);
+  const app = await NestFactory.create(AppModule);
 
-  httpApp.enableCors({
+  app.connectMicroservice({
+    transport: Transport.TCP,
+    options: {
+      host: process.env.DATABASE_MICROSERVICE_HOST ?? '0.0.0.0',
+      port: Number(process.env.DATABASE_MICROSERVICE_PORT ?? 5001),
+    },
+  });
+
+  app.enableCors({
     origin: true,
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   });
 
-  await httpApp.listen(5002);
-  console.log('Database service HTTP server listening on port 5002');
-
-  const microservice = await NestFactory.createMicroservice<MicroserviceOptions>(
-    AppModule,
-    {
-      transport: Transport.TCP,
-      options: { host: 'localhost', port: 5001 },
-    },
-  );
-
-  await microservice.listen();
-  console.log('Database microservice is running on port 5001');
+  await app.startAllMicroservices();
+  await app.listen(5002);
+  console.log('Database service: TCP 5001 + HTTP 5002');
 }
 
 bootstrap().catch(console.error);

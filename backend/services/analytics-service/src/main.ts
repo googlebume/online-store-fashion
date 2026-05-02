@@ -11,7 +11,8 @@ async function bootstrap() {
     credentials: true
   })
 
-  await app.listen(process.env.PORT ?? 5006);
-  console.log("ANALYTICS SERVICE HAS BEEN STARTED")
+  const port = Number(process.env.PORT ?? 5007);
+  await app.listen(port);
+  console.log(`[analytics-service] HTTP :${port} (не 5006 — той порт зарезервовано під TCP order-service)`);
 }
 bootstrap();
