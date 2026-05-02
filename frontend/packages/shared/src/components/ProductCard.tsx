@@ -4,7 +4,7 @@ import cl from '@packages/shared/src/utils/styles/modules/ProductCard.module.scs
 import React, { useState, useEffect, useRef } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import DescriptionPrice from '../../../../services/shop/src/components/UI/DescriptionPrice/DescriptionPrice';
-import { addToCart } from '../../../../services/shop/src/state/basketState';
+import { addToCart } from '../state/basketState';
 import { adminProductsAction } from '../utils/constants/actionsMenu';
 import ActionsMenu from './UI/ActionsMenu/ActionsMenu';
 import Button from './UI/Button/Button';

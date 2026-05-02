@@ -35,6 +35,34 @@
             object-fit: cover;
         }
 
+        .tools__btnIconWrap {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .cartBadge {
+            position: absolute;
+            right: -6px;
+            bottom: -4px;
+            min-width: 1.125rem;
+            height: 1.125rem;
+            padding: 0 0.2rem;
+            border-radius: 999px;
+            background: colors.$yellow;
+            color: colors.$black;
+            font-size: 0.65rem;
+            font-weight: 700;
+            line-height: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            pointer-events: none;
+            box-sizing: border-box;
+        }
+
         &:hover {
             color: colors.$yellow;
         }

@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Button from './UI/Button/Button';
-import { updateQuantity, getCartItems } from '../../../../services/shop/src/state/basketState';
+import { updateQuantity, getCartItems, subscribeToCartChanges } from '../state/basketState';
 import cl from '@packages/shared/src/utils/styles/modules/Counter.module.scss'
 
 interface CounterProps {
@@ -9,7 +9,11 @@ interface CounterProps {
 }
 
 const Counter: React.FC<CounterProps> = ({ productName, initialQuantity = 1 }) => {
-    // Знаходимо актуальну кількість товару в кошику
+    const [, setVersion] = useState(0);
+    useEffect(() => {
+        return subscribeToCartChanges(() => setVersion((v) => v + 1));
+    }, []);
+
     const cartItems = getCartItems();
     const product = cartItems.find(p => p.name === productName);
     const currentQuantity = product ? product.quantity : initialQuantity;
