@@ -1,4 +1,5 @@
 import { Module } from '@nestjs/common';
+import { TcpClientsModule } from './microservices/tcp-clients.module';
 import { UsersModule } from './users/users.module';
 import { UsersController } from './users/users.controller';
 import { UsersService } from './users/users.service';
@@ -17,6 +18,7 @@ import { registerJwt, basePipline } from '@packages/config/dist/register-jwt'
 
 @Module({
   imports: [
+    TcpClientsModule,
     UsersModule,
     ProductsModule,
     OrdersModule,
