@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { CardsRenderModule } from './cards-render/cards-render.module';
 import { ProductCardsLinksModule } from './product-cards-links/product-cards-links.module';
+import { ProductReviewsModule } from './product-reviews/product-reviews.module';
 
 /**
  * App Module
@@ -8,6 +9,6 @@ import { ProductCardsLinksModule } from './product-cards-links/product-cards-lin
  * Main application module that imports feature modules
  */
 @Module({
-  imports: [CardsRenderModule, ProductCardsLinksModule],
+  imports: [CardsRenderModule, ProductCardsLinksModule, ProductReviewsModule],
 })
 export class AppModule {}
