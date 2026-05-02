@@ -1,5 +1,6 @@
 import { UserEntity } from '../../domain/user/entities/user.entity';
 import { ProductEntity } from '../../domain/product/entities/product.entity';
+import { ReviewEntity } from '../../domain/review/entities/review.entity';
 import { OrderEntity } from '../../domain/order/entities/order.entity';
 import { ProductAttributesEntity } from '../../domain/product/entities/product-attributes.entity';
 import { OrderItemEntity } from '../../domain/order/entities/order-item.entity';
@@ -67,6 +68,18 @@ export class Serializers {
       productId: entity.productId,
       quantity: entity.quantity,
       price: entity.price.amount,
+    };
+  }
+
+  static reviewToObject(entity: ReviewEntity): any {
+    return {
+      id: entity.id,
+      userId: entity.userId,
+      userName: entity.userName,
+      reviewTitle: entity.reviewTitle,
+      text: entity.text,
+      stars: entity.stars.value,
+      createdAt: entity.createdAt.toISOString(),
     };
   }
 }

@@ -5,6 +5,7 @@ import { UserModule } from './user/user.module';
 import { ProductModule } from './product/product.module';
 import { OrderModule } from './order/order.module';
 import { AnalyticsModule } from './analytics/analytics.module';
+import { ReviewModule } from './review/review.module';
 import { FilesHandlerModule } from '@packages/shared/utils/libs/files/files.module';
 import { CryptoHandlerModule } from '@packages/shared/utils/libs/crypto/crypto.module';
 import { MimeHandlerModule } from '@packages/shared/utils/libs/mime/mime.module';
@@ -18,6 +19,7 @@ const productsPath = join(process.cwd(), 'products');
     ProductModule,
     OrderModule,
     AnalyticsModule,
+    ReviewModule,
     FilesHandlerModule,
     CryptoHandlerModule,
     MimeHandlerModule,

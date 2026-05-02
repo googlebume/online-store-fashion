@@ -93,18 +93,20 @@ model OrderItem {
 }
 
 model Reviews {
-  id          String @id @default(uuid())
+  id          String   @id @default(uuid())
   userId      String
   productId   String
   userName    String
   reviewTitle String
   rewiew      String
   stars       Int
+  createdAt   DateTime @default(now())
 
-  userID   User @relation("UserById", fields: [userId], references: [id])
-  userNAME User @relation("UserByName", fields: [userName], references: [name])
+  userID   User     @relation("UserById", fields: [userId], references: [id])
+  userNAME User     @relation("UserByName", fields: [userName], references: [name])
+  product  Products @relation("ReviewProductId", fields: [productId], references: [id])
 
-  product Products @relation("ReviewProductId", fields: [productId], references: [id])
+  @@unique([userId, productId])
 }
 
 enum Role {
