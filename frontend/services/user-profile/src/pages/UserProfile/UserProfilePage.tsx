@@ -11,6 +11,7 @@ import type { OrderDataType, OrderStatus } from '@packages/shared/src/utils/type
 import type { UserDataType } from '@packages/shared/src/utils/types/userData.type';
 import { api } from '@packages/shared/src/routes/api';
 import cl from './UserProfilePage.module.scss';
+import { trackAnalytics } from '@packages/shared/src/utils/analytics/trackAnalytics';
 
 type ProfileResponse = {
   success?: boolean;
@@ -203,12 +204,18 @@ const UserProfilePage = () => {
   };
 
   const handleLogout = useCallback(() => {
+    if (profile?.id) {
+      trackAnalytics({
+        name: 'logout',
+        userId: profile.id,
+      });
+    }
     cookies.removeCookie('token', `/${api}`);
     dispatch(currentUserActions.clearCurrentUser());
     setProfile(null);
     setFormData({ name: '', email: '', password: '' });
     navigate(`/${api}/shop`, { replace: true });
-  }, [cookies, dispatch, navigate]);
+  }, [cookies, dispatch, navigate, profile?.id]);
 
   return (
     <section className={cl.page}>

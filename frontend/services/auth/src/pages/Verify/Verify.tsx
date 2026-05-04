@@ -8,6 +8,7 @@ import { api } from '@packages/shared/src/routes/api';
 import Cookies from '@packages/shared/src/utils/cookies';
 import { currentUserActions } from '@packages/shared/src/store';
 import { UserDataType } from '@packages/shared/src/utils/types/userData.type';
+import { trackAnalytics } from '@packages/shared/src/utils/analytics/trackAnalytics';
 
 interface VerificationCodeInputProps {
   length?: number;
@@ -84,6 +85,14 @@ const Verify: React.FC<VerificationCodeInputProps> = ({
           path: `/${api}`,
         });
       }
+
+      const uid =
+        response.userData?.id != null ? String(response.userData.id) : undefined;
+      trackAnalytics({
+        name: event === 'register' ? 'register_success' : 'login_success',
+        userId: uid,
+        payload: { flow: event },
+      });
 
       navigate(`/${api}/shop`, { state: { userData: response.userData } });
       return;

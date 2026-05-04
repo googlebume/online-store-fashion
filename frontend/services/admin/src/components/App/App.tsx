@@ -5,11 +5,13 @@ import {deepMerge} from '@packages/shared/src/utils/deepMerge'
 import { administrationListItems } from '@/utils/constants/administrationList';
 
 import AsideList from '@packages/shared/src/components/AsideList';
+import AnalyticsRouteTracker from '@packages/shared/src/components/AnalyticsRouteTracker';
 
 export const App = () => {
     // deepMerge()
     return (
         <div className={cl.wrapper}>
+            <AnalyticsRouteTracker />
             <AsideList section={ administrationListItems }/>
             <div className={cl.content}>
                     <Outlet />

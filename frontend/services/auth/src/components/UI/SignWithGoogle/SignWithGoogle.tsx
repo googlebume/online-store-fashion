@@ -7,6 +7,7 @@ import { UserDataType } from '@packages/shared/src/utils/types/userData.type';
 import { shopRoutes } from '@packages/shared/src/routes/shop';
 import Cookies from '@packages/shared/src/utils/cookies';
 import { api } from '@packages/shared/src/routes/api';
+import { trackAnalytics } from '@packages/shared/src/utils/analytics/trackAnalytics';
 
 const cookies = new Cookies();
 
@@ -83,6 +84,12 @@ const SignWithGoogle = () => {
           path: `/${api}`,
         });
       }
+
+      trackAnalytics({
+        name: 'login_google_success',
+        userId: String(backendUser.id),
+        payload: { isNewUser: authFetch.response.isNewUser === true },
+      });
 
       window.location.assign(`/${shopRoutes.shop}`);
       return;

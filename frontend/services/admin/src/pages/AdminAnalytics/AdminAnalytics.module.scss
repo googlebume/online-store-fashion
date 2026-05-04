@@ -1,0 +1,275 @@
+@use '@packages/shared/src/utils/styles/colorScheme' as colors;
+
+.layout {
+  width: 100%;
+  display: grid;
+  gap: 20px;
+}
+
+.toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 0 4px;
+  flex-wrap: wrap;
+}
+
+.title {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 600;
+  color: colors.$black;
+}
+
+.subtitle {
+  margin: 4px 0 0;
+  font-size: 13px;
+  color: colors.$ashDarkenedText;
+  font-weight: 400;
+}
+
+.statsRow {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(160px, 1fr));
+  gap: 12px;
+}
+
+.statCard {
+  border: 1px solid colors.$gray;
+  border-radius: 20px;
+  background: colors.$milkish;
+  padding: 16px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-height: 88px;
+}
+
+.statLabel {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: colors.$ashDarkenedText;
+  font-weight: 600;
+}
+
+.statValue {
+  font-size: 28px;
+  font-weight: 700;
+  color: colors.$black;
+  line-height: 1.1;
+}
+
+.section {
+  border: 1px solid colors.$gray;
+  border-radius: 24px;
+  background: colors.$milkish;
+  padding: 16px 18px 20px;
+}
+
+.sectionTitle {
+  margin: 0 0 14px;
+  font-size: 16px;
+  font-weight: 600;
+  color: colors.$black;
+}
+
+.chartRow {
+  display: flex;
+  align-items: flex-end;
+  gap: 8px;
+  min-height: 140px;
+  padding-top: 8px;
+}
+
+.chartBarWrap {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+}
+
+.chartBar {
+  width: 100%;
+  max-width: 48px;
+  min-height: 4px;
+  border-radius: 8px 8px 2px 2px;
+  background: linear-gradient(180deg, colors.$yellow 0%, colors.$golden 100%);
+  transition: opacity 0.2s;
+}
+
+.chartBar:hover {
+  opacity: 0.88;
+}
+
+.chartLabel {
+  font-size: 10px;
+  color: colors.$ashDarkenedText;
+  text-align: center;
+  word-break: break-all;
+}
+
+.chartCount {
+  font-size: 11px;
+  font-weight: 600;
+  color: colors.$black;
+}
+
+.breakdown {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.breakdownRow {
+  display: grid;
+  grid-template-columns: 1fr auto minmax(80px, 120px);
+  align-items: center;
+  gap: 10px;
+  font-size: 13px;
+}
+
+.breakdownName {
+  color: colors.$black;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.breakdownCount {
+  font-weight: 600;
+  color: colors.$ashDarkenedText;
+  text-align: right;
+}
+
+.breakdownBarBg {
+  height: 8px;
+  border-radius: 4px;
+  background: rgba(0, 0, 0, 0.06);
+  overflow: hidden;
+}
+
+.breakdownBarFill {
+  height: 100%;
+  border-radius: 4px;
+  background: colors.$yellow;
+  min-width: 2px;
+}
+
+.productsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 12px;
+}
+
+.productCard {
+  border: 1px solid colors.$gray;
+  border-radius: 16px;
+  overflow: hidden;
+  background: #fff;
+  display: flex;
+  flex-direction: column;
+}
+
+.productThumb {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  background: colors.$milkish;
+}
+
+.productMeta {
+  padding: 10px 12px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.productName {
+  font-size: 13px;
+  font-weight: 600;
+  color: colors.$black;
+  line-height: 1.3;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.productStats {
+  font-size: 12px;
+  color: colors.$ashDarkenedText;
+}
+
+.eventsTableWrap {
+  overflow-x: auto;
+  margin: 0 -4px;
+}
+
+.eventsTable {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12px;
+}
+
+.eventsTable th,
+.eventsTable td {
+  text-align: left;
+  padding: 8px 10px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.eventsTable th {
+  color: colors.$ashDarkenedText;
+  font-weight: 600;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.eventsTable td {
+  color: colors.$black;
+  vertical-align: top;
+}
+
+.mono {
+  font-family: ui-monospace, monospace;
+  font-size: 11px;
+  word-break: break-all;
+}
+
+.empty {
+  width: 100%;
+  min-height: 240px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  color: colors.$ashDarkenedText;
+  border: 1px dashed colors.$gray;
+  border-radius: 24px;
+  background: colors.$milkish;
+}
+
+.emptyStack {
+  flex-direction: column;
+  gap: 12px;
+}
+
+@media (max-width: 720px) {
+  .statsRow {
+    grid-template-columns: 1fr;
+  }
+
+  .breakdownRow {
+    grid-template-columns: 1fr auto;
+    grid-template-rows: auto auto;
+  }
+
+  .breakdownBarBg {
+    grid-column: 1 / -1;
+  }
+}

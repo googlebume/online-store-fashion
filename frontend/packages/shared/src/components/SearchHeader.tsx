@@ -6,6 +6,7 @@ import SearchInput from "./UI/form-controls/SearchInput/SearchInput";
 import HeaderToolsList from "./UI/HeaderToolsList/HeaderToolsList";
 import { useSelector } from "react-redux";
 import type { RootState } from "@packages/shared/src/store";
+import AnalyticsRouteTracker from "./AnalyticsRouteTracker";
 
 const SearchHeader = () => {
     const [isOpen, setIsOpen] = useState(false);
@@ -14,6 +15,7 @@ const SearchHeader = () => {
 
     return (
         <>
+            <AnalyticsRouteTracker />
             <div className={cl.header_second}>
                 <nav className={cl.header__main}>
                     <Button
