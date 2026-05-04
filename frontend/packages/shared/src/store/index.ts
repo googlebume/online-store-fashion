@@ -9,6 +9,7 @@ export {
 } from "./slices/productsSlice";
 export {
   setFilteredProducts,
+  setFiltersActive,
   clearFilteredProducts,
 } from "./slices/filteredProductsSlice";
 export {

@@ -9,6 +9,7 @@ import {
 import {
   clearFilteredProducts,
   setFilteredProducts,
+  setFiltersActive,
 } from "./slices/filteredProductsSlice";
 import {
   clearCurrentUser,
@@ -25,6 +26,7 @@ export const productsActions = {
 
 export const filteredProductsActions = {
   setFilteredProducts: (products: ProductType[]) => setFilteredProducts(products),
+  setFiltersActive: (active: boolean) => setFiltersActive(active),
   clearFilteredProducts: () => clearFilteredProducts(),
 };
 

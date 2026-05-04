@@ -6,9 +6,11 @@ type MethodTypes = 'POST' | 'GET';
 
 type UseFetchProps<T> = {
   method: MethodTypes;
-  port: number;
   url: string;
   body?: T;
+  /** пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ `http://localhost:${port}` (пїЅпїЅпїЅпїЅ. docker пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ). */
+  baseUrl?: string;
+  port?: number;
 };
 
 type UseFetchReturn<R> = {
@@ -25,7 +27,9 @@ export const useFetch = <T = any, R = any>(): UseFetchReturn<R> => {
   const cookies = new Cookies();
 
   const fetchData = useCallback(async (params: UseFetchProps<T>) => {
-    const { method, port, url, body } = params;
+    const { method, url, body } = params;
+    const port = params.port ?? 5000;
+    const origin = (params.baseUrl ?? `http://localhost:${port}`).replace(/\/$/, '');
 
     setIsLoading(true);
     setError(null);
@@ -56,7 +60,7 @@ export const useFetch = <T = any, R = any>(): UseFetchReturn<R> => {
         fetchConfig.body = JSON.stringify(requestBody);
       }
 
-      const res = await fetch(`http://localhost:${port}/${api}/${url}`, fetchConfig);
+      const res = await fetch(`${origin}/${api}/${url}`, fetchConfig);
 
       let data: any;
       let text = '';
@@ -71,11 +75,11 @@ export const useFetch = <T = any, R = any>(): UseFetchReturn<R> => {
         if (data && typeof data === 'object' && (data.message || data.error)) {
           throw new Error(data.message || data.error);
         }
-        throw new Error(`Помилка ${res.status}: ${text || res.statusText}`);
+        throw new Error(`пїЅпїЅпїЅпїЅпїЅпїЅпїЅ ${res.status}: ${text || res.statusText}`);
       }
 
       if (data && typeof data === 'object' && data.success === false) {
-        throw new Error(data.error || data.message || 'Сталася помилка');
+        throw new Error(data.error || data.message || 'пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ');
       }
 
       setResponse(data);

@@ -3,6 +3,7 @@ import cl from '@packages/shared/src/utils/styles/modules/PriceWidget.module.scs
 import PriceInput from './UI/form-controls/PriceInput/PriceInput';
 import Button from '@packages/shared/src/components/UI/Button/Button';
 import DoubleRangeInput from './UI/form-controls/DoubleRangeInput/DoubleRangeInput';
+import { logFilterPipeline } from '@packages/shared/src/utils/debug/filterPipelineLog';
 
 type PriceRange = {
     minPrice: number;
@@ -18,7 +19,9 @@ const PriceWidget: React.FC<PriceWidgetProps> = ({ setSelectedPriceRange }) => {
     const [maxPrice, setMaxPrice] = useState<number>(5000);
 
     const handlePriceChoose = () => {
-        setSelectedPriceRange({ minPrice, maxPrice });
+        const range = { minPrice, maxPrice };
+        logFilterPipeline('PriceWidget → apply range', range);
+        setSelectedPriceRange(range);
     };
 
     const handleMinPrice = (value: number) => {

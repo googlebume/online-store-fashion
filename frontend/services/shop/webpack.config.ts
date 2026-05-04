@@ -1,7 +1,10 @@
 import path from 'path';
 import webpack from 'webpack';
+import dotenv from 'dotenv';
 import {BuildMode, BuildPaths, BuildPlatform, buildWebpack, BuildOptions} from '@packages/build-config'
 import packageJson from './package.json'
+
+dotenv.config({ path: path.resolve(__dirname, '.env') });
 
 interface EnvVariables {
     mode?: BuildMode;
@@ -49,6 +52,17 @@ export default (env: EnvVariables) => {
             },
         },
     }))
+
+    const productBase =
+        process.env.PRODUCT_SERVICE_URL?.trim() ||
+        process.env.VITE_PRODUCT_SERVICE_URL?.trim() ||
+        ''
+
+    config.plugins!.push(
+        new webpack.DefinePlugin({
+            __PRODUCT_SERVICE_BASE_URL__: JSON.stringify(productBase),
+        }),
+    )
 
     return config;
 }

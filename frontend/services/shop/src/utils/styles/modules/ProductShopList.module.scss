@@ -1,3 +1,31 @@
+@use '@packages/shared/src/utils/styles/colorScheme' as colors;
+
+.catalogError {
+    grid-column: 1 / -1;
+    padding: 16px 18px;
+    border-radius: 16px;
+    border: 1px dashed colors.$gray;
+    background: colors.$milkish;
+    color: colors.$black;
+    max-width: 520px;
+
+    code {
+        font-size: 12px;
+        word-break: break-all;
+    }
+}
+
+.catalogErrorHint {
+    margin: 8px 0 0;
+    font-size: 14px;
+    color: colors.$ashDarkenedText;
+}
+
+.catalogErrorTech {
+    margin: 10px 0 0;
+    font-size: 12px;
+    color: colors.$ashDarkenedText;
+}
 
 .ProductShopList {
     display: grid;

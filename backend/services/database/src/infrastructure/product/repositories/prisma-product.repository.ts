@@ -107,6 +107,7 @@ export class PrismaProductRepository implements IProductRepository {
       const [products, total] = await Promise.all([
         this.prisma.products.findMany({
           ...this.buildQueryOptions(options),
+          include: { attributes: true },
           take: limit,
           skip,
         }),

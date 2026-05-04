@@ -6,7 +6,6 @@ import ProductShopList from "./ProductShopList";
 const ShopOverview = () => {
     const screenWidthRef = useRef(window.innerWidth);
     const [width, setWidth] = useState(window.innerWidth);
-    const [shouldRender, setShouldRender] = useState(false);
 
     useEffect(() => {
         const handleResize = () => {
@@ -19,16 +18,10 @@ const ShopOverview = () => {
         return () => window.removeEventListener("resize", handleResize);
     }, []);
 
-    useEffect(() => {
-        const timer = setTimeout(() => setShouldRender(true), 100);
-
-        return () => clearTimeout(timer);
-    }, []);
-
     return (
         <div className={cl.overview}>
             <div className={cl.overview__wrapper}>
-                {width >= 1069 && shouldRender && <FiltersStickyBar />}
+                {width >= 1069 && <FiltersStickyBar />}
                 <ProductShopList />
             </div>
         </div>
