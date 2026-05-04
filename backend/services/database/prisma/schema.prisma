@@ -26,6 +26,7 @@ model Products {
 
   reviews   Reviews[]         @relation("ReviewProductId")
   analytics ProducsAnalytics? @relation("ProductAnalytics")
+  analyticsEvents AnalyticsEvent[]
 }
 
 model Attributes {
@@ -55,6 +56,7 @@ model User {
 
   reviewsById   Reviews[] @relation("UserById")
   reviewsByName Reviews[] @relation("UserByName")
+  analyticsEvents AnalyticsEvent[]
 }
 
 model Order {
@@ -166,4 +168,25 @@ model ProducsAnalytics {
   updatedAt DateTime @updatedAt
 
   product Products @relation("ProductAnalytics", fields: [productId], references: [id])
+}
+
+/** Raw user/product/session events for analytics (stored via analytics-service → database microservice). */
+model AnalyticsEvent {
+  id          String   @id @default(uuid())
+  name        String
+  sessionId   String?
+  userId      String?
+  productId   String?
+  path        String?
+  durationMs  Int?
+  payload     Json?
+  clientId    String?
+  createdAt   DateTime @default(now())
+
+  user    User?     @relation(fields: [userId], references: [id], onDelete: SetNull)
+  product Products? @relation(fields: [productId], references: [id], onDelete: SetNull)
+
+  @@index([name])
+  @@index([createdAt])
+  @@index([sessionId])
 }

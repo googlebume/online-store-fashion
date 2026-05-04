@@ -136,4 +136,143 @@ export class AnalyticsController {
       return { success: false, message: error.message };
     }
   }
+
+  @MessagePattern('create-analytics-event')
+  async createAnalyticsEvent(
+    @Payload()
+    data: {
+      name: string;
+      sessionId?: string;
+      userId?: string;
+      productId?: string;
+      path?: string;
+      durationMs?: number;
+      payload?: unknown;
+      clientId?: string;
+    },
+  ) {
+    try {
+      if (!data?.name || typeof data.name !== 'string') {
+        return { success: false, message: 'Event name is required' };
+      }
+      const record = await this.prisma.analyticsEvent.create({
+        data: {
+          name: data.name,
+          sessionId: data.sessionId,
+          userId: data.userId,
+          productId: data.productId,
+          path: data.path,
+          durationMs: data.durationMs,
+          payload: data.payload === undefined ? undefined : (data.payload as object),
+          clientId: data.clientId,
+        },
+      });
+      return { success: true, data: record };
+    } catch (error) {
+      return { success: false, message: error.message };
+    }
+  }
+
+  @MessagePattern('get-analytics-dashboard')
+  async getAnalyticsDashboard() {
+    try {
+      const now = new Date();
+      const dayAgo = new Date(now.getTime() - 24 * 60 * 60 * 1000);
+      const weekAgo = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
+
+      const [
+        totalEvents,
+        eventsLast24h,
+        eventsByName,
+        recentEvents,
+        sessionGroups,
+        weekSample,
+        topProductsByViews,
+      ] = await Promise.all([
+        this.prisma.analyticsEvent.count(),
+        this.prisma.analyticsEvent.count({
+          where: { createdAt: { gte: dayAgo } },
+        }),
+        this.prisma.analyticsEvent.groupBy({
+          by: ['name'],
+          _count: { name: true },
+          orderBy: { _count: { name: 'desc' } },
+          take: 16,
+        }),
+        this.prisma.analyticsEvent.findMany({
+          orderBy: { createdAt: 'desc' },
+          take: 35,
+          select: {
+            id: true,
+            name: true,
+            path: true,
+            sessionId: true,
+            userId: true,
+            productId: true,
+            durationMs: true,
+            payload: true,
+            createdAt: true,
+          },
+        }),
+        this.prisma.analyticsEvent.groupBy({
+          by: ['sessionId'],
+          where: { sessionId: { not: null } },
+          _count: { sessionId: true },
+        }),
+        this.prisma.analyticsEvent.findMany({
+          where: { createdAt: { gte: weekAgo } },
+          select: { createdAt: true },
+        }),
+        this.prisma.producsAnalytics.findMany({
+          orderBy: { views: 'desc' },
+          take: 6,
+          include: {
+            product: { select: { id: true, name: true, image: true } },
+          },
+        }),
+      ]);
+
+      const uniqueSessions = sessionGroups.length;
+
+      const dayBuckets: Record<string, number> = {};
+      for (const row of weekSample) {
+        const key = row.createdAt.toISOString().slice(0, 10);
+        dayBuckets[key] = (dayBuckets[key] || 0) + 1;
+      }
+      const last7Days: { date: string; count: number }[] = [];
+      for (let i = 6; i >= 0; i--) {
+        const d = new Date(now);
+        d.setDate(d.getDate() - i);
+        const key = d.toISOString().slice(0, 10);
+        last7Days.push({ date: key, count: dayBuckets[key] || 0 });
+      }
+
+      return {
+        success: true,
+        data: {
+          totals: {
+            allTime: totalEvents,
+            last24h: eventsLast24h,
+            uniqueSessions,
+          },
+          eventsByName: eventsByName.map((r) => ({
+            name: r.name,
+            count: r._count.name,
+          })),
+          last7Days,
+          recentEvents,
+          topProductsByViews: topProductsByViews.map((row) => ({
+            productId: row.productId,
+            views: row.views,
+            clicks: row.clicks,
+            orders: row.orders,
+            productName: row.product?.name ?? null,
+            image: row.product?.image ?? null,
+          })),
+        },
+      };
+    } catch (error) {
+      return { success: false, message: error.message };
+    }
+  }
 }
