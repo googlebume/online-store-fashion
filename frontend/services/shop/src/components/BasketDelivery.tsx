@@ -3,7 +3,9 @@ import InputData from '@packages/shared/src/components/UI/form-controls/InputDat
 import InputOption from '@packages/shared/src/components/UI/form-controls/InputOption/InputOption';
 import Button from '@packages/shared/src/components/UI/Button/Button';
 import cl from '@shop/utils/styles/modules/BasketDelivery.module.scss';
-import { getCartItems, subscribeToCartChanges } from '@shop/state/basketState';
+import { getCartItems, getTotalPrice, subscribeToCartChanges } from '@shop/state/basketState';
+import { trackAnalytics } from '@packages/shared/src/utils/analytics/trackAnalytics';
+import { ECOMMERCE_CURRENCY } from '@packages/shared/src/utils/analytics/ecommercePayload';
 import novaPoshtaService from '../utils/api/novaPoshta.api';
 
 const BasketDelivery: React.FC<{ setDeliveryParams: React.Dispatch<React.SetStateAction<Object>> }> = ({ setDeliveryParams }) => {
@@ -98,6 +100,20 @@ const BasketDelivery: React.FC<{ setDeliveryParams: React.Dispatch<React.SetStat
 
         return () => unsubscribe();
     }, []);
+
+    useEffect(() => {
+        if (!selectedDeliveryMethod || !selectedWarehouse) {
+            return;
+        }
+        trackAnalytics({
+            name: 'add_shipping_info',
+            payload: {
+                currency: ECOMMERCE_CURRENCY,
+                value: getTotalPrice(),
+                shipping_tier: selectedDeliveryMethod,
+            },
+        });
+    }, [selectedDeliveryMethod, selectedWarehouse]);
 
     const handleAreaChange = (areaName: string) => {
         const selectedAreaData = areas.find(area => area.name === areaName);

@@ -7,6 +7,13 @@ import ProductInfo from './ProductInfo';
 import { ProductType, ProductAttrType } from '@packages/shared/src/utils/types/prosuctData.type';
 import cl from '@/utils/styles/modules/ProductLayout.module.scss';
 import { useFetch } from '@packages/shared/src/utils/hooks/useFetch';
+import { trackAnalytics } from '@packages/shared/src/utils/analytics/trackAnalytics';
+import {
+    ECOMMERCE_CURRENCY,
+    lineValue,
+    toGa4Item,
+} from '@packages/shared/src/utils/analytics/ecommercePayload';
+import { getProductServiceBaseUrl } from '@packages/shared/src/utils/api/productServiceUrl';
 
 const ProductLayout = () => {
     const { name: productNameFromRoute } = useParams<{ name: string }>();
@@ -17,13 +24,46 @@ const ProductLayout = () => {
     const [currentImage, setCurrentImage] = useState<string>();
     const { response, error, isLoading, fetchData } = useFetch<null, ProductType[]>();
     const clicksRef = useRef(0);
+    const viewStartedAt = useRef<number>(Date.now());
 
+    useEffect(() => {
+        viewStartedAt.current = Date.now();
+        clicksRef.current = 0;
+    }, [product?.id]);
 
+    useEffect(() => {
+        if (!product) return;
+        trackAnalytics({
+            name: 'product_page_view',
+            productId: product.id,
+            path: typeof window !== 'undefined' ? `${window.location.pathname}${window.location.search}` : undefined,
+            payload: { productName: product.name },
+        });
+        trackAnalytics({
+            name: 'view_item',
+            productId: product.id,
+            path: typeof window !== 'undefined' ? `${window.location.pathname}${window.location.search}` : undefined,
+            payload: {
+                currency: ECOMMERCE_CURRENCY,
+                value: lineValue(product, 1),
+                items: [toGa4Item(product, 1)],
+            },
+        });
+    }, [product?.id]);
 
     useEffect(() => {
         const handleOnUnload = () => {
             if (!product) return;
-            
+
+            const durationMs = Date.now() - viewStartedAt.current;
+            trackAnalytics({
+                name: 'product_session_end',
+                productId: product.id,
+                durationMs,
+                path: typeof window !== 'undefined' ? `${window.location.pathname}${window.location.search}` : undefined,
+                payload: { clicks: clicksRef.current, productName: product.name },
+            });
+
             fetch('http://localhost:5007/fashion/products-analytics/update-engagement-metrics', {
                 method: 'POST',
                 keepalive: true,
@@ -71,7 +111,7 @@ const ProductLayout = () => {
         fetchData({
             method: 'GET',
             url: `shop/product/${encodeURIComponent(productName)}`,
-            port: 5000,
+            baseUrl: getProductServiceBaseUrl(),
         });
     }, [productNameFromRoute, fetchData]);
 

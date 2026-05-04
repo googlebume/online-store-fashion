@@ -5,6 +5,7 @@ import ReviewStats from './ReviewStats';
 import ReviewAdd from './ReviewAdd';
 import ReviewsList from './ReviewsList';
 import { useFetch } from '@packages/shared/src/utils/hooks/useFetch';
+import { getProductServiceBaseUrl } from '@packages/shared/src/utils/api/productServiceUrl';
 import type { ProductReviewStats, ProductReviewItem, ReviewsListResponse } from '@/types/reviews.types';
 
 const ReviewsSection = () => {
@@ -31,7 +32,7 @@ const ReviewsSection = () => {
     fetchStats({
       method: 'GET',
       url: `shop/product/${encodeURIComponent(name)}/reviews/stats`,
-      port: 5000,
+      baseUrl: getProductServiceBaseUrl(),
     });
   }, [name, fetchStats]);
 
@@ -42,7 +43,7 @@ const ReviewsSection = () => {
     fetchList({
       method: 'GET',
       url: `shop/product/${encodeURIComponent(name)}/reviews?page=${page}&limit=10`,
-      port: 5000,
+      baseUrl: getProductServiceBaseUrl(),
     });
   }, [name, page, fetchList]);
 
@@ -82,12 +83,12 @@ const ReviewsSection = () => {
     fetchStats({
       method: 'GET',
       url: `shop/product/${encodeURIComponent(name)}/reviews/stats`,
-      port: 5000,
+      baseUrl: getProductServiceBaseUrl(),
     });
     fetchList({
       method: 'GET',
       url: `shop/product/${encodeURIComponent(name)}/reviews?page=1&limit=10`,
-      port: 5000,
+      baseUrl: getProductServiceBaseUrl(),
     });
   }, [name, fetchStats, fetchList]);
 

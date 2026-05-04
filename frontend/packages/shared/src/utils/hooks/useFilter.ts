@@ -3,6 +3,7 @@ import { useDispatch } from "react-redux";
 import { useTextInputFilter } from "./useTextInputFilter";
 import { filteredProductsActions } from "../../store";
 import { ProductType } from "../types/prosuctData.type";
+import { trackAnalytics } from "../analytics/trackAnalytics";
 
 type SearchValueType = string | number | symbol;
 
@@ -41,6 +42,16 @@ export function useProductFilter<T extends ProductType>(
     });
 
     const onFilterClick = () => {
+        const term = String(searchValue).trim();
+        if (term.length > 0) {
+            trackAnalytics({
+                name: 'search',
+                payload: {
+                    search_term: term,
+                    results_count: filtered.length,
+                },
+            });
+        }
         dispatch(filteredProductsActions.setFilteredProducts(filtered));
         setReturnFiltered(filtered);
     };

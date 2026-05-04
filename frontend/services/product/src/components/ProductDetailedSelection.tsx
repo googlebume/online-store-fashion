@@ -6,6 +6,12 @@ import Button from '../../../../packages/shared/src/components/UI/Button/Button'
 import counterCl from '../../../../packages/shared/src/utils/styles/modules/Counter.module.scss';
 import { addToCart } from '../../../../packages/shared/src/state/basketState';
 import type { ProductType } from '@packages/shared/src/utils/types/prosuctData.type';
+import { trackAnalytics } from '@packages/shared/src/utils/analytics/trackAnalytics';
+import {
+    ECOMMERCE_CURRENCY,
+    lineValue,
+    toGa4Item,
+} from '@packages/shared/src/utils/analytics/ecommercePayload';
 
 type Props = {
     productForCart: ProductType;
@@ -43,7 +49,21 @@ const ProductDetailedSelection: React.FC<Props> = ({ productForCart }) => {
                     <ShoppingCardIcon height="28px" width="28px" color={`${variables.yellow}`} fill={`${variables.yellow}`} />
                     Додати у кошик
                 </button>
-                <button type="button" className={cl.wishlistButton}>
+                <button
+                    type="button"
+                    className={cl.wishlistButton}
+                    onClick={() =>
+                        trackAnalytics({
+                            name: 'add_to_wishlist',
+                            productId: productForCart.id,
+                            payload: {
+                                currency: ECOMMERCE_CURRENCY,
+                                value: lineValue(productForCart, 1),
+                                ...toGa4Item(productForCart, 1),
+                            },
+                        })
+                    }
+                >
                     В обране
                 </button>
             </div>

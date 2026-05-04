@@ -3,6 +3,8 @@ import cl from '@/utils/styles/modules/ReviewAdd.module.scss';
 import { useParams } from 'react-router-dom';
 import { useFetch } from '@packages/shared/src/utils/hooks/useFetch';
 import JwtHandler from '@packages/shared/src/utils/jwt';
+import { trackAnalytics } from '@packages/shared/src/utils/analytics/trackAnalytics';
+import { getProductServiceBaseUrl } from '@packages/shared/src/utils/api/productServiceUrl';
 
 type Props = {
   onCreated: () => void;
@@ -10,6 +12,7 @@ type Props = {
 
 const ReviewAdd: React.FC<Props> = ({ onCreated }) => {
   const { name: productName } = useParams<{ name: string }>();
+  const lastTrackedReviewId = React.useRef<string | null>(null);
   const [stars, setStars] = useState(0);
   const [hover, setHover] = useState(0);
   const [text, setText] = useState('');
@@ -66,7 +69,7 @@ const ReviewAdd: React.FC<Props> = ({ onCreated }) => {
 
       fetchData({
         method: 'POST',
-        port: 5000,
+        baseUrl: getProductServiceBaseUrl(),
         url: `shop/product/${encodeURIComponent(productName)}/reviews`,
         body: {
           userId: String(userId),
@@ -83,14 +86,24 @@ const ReviewAdd: React.FC<Props> = ({ onCreated }) => {
     if (!response || 'error' in response) {
       return;
     }
-    if (!(response as { id?: string }).id) {
+    const rid = (response as { id?: string }).id;
+    if (!rid) {
       return;
     }
+    if (lastTrackedReviewId.current === rid) {
+      return;
+    }
+    lastTrackedReviewId.current = rid;
     setText('');
     setStars(0);
     setHover(0);
+    trackAnalytics({
+      name: 'review_submit',
+      userId: String(userId),
+      payload: { productName, stars },
+    });
     onCreated();
-  }, [response, onCreated]);
+  }, [response, onCreated, userId, productName, stars]);
 
   const isGuest = !userId;
 

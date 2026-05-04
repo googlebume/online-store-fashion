@@ -8,6 +8,8 @@ import BasketSummary from './BasketSummary';
 import EmptyBasket from './EmptyBasket';
 import { getCartItems, subscribeToCartChanges } from '../state/basketState';
 import {ProductType} from '@packages/shared/src/utils/types/prosuctData.type'
+import { trackAnalytics } from '@packages/shared/src/utils/analytics/trackAnalytics';
+import { cartSummaryForAnalytics } from '@packages/shared/src/utils/analytics/ecommercePayload';
 
 interface PopupBasketProps {
     setBasketOpenStatus: React.Dispatch<React.SetStateAction<boolean>>;
@@ -16,7 +18,9 @@ interface PopupBasketProps {
 
 const PopupBasket: React.FC<PopupBasketProps> = ({ setBasketOpenStatus, basketOpenStatus }) => {
     const [productsInCart, setProductsInCart] = useState<ProductType[]>(getCartItems());
-    const [deliveryParams, setDeliveryParams] = useState({})
+    const [deliveryParams, setDeliveryParams] = useState({});
+
+    const hasProducts = productsInCart.length > 0;
 
     useEffect(() => {
         document.body.style.overflow = "hidden";
@@ -33,7 +37,15 @@ const PopupBasket: React.FC<PopupBasketProps> = ({ setBasketOpenStatus, basketOp
         };
     }, []);
 
-    const hasProducts = productsInCart.length > 0;
+    useEffect(() => {
+        if (!hasProducts) {
+            return;
+        }
+        trackAnalytics({
+            name: 'view_cart',
+            payload: cartSummaryForAnalytics(getCartItems() as (ProductType & { quantity: number })[]),
+        });
+    }, [hasProducts]);
 
     return ReactDOM.createPortal(
         <div

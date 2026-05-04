@@ -1,4 +1,10 @@
 import type { ProductType } from '../utils/types/prosuctData.type';
+import { trackAnalytics } from '../utils/analytics/trackAnalytics';
+import {
+  ECOMMERCE_CURRENCY,
+  lineValue,
+  toGa4Item,
+} from '../utils/analytics/ecommercePayload';
 
 type CartItem = ProductType & {
   quantity: number;
@@ -89,12 +95,33 @@ export const addToCart = (product: ProductType, quantity: number = 1) => {
 
   persistCart();
   notifyListeners();
+  trackAnalytics({
+    name: 'add_to_cart',
+    productId: product.id,
+    payload: {
+      currency: ECOMMERCE_CURRENCY,
+      value: lineValue(product, q),
+      ...toGa4Item(product, q),
+    },
+  });
 };
 
 export const removeFromCart = (productName: string) => {
+  const removed = cartItems.find((item) => item.name === productName);
   cartItems = cartItems.filter(item => item.name !== productName);
   persistCart();
   notifyListeners();
+  if (removed) {
+    trackAnalytics({
+      name: 'remove_from_cart',
+      productId: removed.id,
+      payload: {
+        currency: ECOMMERCE_CURRENCY,
+        value: lineValue(removed, removed.quantity),
+        ...toGa4Item(removed, removed.quantity),
+      },
+    });
+  }
 };
 
 export const updateQuantity = (productName: string, newQuantity: number) => {
@@ -102,9 +129,22 @@ export const updateQuantity = (productName: string, newQuantity: number) => {
 
   const index = cartItems.findIndex(item => item.name === productName);
   if (index >= 0) {
+    const prevQty = cartItems[index].quantity;
     cartItems[index].quantity = newQuantity;
     persistCart();
     notifyListeners();
+    const row = cartItems[index];
+    trackAnalytics({
+      name: 'cart_quantity_updated',
+      productId: row.id,
+      payload: {
+        currency: ECOMMERCE_CURRENCY,
+        value: lineValue(row, newQuantity),
+        previousQuantity: prevQty,
+        quantity: newQuantity,
+        ...toGa4Item(row, newQuantity),
+      },
+    });
   }
 };
 
