@@ -10,7 +10,7 @@ const MainFooter = () => {
     const date = new Date()
 
     return (
-        <footer>
+        <footer className={cl.footerRoot}>
             <SpaceBlock height={'12vh'} fileName={'whiteShelfOfClothes.png'}/>
             <FooterContentPie />
             <div className={cl.footer_copyright}>

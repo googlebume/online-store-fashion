@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {footerUsefulLinks} from './../utils/constants/footerUsefulLinks';
+import { footerUsefulLinks } from './../utils/constants/footerUsefulLinks';
 import UsefuelLinks from './UI/UsefuelLinks/UsefuelLinks';
 
 const FooterUsefulLinks = () => {

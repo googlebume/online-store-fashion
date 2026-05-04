@@ -15,6 +15,7 @@ import userProfileRoutes from 'user_profile/Router'
 import ErrorNotFound from "@packages/shared/src/pages/ErrorNotFound/ErrorNotFound";
 import Cookies from "@packages/shared/src/utils/cookies";
 import JwtHandler from "@packages/shared/src/utils/jwt"
+import { storeInfoRoutes } from "./storeInfoRoutes";
 
 
 const jwtHandler = new JwtHandler()
@@ -30,15 +31,16 @@ export const router = createBrowserRouter([
                 index: true,
                 element: <Navigate to="/fashion/shop" replace />
             },
-            {
-                path: `*`,
-                element: <ErrorNotFound />
-            },
+            ...storeInfoRoutes,
             ...productRoutes,
             ...shopRoutes,
             ...(isAdmin ? adminRoutes : []),
             ...authRoutes,
             ...userProfileRoutes,
+            {
+                path: `*`,
+                element: <ErrorNotFound />
+            },
         ]
     },
 ]);
