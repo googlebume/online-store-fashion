@@ -64,11 +64,15 @@ const ProductCard: React.FC<ProductCardProp> = ({ data, prevLocation }) => {
             <Link to={location.pathname.includes('admin') ? null : parseImageUrl(data.name)}>
                 <div className={cl.product__img}>
                     <img src={data.image} alt={`${data.name}`} />
-                    <DisplayDiscount discount={data.discount} />
+                    {data.discount && <DisplayDiscount discount={data.discount} />}
                 </div>
                 <div className={cl.product__description}>
                     <div className={cl.description__main}>
-                        <DescriptionPrice discountT={data.discount} priceT={data.price} />
+                        {data.discount ? (
+                            <DescriptionPrice discountT={data.discount} priceT={data.price} />
+                        ) : (
+                            <span className={cl.price}>{data.price}</span>
+                        )}
                         {
                             location.pathname === "/fashion/admin/products"
                                 ? <ActionsMenu
@@ -96,7 +100,6 @@ const ProductCard: React.FC<ProductCardProp> = ({ data, prevLocation }) => {
 };
 
 export default ProductCard;
-
 
 
 

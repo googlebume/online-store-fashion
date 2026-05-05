@@ -55,6 +55,12 @@
     align-items: center;
 }
 
+.price {
+    font-size: 18px;
+    font-weight: bold;
+    color: colors.$black;
+}
+
 .toBasket {
     background-color: colors.$yellow;
     padding: 4px 8px;
@@ -72,4 +78,3 @@
         color: colors.$black;
     }
 }
-

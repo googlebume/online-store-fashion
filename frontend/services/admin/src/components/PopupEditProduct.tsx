@@ -15,12 +15,14 @@ import Cookies from '@packages/shared/src/utils/cookies';
 type PopType = {
     data: ProductType;
     popupRef: React.RefObject<HTMLDivElement>;
+    onSaved?: () => void;
+    onClose?: () => void;
 };
 
 type PopupEditProductType<T extends 'edit' | 'add'> =
     T extends 'edit'
     ? PopType & { type: T }
-    : { type: T; popupRef: React.RefObject<HTMLDivElement> }
+    : { type: T; popupRef: React.RefObject<HTMLDivElement>; onSaved?: () => void; onClose?: () => void }
 
 const PopupEditProduct = <T extends 'edit' | 'add'>({ ...props }: PopupEditProductType<T>) => {
     const isEditMode = props.type === 'edit';
@@ -59,7 +61,7 @@ const PopupEditProduct = <T extends 'edit' | 'add'>({ ...props }: PopupEditProdu
         console.log('productImage:', productImage);
     }
 
-    const { response, error, isLoading, fetchData } = useFetch<ProductType>();
+    const { isLoading } = useFetch<ProductType>();
 
     const onHandleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -116,18 +118,13 @@ const PopupEditProduct = <T extends 'edit' | 'add'>({ ...props }: PopupEditProdu
             console.log('Parsed result:', result);
 
             if (result.success || response.ok) {
-                document.location.reload();
+                props.onSaved?.();
+                props.onClose?.();
             }
         } catch (error) {
             console.error('Error uploading:', error);
         }
     };
-
-    useEffect(() => {
-        if (response?.success || response?.ok) {
-            document.location.reload();
-        }
-    }, [response]);
 
     function handleImageChange(file: File | null) {
         if (file) {

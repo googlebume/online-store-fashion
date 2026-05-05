@@ -14,7 +14,10 @@ class DatabaseClientImpl implements IDatabaseClient {
   constructor() {
     this.client = ClientProxyFactory.create({
       transport: Transport.TCP,
-      options: { host: 'localhost', port: 5001 },
+      options: {
+        host: process.env.DATABASE_MICROSERVICE_HOST ?? 'localhost',
+        port: Number(process.env.DATABASE_MICROSERVICE_PORT ?? 5001),
+      },
     });
   }
 

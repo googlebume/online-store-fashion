@@ -48,7 +48,7 @@ const AdminProducts = () => {
         setLastOfPath(path);
     }, [location.pathname]);
 
-    useEffect(() => {
+    const loadProducts = () => {
         if (lastOfPath && lastOfPath !== 'users') {
             fetchData({
                 method: 'GET',
@@ -57,6 +57,10 @@ const AdminProducts = () => {
             });
             console.log(`to admin/${lastOfPath}`);
         }
+    };
+
+    useEffect(() => {
+        loadProducts();
     }, [lastOfPath]);
 
     useEffect(() => {
@@ -104,7 +108,10 @@ const AdminProducts = () => {
             .then(response => response.json())
             .then(data => {
                 console.log('Delete response:', data);
-                data?.success === true && document.location.reload()
+                if (data?.success === true) {
+                    setDeletedProduct(null);
+                    loadProducts();
+                }
             })
     }, [deletedProduct]);
 
@@ -121,6 +128,8 @@ const AdminProducts = () => {
                     {isPopupOpen && <PopupEditProduct
                         type='add'
                         popupRef={popupRef}
+                        onSaved={loadProducts}
+                        onClose={() => setIsPopupOpen(false)}
                     />}
                 </div>
 
@@ -139,7 +148,13 @@ const AdminProducts = () => {
                             : null}
 
                     {selectedProduct !== null && (
-                        <PopupEditProduct data={selectedProduct} popupRef={menuRef} type="edit" />
+                        <PopupEditProduct
+                            data={selectedProduct}
+                            popupRef={menuRef}
+                            type="edit"
+                            onSaved={loadProducts}
+                            onClose={() => setSelectedProduct(null)}
+                        />
                     )}
                 </ProdContext.Provider>
             </div>

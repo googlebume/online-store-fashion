@@ -3,7 +3,7 @@ import webpack from 'webpack';
 import {BuildMode, BuildPaths, BuildPlatform, buildWebpack, BuildOptions} from '@packages/build-config'
 import packageJson from './package.json'
 import dotenv from 'dotenv'
-dotenv.config()
+dotenv.config({ path: path.resolve(__dirname, '.env') })
 
 interface EnvVariables {
     mode?: BuildMode;

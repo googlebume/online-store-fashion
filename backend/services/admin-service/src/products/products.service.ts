@@ -114,8 +114,9 @@ export class ProductsService {
           originalname: file.originalname,
           productId,
         });
-        if (imageResult && (imageResult as any).success && (imageResult as any).url) {
-          imageUrl = (imageResult as any).url;
+        const uploadedImageUrl = (imageResult as any)?.imageUrl ?? (imageResult as any)?.url;
+        if (imageResult && (imageResult as any).success && uploadedImageUrl) {
+          imageUrl = uploadedImageUrl;
           await this.rpc('edit_product', { id: productId, image: imageUrl });
         } else {
           return { success: false, message: 'Не вдалося зберегти зображення' };
