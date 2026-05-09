@@ -1,7 +1,12 @@
 import { Controller } from '@nestjs/common';
 import { MessagePattern, Payload } from '@nestjs/microservices';
 import { OrderingService } from './ordering.service';
-import { OrderDTO } from '@packages/shared/dto/order.dto';
+import {
+  CreatePromoCodeDTO,
+  OrderDTO,
+  UpdatePromoCodeDTO,
+  ValidatePromoCodeDTO,
+} from '@packages/shared/dto/order.dto';
 
 @Controller('ordering-micro')
 export class OrderingMicroController {
@@ -37,5 +42,30 @@ export class OrderingMicroController {
   @MessagePattern('admin_delete_order')
   async deleteOrder(@Payload() data: { id: string }) {
     return this.orderingService.deleteOrder(data.id);
+  }
+
+  @MessagePattern('admin_validate_promo_code')
+  async validatePromoCode(@Payload() data: ValidatePromoCodeDTO) {
+    return this.orderingService.validatePromoCode(data);
+  }
+
+  @MessagePattern('admin_create_promo_code')
+  async createPromoCode(@Payload() data: CreatePromoCodeDTO) {
+    return this.orderingService.createPromoCode(data);
+  }
+
+  @MessagePattern('admin_list_promo_codes')
+  async listPromoCodes() {
+    return this.orderingService.listPromoCodes();
+  }
+
+  @MessagePattern('admin_get_promo_code_by_id')
+  async getPromoCodeById(@Payload() data: { id: string }) {
+    return this.orderingService.getPromoCodeById(data.id);
+  }
+
+  @MessagePattern('admin_update_promo_code')
+  async updatePromoCode(@Payload() data: UpdatePromoCodeDTO) {
+    return this.orderingService.updatePromoCode(data);
   }
 }

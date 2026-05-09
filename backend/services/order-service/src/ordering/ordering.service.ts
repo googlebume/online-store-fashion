@@ -1,5 +1,10 @@
 import { HttpException, HttpStatus, Injectable, Logger } from '@nestjs/common';
-import { OrderDTO } from '@packages/shared/dto/order.dto';
+import {
+  CreatePromoCodeDTO,
+  OrderDTO,
+  UpdatePromoCodeDTO,
+  ValidatePromoCodeDTO,
+} from '@packages/shared/dto/order.dto';
 import { lastValueFrom } from 'rxjs';
 import { databaseClient } from '../database.client';
 
@@ -42,6 +47,34 @@ export class OrderingService {
     this.logger.log(`[createOrder] Received response. success=${response?.success}, orderId=${response?.orderId ?? 'n/a'}`);
     this.logger.debug(`[createOrder] Response payload: ${JSON.stringify(response)}`);
     return response;
+  }
+
+  async validatePromoCode(payload: ValidatePromoCodeDTO) {
+    this.logger.log(`[validatePromoCode] Validating promo code ${payload.promoCode}`);
+    const response = await lastValueFrom(databaseClient.send('validate_promo_code', payload));
+    return response?.data ?? response;
+  }
+
+  async createPromoCode(payload: CreatePromoCodeDTO) {
+    this.logger.log(`[createPromoCode] Creating promo code ${payload.code}`);
+    const response = await lastValueFrom(databaseClient.send('create_promo_code', payload));
+    return response?.data ?? response;
+  }
+
+  async listPromoCodes() {
+    const response = await lastValueFrom(databaseClient.send('list_promo_codes', {}));
+    return response?.data ?? response;
+  }
+
+  async getPromoCodeById(id: string) {
+    const response = await lastValueFrom(databaseClient.send('get_promo_code_by_id', { id }));
+    return response?.data ?? response;
+  }
+
+  async updatePromoCode(payload: UpdatePromoCodeDTO) {
+    this.logger.log(`[updatePromoCode] Updating promo code ${payload.id}`);
+    const response = await lastValueFrom(databaseClient.send('update_promo_code', payload));
+    return response?.data ?? response;
   }
 
   async updateOrder(
