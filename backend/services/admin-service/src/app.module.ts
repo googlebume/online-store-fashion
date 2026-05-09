@@ -7,6 +7,7 @@ import { ProductsModule } from './products/products.module';
 import { ProductsController } from './products/products.controller';
 import { ProductsService } from './products/products.service';
 import { OrdersModule } from './orders/orders.module';
+import { PromoCodesModule } from './promo-codes/promo-codes.module';
 import { OrdersService } from './orders/orders.service';
 import { APP_GUARD } from '@nestjs/core';
 
@@ -22,6 +23,7 @@ import { registerJwt, basePipline } from '@packages/config/dist/register-jwt'
     UsersModule,
     ProductsModule,
     OrdersModule,
+    PromoCodesModule,
     JwtModule.register(
       registerJwt(basePipline)
     ),
