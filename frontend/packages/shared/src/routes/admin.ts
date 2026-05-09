@@ -5,5 +5,6 @@ export const adminRoutes = {
     products: `products`,
     orders: `orders`,
     analytics: `analytics`,
+    promoCodes: `promo-codes`,
 }
 

@@ -30,6 +30,11 @@ type OrderCardProps = {
 
 const OrderCard: React.FC<OrderCardProps> = ({ order, isSaving, onUpdateStatus }) => {
   const itemTotal = order.items?.reduce((sum, item) => sum + item.price * item.quantity, 0) ?? 0;
+  const subtotalFromApi = order.subtotal;
+  const goodsSubtotal =
+    typeof subtotalFromApi === 'number' ? subtotalFromApi : itemTotal;
+  const promoDiscount = order.promoDiscountTotal ?? 0;
+  const hasPromo = Boolean(order.promoCode && promoDiscount > 0);
   const statusLabel = STATUS_LABELS[order.status as OrderStatus] || order.status;
 
   return (
@@ -74,6 +79,12 @@ const OrderCard: React.FC<OrderCardProps> = ({ order, isSaving, onUpdateStatus }
           <span className={cl.metaLabel}>Оновлено</span>
           <span className={cl.metaValue}>{new Date(order.updatedAt).toLocaleString('uk-UA')}</span>
         </div>
+        {order.promoCode ? (
+          <div className={cl.metaItem}>
+            <span className={cl.metaLabel}>Промокод</span>
+            <span className={cl.metaValue}>{order.promoCode}</span>
+          </div>
+        ) : null}
       </div>
 
       <div className={cl.addressBox}>
@@ -92,7 +103,11 @@ const OrderCard: React.FC<OrderCardProps> = ({ order, isSaving, onUpdateStatus }
             <div key={item.id} className={cl.itemRow}>
               <span className={cl.itemProduct}>{item.productId}</span>
               <span className={cl.itemCell}>x{item.quantity}</span>
-              <span className={cl.itemCell}>{item.price.toFixed(2)} ₴</span>
+              <span className={cl.itemCell}>
+                {item.originalPrice != null && item.originalPrice !== item.price
+                  ? `${item.originalPrice.toFixed(2)} → ${item.price.toFixed(2)} ₴`
+                  : `${item.price.toFixed(2)} ₴`}
+              </span>
               <span className={cl.itemTotal}>{(item.price * item.quantity).toFixed(2)} ₴</span>
             </div>
           ))
@@ -104,8 +119,14 @@ const OrderCard: React.FC<OrderCardProps> = ({ order, isSaving, onUpdateStatus }
       <footer className={cl.footer}>
         <p>
           <span>Сума товарів</span>
-          <strong>{itemTotal.toFixed(2)} ₴</strong>
+          <strong>{goodsSubtotal.toFixed(2)} ₴</strong>
         </p>
+        {hasPromo ? (
+          <p>
+            <span>Знижка (промокод)</span>
+            <strong>−{promoDiscount.toFixed(2)} ₴</strong>
+          </p>
+        ) : null}
         <p>
           <span>До сплати</span>
           <strong>{order.total.toFixed(2)} ₴</strong>

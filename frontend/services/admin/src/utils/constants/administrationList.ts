@@ -5,6 +5,7 @@ import analyticsIcon from '../../../../../packages/shared/src/assets/images/icon
 import tag from '../../../../../packages/shared/src/assets/images/icons/tagIcon.svg?url';
 import userIcon from '../../../../../packages/shared/src/assets/images/icons/userIcon.png';
 import shoppingCardIcon from '../../../../../packages/shared/src/assets/images/icons/shoppingCardIcon.svg?url';
+import promoDocIcon from '../../../../../packages/shared/src/assets/images/icons/fileDocument.svg?url';
 
 export const administrationListItems: AsideSectionType = {
   title: 'administration',
@@ -12,6 +13,7 @@ export const administrationListItems: AsideSectionType = {
     { href: adminRoutes.users, text: 'Користувачі', icon: userIcon },
     { href: adminRoutes.products, text: 'Товари', icon: tag },
     { href: adminRoutes.orders, text: 'Замовлення', icon: shoppingCardIcon },
+    { href: adminRoutes.promoCodes, text: 'Промокоди', icon: promoDocIcon },
     { href: adminRoutes.analytics, text: 'Аналітика', icon: analyticsIcon },
   ],
 };
