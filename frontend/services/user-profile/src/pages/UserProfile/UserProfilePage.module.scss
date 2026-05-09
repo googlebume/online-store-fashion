@@ -26,9 +26,19 @@
   flex: 1;
 }
 
-.headerLogout {
+.headerActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: flex-start;
+  justify-content: flex-end;
   flex-shrink: 0;
   align-self: flex-start;
+}
+
+.adminLink {
+  display: inline-flex;
+  text-decoration: none;
 }
 
 /* Перебиваємо .button_submit_secondary (hover/focus змінюють color/bg через інший порядок CSS) */

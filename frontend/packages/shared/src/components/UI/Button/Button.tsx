@@ -16,8 +16,10 @@ type ButtonVariant =
 type IconType = string | React.ComponentType<any> | React.ReactNode;
 
 type ButtonProps = {
-  as?: 'button' | 'a';
-  variant?: ButtonVariant;
+    /** Доступність: підпис для icon-only кнопок */
+    ariaLabel?: string;
+    as?: 'button' | 'a';
+    variant?: ButtonVariant;
   text?: React.ReactNode;
   img?: IconType;
   width?: string | number;
@@ -67,8 +69,9 @@ const renderIcon = (img?: IconType, iconClass?: string) => {
 };
 
 const Button: React.FC<ButtonProps> = ({
-  as = 'button',
-  variant = 'submit-primary',
+    ariaLabel,
+    as = 'button',
+    variant = 'submit-primary',
   text,
   img,
   width,
@@ -124,6 +127,7 @@ const Button: React.FC<ButtonProps> = ({
         target={target}
         rel={rel}
         onClick={onClick}
+        aria-label={ariaLabel}
       >
         {icon}
         {text}
@@ -133,7 +137,14 @@ const Button: React.FC<ButtonProps> = ({
   }
 
   return (
-    <button className={withStateClasses} style={style} type={resolvedType} onClick={onClick as any} disabled={disabled}>
+    <button
+      className={withStateClasses}
+      style={style}
+      type={resolvedType}
+      onClick={onClick as any}
+      disabled={disabled}
+      aria-label={ariaLabel}
+    >
       {icon}
       {variant === 'burger' ? (
         <>

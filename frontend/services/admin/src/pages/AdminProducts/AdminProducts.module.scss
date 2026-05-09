@@ -1,16 +1,31 @@
 .searcherAdmin {
-    display: grid;
-    grid-template-columns: 2fr 1fr;
-    gap: 24px;
+    display: flex;
+    flex-wrap: nowrap;
     align-items: center;
+    gap: 10px;
     margin-bottom: 16px;
+    min-width: 0;
 }
 
+.searcherAdmin_search {
+    flex: 1;
+    min-width: 0;
+}
+
+/* submit-primary у Button задає width: 100% — у рядку flex це розтягувало кнопку на весь рядок */
+.addProductBtn {
+    flex: 0 0 auto;
+    width: auto !important;
+    max-width: max-content;
+}
+
+/* minmax(257px): при «вузькому» flex-контейнері лишалась одна колонка; 220px при ширині ~1174 дає мінімум 3 картки */
 .overview__prod {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(257px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
     gap: 8px 6px;
     width: 100%;
+    min-width: 0;
     margin-bottom: 16px;
 }
 

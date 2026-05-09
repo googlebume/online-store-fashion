@@ -1,5 +1,11 @@
 @use '@packages/shared/src/utils/styles/colorScheme' as colors;
 
+.root {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+}
+
 .catalog {
     min-width: 292px;
     margin-right: 8px;
@@ -49,7 +55,7 @@
             z-index: 1;
             position: relative;
             transition: all 0.2s ease;
-            width: 24px;
+            min-width: 0;
         }
 
         &:hover .category__item_content {
@@ -58,7 +64,7 @@
             transition: all 0.2s ease;
         }
 
-        &:hover .category__item_img{
+        &:hover .category__item_img {
             filter: invert(1) blur(10px);
         }
     }
@@ -66,6 +72,7 @@
     .category__item_img {
         width: 24px;
         height: 24px;
+        flex-shrink: 0;
     }
 
     .category__item_text {
@@ -76,9 +83,142 @@
     }
 }
 
-@media(max-width: 1174px) {
-    .catalog{
-        display: none;
-    }
+.mobileRail {
+    display: none;
 }
 
+.mobileRail_title {
+    font-size: 14px;
+    font-weight: 600;
+    color: colors.$black;
+    letter-spacing: 0.02em;
+    white-space: nowrap;
+}
+
+.mobileRail_burgerIcon {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    flex-shrink: 0;
+    width: 1.375rem;
+    height: 1.375rem;
+    pointer-events: none;
+}
+
+.mobileRail_line {
+    display: block;
+    width: 100%;
+    height: 2px;
+    background-color: colors.$gray;
+    border-radius: 4px;
+    transition: transform 0.05s linear, opacity 0.05s linear;
+}
+
+.backdrop {
+    display: none;
+}
+
+@media (max-width: 1174px) {
+    .root {
+        flex-direction: column;
+        align-items: stretch;
+        width: 100%;
+        gap: 12px;
+    }
+
+    /* Компактна кнопка в потоці: не на всю ширину екрана; клік по всій площі */
+    .mobileRail {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        box-sizing: border-box;
+        width: fit-content;
+        max-width: min(320px, calc(100% - 4px));
+        min-height: 40px;
+        padding: 6px 12px;
+        margin-top: 8px;
+        align-self: flex-start;
+        border: 1px solid colors.$gray;
+        border-radius: 12px;
+        background: colors.$milkish;
+        flex-shrink: 0;
+        appearance: none;
+        font: inherit;
+        text-align: left;
+        cursor: pointer;
+        box-shadow: 0 1px 6px rgba(0, 0, 0, 0.06);
+
+        &:focus {
+            outline: none;
+        }
+
+        &:focus-visible {
+            outline: 2px solid colors.$yellow;
+            outline-offset: 3px;
+        }
+    }
+
+    .mobileRail_open .mobileRail_line:nth-child(1) {
+        transform: rotate(45deg) translate(4px, 4px);
+    }
+
+    .mobileRail_open .mobileRail_line:nth-child(2) {
+        opacity: 0;
+    }
+
+    .mobileRail_open .mobileRail_line:nth-child(3) {
+        transform: rotate(-45deg) translate(5px, -5px);
+    }
+
+    .backdrop {
+        display: block;
+        position: fixed;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        top: var(--aside-drawer-top, 0px);
+        z-index: 3999;
+        margin: 0;
+        border: none;
+        padding: 0;
+        background: rgba(0, 0, 0, 0.45);
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 0.2s ease, visibility 0.2s ease;
+        pointer-events: none;
+
+        &[data-open='true'] {
+            opacity: 1;
+            visibility: visible;
+            pointer-events: auto;
+        }
+    }
+
+    /* Панель лише під смугою керування — не накриває її та іконку */
+    .catalog {
+        position: fixed;
+        left: 0;
+        right: auto;
+        top: var(--aside-drawer-top, 0px);
+        bottom: 0;
+        height: auto;
+        max-height: calc(100dvh - var(--aside-drawer-top, 0px));
+        margin-right: 0;
+        min-width: min(292px, 88vw);
+        max-width: 88vw;
+        transform: translateX(-100%);
+        transition: transform 0.25s ease;
+        z-index: 4000;
+        background: colors.$white;
+        overflow-y: auto;
+        overflow-x: hidden;
+        box-shadow: 8px 0 32px rgba(0, 0, 0, 0.12);
+        padding-top: 8px;
+        padding-bottom: 12px;
+        border-right: 1px solid colors.$gray;
+
+        &.catalog_drawerOpen {
+            transform: translateX(0);
+        }
+    }
+}

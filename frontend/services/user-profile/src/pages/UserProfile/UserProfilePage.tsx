@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import Button from '@packages/shared/src/components/UI/Button/Button';
 import InputData from '@packages/shared/src/components/UI/form-controls/InputData/InputData';
 import ErrorMassage from '@packages/shared/src/components/UI/ErrorMassage/ErrorMassage';
@@ -180,6 +180,10 @@ const UserProfilePage = () => {
 
   const orders = extractOrders(ordersRequest.response);
 
+  const isAdminUser = Boolean(
+    profile?.role?.some((r) => String(r).toLowerCase() === 'admin'),
+  );
+
   const onFieldInput = (field: 'name' | 'email' | 'password', value: string) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
   };
@@ -229,7 +233,17 @@ const UserProfilePage = () => {
               </p>
             ) : null}
           </div>
-          <div className={cl.headerLogout}>
+          <div className={cl.headerActions}>
+            {isAdminUser ? (
+              <Link to={`/${api}/admin`} className={cl.adminLink}>
+                <Button
+                  variant="submit-secondary"
+                  text="Перейти в адмінку"
+                  type="button"
+                  className={cl.logoutButton}
+                />
+              </Link>
+            ) : null}
             <Button
               variant="submit-secondary"
               text="Вийти"

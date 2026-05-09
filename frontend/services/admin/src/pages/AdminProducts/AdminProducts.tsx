@@ -119,8 +119,11 @@ const AdminProducts = () => {
         <>
             {response && (
                 <div className={cl.searcherAdmin}>
-                    <SearchInput allData={response} field="name" setReturnFiltered={setReturnFiltered} />
+                    <div className={cl.searcherAdmin_search}>
+                        <SearchInput allData={response} field="name" setReturnFiltered={setReturnFiltered} />
+                    </div>
                     <Button
+                        className={cl.addProductBtn}
                         text='Додати новий'
                         img={PlusIcon}
                         onClick={() => setIsPopupOpen(!isPopupOpen)}

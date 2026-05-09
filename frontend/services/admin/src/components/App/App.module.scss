@@ -12,6 +12,21 @@
         flex: 1;
         max-width: calc(consts.$clientWidth - consts.$asideWidth + 8px);
         padding: 12px 0 0 0;
+        /* Інакше grid усередині може отримувати ширину лише в одну колонку (min-width: auto у flex-дітей) */
+        min-width: 0;
+    }
+}
+
+@media (max-width: 1174px) {
+    .wrapper {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 8px;
+    }
+
+    .content {
+        max-width: none;
+        width: 100%;
     }
 }
 

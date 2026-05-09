@@ -11,4 +11,12 @@
     }
 }
 
+@media (max-width: 1174px) {
+    .placeholderOffers {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 12px;
+    }
+}
+
 
