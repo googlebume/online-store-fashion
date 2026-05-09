@@ -45,6 +45,13 @@ export type AnalyticsDashboardData = {
   topProductsByViews: AnalyticsTopProduct[];
 };
 
+/** Унікальні користувачі — лише події з непорожнім userId (авторизовані замовлення). */
+export type PromoRedemptionRow = {
+  promoCode: string;
+  orders: number;
+  distinctUsers: number;
+};
+
 type DashboardApiResponse = {
   success?: boolean;
   data?: AnalyticsDashboardData;
@@ -69,6 +76,32 @@ export async function fetchAnalyticsDashboard(): Promise<AnalyticsDashboardData>
   }
   if (body.success === false || !body.data) {
     throw new Error(body.message || 'Не вдалося завантажити аналітику');
+  }
+
+  return body.data;
+}
+
+type PromoRedemptionApiResponse = {
+  success?: boolean;
+  data?: PromoRedemptionRow[];
+  message?: string;
+};
+
+export async function fetchPromoRedemptionStats(): Promise<PromoRedemptionRow[]> {
+  const base = getAnalyticsBaseUrl();
+  const res = await fetch(`${base}/fashion/analytics/promo-redemptions`);
+  let body: PromoRedemptionApiResponse = {};
+  try {
+    body = (await res.json()) as PromoRedemptionApiResponse;
+  } catch {
+    throw new Error('Некоректна відповідь сервера аналітики');
+  }
+
+  if (!res.ok) {
+    throw new Error(body.message || `Помилка ${res.status}`);
+  }
+  if (body.success === false || !body.data) {
+    throw new Error(body.message || 'Не вдалося завантажити статистику промокодів');
   }
 
   return body.data;

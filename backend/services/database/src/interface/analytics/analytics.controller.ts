@@ -275,4 +275,45 @@ export class AnalyticsController {
       return { success: false, message: error.message };
     }
   }
+
+  /** Агрегація подій promo_order_completed: скільки замовлень та унікальних userId на промокод. */
+  @MessagePattern('get-promo-redemption-stats')
+  async getPromoRedemptionStats() {
+    try {
+      const events = await this.prisma.analyticsEvent.findMany({
+        where: { name: 'promo_order_completed' },
+        select: { userId: true, payload: true },
+      });
+
+      const byCode = new Map<string, { userIds: Set<string>; orders: number }>();
+
+      for (const ev of events) {
+        const raw = ev.payload as Record<string, unknown> | null | undefined;
+        const codeRaw = raw?.promo_code ?? raw?.promoCode;
+        const code = typeof codeRaw === 'string' ? codeRaw.trim().toUpperCase() : '';
+        if (!code) continue;
+
+        if (!byCode.has(code)) {
+          byCode.set(code, { userIds: new Set(), orders: 0 });
+        }
+        const bucket = byCode.get(code)!;
+        bucket.orders += 1;
+        if (ev.userId) {
+          bucket.userIds.add(ev.userId);
+        }
+      }
+
+      const rows = [...byCode.entries()]
+        .map(([promoCode, v]) => ({
+          promoCode,
+          orders: v.orders,
+          distinctUsers: v.userIds.size,
+        }))
+        .sort((a, b) => b.orders - a.orders);
+
+      return { success: true, data: rows };
+    } catch (error) {
+      return { success: false, message: (error as Error).message };
+    }
+  }
 }

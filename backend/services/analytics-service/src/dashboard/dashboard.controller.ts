@@ -19,4 +19,19 @@ export class DashboardController {
       data: result.data,
     };
   }
+
+  @Get('promo-redemptions')
+  async getPromoRedemptions() {
+    const result = await this.dashboard.getPromoRedemptionStats();
+    if (!result.success) {
+      throw new HttpException(
+        result.message || 'Failed to load promo stats',
+        HttpStatus.BAD_GATEWAY,
+      );
+    }
+    return {
+      success: true,
+      data: result.data,
+    };
+  }
 }

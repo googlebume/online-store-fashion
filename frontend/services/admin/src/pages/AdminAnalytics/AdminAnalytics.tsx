@@ -1,7 +1,9 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import {
   fetchAnalyticsDashboard,
+  fetchPromoRedemptionStats,
   type AnalyticsDashboardData,
+  type PromoRedemptionRow,
 } from '@packages/shared/src/services/analyticsDashboardApi';
 import Button from '@packages/shared/src/components/UI/Button/Button';
 import cl from './AdminAnalytics.module.scss';
@@ -41,6 +43,7 @@ function payloadPreview(payload: unknown): string {
 
 const AdminAnalytics = () => {
   const [data, setData] = useState<AnalyticsDashboardData | null>(null);
+  const [promoRows, setPromoRows] = useState<PromoRedemptionRow[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
 
@@ -50,9 +53,12 @@ const AdminAnalytics = () => {
     try {
       const dash = await fetchAnalyticsDashboard();
       setData(dash);
+      const promos = await fetchPromoRedemptionStats().catch(() => [] as PromoRedemptionRow[]);
+      setPromoRows(promos);
     } catch (e) {
       setError((e as Error).message || 'Помилка завантаження');
       setData(null);
+      setPromoRows([]);
     } finally {
       setLoading(false);
     }
@@ -135,6 +141,39 @@ const AdminAnalytics = () => {
             );
           })}
         </div>
+      </div>
+
+      <div className={cl.section}>
+        <h3 className={cl.sectionTitle}>Промокоди: замовлення та унікальні користувачі</h3>
+        <p style={{ margin: '0 0 12px', color: '#788387', fontSize: 14 }}>
+          Джерело: події <code style={{ fontSize: 13 }}>promo_order_completed</code> (analytics-service → БД).
+          Унікальні користувачі — авторизовані замовлення з заповненим userId у події.
+        </p>
+        <div className={cl.eventsTableWrap}>
+          <table className={cl.eventsTable}>
+            <thead>
+              <tr>
+                <th>Промокод</th>
+                <th>Замовлень</th>
+                <th>Унікальних юзерів</th>
+              </tr>
+            </thead>
+            <tbody>
+              {promoRows.map((row) => (
+                <tr key={row.promoCode}>
+                  <td className={cl.mono}>{row.promoCode}</td>
+                  <td>{row.orders}</td>
+                  <td>{row.distinctUsers}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+        {promoRows.length === 0 ? (
+          <p style={{ margin: 0, color: '#788387', fontSize: 14 }}>
+            Поки немає зафіксованих покупок із промокодом (або аналітика недоступна).
+          </p>
+        ) : null}
       </div>
 
       <div className={cl.section}>

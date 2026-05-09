@@ -12,4 +12,13 @@ export class DashboardService {
       data?: unknown;
     };
   }
+
+  async getPromoRedemptionStats() {
+    const result = await lastValueFrom(databaseClient.send('get-promo-redemption-stats', {}));
+    return result as {
+      success: boolean;
+      message?: string;
+      data?: unknown;
+    };
+  }
 }

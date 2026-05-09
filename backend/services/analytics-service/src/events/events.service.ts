@@ -64,6 +64,12 @@ export class EventsService {
       if (ev.path) params.page_path = ev.path;
       if (ev.durationMs != null) params.engagement_time_msec = ev.durationMs;
       if (ev.payload && typeof ev.payload === 'object') {
+        const pl = ev.payload as Record<string, unknown>;
+        if (ev.name === 'promo_order_completed') {
+          if (typeof pl.promo_code === 'string') params.promo_code = pl.promo_code.slice(0, 40);
+          if (typeof pl.order_id === 'string') params.order_id = pl.order_id.slice(0, 40);
+          if (typeof pl.promo_discount_total === 'number') params.promo_discount_total = pl.promo_discount_total;
+        }
         try {
           params.event_detail = JSON.stringify(ev.payload).slice(0, 500);
         } catch {
