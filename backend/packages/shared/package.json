@@ -3,6 +3,11 @@
   "version": "1.0.0",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
+  "exports": {
+    "./common/*": "./dist/common/*.js",
+    "./dto/*": "./dist/dto/*.js",
+    "./utils/*": "./dist/utils/*.js"
+  },
   "scripts": {
     "build": "tsc -p ./tsconfig.json",
     "build:watch": "tsc -w -p ./tsconfig.json"
