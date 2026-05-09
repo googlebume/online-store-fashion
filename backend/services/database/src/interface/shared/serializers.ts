@@ -4,6 +4,7 @@ import { ReviewEntity } from '../../domain/review/entities/review.entity';
 import { OrderEntity } from '../../domain/order/entities/order.entity';
 import { ProductAttributesEntity } from '../../domain/product/entities/product-attributes.entity';
 import { OrderItemEntity } from '../../domain/order/entities/order-item.entity';
+import { PromoCodeEntity } from '../../domain/promo-code/entities/promo-code.entity';
 
 export class Serializers {
   static userToObject(entity: UserEntity): any {
@@ -54,7 +55,11 @@ export class Serializers {
       deliveryMethod: entity.deliveryMethod.toString(),
       address: entity.address,
       email: entity.email,
+      subtotal: entity.subtotal.amount,
+      promoDiscountTotal: entity.promoDiscountTotal.amount,
       total: entity.total.amount,
+      promoCodeId: entity.promoCodeId ?? null,
+      promoCode: entity.promoCode ?? null,
       items: entity.items?.map(item => this.orderItemToObject(item)),
       createdAt: entity.createdAt,
       updatedAt: entity.updatedAt,
@@ -67,7 +72,28 @@ export class Serializers {
       orderId: entity.orderId,
       productId: entity.productId,
       quantity: entity.quantity,
+      originalPrice: entity.originalPrice.amount,
+      discountAmount: entity.discountAmount.amount,
       price: entity.price.amount,
+    };
+  }
+
+  static promoCodeToObject(entity: PromoCodeEntity): any {
+    return {
+      id: entity.id,
+      code: entity.code,
+      discountType: entity.discountType.toString(),
+      discountValue: entity.discountValue,
+      usageLimit: entity.usageLimit ?? null,
+      usedCount: entity.usedCount,
+      isActive: entity.isActive,
+      isInfinite: entity.isInfinite,
+      expiresAt: entity.expiresAt instanceof Date ? entity.expiresAt.toISOString() : entity.expiresAt ?? null,
+      applicableProductTypes: entity.applicableProductTypes,
+      minProductPrice: entity.minProductPrice ?? null,
+      maxProductPrice: entity.maxProductPrice ?? null,
+      createdAt: entity.createdAt instanceof Date ? entity.createdAt.toISOString() : entity.createdAt,
+      updatedAt: entity.updatedAt instanceof Date ? entity.updatedAt.toISOString() : entity.updatedAt,
     };
   }
 
