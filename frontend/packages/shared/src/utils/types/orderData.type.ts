@@ -14,13 +14,21 @@ export interface OrderItemDataType {
   orderId: string;
   productId: string;
   quantity: number;
+  /** Фінальна ціна за одиницю після знижок (рядка та промокоду). */
   price: number;
+  originalPrice?: number;
+  discountAmount?: number;
 }
 
 export interface OrderDataType {
   id: string;
   userId?: string | null;
   total: number;
+  /** Сума товарів до промокоду (якщо була застосована знижка промокоду). */
+  subtotal?: number;
+  promoDiscountTotal?: number;
+  promoCode?: string | null;
+  promoCodeId?: string | null;
   deliveryMethod: DeliveryMethod | string;
   address: string;
   email: string;
