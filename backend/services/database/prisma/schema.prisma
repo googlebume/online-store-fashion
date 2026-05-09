@@ -63,6 +63,9 @@ model Order {
   id             String         @id @default(uuid())
   userId         String?
   items          OrderItem[]    @relation("OrderToOrderItem")
+  promoCodeId    String?
+  subtotal       Float          @default(0)
+  promoDiscountTotal Float      @default(0)
   total          Float
   deliveryMethod DeliveryMethod
   address        String
@@ -72,6 +75,7 @@ model Order {
   updatedAt      DateTime       @default(now()) @updatedAt
 
   user User? @relation(fields: [userId], references: [id])
+  promoCode PromoCode? @relation(fields: [promoCodeId], references: [id])
 }
 
 enum OrderStatus {
@@ -89,9 +93,38 @@ model OrderItem {
   orderId   String
   productId String
   quantity  Int
+  originalPrice Float @default(0)
+  discountAmount Float @default(0)
   price     Float
 
   order Order @relation(fields: [orderId], references: [id], name: "OrderToOrderItem")
+}
+
+model PromoCode {
+  id                   String                 @id @default(uuid())
+  code                 String                 @unique
+  discountType         PromoCodeDiscountType
+  discountValue        Float
+  usageLimit           Int?
+  usedCount            Int                    @default(0)
+  isActive             Boolean                @default(true)
+  isInfinite           Boolean                @default(false)
+  expiresAt            DateTime?
+  minProductPrice      Float?
+  maxProductPrice      Float?
+  createdAt            DateTime               @default(now())
+  updatedAt            DateTime               @default(now()) @updatedAt
+  applicableProductTypes PromoCodeProductType[]
+  orders               Order[]
+}
+
+model PromoCodeProductType {
+  id          String      @id @default(uuid())
+  promoCodeId String
+  type        ProductType
+  promoCode   PromoCode   @relation(fields: [promoCodeId], references: [id], onDelete: Cascade)
+
+  @@unique([promoCodeId, type])
 }
 
 model Reviews {
@@ -152,6 +185,11 @@ enum Size {
 enum DeliveryMethod {
   Courier
   Pickup
+}
+
+enum PromoCodeDiscountType {
+  Percentage
+  FixedAmount
 }
 
 model ProducsAnalytics {
