@@ -5,6 +5,8 @@ export interface OrderItemProps {
   orderId: string;
   productId: string;
   quantity: number;
+  originalPrice: Money;
+  discountAmount: Money;
   price: Money;
 }
 
@@ -19,6 +21,14 @@ export class OrderItemEntity extends Entity<string, OrderItemProps> {
 
   get quantity(): number {
     return this.props.quantity;
+  }
+
+  get originalPrice(): Money {
+    return this.props.originalPrice;
+  }
+
+  get discountAmount(): Money {
+    return this.props.discountAmount;
   }
 
   get price(): Money {
@@ -37,12 +47,16 @@ export class OrderItemEntity extends Entity<string, OrderItemProps> {
     orderId: string,
     productId: string,
     quantity: number,
+    originalPrice: Money,
+    discountAmount: Money,
     price: Money,
   ): OrderItemEntity {
     return new OrderItemEntity(id, {
       orderId,
       productId,
       quantity,
+      originalPrice,
+      discountAmount,
       price,
     });
   }

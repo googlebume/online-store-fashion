@@ -10,7 +10,11 @@ export interface OrderProps {
   deliveryMethod: DeliveryMethod;
   address: string;
   email: string;
+  subtotal: Money;
+  promoDiscountTotal: Money;
   total: Money;
+  promoCodeId?: string | null;
+  promoCode?: string | null;
   items: OrderItemEntity[];
   createdAt: Date;
   updatedAt: Date;
@@ -37,8 +41,24 @@ export class OrderEntity extends Entity<string, OrderProps> {
     return this.props.email;
   }
 
+  get subtotal(): Money {
+    return this.props.subtotal;
+  }
+
+  get promoDiscountTotal(): Money {
+    return this.props.promoDiscountTotal;
+  }
+
   get total(): Money {
     return this.props.total;
+  }
+
+  get promoCodeId(): string | null | undefined {
+    return this.props.promoCodeId;
+  }
+
+  get promoCode(): string | null | undefined {
+    return this.props.promoCode;
   }
 
   get items(): OrderItemEntity[] {
@@ -84,8 +104,12 @@ export class OrderEntity extends Entity<string, OrderProps> {
     deliveryMethod: DeliveryMethod,
     address: string,
     email: string,
+    subtotal: Money,
+    promoDiscountTotal: Money,
     total: Money,
     items: OrderItemEntity[],
+    promoCodeId?: string | null,
+    promoCode?: string | null,
     createdAt: Date = new Date(),
     updatedAt: Date = new Date(),
   ): OrderEntity {
@@ -95,7 +119,11 @@ export class OrderEntity extends Entity<string, OrderProps> {
       deliveryMethod,
       address,
       email,
+      subtotal,
+      promoDiscountTotal,
       total,
+      promoCodeId,
+      promoCode,
       items,
       createdAt,
       updatedAt,

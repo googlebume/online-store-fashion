@@ -28,7 +28,7 @@ export class PrismaOrderRepository implements IOrderRepository {
     try {
       const order = await this.prisma.order.findUnique({
         where: { id },
-        include: { items: true, user: true },
+        include: { items: true, user: true, promoCode: true },
       });
       if (!order) return fail(new OrderNotFoundError(id));
       return ok(OrderMapper.toDomain(order));
@@ -41,7 +41,7 @@ export class PrismaOrderRepository implements IOrderRepository {
     try {
       const orders = await this.prisma.order.findMany({
         where: { userId },
-        include: { items: true },
+        include: { items: true, promoCode: true },
       });
       return ok(orders.map(o => OrderMapper.toDomain(o)));
     } catch (error) {
@@ -53,7 +53,7 @@ export class PrismaOrderRepository implements IOrderRepository {
     try {
       const orders = await this.prisma.order.findMany({
         where: { status: status.toString() },
-        include: { items: true },
+        include: { items: true, promoCode: true },
       });
       return ok(orders.map(o => OrderMapper.toDomain(o)));
     } catch (error) {
@@ -73,7 +73,7 @@ export class PrismaOrderRepository implements IOrderRepository {
   async findAllWithItems(): Promise<Result<OrderEntity[], Error>> {
     try {
       const orders = await this.prisma.order.findMany({
-        include: { items: true, user: true },
+        include: { items: true, user: true, promoCode: true },
       });
       return ok(orders.map(o => OrderMapper.toDomain(o)));
     } catch (error) {
@@ -87,15 +87,32 @@ export class PrismaOrderRepository implements IOrderRepository {
       const itemsData = order.items.map(item => ({
         productId: item.productId,
         quantity: item.quantity,
+        originalPrice: item.originalPrice.amount,
+        discountAmount: item.discountAmount.amount,
         price: item.price.amount,
       }));
 
-      const created = await this.prisma.order.create({
-        data: {
-          ...data,
-          items: { create: itemsData },
-        },
-        include: { items: true },
+      const created = await this.prisma.$transaction(async prisma => {
+        const savedOrder = await prisma.order.create({
+          data: {
+            ...data,
+            items: { create: itemsData },
+          },
+          include: { items: true, promoCode: true },
+        });
+
+        if (order.promoCodeId) {
+          await prisma.promoCode.update({
+            where: { id: order.promoCodeId },
+            data: {
+              usedCount: {
+                increment: 1,
+              },
+            },
+          });
+        }
+
+        return savedOrder;
       });
 
       return ok(OrderMapper.toDomain(created));
@@ -112,7 +129,7 @@ export class PrismaOrderRepository implements IOrderRepository {
       const updated = await this.prisma.order.update({
         where: { id },
         data: partial,
-        include: { items: true },
+        include: { items: true, promoCode: true },
       });
 
       return ok(OrderMapper.toDomain(updated));

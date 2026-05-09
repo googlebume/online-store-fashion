@@ -29,6 +29,7 @@ export interface PaginatedResult<T> {
 export interface IProductRepository {
   findById(id: string): Promise<Result<ProductEntity>>;
   findByIdWithAttributes(id: string): Promise<Result<ProductEntity>>;
+  findManyByIdsWithAttributes(ids: string[]): Promise<Result<ProductEntity[]>>;
   findByName(name: ProductName | string): Promise<Result<ProductEntity[]>>;
   findAll(options?: ProductQueryOptions): Promise<Result<ProductEntity[]>>;
   findAllWithAttributes(options?: ProductQueryOptions): Promise<Result<ProductEntity[]>>;

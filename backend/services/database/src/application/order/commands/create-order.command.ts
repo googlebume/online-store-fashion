@@ -12,6 +12,7 @@ export class CreateOrderCommand {
     readonly address: string,
     readonly email: string,
     readonly total: number,
+    readonly promoCode?: string,
     readonly status?: string,
   ) {}
 }

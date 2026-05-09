@@ -39,6 +39,28 @@ export class PrismaProductRepository implements IProductRepository {
     }
   }
 
+  async findManyByIdsWithAttributes(ids: string[]): Promise<Result<ProductEntity[], Error>> {
+    try {
+      const normalizedIds = Array.from(new Set(ids.filter(Boolean)));
+      if (!normalizedIds.length) {
+        return ok([]);
+      }
+
+      const products = await this.prisma.products.findMany({
+        where: {
+          id: {
+            in: normalizedIds,
+          },
+        },
+        include: { attributes: true },
+      });
+
+      return ok(products.map(product => ProductMapper.toDomain(product)));
+    } catch (error) {
+      return fail(new Error(`Failed to find products by ids: ${error}`));
+    }
+  }
+
   async findByName(name: ProductName | string): Promise<Result<ProductEntity[], Error>> {
     try {
       const searchTerm = (typeof name === 'string' ? name : name.toString()).trim();
