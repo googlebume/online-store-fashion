@@ -7,9 +7,32 @@ import { getCartItems, getTotalPrice, subscribeToCartChanges } from '@shop/state
 import { trackAnalytics } from '@packages/shared/src/utils/analytics/trackAnalytics';
 import { ECOMMERCE_CURRENCY } from '@packages/shared/src/utils/analytics/ecommercePayload';
 import novaPoshtaService from '../utils/api/novaPoshta.api';
+import type { PromoBasketEvent } from '@shop/types/promoBasket.events';
+import { validatePromoCode } from '@shop/utils/api/orderPromo.api';
 
-const BasketDelivery: React.FC<{ setDeliveryParams: React.Dispatch<React.SetStateAction<Object>> }> = ({ setDeliveryParams }) => {
-    const [showCouponInput, setShowCouponInput] = useState(false);
+type BasketDeliveryProps = {
+    setDeliveryParams: React.Dispatch<React.SetStateAction<Object>>;
+    onPromoEvent: (ev: PromoBasketEvent) => void;
+    activePromoCode: string | null;
+    promoFieldError: string | null;
+    promoValidating: boolean;
+    couponDraft: string;
+    setCouponDraft: React.Dispatch<React.SetStateAction<string>>;
+    couponSectionOpen: boolean;
+    setCouponSectionOpen: React.Dispatch<React.SetStateAction<boolean>>;
+};
+
+const BasketDelivery: React.FC<BasketDeliveryProps> = ({
+    setDeliveryParams,
+    onPromoEvent,
+    activePromoCode,
+    promoFieldError,
+    promoValidating,
+    couponDraft,
+    setCouponDraft,
+    couponSectionOpen,
+    setCouponSectionOpen,
+}) => {
 
     const [areas, setAreas] = useState<{ ref: string, name: string }[]>([]);
     const [cities, setCities] = useState<{ ref: string, name: string }[]>([]);
@@ -27,6 +50,26 @@ const BasketDelivery: React.FC<{ setDeliveryParams: React.Dispatch<React.SetStat
     const [isLoading, setIsLoading] = useState(false);
 
     const email = useRef<string>('');
+
+    const runCouponValidate = async () => {
+        const raw = couponDraft.trim();
+        if (!raw) {
+            onPromoEvent({ type: 'clear' });
+            return;
+        }
+        onPromoEvent({ type: 'validating' });
+        try {
+            const pricing = await validatePromoCode(raw);
+            onPromoEvent({
+                type: 'valid',
+                code: pricing.promoCode ?? raw.toUpperCase(),
+                pricing,
+            });
+        } catch (err: unknown) {
+            const message = err instanceof Error ? err.message : 'Не вдалося застосувати промокод';
+            onPromoEvent({ type: 'invalid', message });
+        }
+    };
 
     useEffect(() => {
         const loadAreas = async () => {
@@ -205,17 +248,42 @@ const BasketDelivery: React.FC<{ setDeliveryParams: React.Dispatch<React.SetStat
                             disabled={!selectedWarehouse || isLoading}
                         />
                     </div>
-                    {!showCouponInput ? (
+                    {!couponSectionOpen ? (
                         <Button
                             variant='coupon'
                             type='button'
-                            onClick={() => setShowCouponInput(true)}
+                            onClick={() => setCouponSectionOpen(true)}
                         >
                             Ввести купон
                         </Button>
                     ) : (
                         <div className={cl.gridSingle}>
-                            <InputData type='text' id='coupon' placeholder='PROMO2024' label='Купон' />
+                            <InputData
+                                type='text'
+                                id='coupon'
+                                placeholder='PROMO2024'
+                                label='Промокод'
+                                value={couponDraft}
+                                disabled={promoValidating}
+                                onInput={(val) => {
+                                    const s = String(val);
+                                    setCouponDraft(s);
+                                    if (!s.trim()) {
+                                        onPromoEvent({ type: 'clear' });
+                                    } else if (promoFieldError) {
+                                        onPromoEvent({ type: 'clear_field_error' });
+                                    }
+                                }}
+                                onBlur={() => void runCouponValidate()}
+                            />
+                            {promoFieldError && (
+                                <p className={cl.promoHintError} role="alert">
+                                    {promoFieldError}
+                                </p>
+                            )}
+                            {activePromoCode && !promoFieldError && !promoValidating && (
+                                <p className={cl.promoHintOk}>Промокод застосовано</p>
+                            )}
                         </div>
                     )}
                 </section>

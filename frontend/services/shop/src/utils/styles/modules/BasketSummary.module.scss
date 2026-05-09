@@ -8,6 +8,27 @@
     align-content: end;
 }
 
+.breakdown {
+    grid-column: 1 / -1;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-bottom: 8px;
+    font-size: 14px;
+    color: colors.$ashDarkenedText;
+}
+
+.breakdownRow {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.breakdownDiscount {
+    color: #2e7d32;
+    font-weight: 500;
+}
+
 .display {
     display: flex;
     align-items: end;

@@ -1,4 +1,4 @@
-﻿import React, { useEffect, useState } from 'react';
+﻿import React, { useEffect, useMemo, useRef, useState } from 'react';
 import cl from '@shop/utils/styles/modules/BasketSummary.module.scss';
 import { clearCart, getCartItems, getTotalPrice, subscribeToCartChanges } from '@shop/state/basketState';
 import { cartSummaryForAnalytics } from '@packages/shared/src/utils/analytics/ecommercePayload';
@@ -7,30 +7,57 @@ import Button from '@packages/shared/src/components/UI/Button/Button';
 import { useFetch } from '@packages/shared/src/utils/hooks/useFetch';
 import ErrorMassage from '@packages/shared/src/components/UI/ErrorMassage/ErrorMassage';
 import { trackAnalytics } from '@packages/shared/src/utils/analytics/trackAnalytics';
+import type { PromoPricingDto } from '@shop/utils/api/orderPromo.api';
+import { trackPromoOrderCompleted } from '@packages/shared/src/utils/analytics/promoAnalytics';
 
-const BasketSummary: React.FC<{ deliveryParams: any }> = ({ deliveryParams }) => {
-    const [finalPrice, setFinalPrice] = useState(getTotalPrice());
+type BasketSummaryProps = {
+    deliveryParams: Record<string, unknown>;
+    promoPricing: PromoPricingDto | null;
+    activePromoCode: string | null;
+    promoCheckoutBlocked: boolean;
+};
+
+const BasketSummary: React.FC<BasketSummaryProps> = ({
+    deliveryParams,
+    promoPricing,
+    activePromoCode,
+    promoCheckoutBlocked,
+}) => {
+    const [cartTick, setCartTick] = useState(0);
     const [products, setProducts] = useState({})
     const { fetchData, error, isLoading, response } = useFetch()
-    useEffect(() => {
-        const unsubscribe = subscribeToCartChanges(() => {
-            setFinalPrice(getTotalPrice());
-        });
 
-        return () => unsubscribe();
+    const promoSnapshotRef = useRef<{ code: string | null; discount: number }>({
+        code: null,
+        discount: 0,
+    });
+    useEffect(() => {
+        promoSnapshotRef.current = {
+            code: activePromoCode,
+            discount: promoPricing?.promoDiscountTotal ?? 0,
+        };
+    }, [activePromoCode, promoPricing]);
+    useEffect(() => {
+        return subscribeToCartChanges(() => setCartTick((t) => t + 1));
     }, []);
 
+    const cartSubtotal = useMemo(() => getTotalPrice(), [cartTick]);
 
-    const formattedPrice = finalPrice.toFixed(2);
+    const displayTotal = promoPricing ? promoPricing.total : cartSubtotal;
+    const formattedPrice = displayTotal.toFixed(2);
 
     async function onOrder() {
+        if (promoCheckoutBlocked) {
+            return;
+        }
         const orderProducts = getCartItems()
         setProducts(orderProducts)
 
-        deliveryParams.total = +formattedPrice
+        deliveryParams.total = displayTotal
         console.log('[Shop][BasketSummary][onOrder] total:', deliveryParams.total)
         const order = {
             ...deliveryParams,
+            ...(activePromoCode ? { promoCode: activePromoCode } : {}),
             items: orderProducts.map((item) => {
                 return {
                     productId: item.id,
@@ -63,6 +90,14 @@ const BasketSummary: React.FC<{ deliveryParams: any }> = ({ deliveryParams }) =>
                 (response as { orderId?: string; id?: string; data?: { id?: string } })?.orderId ??
                 (response as { id?: string })?.id ??
                 (response as { data?: { id?: string } })?.data?.id;
+            const snap = promoSnapshotRef.current;
+            if (snap.code) {
+                trackPromoOrderCompleted({
+                    promoCode: snap.code,
+                    orderId: typeof txId === 'string' ? txId : undefined,
+                    promoDiscountTotal: snap.discount,
+                });
+            }
             trackAnalytics({
                 name: 'purchase',
                 payload: {
@@ -70,6 +105,7 @@ const BasketSummary: React.FC<{ deliveryParams: any }> = ({ deliveryParams }) =>
                     transaction_id: txId,
                     total: deliveryParams.total,
                     itemCount: lineItems.length,
+                    ...(snap.code ? { promo_code: snap.code, promo_discount_total: snap.discount } : {}),
                 },
             });
             clearCart()
@@ -84,11 +120,30 @@ const BasketSummary: React.FC<{ deliveryParams: any }> = ({ deliveryParams }) =>
         }
     }, [error]);
 
+    const showPromoBreakdown =
+        promoPricing &&
+        activePromoCode &&
+        promoPricing.promoDiscountTotal > 0;
+
     return (
         <div className={cl.basketSummary}>
+            <div className={cl.breakdown}>
+                {showPromoBreakdown && (
+                    <>
+                        <div className={cl.breakdownRow}>
+                            <span>Сума товарів</span>
+                            <span>${promoPricing.subtotal.toFixed(2)}</span>
+                        </div>
+                        <div className={`${cl.breakdownRow} ${cl.breakdownDiscount}`}>
+                            <span>Знижка ({activePromoCode})</span>
+                            <span>−${promoPricing.promoDiscountTotal.toFixed(2)}</span>
+                        </div>
+                    </>
+                )}
+            </div>
             <div className={cl.display}>
                 <div className={cl.displayDescription}>
-                    <h3>Сума:</h3>
+                    <h3>{showPromoBreakdown ? 'До сплати:' : 'Сума:'}</h3>
                 </div>
                 <div className={cl.displayPrice}>
                     <span className={cl.price}>${formattedPrice}</span>
@@ -96,7 +151,12 @@ const BasketSummary: React.FC<{ deliveryParams: any }> = ({ deliveryParams }) =>
             </div>
             <div>
                 {error && <ErrorMassage massage='Помилка оформлення замовлення'/>}
-                <Button variant='submit-primary' text='Замовити' onClick={() => onOrder()} />
+                <Button
+                    variant='submit-primary'
+                    text='Замовити'
+                    disabled={promoCheckoutBlocked}
+                    onClick={() => onOrder()}
+                />
             </div>
         </div>
     );

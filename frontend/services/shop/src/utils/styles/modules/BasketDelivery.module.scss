@@ -72,5 +72,17 @@
       transform: translateY(0);
     }
   }
+
+  .promoHintError {
+    margin: 0;
+    font-size: 13px;
+    color: #c62828;
+  }
+
+  .promoHintOk {
+    margin: 0;
+    font-size: 13px;
+    color: #2e7d32;
+  }
 }
 
