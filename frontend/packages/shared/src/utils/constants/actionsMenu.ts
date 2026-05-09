@@ -34,11 +34,17 @@ export const adminUsersAction = (
 ): MenuActionType[] => {
     return [
         {
-            name: "Видалити",
+            name: 'Змінити',
+            action: () => {
+                setSelectedUser(userData);
+            },
+        },
+        {
+            name: 'Видалити',
             action: () => {
                 setDeletedUser(userData);
-            }
-        }
+            },
+        },
     ];
 };
 

@@ -3,7 +3,7 @@ import cl from './InputData.module.scss';
 import { InputPropsType } from '../../../../../utils/types/inputProps.type';
 import { TextareaType } from '../../../../../utils/types/inputProps.type';
 
-const InputData: React.FC<InputPropsType> = ({ type, placeholder, label, disabled, min, max, id, required, value, onInput }) => {
+const InputData: React.FC<InputPropsType> = ({ type, placeholder, label, disabled, min, max, id, required, value, onInput, onBlur }) => {
     const baseProps = {
         className: cl.input,
         id,
@@ -45,10 +45,12 @@ const InputData: React.FC<InputPropsType> = ({ type, placeholder, label, disable
                     ? <textarea
                         {...textareaProps}
                         onInput={(e) => { onInput && onInput(e.currentTarget.value) }}
+                        onBlur={() => { onBlur && onBlur(); }}
                     />
                     : <input
                         {...inputProps}
                         onInput={(e) => { onInput && onInput(e.currentTarget.value) }}
+                        onBlur={() => { onBlur && onBlur(); }}
                     />
             }
         </div>

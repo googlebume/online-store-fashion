@@ -34,4 +34,18 @@ export class UsersService {
       DB_DOWN_HINT,
     );
   }
+
+  async updateUser(
+    id: string,
+    payload: { name?: string; email?: string; password?: string; role?: string },
+  ): Promise<object> {
+    return sendMicroserviceRpc<object>(
+      this.databaseClient,
+      this.logger,
+      'database',
+      'update_user',
+      { id, ...payload },
+      DB_DOWN_HINT,
+    );
+  }
 }

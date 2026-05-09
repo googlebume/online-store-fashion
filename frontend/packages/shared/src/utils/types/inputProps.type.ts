@@ -13,6 +13,7 @@ export type InputPropsType = {
     required?: boolean;
     value?: string | number | null
     onInput?: (val: string) => void
+    onBlur?: () => void
 
 };
 

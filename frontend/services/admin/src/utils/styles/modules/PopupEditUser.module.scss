@@ -1,0 +1,97 @@
+@use '@packages/shared/src/utils/styles/colorScheme' as colors;
+
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  background: rgba(0, 0, 0, 0.35);
+}
+
+.popup {
+  width: min(100%, 520px);
+  max-height: min(90vh, 720px);
+  overflow: auto;
+  background: colors.$white;
+  border-radius: 20px;
+  padding: 24px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+}
+
+.title {
+  margin: 0 0 8px;
+  font-size: 22px;
+  font-weight: 700;
+  color: colors.$black;
+}
+
+.meta {
+  margin: 0 0 20px;
+  font-size: 14px;
+  color: colors.$ashDarkenedText;
+
+  span {
+    font-family: ui-monospace, monospace;
+    word-break: break-all;
+  }
+}
+
+.form {
+  display: grid;
+  gap: 16px;
+}
+
+.error {
+  margin: 0;
+  padding: 10px 12px;
+  border-radius: 10px;
+  background: colors.$milkish;
+  color: colors.$black;
+  font-size: 14px;
+}
+
+.modalActions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 16px;
+}
+
+/* Як у модалці промокоду: прозорий фон + обводка */
+.modalCancelButton {
+  width: auto;
+  transition: none !important;
+  transform: none !important;
+
+  color: colors.$black !important;
+  background-color: transparent !important;
+  border: 2px solid colors.$ashDarkened !important;
+
+  &:hover,
+  &:active {
+    color: colors.$black !important;
+    background-color: transparent !important;
+    border-color: colors.$ashDarkened !important;
+    transform: none !important;
+    box-shadow: none !important;
+  }
+
+  &:focus {
+    color: colors.$black !important;
+    background-color: transparent !important;
+    border-color: colors.$ashDarkened !important;
+    transform: none !important;
+  }
+
+  &:focus-visible {
+    color: colors.$black !important;
+    background-color: transparent !important;
+    border-color: colors.$ashDarkened !important;
+    outline: 2px solid colors.$yellow !important;
+    outline-offset: 3px;
+    transform: none !important;
+  }
+}

@@ -1,9 +1,10 @@
-import React, { useEffect, useState, useContext, createContext, Dispatch, SetStateAction } from 'react';
+import React, { useCallback, useEffect, useState, useContext, createContext, Dispatch, SetStateAction } from 'react';
 import type { UserDataType } from '@packages/shared/src/utils/types/userData.type';
 import { useFetch } from '@packages/shared/src/utils/hooks/useFetch';
 import { useLocation } from 'react-router-dom';
 import UserCard from '@/components/UserCard';
 import Cookies from '@packages/shared/src/utils/cookies';
+import PopupEditUser from '@/components/PopupEditUser';
 
 import cl from './AdminUsers.module.scss';
 
@@ -36,6 +37,14 @@ const AdminUsers = () => {
 
     const cookies = new Cookies();
 
+    const loadUsers = useCallback(() => {
+        fetchData({
+            method: 'GET',
+            url: 'admin/users',
+            port: 4005,
+        });
+    }, [fetchData]);
+
     useEffect(() => {
         const path = location.pathname.split('/')[3];
         setLastOfPath(path);
@@ -43,13 +52,10 @@ const AdminUsers = () => {
 
     useEffect(() => {
         if (lastOfPath === 'users') {
-            fetchData({
-                method: 'GET',
-                url: `admin/${lastOfPath}`,
-                port: 4005,
-            });
+            loadUsers();
         }
-    }, [lastOfPath]);
+    }, [lastOfPath, loadUsers]);
+
     useEffect(() => {
         if (!deletedUser) return;
 
@@ -62,10 +68,12 @@ const AdminUsers = () => {
         })
             .then(res => res.json())
             .then(data => {
-                console.log('Delete user response:', data);
-                data?.success === true && document.location.reload();
+                if (data?.success === true) {
+                    setDeletedUser(null);
+                    loadUsers();
+                }
             });
-    }, [deletedUser]);
+    }, [deletedUser, loadUsers]);
 
     if (lastOfPath !== 'users') {
         return null;
@@ -77,6 +85,13 @@ const AdminUsers = () => {
                 {response && Array.isArray(response) && response.length > 0 && (
                     <UserCard users={response as UserDataType[]} />
                 )}
+                {selectedUser ? (
+                    <PopupEditUser
+                        user={selectedUser}
+                        onClose={() => setSelectedUser(null)}
+                        onSaved={loadUsers}
+                    />
+                ) : null}
             </UsersContext.Provider>
         </div>
     );

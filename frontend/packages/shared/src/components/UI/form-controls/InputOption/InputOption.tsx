@@ -9,6 +9,8 @@ type OptionInputType = {
     onChange: (value: string) => void | React.Dispatch<React.SetStateAction<string>>;
     disabled?: boolean;
     required?: boolean;
+    /** Якщо false — не додається перший <option value=""> (наприклад, для обов’язкового enum-поля). */
+    includeBlankOption?: boolean;
 };
 
 const InputOption: React.FC<OptionInputType> = ({
@@ -18,7 +20,8 @@ const InputOption: React.FC<OptionInputType> = ({
     value,
     onChange,
     disabled = false,
-    required = true
+    required = true,
+    includeBlankOption = true,
 }) => {
     return (
         <div className={cl.selectBlock}>
@@ -29,7 +32,7 @@ const InputOption: React.FC<OptionInputType> = ({
                 disabled={disabled}
                 required={required}
             >
-                <option value="">{optionBasic}</option>
+                {includeBlankOption ? <option value="">{optionBasic}</option> : null}
                 {options.map((option, i) => (
                     <option key={i} value={option}>{option}</option>
                 ))}

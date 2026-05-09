@@ -25,7 +25,9 @@ const UserCard: React.FC<{ users: UserDataType[] }> = ({ users=[] }) => {
 
                     <h3 className={cl.userName}>{props.name}</h3>
                     <p className={cl.userEmail}>{props.email}</p>
-                    <span className={cl.userRole}>{props.role}</span>
+                    <span className={cl.userRole}>
+                        {Array.isArray(props.role) ? props.role.join(', ') : props.role}
+                    </span>
                     <p className={cl.createdDate}>
                         {new Date(props.createdAt || '').toLocaleDateString('uk-UA')}
                     </p>
