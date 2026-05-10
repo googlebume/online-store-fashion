@@ -161,7 +161,7 @@ const Verify: React.FC<VerificationCodeInputProps> = ({
 
     fetchData({
       method: 'POST',
-      port: 4004,
+      port: 5003,
       url: event === 'register' ? 'register/confirm' : 'login/confirm',
       body: { code: userCode, flowId },
     });
@@ -179,7 +179,7 @@ const Verify: React.FC<VerificationCodeInputProps> = ({
     if (!flowId) return;
 
     const eventSource = new EventSource(
-      `http://localhost:4004/fashion/verify/time-remaining?flowId=${encodeURIComponent(flowId)}`,
+      `http://localhost:5003/fashion/verify/time-remaining?flowId=${encodeURIComponent(flowId)}`,
     );
 
     eventSource.onmessage = (evt: MessageEvent) => {

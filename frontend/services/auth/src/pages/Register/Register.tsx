@@ -54,7 +54,7 @@ const Register = () => {
 
     fetchData({
       method: 'POST',
-      port: 4004,
+      port: 5003,
       url: 'register/init',
       body: {
         name: userData.name,

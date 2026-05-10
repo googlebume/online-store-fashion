@@ -3,6 +3,7 @@ import { resolve } from 'path';
 import * as dotenv from 'dotenv';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
+import { setupSwagger } from '@packages/shared/common/swagger/setup-swagger';
 
 function loadEnv(): void {
   const candidates = [
@@ -28,6 +29,10 @@ loadEnv();
  */
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+  const swaggerPath = setupSwagger(app, {
+    serviceName: 'Analytics Service',
+    serviceDescription: 'Analytics ingestion, dashboard and product metrics endpoints.',
+  });
 
   app.enableCors({
     origin: true,
@@ -50,5 +55,8 @@ async function bootstrap() {
         ? ' — додайте GA4_API_SECRET (GA4 Admin → Data streams → Web → Measurement Protocol API secrets)'
         : ' — додайте GA4_MEASUREMENT_ID';
   console.log(`[analytics-service] HTTP :${port} | GA4 MP: ${ga4Ready ? 'увімкнено' : 'вимкнено'}${ga4Hint}`);
+  if (swaggerPath) {
+    console.log(`[analytics-service] Swagger UI: http://localhost:${port}/${swaggerPath}`);
+  }
 }
 bootstrap();
