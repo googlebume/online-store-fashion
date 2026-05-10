@@ -1,6 +1,7 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { TokenService } from '../auth-core/token.service';
 import { UserIdentityService } from '../auth-core/user-identity.service';
+import { isUserNotFoundMessage } from '../auth-core/user-not-found.util';
 import { UpdateProfileDto } from '../dto/update-profile.dto';
 
 @Injectable()
@@ -14,10 +15,10 @@ export class ProfileService {
     const userResult = await this.userIdentityService.getUserById(userId);
 
     if (!userResult.success || !userResult.user) {
-      throw new HttpException(
-        userResult.message || 'Failed to load user profile',
-        HttpStatus.BAD_GATEWAY,
-      );
+      const status = isUserNotFoundMessage(userResult.message)
+        ? HttpStatus.NOT_FOUND
+        : HttpStatus.SERVICE_UNAVAILABLE;
+      throw new HttpException(userResult.message || 'Failed to load user profile', status);
     }
 
     return {
@@ -44,6 +45,7 @@ export class ProfileService {
       id: updateResult.user.id,
       email: updateResult.user.email,
       role: this.userIdentityService.normalizeRoles(updateResult.user.role),
+      name: String(updateResult.user.name ?? ''),
     });
 
     return {

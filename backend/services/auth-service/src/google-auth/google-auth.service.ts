@@ -5,6 +5,7 @@ import { GoogleCredentialDTO } from '../dto/google-credential.dto';
 import { OAuth2Client } from 'google-auth-library';
 import { TokenService } from '../auth-core/token.service';
 import { UserIdentityService } from '../auth-core/user-identity.service';
+import { isUserNotFoundMessage } from '../auth-core/user-not-found.util';
 
 type GoogleTokenPayload = {
   email?: string;
@@ -39,8 +40,12 @@ export class GoogleAuthService {
 
     const existingUserResult = await this.userIdentityService.getUserByEmail(email);
 
-    if (!existingUserResult.success && existingUserResult.message) {
-      throw new HttpException(existingUserResult.message, HttpStatus.BAD_GATEWAY);
+    if (
+      !existingUserResult.success &&
+      existingUserResult.message &&
+      !isUserNotFoundMessage(existingUserResult.message)
+    ) {
+      throw new HttpException(existingUserResult.message, HttpStatus.SERVICE_UNAVAILABLE);
     }
 
     if (existingUserResult.user) {
@@ -48,6 +53,9 @@ export class GoogleAuthService {
         id: existingUserResult.user.id,
         email: existingUserResult.user.email,
         role: this.userIdentityService.normalizeRoles(existingUserResult.user.role),
+        name: existingUserResult.user.name != null && String(existingUserResult.user.name).trim()
+          ? String(existingUserResult.user.name)
+          : undefined,
       });
 
       return {
@@ -59,7 +67,7 @@ export class GoogleAuthService {
     }
 
     const createResult = await this.userIdentityService.createUser({
-      name: this.generateUniqueName(payload, email),
+      name: this.resolveGoogleName(payload, email),
       email,
       password: randomBytes(32).toString('hex'),
     });
@@ -75,6 +83,10 @@ export class GoogleAuthService {
       id: createResult.user.id,
       email: createResult.user.email,
       role: this.userIdentityService.normalizeRoles(createResult.user.role),
+      name:
+        createResult.user.name != null && String(createResult.user.name).trim()
+          ? String(createResult.user.name)
+          : undefined,
     });
 
     return {
@@ -130,14 +142,10 @@ export class GoogleAuthService {
     }
   }
 
-  private generateUniqueName(payload: GoogleTokenPayload, email: string): string {
-    const rawName = payload.name || payload.given_name || email.split('@')[0] || 'google_user';
-    const normalizedName = rawName
-      .trim()
-      .toLowerCase()
-      .replace(/\s+/g, '_')
-      .replace(/[^a-z0-9_]/g, '');
-    const suffix = Date.now().toString(36);
-    return `${normalizedName || 'google_user'}_${suffix}`;
+  /** Повертаємо "чисте" ім'я без будь-яких штучних суфіксів/символів. */
+  private resolveGoogleName(payload: GoogleTokenPayload, email: string): string {
+    const display = (payload.name || payload.given_name || '').trim().replace(/\s+/g, ' ');
+    const local = email.split('@')[0]?.trim() || 'user';
+    return display || local;
   }
 }

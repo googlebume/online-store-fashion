@@ -53,6 +53,7 @@ export class LoginService {
       id: userData.id,
       email: userData.email,
       role: this.userIdentityService.normalizeRoles(userData.role),
+      name: userData.name != null ? String(userData.name) : undefined,
     });
 
     return {

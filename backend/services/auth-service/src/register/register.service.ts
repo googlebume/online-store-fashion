@@ -2,6 +2,7 @@ import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { OtpService } from '../auth-core/otp.service';
 import { TokenService } from '../auth-core/token.service';
 import { UserIdentityService } from '../auth-core/user-identity.service';
+import { isUserNotFoundMessage } from '../auth-core/user-not-found.util';
 import { RegisterUserDTO } from '../dto/register-user.dto';
 
 @Injectable()
@@ -21,8 +22,12 @@ export class RegisterService {
 
     const existingUser = await this.userIdentityService.getUserByEmail(email);
 
-    if (!existingUser.success && existingUser.message) {
-      throw new HttpException(existingUser.message, HttpStatus.BAD_GATEWAY);
+    if (
+      !existingUser.success &&
+      existingUser.message &&
+      !isUserNotFoundMessage(existingUser.message)
+    ) {
+      throw new HttpException(existingUser.message, HttpStatus.SERVICE_UNAVAILABLE);
     }
 
     if (existingUser.user) {
@@ -66,6 +71,7 @@ export class RegisterService {
       id: createResult.user.id,
       email: createResult.user.email,
       role: this.userIdentityService.normalizeRoles(createResult.user.role),
+      name: String(createResult.user.name ?? ''),
     });
 
     return {
