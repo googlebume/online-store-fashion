@@ -6,7 +6,7 @@ services:
     container_name: frontend-shop
     command: npm run start --workspace=services/shop -- --host 0.0.0.0 --port 3001
     environment:
-      PRODUCT_SERVICE_URL: ${PRODUCT_SERVICE_URL:-http://localhost:5000}
+      PRODUCT_SERVICE_URL: ${PRODUCT_SERVICE_URL:-http://localhost:5002}
     ports:
       - "3001:3001"
     restart: unless-stopped
@@ -28,7 +28,7 @@ services:
     container_name: frontend-product
     command: npm run start --workspace=services/product -- --host 0.0.0.0 --port 3003
     environment:
-      PRODUCT_SERVICE_URL: ${PRODUCT_SERVICE_URL:-http://localhost:5000}
+      PRODUCT_SERVICE_URL: ${PRODUCT_SERVICE_URL:-http://localhost:5002}
     ports:
       - "3003:3003"
     restart: unless-stopped

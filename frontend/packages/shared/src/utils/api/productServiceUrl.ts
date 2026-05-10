@@ -1,6 +1,6 @@
 /// <reference path="./product-service-env.d.ts" />
 
-/** Base URL for product-service (catalog, shop-dynamically, product pages). Default matches Nest `PORT ?? 5000`. */
+/** Base URL for product-service (catalog, shop-dynamically, product pages). Default matches Nest `PORT ?? 5002`. */
 export function getProductServiceBaseUrl(): string {
   if (typeof __PRODUCT_SERVICE_BASE_URL__ !== 'undefined') {
     const raw = String(__PRODUCT_SERVICE_BASE_URL__).trim();
@@ -17,5 +17,5 @@ export function getProductServiceBaseUrl(): string {
   } catch {
     /* non-Vite */
   }
-  return 'http://localhost:5000';
+  return 'http://localhost:5002';
 }
