@@ -1,7 +1,7 @@
 import { api } from '@packages/shared/src/routes/api';
 import { getCartItems } from '@shop/state/basketState';
 
-const ORDER_SERVICE_PORT = 4006;
+const ORDER_SERVICE_PORT = 5005;
 
 export type PromoPricingDto = {
   subtotal: number;

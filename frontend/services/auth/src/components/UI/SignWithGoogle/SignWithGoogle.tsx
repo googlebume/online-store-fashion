@@ -41,7 +41,7 @@ const SignWithGoogle = () => {
   useEffect(() => {
     fetchData({
       method: 'GET',
-      port: 4004,
+      port: 5003,
       url: 'google/clientid',
     });
   }, []);
@@ -111,7 +111,7 @@ const SignWithGoogle = () => {
     console.log('Google credential response received:', credentialResponse);
     authFetch.fetchData({
       method: 'POST',
-      port: 4004,
+      port: 5003,
       url: 'google/auth',
       body: credentialResponse,
     });

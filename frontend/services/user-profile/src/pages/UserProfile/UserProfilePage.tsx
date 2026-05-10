@@ -128,13 +128,13 @@ const UserProfilePage = () => {
 
     profileRequest.fetchData({
       method: 'GET',
-      port: 4004,
+      port: 5003,
       url: 'user-profile/me',
     });
 
     ordersRequest.fetchData({
       method: 'GET',
-      port: 4006,
+      port: 5005,
       url: 'ordering/my',
     });
   }, []);
@@ -201,7 +201,7 @@ const UserProfilePage = () => {
 
     updateRequest.fetchData({
       method: 'POST',
-      port: 4004,
+      port: 5003,
       url: 'user-profile/me',
       body: payload,
     });

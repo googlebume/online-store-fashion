@@ -76,7 +76,7 @@ const BasketSummary: React.FC<BasketSummaryProps> = ({
 
         fetchData({
             method: 'POST',
-            port: 4006,
+            port: 5005,
             url: 'ordering/add',
             body: order,
         });
@@ -163,7 +163,6 @@ const BasketSummary: React.FC<BasketSummaryProps> = ({
 };
 
 export default BasketSummary;
-
 
 
 

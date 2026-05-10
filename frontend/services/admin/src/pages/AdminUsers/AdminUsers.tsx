@@ -41,7 +41,7 @@ const AdminUsers = () => {
         fetchData({
             method: 'GET',
             url: 'admin/users',
-            port: 4005,
+            port: 5004,
         });
     }, [fetchData]);
 
@@ -59,7 +59,7 @@ const AdminUsers = () => {
     useEffect(() => {
         if (!deletedUser) return;
 
-        fetch(`http://localhost:4005/fashion/admin/users/delete/${deletedUser.id}`, {
+        fetch(`http://localhost:5004/fashion/admin/users/delete/${deletedUser.id}`, {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json',
@@ -98,5 +98,4 @@ const AdminUsers = () => {
 };
 
 export default AdminUsers;
-
 

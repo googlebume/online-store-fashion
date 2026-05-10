@@ -89,7 +89,7 @@ const PopupEditProduct = <T extends 'edit' | 'add'>({ ...props }: PopupEditProdu
         }
 
         try {
-            const response = await fetch(`http://localhost:4005/fashion/admin/products/${isEditMode ? 'edit' : 'add'}`, {
+            const response = await fetch(`http://localhost:5004/fashion/admin/products/${isEditMode ? 'edit' : 'add'}`, {
                 method: 'POST',
                 headers: {
                     'authorization': `Bearer ${cookies.getCookie('token')}`
@@ -297,7 +297,6 @@ const PopupEditProduct = <T extends 'edit' | 'add'>({ ...props }: PopupEditProdu
 };
 
 export default PopupEditProduct;
-
 
 
 

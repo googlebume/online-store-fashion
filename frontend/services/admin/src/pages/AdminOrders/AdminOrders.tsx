@@ -34,7 +34,7 @@ const AdminOrders = () => {
     fetchData({
       method: 'GET',
       url: 'admin/orders',
-      port: 4005,
+      port: 5004,
     });
   }, []);
 
@@ -58,7 +58,7 @@ const AdminOrders = () => {
   const updateStatus = async (orderId: string, status: OrderStatus) => {
     setSavingOrderIds((prev) => ({ ...prev, [orderId]: true }));
     try {
-      const res = await fetch('http://localhost:4005/fashion/admin/orders/status', {
+      const res = await fetch('http://localhost:5004/fashion/admin/orders/status', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

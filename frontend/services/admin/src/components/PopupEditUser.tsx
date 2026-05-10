@@ -63,7 +63,7 @@ const PopupEditUser: React.FC<PopupEditUserProps> = ({ user, onClose, onSaved })
 
     try {
       const res = await fetch(
-        `http://localhost:4005/${api}/admin/users/${encodeURIComponent(String(user.id))}`,
+        `http://localhost:5004/${api}/admin/users/${encodeURIComponent(String(user.id))}`,
         {
           method: 'PATCH',
           headers: {

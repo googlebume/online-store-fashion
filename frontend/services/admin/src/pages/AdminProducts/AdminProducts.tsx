@@ -53,7 +53,7 @@ const AdminProducts = () => {
             fetchData({
                 method: 'GET',
                 url: `admin/${lastOfPath}`,
-                port: 4005,
+                port: 5004,
             });
             console.log(`to admin/${lastOfPath}`);
         }
@@ -96,7 +96,7 @@ const AdminProducts = () => {
     useEffect(() => {
         if (!deletedProduct) return;
         console.log('Deleted product:', deletedProduct);
-        fetch(`http://localhost:4005/fashion/admin/products/delete/${deletedProduct.id}`,
+        fetch(`http://localhost:5004/fashion/admin/products/delete/${deletedProduct.id}`,
             {
                 method: 'DELETE',
                 headers: {
@@ -167,7 +167,6 @@ const AdminProducts = () => {
 };
 
 export default AdminProducts;
-
 
 
 
