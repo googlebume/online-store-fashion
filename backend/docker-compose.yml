@@ -7,11 +7,12 @@ services:
     environment:
       DATABASE_MICROSERVICE_HOST: 0.0.0.0
       DATABASE_MICROSERVICE_PORT: 5001
+      PORT: 5000
       DATABASE_URL: file:./prisma/dev.db
-      IMAGE_BASE_URL: http://localhost:5002
+      IMAGE_BASE_URL: http://localhost:5000
     ports:
+      - "5000:5000"
       - "5001:5001"
-      - "5002:5002"
     volumes:
       - database_data:/app/services/database/prisma
     restart: unless-stopped
@@ -24,11 +25,11 @@ services:
     depends_on:
       - database
     environment:
-      PORT: 5000
+      PORT: 5002
       DATABASE_MICROSERVICE_HOST: database
       DATABASE_MICROSERVICE_PORT: 5001
     ports:
-      - "5000:5000"
+      - "5002:5002"
     restart: unless-stopped
 
   auth-service:
@@ -39,11 +40,11 @@ services:
     depends_on:
       - database
     environment:
-      PORT: 4004
+      PORT: 5003
       DATABASE_MICROSERVICE_HOST: database
       DATABASE_MICROSERVICE_PORT: 5001
     ports:
-      - "4004:4004"
+      - "5003:5003"
     restart: unless-stopped
 
   order-service:
@@ -54,13 +55,13 @@ services:
     depends_on:
       - database
     environment:
-      PORT: 4006
+      PORT: 5005
       ORDER_MICROSERVICE_HOST: 0.0.0.0
       ORDER_MICROSERVICE_PORT: 5006
       DATABASE_MICROSERVICE_HOST: database
       DATABASE_MICROSERVICE_PORT: 5001
     ports:
-      - "4006:4006"
+      - "5005:5005"
       - "5006:5006"
     restart: unless-stopped
 
@@ -73,13 +74,13 @@ services:
       - database
       - order-service
     environment:
-      PORT: 4005
+      PORT: 5004
       DATABASE_SERVICE_HOST: database
       DATABASE_SERVICE_PORT: 5001
       ORDER_SERVICE_HOST: order-service
       ORDER_SERVICE_PORT: 5006
     ports:
-      - "4005:4005"
+      - "5004:5004"
     restart: unless-stopped
 
   analytics-service:

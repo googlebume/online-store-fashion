@@ -9,6 +9,6 @@ COPY services ./services
 RUN npm install
 RUN npm run build -w packages/shared && npm run build -w packages/config && npm run build -w services/order-service
 
-EXPOSE 4006 5006
+EXPOSE 5005 5006
 
 CMD ["npm", "run", "start:prod", "-w", "services/order-service"]
