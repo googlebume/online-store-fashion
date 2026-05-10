@@ -30,6 +30,21 @@ const normalizeUserData = (
     };
 };
 
+function isLikelyJwt(value: string): boolean {
+    // JWT looks like xxx.yyy.zzz (base64url segments)
+    return /^[A-Za-z0-9\-_]+\.[A-Za-z0-9\-_]+\.[A-Za-z0-9\-_]+$/.test(value.trim());
+}
+
+function pickDisplayName(candidates: Array<string | undefined>): string {
+    for (const candidate of candidates) {
+        const v = candidate?.trim();
+        if (!v) continue;
+        if (isLikelyJwt(v)) continue;
+        return v;
+    }
+    return '';
+}
+
 const UserProfileCard = ({ url, style }: { url: string, style?: string }) => {
     const [user, setUser] = useState<UserViewDataType>();
     const location = useLocation();
@@ -49,7 +64,8 @@ const UserProfileCard = ({ url, style }: { url: string, style?: string }) => {
         if (!jwtHandler.getToken()) {
             return;
         }
-        if (currentUser?.name?.trim()) {
+        /** Після повного перезавантаження (Google redirect) Redux порожній — не покладаємось лише на name */
+        if (currentUser?.id) {
             return;
         }
 
@@ -58,7 +74,7 @@ const UserProfileCard = ({ url, style }: { url: string, style?: string }) => {
             port: USER_PROFILE_SERVICE_PORT,
             url: 'user-profile/me',
         });
-    }, [jwtHandler, currentUser?.name, profileMeRequest.fetchData]);
+    }, [jwtHandler, currentUser?.id, profileMeRequest.fetchData]);
 
     useEffect(() => {
         const raw = profileMeRequest.response?.userData;
@@ -71,29 +87,28 @@ const UserProfileCard = ({ url, style }: { url: string, style?: string }) => {
         }
     }, [profileMeRequest.response, dispatch]);
 
-    const tokenPayload = jwtHandler.decryptJwt() as
-        | {
-              id?: string | number;
-              userId?: string | number;
-              sub?: string | number;
-              uuid?: string | number;
-              name?: string;
-              username?: string;
-          }
-        | null;
-    const jwtUserId = tokenPayload?.id ?? tokenPayload?.userId ?? tokenPayload?.sub ?? tokenPayload?.uuid;
-    const userId = currentUser?.id ?? user?.id ?? jwtUserId;
+    const tokenPayload = jwtHandler.decryptJwt();
+    const jwtUserId = tokenPayload
+        ? (tokenPayload['id'] ?? tokenPayload['userId'] ?? tokenPayload['sub'] ?? tokenPayload['uuid'])
+        : undefined;
+    const userId =
+        currentUser?.id ?? user?.id ?? (jwtUserId != null && jwtUserId !== '' ? String(jwtUserId) : undefined);
 
-    const displayName =
-        currentUser?.name?.trim() ||
-        user?.name?.trim() ||
-        tokenPayload?.name?.trim() ||
-        tokenPayload?.username?.trim() ||
-        '';
+    const hasAuthToken = Boolean(jwtHandler.getToken());
 
+    const displayName = pickDisplayName([
+        currentUser?.name,
+        user?.name,
+        typeof tokenPayload?.['name'] === 'string' ? tokenPayload['name'] : undefined,
+        typeof tokenPayload?.['username'] === 'string' ? tokenPayload['username'] : undefined,
+    ]);
+
+    /** Є токен, але id ще не підтягнувся — все одно на профіль, не на register */
     const destination = userId
-        ? `/${api}/user-profile/${userId}`
-        : `/${api}/${url}`;
+        ? `/${api}/user-profile/${encodeURIComponent(userId)}`
+        : hasAuthToken
+          ? `/${api}/user-profile`
+          : `/${api}/${url}`;
 
     return (
         <div

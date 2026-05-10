@@ -1,4 +1,5 @@
 import JwtHandler from '../jwt';
+import { backendOriginForPort, preferIpv4LoopbackUrl } from '../../config/backendOrigin';
 
 const SESSION_KEY = 'fashion_analytics_session_v1';
 const CLIENT_KEY = 'fashion_analytics_client_v1';
@@ -58,18 +59,16 @@ export type TrackPayload = {
   clientId?: string;
 };
 
-const DEFAULT_BASE = 'http://localhost:5007';
-
 export function getAnalyticsBaseUrl(): string {
   try {
     const env = (import.meta as { env?: { VITE_ANALYTICS_URL?: string } }).env;
     if (env?.VITE_ANALYTICS_URL) {
-      return env.VITE_ANALYTICS_URL.replace(/\/$/, '');
+      return preferIpv4LoopbackUrl(env.VITE_ANALYTICS_URL.replace(/\/$/, ''));
     }
   } catch {
     /* non-Vite */
   }
-  return DEFAULT_BASE;
+  return backendOriginForPort(5007);
 }
 
 /**

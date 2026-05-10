@@ -1,5 +1,6 @@
 import { useState, useCallback } from 'react';
 import { api } from '../../../../../packages/shared/src/routes/api';
+import { backendOriginForPort, preferIpv4LoopbackUrl } from '../../config/backendOrigin';
 import Cookies from '../cookies';
 
 type MethodTypes = 'POST' | 'GET';
@@ -8,7 +9,7 @@ type UseFetchProps<T> = {
   method: MethodTypes;
   url: string;
   body?: T;
-  /** ���� ������, ��������������� ������ `http://localhost:${port}` (����. docker ��� ����� ����). */
+  /** Явний origin; якщо не задано — `http://127.0.0.1:${port}` (стійкіше за localhost на Linux). */
   baseUrl?: string;
   port?: number;
 };
@@ -29,7 +30,9 @@ export const useFetch = <T = any, R = any>(): UseFetchReturn<R> => {
   const fetchData = useCallback(async (params: UseFetchProps<T>) => {
     const { method, url, body } = params;
     const port = params.port ?? 5000;
-    const origin = (params.baseUrl ?? `http://localhost:${port}`).replace(/\/$/, '');
+    const origin = preferIpv4LoopbackUrl(
+      (params.baseUrl ?? backendOriginForPort(port)).replace(/\/$/, ''),
+    );
 
     setIsLoading(true);
     setError(null);
