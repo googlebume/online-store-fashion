@@ -7,6 +7,7 @@ import Cookies from '@packages/shared/src/utils/cookies';
 import PopupEditUser from '@/components/PopupEditUser';
 
 import cl from './AdminUsers.module.scss';
+import { backendOriginForPort } from '@packages/shared/src/config/backendOrigin';
 
 export const UsersContext = createContext<{
     setSelectedUser: Dispatch<SetStateAction<UserDataType | null>>;
@@ -59,7 +60,7 @@ const AdminUsers = () => {
     useEffect(() => {
         if (!deletedUser) return;
 
-        fetch(`http://localhost:5004/fashion/admin/users/delete/${deletedUser.id}`, {
+        fetch(`${backendOriginForPort(5004)}/fashion/admin/users/delete/${deletedUser.id}`, {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json',

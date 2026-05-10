@@ -4,6 +4,7 @@ import type { OrderDataType, OrderStatus } from '@packages/shared/src/utils/type
 import Cookies from '@packages/shared/src/utils/cookies';
 import OrderCard from '@/components/OrderCard';
 import cl from './AdminOrders.module.scss';
+import { backendOriginForPort } from '@packages/shared/src/config/backendOrigin';
 
 type UnknownApiResponse = any;
 
@@ -58,7 +59,7 @@ const AdminOrders = () => {
   const updateStatus = async (orderId: string, status: OrderStatus) => {
     setSavingOrderIds((prev) => ({ ...prev, [orderId]: true }));
     try {
-      const res = await fetch('http://localhost:5004/fashion/admin/orders/status', {
+      const res = await fetch(`${backendOriginForPort(5004)}/fashion/admin/orders/status`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

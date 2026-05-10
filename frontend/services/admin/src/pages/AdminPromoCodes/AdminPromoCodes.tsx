@@ -11,6 +11,7 @@ import InputData from '@packages/shared/src/components/UI/form-controls/InputDat
 import InputOption from '@packages/shared/src/components/UI/form-controls/InputOption/InputOption';
 import Cookies from '@packages/shared/src/utils/cookies';
 import cl from './AdminPromoCodes.module.scss';
+import { backendOriginForPort } from '@packages/shared/src/config/backendOrigin';
 
 type ApiEnvelope = { success?: boolean; message?: string; data?: unknown };
 
@@ -205,7 +206,7 @@ const AdminPromoCodes = () => {
       const isEdit = modalMode === 'edit';
       const urlPath = isEdit ? 'admin/promo-codes/update' : 'admin/promo-codes';
       const payload = buildPayload(isEdit);
-      const res = await fetch(`http://localhost:5004/fashion/${urlPath}`, {
+      const res = await fetch(`${backendOriginForPort(5004)}/fashion/${urlPath}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -230,7 +231,7 @@ const AdminPromoCodes = () => {
   const toggleActive = async (row: PromoCodeAdminRow) => {
     setTogglingIds((p) => ({ ...p, [row.id]: true }));
     try {
-      const res = await fetch(`http://localhost:5004/fashion/admin/promo-codes/update`, {
+      const res = await fetch(`${backendOriginForPort(5004)}/fashion/admin/promo-codes/update`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

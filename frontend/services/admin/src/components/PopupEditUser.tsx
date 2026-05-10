@@ -7,6 +7,7 @@ import InputOption from '@packages/shared/src/components/UI/form-controls/InputO
 import Button from '@packages/shared/src/components/UI/Button/Button';
 import Cookies from '@packages/shared/src/utils/cookies';
 import { api } from '@packages/shared/src/routes/api';
+import { backendOriginForPort } from '@packages/shared/src/config/backendOrigin';
 
 const ROLE_OPTIONS = ['admin', 'user', 'manager', 'support', 'system'] as const;
 
@@ -63,7 +64,7 @@ const PopupEditUser: React.FC<PopupEditUserProps> = ({ user, onClose, onSaved })
 
     try {
       const res = await fetch(
-        `http://localhost:5004/${api}/admin/users/${encodeURIComponent(String(user.id))}`,
+        `${backendOriginForPort(5004)}/${api}/admin/users/${encodeURIComponent(String(user.id))}`,
         {
           method: 'PATCH',
           headers: {

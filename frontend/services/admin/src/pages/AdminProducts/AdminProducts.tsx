@@ -6,6 +6,7 @@ import ProductCard from '@packages/shared/src/components/ProductCard';
 import PopupEditProduct from '../../components/PopupEditProduct';
 
 import cl from './AdminProducts.module.scss';
+import { backendOriginForPort } from '@packages/shared/src/config/backendOrigin';
 import SearchInput from '@packages/shared/src/components/UI/form-controls/SearchInput/SearchInput';
 import Button from '@packages/shared/src/components/UI/Button/Button';
 import PlusIcon from '@packages/shared/src/assets/images/icons/plusIcon.svg';
@@ -96,7 +97,7 @@ const AdminProducts = () => {
     useEffect(() => {
         if (!deletedProduct) return;
         console.log('Deleted product:', deletedProduct);
-        fetch(`http://localhost:5004/fashion/admin/products/delete/${deletedProduct.id}`,
+        fetch(`${backendOriginForPort(5004)}/fashion/admin/products/delete/${deletedProduct.id}`,
             {
                 method: 'DELETE',
                 headers: {

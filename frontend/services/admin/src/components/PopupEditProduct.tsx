@@ -9,6 +9,7 @@ import InputData from '@packages/shared/src/components/UI/form-controls/InputDat
 import InputOption from '@packages/shared/src/components/UI/form-controls/InputOption/InputOption'
 import Button from '@packages/shared/src/components/UI/Button/Button';
 import { useFetch } from '@packages/shared/src/utils/hooks/useFetch';
+import { backendOriginForPort } from '@packages/shared/src/config/backendOrigin';
 
 import Cookies from '@packages/shared/src/utils/cookies';
 
@@ -89,7 +90,7 @@ const PopupEditProduct = <T extends 'edit' | 'add'>({ ...props }: PopupEditProdu
         }
 
         try {
-            const response = await fetch(`http://localhost:5004/fashion/admin/products/${isEditMode ? 'edit' : 'add'}`, {
+            const response = await fetch(`${backendOriginForPort(5004)}/fashion/admin/products/${isEditMode ? 'edit' : 'add'}`, {
                 method: 'POST',
                 headers: {
                     'authorization': `Bearer ${cookies.getCookie('token')}`
