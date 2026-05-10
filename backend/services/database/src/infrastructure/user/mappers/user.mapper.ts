@@ -35,8 +35,7 @@ export class UserMapper {
   }
 
   static toPersistence(entity: UserEntity): any {
-    return {
-      id: entity.id,
+    const payload: Record<string, unknown> = {
       name: entity.name,
       email: entity.email.value,
       password: entity.password.hash,
@@ -44,5 +43,12 @@ export class UserMapper {
       createdAt: entity.createdAt,
       updatedAt: entity.updatedAt,
     };
+
+    // Prisma default(uuid()) спрацює тільки якщо id взагалі не переданий.
+    if (entity.id && entity.id.trim().length > 0) {
+      payload.id = entity.id;
+    }
+
+    return payload;
   }
 }
