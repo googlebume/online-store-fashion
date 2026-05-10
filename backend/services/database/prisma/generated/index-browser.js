@@ -24,12 +24,12 @@ exports.Prisma = Prisma
 exports.$Enums = {}
 
 /**
- * Prisma Client JS version: 7.7.0
- * Query Engine version: 75cbdc1eb7150937890ad5465d861175c6624711
+ * Prisma Client JS version: 7.8.0
+ * Query Engine version: 3c6e192761c0362d496ed980de936e2f3cebcd3a
  */
 Prisma.prismaVersion = {
-  client: "7.7.0",
-  engine: "75cbdc1eb7150937890ad5465d861175c6624711"
+  client: "7.8.0",
+  engine: "3c6e192761c0362d496ed980de936e2f3cebcd3a"
 }
 
 Prisma.PrismaClientKnownRequestError = () => {
@@ -152,6 +152,9 @@ exports.Prisma.UserScalarFieldEnum = {
 exports.Prisma.OrderScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
+  promoCodeId: 'promoCodeId',
+  subtotal: 'subtotal',
+  promoDiscountTotal: 'promoDiscountTotal',
   total: 'total',
   deliveryMethod: 'deliveryMethod',
   address: 'address',
@@ -166,7 +169,31 @@ exports.Prisma.OrderItemScalarFieldEnum = {
   orderId: 'orderId',
   productId: 'productId',
   quantity: 'quantity',
+  originalPrice: 'originalPrice',
+  discountAmount: 'discountAmount',
   price: 'price'
+};
+
+exports.Prisma.PromoCodeScalarFieldEnum = {
+  id: 'id',
+  code: 'code',
+  discountType: 'discountType',
+  discountValue: 'discountValue',
+  usageLimit: 'usageLimit',
+  usedCount: 'usedCount',
+  isActive: 'isActive',
+  isInfinite: 'isInfinite',
+  expiresAt: 'expiresAt',
+  minProductPrice: 'minProductPrice',
+  maxProductPrice: 'maxProductPrice',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.PromoCodeProductTypeScalarFieldEnum = {
+  id: 'id',
+  promoCodeId: 'promoCodeId',
+  type: 'type'
 };
 
 exports.Prisma.ReviewsScalarFieldEnum = {
@@ -176,7 +203,8 @@ exports.Prisma.ReviewsScalarFieldEnum = {
   userName: 'userName',
   reviewTitle: 'reviewTitle',
   rewiew: 'rewiew',
-  stars: 'stars'
+  stars: 'stars',
+  createdAt: 'createdAt'
 };
 
 exports.Prisma.ProducsAnalyticsScalarFieldEnum = {
@@ -192,14 +220,43 @@ exports.Prisma.ProducsAnalyticsScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.AnalyticsEventScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  sessionId: 'sessionId',
+  userId: 'userId',
+  productId: 'productId',
+  path: 'path',
+  durationMs: 'durationMs',
+  payload: 'payload',
+  clientId: 'clientId',
+  createdAt: 'createdAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
 };
 
+exports.Prisma.NullableJsonNullValueInput = {
+  DbNull: Prisma.DbNull,
+  JsonNull: Prisma.JsonNull
+};
+
 exports.Prisma.NullsOrder = {
   first: 'first',
   last: 'last'
+};
+
+exports.Prisma.JsonNullValueFilter = {
+  DbNull: Prisma.DbNull,
+  JsonNull: Prisma.JsonNull,
+  AnyNull: Prisma.AnyNull
+};
+
+exports.Prisma.QueryMode = {
+  default: 'default',
+  insensitive: 'insensitive'
 };
 exports.ProductType = exports.$Enums.ProductType = {
   hoodie: 'hoodie',
@@ -254,14 +311,22 @@ exports.OrderStatus = exports.$Enums.OrderStatus = {
   Accepted: 'Accepted'
 };
 
+exports.PromoCodeDiscountType = exports.$Enums.PromoCodeDiscountType = {
+  Percentage: 'Percentage',
+  FixedAmount: 'FixedAmount'
+};
+
 exports.Prisma.ModelName = {
   Products: 'Products',
   Attributes: 'Attributes',
   User: 'User',
   Order: 'Order',
   OrderItem: 'OrderItem',
+  PromoCode: 'PromoCode',
+  PromoCodeProductType: 'PromoCodeProductType',
   Reviews: 'Reviews',
-  ProducsAnalytics: 'ProducsAnalytics'
+  ProducsAnalytics: 'ProducsAnalytics',
+  AnalyticsEvent: 'AnalyticsEvent'
 };
 
 /**

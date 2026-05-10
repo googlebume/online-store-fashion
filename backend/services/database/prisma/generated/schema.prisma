@@ -7,6 +7,7 @@
 generator client {
   provider = "prisma-client-js"
   output   = "./generated"
+  // output   = "../../../node_modules/.prisma/client"
 }
 
 datasource db {
@@ -24,8 +25,9 @@ model Products {
   image       String
   attributes  Attributes[]
 
-  reviews   Reviews[]         @relation("ReviewProductId")
-  analytics ProducsAnalytics? @relation("ProductAnalytics")
+  reviews         Reviews[]         @relation("ReviewProductId")
+  analytics       ProducsAnalytics? @relation("ProductAnalytics")
+  analyticsEvents AnalyticsEvent[]
 }
 
 model Attributes {
@@ -52,23 +54,28 @@ model User {
 
   orders Order[]
 
-  reviewsById   Reviews[] @relation("UserById")
-  reviewsByName Reviews[] @relation("UserByName")
+  reviewsById     Reviews[]        @relation("UserById")
+  reviewsByName   Reviews[]        @relation("UserByName")
+  analyticsEvents AnalyticsEvent[]
 }
 
 model Order {
-  id             String         @id @default(uuid())
-  userId         String?
-  items          OrderItem[]    @relation("OrderToOrderItem")
-  total          Float
-  deliveryMethod DeliveryMethod
-  address        String
-  email          String
-  status         OrderStatus    @default(Accepted)
-  createdAt      DateTime       @default(now())
-  updatedAt      DateTime       @default(now()) @updatedAt
+  id                 String         @id @default(uuid())
+  userId             String?
+  items              OrderItem[]    @relation("OrderToOrderItem")
+  promoCodeId        String?
+  subtotal           Float          @default(0)
+  promoDiscountTotal Float          @default(0)
+  total              Float
+  deliveryMethod     DeliveryMethod
+  address            String
+  email              String
+  status             OrderStatus    @default(Accepted)
+  createdAt          DateTime       @default(now())
+  updatedAt          DateTime       @default(now()) @updatedAt
 
-  user User? @relation(fields: [userId], references: [id])
+  user      User?      @relation(fields: [userId], references: [id])
+  promoCode PromoCode? @relation(fields: [promoCodeId], references: [id])
 }
 
 enum OrderStatus {
@@ -82,28 +89,59 @@ enum OrderStatus {
 }
 
 model OrderItem {
-  id        String @id @default(uuid())
-  orderId   String
-  productId String
-  quantity  Int
-  price     Float
+  id             String @id @default(uuid())
+  orderId        String
+  productId      String
+  quantity       Int
+  originalPrice  Float  @default(0)
+  discountAmount Float  @default(0)
+  price          Float
 
   order Order @relation(fields: [orderId], references: [id], name: "OrderToOrderItem")
 }
 
+model PromoCode {
+  id                     String                 @id @default(uuid())
+  code                   String                 @unique
+  discountType           PromoCodeDiscountType
+  discountValue          Float
+  usageLimit             Int?
+  usedCount              Int                    @default(0)
+  isActive               Boolean                @default(true)
+  isInfinite             Boolean                @default(false)
+  expiresAt              DateTime?
+  minProductPrice        Float?
+  maxProductPrice        Float?
+  createdAt              DateTime               @default(now())
+  updatedAt              DateTime               @default(now()) @updatedAt
+  applicableProductTypes PromoCodeProductType[]
+  orders                 Order[]
+}
+
+model PromoCodeProductType {
+  id          String      @id @default(uuid())
+  promoCodeId String
+  type        ProductType
+  promoCode   PromoCode   @relation(fields: [promoCodeId], references: [id], onDelete: Cascade)
+
+  @@unique([promoCodeId, type])
+}
+
 model Reviews {
-  id          String @id @default(uuid())
+  id          String   @id @default(uuid())
   userId      String
   productId   String
   userName    String
   reviewTitle String
   rewiew      String
   stars       Int
+  createdAt   DateTime @default(now())
 
-  userID   User @relation("UserById", fields: [userId], references: [id])
-  userNAME User @relation("UserByName", fields: [userName], references: [name])
+  userID   User     @relation("UserById", fields: [userId], references: [id])
+  userNAME User     @relation("UserByName", fields: [userName], references: [name])
+  product  Products @relation("ReviewProductId", fields: [productId], references: [id])
 
-  product Products @relation("ReviewProductId", fields: [productId], references: [id])
+  @@unique([userId, productId])
 }
 
 enum Role {
@@ -149,6 +187,11 @@ enum DeliveryMethod {
   Pickup
 }
 
+enum PromoCodeDiscountType {
+  Percentage
+  FixedAmount
+}
+
 model ProducsAnalytics {
   id        String @id @default(uuid())
   productId String @unique
@@ -163,4 +206,27 @@ model ProducsAnalytics {
   updatedAt DateTime @updatedAt
 
   product Products @relation("ProductAnalytics", fields: [productId], references: [id])
+}
+
+/**
+ * Raw user/product/session events for analytics (stored via analytics-service → database microservice).
+ */
+model AnalyticsEvent {
+  id         String   @id @default(uuid())
+  name       String
+  sessionId  String?
+  userId     String?
+  productId  String?
+  path       String?
+  durationMs Int?
+  payload    Json?
+  clientId   String?
+  createdAt  DateTime @default(now())
+
+  user    User?     @relation(fields: [userId], references: [id], onDelete: SetNull)
+  product Products? @relation(fields: [productId], references: [id], onDelete: SetNull)
+
+  @@index([name])
+  @@index([createdAt])
+  @@index([sessionId])
 }
