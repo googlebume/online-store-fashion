@@ -1,4 +1,5 @@
 import { api } from '@packages/shared/src/routes/api';
+import { backendOriginForPort } from '@packages/shared/src/config/backendOrigin';
 import { getCartItems } from '@shop/state/basketState';
 
 const ORDER_SERVICE_PORT = 5005;
@@ -53,7 +54,7 @@ export async function validatePromoCode(promoCode: string): Promise<PromoPricing
     throw new Error('Кошик порожній');
   }
 
-  const origin = `http://localhost:${ORDER_SERVICE_PORT}`;
+  const origin = backendOriginForPort(ORDER_SERVICE_PORT);
   const res = await fetch(`${origin}/${api}/ordering/promocodes/validate`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },

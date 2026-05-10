@@ -14,6 +14,7 @@ import {
     toGa4Item,
 } from '@packages/shared/src/utils/analytics/ecommercePayload';
 import { getProductServiceBaseUrl } from '@packages/shared/src/utils/api/productServiceUrl';
+import { backendOriginForPort } from '@packages/shared/src/config/backendOrigin';
 
 const ProductLayout = () => {
     const { name: productNameFromRoute } = useParams<{ name: string }>();
@@ -64,7 +65,7 @@ const ProductLayout = () => {
                 payload: { clicks: clicksRef.current, productName: product.name },
             });
 
-            fetch('http://localhost:5007/fashion/products-analytics/update-engagement-metrics', {
+            fetch(`${backendOriginForPort(5007)}/fashion/products-analytics/update-engagement-metrics`, {
                 method: 'POST',
                 keepalive: true,
                 headers: {

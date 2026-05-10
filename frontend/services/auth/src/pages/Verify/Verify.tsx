@@ -9,6 +9,7 @@ import Cookies from '@packages/shared/src/utils/cookies';
 import { currentUserActions } from '@packages/shared/src/store';
 import { UserDataType } from '@packages/shared/src/utils/types/userData.type';
 import { trackAnalytics } from '@packages/shared/src/utils/analytics/trackAnalytics';
+import { backendOriginForPort } from '@packages/shared/src/config/backendOrigin';
 
 interface VerificationCodeInputProps {
   length?: number;
@@ -179,7 +180,7 @@ const Verify: React.FC<VerificationCodeInputProps> = ({
     if (!flowId) return;
 
     const eventSource = new EventSource(
-      `http://localhost:5003/fashion/verify/time-remaining?flowId=${encodeURIComponent(flowId)}`,
+      `${backendOriginForPort(5003)}/fashion/verify/time-remaining?flowId=${encodeURIComponent(flowId)}`,
     );
 
     eventSource.onmessage = (evt: MessageEvent) => {

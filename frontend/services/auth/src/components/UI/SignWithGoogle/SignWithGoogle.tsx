@@ -11,6 +11,28 @@ import { trackAnalytics } from '@packages/shared/src/utils/analytics/trackAnalyt
 
 const cookies = new Cookies();
 
+/** Після виходу з екрану входу: скасувати One Tap і auto-select, щоб на інших маршрутах не лишався активний GSI. */
+function cleanupGoogleIdentityScript(): void {
+  try {
+    const gid = (
+      window as unknown as {
+        google?: {
+          accounts?: {
+            id?: {
+              disableAutoSelect?: () => void;
+              cancel?: () => void;
+            };
+          };
+        };
+      }
+    ).google?.accounts?.id;
+    gid?.cancel?.();
+    gid?.disableAutoSelect?.();
+  } catch {
+    /* ignore */
+  }
+}
+
 type GoogleAuthResponse = {
   success?: boolean;
   isNewUser?: boolean;
@@ -44,6 +66,10 @@ const SignWithGoogle = () => {
       port: 5003,
       url: 'google/clientid',
     });
+  }, []);
+
+  useEffect(() => {
+    return () => cleanupGoogleIdentityScript();
   }, []);
 
   useEffect(() => {
@@ -127,6 +153,7 @@ const SignWithGoogle = () => {
     <>
       <GoogleOAuthProvider clientId={clientId}>
         <GoogleLogin
+          useOneTap={false}
           onSuccess={handleSuccess}
           onError={() => {
             console.error('Google popup login failed');

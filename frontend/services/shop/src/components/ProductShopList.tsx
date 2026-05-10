@@ -96,7 +96,7 @@ const ProductShopList = () => {
                     <strong>Не вдалося завантажити каталог.</strong>
                     <p>
                         Перевірте, що запущено product-service на{' '}
-                        <code>{apiOrigin}</code> (за замовчуванням порт 5000).
+                        <code>{apiOrigin}</code> (за замовчуванням порт 5002).
                     </p>
                     <p className={cl.catalogErrorHint}>
                         З кореня бекенду: <code>npm run start:productService</code>

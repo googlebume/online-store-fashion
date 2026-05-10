@@ -26,11 +26,12 @@ export default (env: EnvVariables) => {
         public: path.resolve(__dirname, 'public'),
         src: path.resolve(__dirname, 'src'),
     }
-    const SHOP_REMOTE_URL = env.SHOP_REMOTE_URL ?? 'http://localhost:3001'
-    const ADMIN_REMOTE_URL = env.ADMIN_REMOTE_URL ?? 'http://localhost:3002'
-    const PRODUCT_REMOTE_URL = env.PRODUCT_REMOTE_URL ?? 'http://localhost:3003'
-    const AUTH_REMOTE_URL = env.AUTH_REMOTE_URL ?? 'http://localhost:3004'
-    const USER_PROFILE_REMOTE_URL = env.USER_PROFILE_REMOTE_URL ?? 'http://localhost:3005'
+    const mfDevHost = process.env.MF_DEV_HOST ?? 'localhost'
+    const SHOP_REMOTE_URL = env.SHOP_REMOTE_URL ?? `http://${mfDevHost}:3001`
+    const ADMIN_REMOTE_URL = env.ADMIN_REMOTE_URL ?? `http://${mfDevHost}:3002`
+    const PRODUCT_REMOTE_URL = env.PRODUCT_REMOTE_URL ?? `http://${mfDevHost}:3003`
+    const AUTH_REMOTE_URL = env.AUTH_REMOTE_URL ?? `http://${mfDevHost}:3004`
+    const USER_PROFILE_REMOTE_URL = env.USER_PROFILE_REMOTE_URL ?? `http://${mfDevHost}:3005`
 
     const config: webpack.Configuration = buildWebpack({
         port: env.port ?? 3000,
@@ -83,6 +84,13 @@ export default (env: EnvVariables) => {
             __FIREBASE_WEB_CONFIG__: JSON.stringify(firebaseWebConfig),
         }),
     )
+
+    if (config.devServer && typeof config.devServer === 'object') {
+        config.devServer = {
+            ...config.devServer,
+            open: true,
+        }
+    }
 
     return config;
 }
