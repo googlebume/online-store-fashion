@@ -12,7 +12,7 @@ import JwtHandler from '@packages/shared/src/utils/jwt';
 import { useFetch } from '@packages/shared/src/utils/hooks/useFetch';
 
 /** Той самий порт, що й у user-profile сервісі для GET /user-profile/me */
-const USER_PROFILE_SERVICE_PORT = 4004;
+const USER_PROFILE_SERVICE_PORT = 5003;
 
 type ProfileMeResponse = {
     success?: boolean;
@@ -119,6 +119,5 @@ const UserProfileCard = ({ url, style }: { url: string, style?: string }) => {
 };
 
 export default UserProfileCard;
-
 
 
