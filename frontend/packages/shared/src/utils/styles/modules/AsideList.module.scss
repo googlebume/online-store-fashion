@@ -126,6 +126,28 @@
         gap: 12px;
     }
 
+    /* Без мобільного drawer — список у потоці сторінки (магазин). */
+    .root_mobileInline .catalog {
+        position: relative;
+        left: auto;
+        top: auto;
+        bottom: auto;
+        transform: none;
+        max-height: none;
+        min-width: 0;
+        width: 100%;
+        height: auto;
+        margin-right: 0;
+        z-index: auto;
+        box-shadow: none;
+        border-right: none;
+        background: transparent;
+        overflow-y: visible;
+        overflow-x: visible;
+        padding-top: 0;
+        padding-bottom: 0;
+    }
+
     /* Компактна кнопка в потоці: не на всю ширину екрана; клік по всій площі */
     .mobileRail {
         display: flex;

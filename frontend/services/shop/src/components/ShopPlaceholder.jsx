@@ -5,12 +5,21 @@ import BannersCarousel from './BannersCarousel';
 import { catalogListItems } from '@shop/utils/constants/catalogListItems';
 
 
-const ShopPlaceholder = () => {
+const ShopPlaceholder = ({
+    shopAsideOpen,
+    onShopAsideOpenChange,
+    shopAsideTopAnchorRef,
+}) => {
     return (
         <div className={cl.placeholder}>
                 
             <div className={cl.placeholderOffers}>
-                <AsideList section={catalogListItems}/>
+                <AsideList
+                    section={catalogListItems}
+                    mobileDrawerOpen={shopAsideOpen}
+                    onMobileDrawerOpenChange={onShopAsideOpenChange}
+                    mobileDrawerTopAnchorRef={shopAsideTopAnchorRef}
+                />
                 <BannersCarousel />
             </div>
 

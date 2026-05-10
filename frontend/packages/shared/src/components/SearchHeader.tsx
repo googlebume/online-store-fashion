@@ -8,7 +8,12 @@ import { useSelector } from "react-redux";
 import type { RootState } from "@packages/shared/src/store";
 import AnalyticsRouteTracker from "./AnalyticsRouteTracker";
 
-const SearchHeader = () => {
+type SearchHeaderProps = {
+    /** Магазин: відкрити/закрити бічне меню категорій при ширині ≤1174px */
+    onCategoriesClick?: () => void;
+};
+
+const SearchHeader: React.FC<SearchHeaderProps> = ({ onCategoriesClick }) => {
     const [isOpen, setIsOpen] = useState(false);
     const products = useSelector((state: RootState) => state.products.products);
     const searchData = useMemo(() => products, [products]);
@@ -22,6 +27,7 @@ const SearchHeader = () => {
                         variant='categories'
                         img={<SquaresIcon height='28px' width='28px' color='currentColor' fill='currentColor'/>}
                         text={<p>По категоріям</p>}
+                        onClick={onCategoriesClick}
                     />
                     <div className={cl.search}>
                         <SearchInput allData={searchData} field={'name'}/>

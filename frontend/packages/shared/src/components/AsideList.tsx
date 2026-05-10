@@ -5,82 +5,136 @@ import { Link, useLocation } from 'react-router-dom';
 
 type Props = {
     section: AsideSectionType;
+    /** Кнопка «Розділи» та внутрішній стан drawer (адмін-панель). */
+    enableMobileAsideDrawer?: boolean;
+    /** Керований drawer без кнопки в AsideList (магазин — відкриття з хедера). */
+    mobileDrawerOpen?: boolean;
+    onMobileDrawerOpenChange?: (open: boolean) => void;
+    mobileDrawerTopAnchorRef?: React.RefObject<HTMLElement | null>;
 };
 
-const AsideList: React.FC<Props> = ({ section = { title: '', links: [] } }) => {
+const AsideList: React.FC<Props> = ({
+    section = { title: '', links: [] },
+    enableMobileAsideDrawer = false,
+    mobileDrawerOpen,
+    onMobileDrawerOpenChange,
+    mobileDrawerTopAnchorRef,
+}) => {
     const location = useLocation();
-    const [drawerOpen, setDrawerOpen] = useState(false);
+    const [railDrawerOpen, setRailDrawerOpen] = useState(false);
     const railRef = useRef<HTMLButtonElement>(null);
 
+    const useParentControlledDrawer = Boolean(onMobileDrawerOpenChange);
+    const useMobileDrawerChrome =
+        enableMobileAsideDrawer || useParentControlledDrawer;
+    /** Без rail і без зовнішнього drawer — каталог у потоці на вузькому екрані. */
+    const useInlineMobileCatalog = !useMobileDrawerChrome;
+
+    const drawerOpen = enableMobileAsideDrawer
+        ? railDrawerOpen
+        : useParentControlledDrawer
+          ? (mobileDrawerOpen ?? false)
+          : false;
+
+    const setDrawerOpen = (value: boolean | ((prev: boolean) => boolean)) => {
+        if (enableMobileAsideDrawer) {
+            setRailDrawerOpen((prev) =>
+                typeof value === 'function' ? value(prev) : value,
+            );
+        } else if (onMobileDrawerOpenChange) {
+            const prev = mobileDrawerOpen ?? false;
+            const next = typeof value === 'function' ? value(prev) : value;
+            onMobileDrawerOpenChange(next);
+        }
+    };
+
     const syncDrawerTop = () => {
-        if (!railRef.current || typeof window === 'undefined') return;
+        const anchorEl = enableMobileAsideDrawer
+            ? railRef.current
+            : mobileDrawerTopAnchorRef?.current ?? null;
+        if (!anchorEl || typeof window === 'undefined') return;
         if (window.matchMedia('(min-width: 1175px)').matches) {
             document.documentElement.style.removeProperty('--aside-drawer-top');
             return;
         }
-        const bottom = railRef.current.getBoundingClientRect().bottom;
+        const bottom = anchorEl.getBoundingClientRect().bottom;
         document.documentElement.style.setProperty('--aside-drawer-top', `${bottom}px`);
     };
 
     useLayoutEffect(() => {
+        if (!useMobileDrawerChrome) return;
         syncDrawerTop();
         window.addEventListener('resize', syncDrawerTop);
         return () => {
             window.removeEventListener('resize', syncDrawerTop);
             document.documentElement.style.removeProperty('--aside-drawer-top');
         };
-    }, [drawerOpen]);
+    }, [drawerOpen, useMobileDrawerChrome, enableMobileAsideDrawer]);
 
     useEffect(() => {
-        setDrawerOpen(false);
-    }, [location.pathname]);
+        if (enableMobileAsideDrawer) {
+            setRailDrawerOpen(false);
+        } else if (onMobileDrawerOpenChange) {
+            onMobileDrawerOpenChange(false);
+        }
+    }, [location.pathname, enableMobileAsideDrawer, onMobileDrawerOpenChange]);
 
     useEffect(() => {
-        if (!drawerOpen) return;
+        if (!drawerOpen || !useMobileDrawerChrome) return;
         const onKey = (e: KeyboardEvent) => {
             if (e.key === 'Escape') setDrawerOpen(false);
         };
         window.addEventListener('keydown', onKey);
         return () => window.removeEventListener('keydown', onKey);
-    }, [drawerOpen]);
+    }, [drawerOpen, useMobileDrawerChrome]);
 
     useEffect(() => {
-        if (!drawerOpen) return;
+        if (!drawerOpen || !useMobileDrawerChrome) return;
         const prev = document.body.style.overflow;
         document.body.style.overflow = 'hidden';
         return () => {
             document.body.style.overflow = prev;
         };
-    }, [drawerOpen]);
+    }, [drawerOpen, useMobileDrawerChrome]);
 
     return (
-        <div className={cl.root}>
-            <button
-                ref={railRef}
-                type="button"
-                className={`${cl.mobileRail} ${drawerOpen ? cl.mobileRail_open : ''}`}
-                aria-expanded={drawerOpen}
-                aria-label={drawerOpen ? 'Закрити меню розділів' : 'Відкрити меню розділів'}
-                onClick={() => setDrawerOpen((o) => !o)}
+        <div
+            className={`${cl.root} ${useInlineMobileCatalog ? cl.root_mobileInline : ''}`}
+        >
+            {enableMobileAsideDrawer ? (
+                <button
+                    ref={railRef}
+                    type="button"
+                    className={`${cl.mobileRail} ${drawerOpen ? cl.mobileRail_open : ''}`}
+                    aria-expanded={drawerOpen}
+                    aria-label={drawerOpen ? 'Закрити меню розділів' : 'Відкрити меню розділів'}
+                    onClick={() => setDrawerOpen((o) => !o)}
+                >
+                    <span className={cl.mobileRail_burgerIcon} aria-hidden>
+                        <span className={cl.mobileRail_line} />
+                        <span className={cl.mobileRail_line} />
+                        <span className={cl.mobileRail_line} />
+                    </span>
+                    <span className={cl.mobileRail_title}>Розділи</span>
+                </button>
+            ) : null}
+            {useMobileDrawerChrome ? (
+                <div
+                    className={cl.backdrop}
+                    aria-hidden={!drawerOpen}
+                    data-open={drawerOpen}
+                    onClick={() => setDrawerOpen(false)}
+                />
+            ) : null}
+            <aside
+                className={`${cl.catalog} ${
+                    useMobileDrawerChrome && drawerOpen ? cl.catalog_drawerOpen : ''
+                }`}
             >
-                <span className={cl.mobileRail_burgerIcon} aria-hidden>
-                    <span className={cl.mobileRail_line} />
-                    <span className={cl.mobileRail_line} />
-                    <span className={cl.mobileRail_line} />
-                </span>
-                <span className={cl.mobileRail_title}>Розділи</span>
-            </button>
-            <div
-                className={cl.backdrop}
-                aria-hidden={!drawerOpen}
-                data-open={drawerOpen}
-                onClick={() => setDrawerOpen(false)}
-            />
-            <aside className={`${cl.catalog} ${drawerOpen ? cl.catalog_drawerOpen : ''}`}>
                 <ul className={cl.catalog__category}>
                     {section.links.map((item, index) => (
-                        <li className={cl.category__item} key={`${item.href}-${index}`}>
-                            <Link to={item.href}>
+                        <Link to={item.href} key={`${item.href}-${index}`}>
+                            <li className={cl.category__item} key={`${item.href}-${index}`}>
                                 <span className={cl.category__item_content}>
                                     {item.icon && typeof item.icon === 'string' ? (
                                         <img
@@ -93,8 +147,8 @@ const AsideList: React.FC<Props> = ({ section = { title: '', links: [] } }) => {
                                     ) : null}
                                     {item.text}
                                 </span>
-                            </Link>
-                        </li>
+                            </li>
+                        </Link>
                     ))}
                 </ul>
             </aside>

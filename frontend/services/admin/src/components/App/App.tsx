@@ -12,7 +12,7 @@ export const App = () => {
     return (
         <div className={cl.wrapper}>
             <AnalyticsRouteTracker />
-            <AsideList section={ administrationListItems }/>
+            <AsideList section={ administrationListItems } enableMobileAsideDrawer />
             <div className={cl.content}>
                     <Outlet />
             </div>
