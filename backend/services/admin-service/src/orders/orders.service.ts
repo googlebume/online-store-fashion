@@ -4,7 +4,7 @@ import { ORDER_SERVICE } from '../microservices/tcp.tokens';
 import { sendMicroserviceRpc } from '../microservices/tcp-rpc.util';
 
 const ORDER_DOWN_HINT =
-  'order-service недоступний (TCP 5006). Запустіть order-service (microservice + HTTP 4006).';
+  'order-service недоступний (TCP 5006). Запустіть order-service (microservice + HTTP 5005).';
 
 @Injectable()
 export class OrdersService {

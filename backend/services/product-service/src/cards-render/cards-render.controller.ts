@@ -1,19 +1,27 @@
 import { CardsRenderService } from './cards-render.service';
 import { Controller, Post, Body, Get, HttpException, HttpStatus } from '@nestjs/common';
+import { ApiBody, ApiOkResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { Throttle } from '@nestjs/throttler';
 import { IGetProductsParams } from '../dto/product.dto';
+import {
+  dynamicCatalogSchema,
+  productArraySchema,
+} from '@packages/shared/common/swagger/response-schemas';
 
 /**
  * Cards Render Controller
  * SOLID Principle: Single Responsibility
  * Handles HTTP requests for product cards rendering
  */
+@ApiTags('Catalog')
 @Controller('fashion')
 export class CardsRenderController {
   constructor(private readonly cardsRenderService: CardsRenderService) {}
 
   @Throttle({ default: { ttl: 60000, limit: 100 } })
   @Get('shop')
+  @ApiOperation({ summary: 'Get the full shop catalog payload' })
+  @ApiOkResponse({ description: 'Full catalog', schema: productArraySchema })
   async getProducts() {
     try {
       return await this.cardsRenderService.getProducts();
@@ -26,6 +34,19 @@ export class CardsRenderController {
   }
 
   @Post('shop-dynamically')
+  @ApiOperation({ summary: 'Load catalog page chunk dynamically' })
+  @ApiBody({
+    schema: {
+      type: 'object',
+      required: ['take', 'page'],
+      properties: {
+        take: { type: 'number', example: 12 },
+        page: { type: 'number', example: 0 },
+        cursor: { type: 'string', nullable: true, example: null },
+      },
+    },
+  })
+  @ApiOkResponse({ description: 'Dynamic catalog chunk', schema: dynamicCatalogSchema })
   async dynamicallyLoad(@Body() params: IGetProductsParams) {
     try {
       // Properly validate params (page can be 0, so we check for undefined/null)

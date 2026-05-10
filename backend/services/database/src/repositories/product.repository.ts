@@ -241,7 +241,7 @@ export class ProductRepository extends BaseRepository<Products> {
                 throw new Error('Failed to save image');
             }
 
-            const imageUrl = `http://localhost:5002/products/${saveData.filename}`;
+            const imageUrl = `http://localhost:5000/products/${saveData.filename}`;
 
             await this.prisma.products.update({
                 where: { id: productId },
