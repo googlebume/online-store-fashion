@@ -22,9 +22,10 @@ async function bootstrap() {
     }),
   );
   app.enableCors({
-    origin: ['http://localhost:3000', 'http://localhost:3001', 'http://localhost:3004', 'http://localhost:3005'],
-    methods: 'GET,POST',
-    allowedHeaders: 'Content-Type, Authorization',
+    /** Локальний MF: і localhost, і 127.0.0.1 — інакше запити з фронта стають cross-origin і падають */
+    origin: true,
+    methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
     credentials: true,
   });
 

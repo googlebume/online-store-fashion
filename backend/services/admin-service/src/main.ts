@@ -11,14 +11,10 @@ async function bootstrap() {
   });
 
   app.enableCors({
-    origin: [
-      'http://localhost:3000',
-      'http://localhost:3001',
-      'http://localhost:3002',
-      'http://localhost:3005',
-    ],
-    methods: 'GET,POST,PATCH,DELETE',
-    allowedHeaders: 'Content-Type,Authorization',
+    origin: true,
+    methods: ['GET', 'POST', 'PATCH', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
+    credentials: true,
   });
   
   const port = Number(process.env.PORT ?? 5004);
