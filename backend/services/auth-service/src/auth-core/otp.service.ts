@@ -24,7 +24,9 @@ export class OtpService {
 
   async createAndSendSession(flowType: AuthFlowType, email: string, payload: Record<string, any>) {
     const session = this.createSession(flowType, email, payload);
-    await this.sendVerificationCode(email, session.code);
+    this.sendVerificationCode(email, session.code).catch((err) =>
+      console.error(`[OtpService] Failed to send verification email to ${email}:`, err?.message),
+    );
 
     return {
       flowId: session.flowId,
