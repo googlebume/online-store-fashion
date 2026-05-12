@@ -8,6 +8,7 @@ import {
   ValidatePromoCodeDTO,
 } from '@packages/shared/dto/order.dto';
 import { JwtAuthGuard } from '@packages/shared/common/guards/jwt-auth.guard';
+import { OptionalJwtAuthGuard } from '@packages/shared/common/guards/optional-jwt-auth.guard';
 import type { Request } from 'express';
 import {
   orderSchema,
@@ -29,11 +30,11 @@ export class OrderingController {
   constructor(private readonly orderingService: OrderingService) {}
 
   @Post("add")
-  @UseGuards(JwtAuthGuard)
+  @UseGuards(OptionalJwtAuthGuard)
   @ApiBearerAuth('bearer')
-  @ApiOperation({ summary: 'Create a new order for the authenticated user' })
+  @ApiOperation({ summary: 'Create a new order (auth optional, guest orders allowed)' })
   @ApiOkResponse({ description: 'Created order', schema: orderSchema })
-  async add(@Body() order: OrderDTO, @Req() req: Request & { user: AuthUserPayload }) {
+  async add(@Body() order: OrderDTO, @Req() req: Request & { user?: AuthUserPayload }) {
     this.logger.log(`[HTTP:add] Incoming order request. items=${order?.items?.length ?? 0}, email=${order?.email}, total=${order?.total}`);
     this.logger.debug(`[HTTP:add] Payload: ${JSON.stringify(order)}`);
     const userId = req.user?.id ?? req.user?.sub ?? req.user?.userId;

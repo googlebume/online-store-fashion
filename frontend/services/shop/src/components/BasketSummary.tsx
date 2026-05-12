@@ -9,9 +9,6 @@ import ErrorMassage from '@packages/shared/src/components/UI/ErrorMassage/ErrorM
 import { trackAnalytics } from '@packages/shared/src/utils/analytics/trackAnalytics';
 import type { PromoPricingDto } from '@shop/utils/api/orderPromo.api';
 import { trackPromoOrderCompleted } from '@packages/shared/src/utils/analytics/promoAnalytics';
-import Cookies from '@packages/shared/src/utils/cookies';
-
-const cookies = new Cookies();
 
 type BasketSummaryProps = {
     deliveryParams: Record<string, unknown>;
@@ -28,7 +25,6 @@ const BasketSummary: React.FC<BasketSummaryProps> = ({
 }) => {
     const [cartTick, setCartTick] = useState(0);
     const [products, setProducts] = useState({})
-    const [authError, setAuthError] = useState(false);
     const { fetchData, error, isLoading, response } = useFetch()
 
     const promoSnapshotRef = useRef<{ code: string | null; discount: number }>({
@@ -52,10 +48,6 @@ const BasketSummary: React.FC<BasketSummaryProps> = ({
 
     async function onOrder() {
         if (promoCheckoutBlocked) {
-            return;
-        }
-        if (!cookies.getCookie('token')) {
-            setAuthError(true);
             return;
         }
         setAuthError(false);
@@ -126,9 +118,6 @@ const BasketSummary: React.FC<BasketSummaryProps> = ({
             console.error('[Shop][BasketSummary] order error:', error);
             console.error('[Shop][BasketSummary] deliveryParams snapshot:', deliveryParams);
             console.error('[Shop][BasketSummary] cart snapshot:', getCartItems());
-            if (error.message === 'Не авторизований' || error.message?.toLowerCase().includes('unauthor')) {
-                setAuthError(true);
-            }
         }
     }, [error]);
 
@@ -162,10 +151,7 @@ const BasketSummary: React.FC<BasketSummaryProps> = ({
                 </div>
             </div>
             <div>
-                {authError && (
-                    <ErrorMassage massage='Для оформлення замовлення необхідно увійти в акаунт' />
-                )}
-                {!authError && error && <ErrorMassage massage='Помилка оформлення замовлення'/>}
+                {error && <ErrorMassage massage='Помилка оформлення замовлення'/>}
                 <Button
                     variant='submit-primary'
                     text='Замовити'
