@@ -20,8 +20,7 @@ export class LocalImageStorageAdapter implements IImageStorage {
       if (!saveData || !saveData.success) {
         return { success: false, error: 'Failed to save image' };
       }
-      const imageBaseUrl = process.env.IMAGE_BASE_URL || 'http://localhost:5000';
-      const url = `${imageBaseUrl}/products/${saveData.filename}`;
+      const url = `products/${saveData.filename}`;
       console.log('[LocalImageStorageAdapter] Image saved successfully at:', url);
       return {
         success: true,

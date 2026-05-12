@@ -32,7 +32,6 @@ echo "→ Preparing snapshot for $SERVICE..."
 
 rsync -a \
   --exclude='services/database/Dockerfile' \
-  --exclude='services/database/docker-entrypoint.sh' \
   --exclude='node_modules' --exclude='**/node_modules' \
   --exclude='dist' --exclude='**/dist' \
   --exclude='.prisma' --exclude='**/.prisma' \

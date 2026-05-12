@@ -1,6 +1,7 @@
 import { BaseFileHandler } from "./base-file.handler";
 import { HashCryptoHandler } from "../crypto/hash-crypto.handler";
 import { Injectable } from "@nestjs/common";
+import * as sharp from 'sharp';
 
 @Injectable()
 export class ImageFileHandler extends BaseFileHandler {
@@ -13,23 +14,13 @@ export class ImageFileHandler extends BaseFileHandler {
             ? file.buffer
             : Buffer.from((file.buffer as { data: number[] }).data);
 
-        let outputBuffer = rawBuffer;
-        let ext = 'webp';
+        const webpBuffer = await sharp(rawBuffer).webp({ quality: 85 }).toBuffer();
+
+        const fileName = await this.hashHandler.cryptoHash(webpBuffer, 10);
+        const fullFileName = `${fileName}.webp`;
 
         try {
-            // eslint-disable-next-line @typescript-eslint/no-var-requires
-            const sharp = require('sharp');
-            outputBuffer = await sharp(rawBuffer).webp({ quality: 85 }).toBuffer();
-        } catch (err) {
-            console.error('[ImageFileHandler] sharp conversion failed, saving original:', (err as any)?.message);
-            ext = (file.originalname?.split('.').pop() ?? 'bin').toLowerCase();
-        }
-
-        const fileName = await this.hashHandler.cryptoHash(outputBuffer, 10);
-        const fullFileName = `${fileName}.${ext}`;
-
-        try {
-            const result = await this.create(paths, fullFileName, outputBuffer);
+            const result = await this.create(paths, fullFileName, webpBuffer);
             return { success: result.success, filename: fullFileName };
         } catch(error){
             console.error(`[ImageFileHandler] Failed to save image: ${error}`);

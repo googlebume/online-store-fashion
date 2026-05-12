@@ -36,6 +36,7 @@ export class BaseFileHandler implements FileHandlerBaseInterface {
         const fullPaths = pathsys.join(filePath, fileName)
 
         try {
+            await fs.mkdir(filePath, { recursive: true });
             await fs.writeFile(fullPaths, data);
             return { success: true, filePath: fullPaths };
         } catch (error) {

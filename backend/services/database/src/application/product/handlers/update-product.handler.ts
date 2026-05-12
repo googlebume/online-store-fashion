@@ -15,7 +15,6 @@ export class UpdateProductHandler {
     if (command.price !== undefined) partial.price = command.price;
     if (command.brand) partial.brand = command.brand;
     if (command.discount !== undefined) partial.discount = command.discount;
-    if (command.image) partial.image = command.image;
     if (command.attributes) partial.attributes = command.attributes;
 
     return this.productRepository.update(command.id, partial);

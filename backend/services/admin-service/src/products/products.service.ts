@@ -51,12 +51,12 @@ export class ProductsService {
         price,
         discount,
         brand: data.brand || '',
-        image: data.image || '',
       };
 
       const response = await this.rpc('edit_product', payload);
+      if (!response || !(response as any).success) return response;
 
-      if (file && (response as any).success) {
+      if (file) {
         const imageBuffer = Buffer.isBuffer(file.buffer) ? file.buffer : Buffer.from(file.buffer);
         const imageBase64 = imageBuffer.toString('base64');
         const imageResult = await this.rpc('edit_image', {
@@ -68,6 +68,10 @@ export class ProductsService {
         if (!imageResult || !(imageResult as any).success) {
           return { success: false, message: 'Failed to update image' };
         }
+        return {
+          ...(response as any),
+          data: { ...(response as any).data, image: (imageResult as any).url },
+        };
       }
 
       return response;
@@ -117,7 +121,6 @@ export class ProductsService {
         const uploadedImageUrl = (imageResult as any)?.imageUrl ?? (imageResult as any)?.url;
         if (imageResult && (imageResult as any).success && uploadedImageUrl) {
           imageUrl = uploadedImageUrl;
-          await this.rpc('edit_product', { id: productId, image: imageUrl });
         } else {
           return { success: false, message: 'Не вдалося зберегти зображення' };
         }
