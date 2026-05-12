@@ -1,0 +1,26 @@
+node_modules
+**/node_modules
+dist
+**/dist
+.env
+**/.env
+**/.env.*
+!**/.env.example
+.git
+**/coverage
+**/*.log
+**/test
+
+# Large generated Prisma files
+.prisma
+**/.prisma
+services/database/prisma/generated
+services/database/dev.db
+services/database/prisma/dev.db
+
+# Product images
+services/database/products
+services/product-service/products
+
+# Build artifacts
+**/*.tsbuildinfo
