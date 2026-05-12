@@ -61,6 +61,9 @@ export default (env: EnvVariables) => {
     config.plugins!.push(
         new webpack.DefinePlugin({
             __PRODUCT_SERVICE_BASE_URL__: JSON.stringify(productBase),
+            __ORDER_SERVICE_URL__: JSON.stringify(process.env.ORDER_SERVICE_URL?.trim() || ''),
+            __ANALYTICS_SERVICE_URL__: JSON.stringify(process.env.ANALYTICS_SERVICE_URL?.trim() || ''),
+            __DATABASE_SERVICE_BASE_URL__: JSON.stringify(process.env.DATABASE_SERVICE_URL?.trim() || ''),
         }),
     )
 

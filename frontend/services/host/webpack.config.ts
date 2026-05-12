@@ -27,11 +27,11 @@ export default (env: EnvVariables) => {
         src: path.resolve(__dirname, 'src'),
     }
     const mfDevHost = process.env.MF_DEV_HOST ?? 'localhost'
-    const SHOP_REMOTE_URL = env.SHOP_REMOTE_URL ?? `http://${mfDevHost}:3001`
-    const ADMIN_REMOTE_URL = env.ADMIN_REMOTE_URL ?? `http://${mfDevHost}:3002`
-    const PRODUCT_REMOTE_URL = env.PRODUCT_REMOTE_URL ?? `http://${mfDevHost}:3003`
-    const AUTH_REMOTE_URL = env.AUTH_REMOTE_URL ?? `http://${mfDevHost}:3004`
-    const USER_PROFILE_REMOTE_URL = env.USER_PROFILE_REMOTE_URL ?? `http://${mfDevHost}:3005`
+    const SHOP_REMOTE_URL = env.SHOP_REMOTE_URL ?? process.env.SHOP_REMOTE_URL ?? `http://${mfDevHost}:3001`
+    const ADMIN_REMOTE_URL = env.ADMIN_REMOTE_URL ?? process.env.ADMIN_REMOTE_URL ?? `http://${mfDevHost}:3002`
+    const PRODUCT_REMOTE_URL = env.PRODUCT_REMOTE_URL ?? process.env.PRODUCT_REMOTE_URL ?? `http://${mfDevHost}:3003`
+    const AUTH_REMOTE_URL = env.AUTH_REMOTE_URL ?? process.env.AUTH_REMOTE_URL ?? `http://${mfDevHost}:3004`
+    const USER_PROFILE_REMOTE_URL = env.USER_PROFILE_REMOTE_URL ?? process.env.USER_PROFILE_REMOTE_URL ?? `http://${mfDevHost}:3005`
 
     const config: webpack.Configuration = buildWebpack({
         port: env.port ?? 3000,
@@ -82,6 +82,12 @@ export default (env: EnvVariables) => {
     config.plugins!.push(
         new webpack.DefinePlugin({
             __FIREBASE_WEB_CONFIG__: JSON.stringify(firebaseWebConfig),
+            __PRODUCT_SERVICE_BASE_URL__: JSON.stringify(process.env.PRODUCT_SERVICE_URL?.trim() || ''),
+            __AUTH_SERVICE_URL__: JSON.stringify(process.env.AUTH_SERVICE_URL?.trim() || ''),
+            __ADMIN_SERVICE_URL__: JSON.stringify(process.env.ADMIN_SERVICE_URL?.trim() || ''),
+            __ORDER_SERVICE_URL__: JSON.stringify(process.env.ORDER_SERVICE_URL?.trim() || ''),
+            __ANALYTICS_SERVICE_URL__: JSON.stringify(process.env.ANALYTICS_SERVICE_URL?.trim() || ''),
+            __DATABASE_SERVICE_BASE_URL__: JSON.stringify(process.env.DATABASE_SERVICE_URL?.trim() || ''),
         }),
     )
 

@@ -4,12 +4,10 @@ import { ImageFileHandler } from './image-file.handler';
 import { TextFileHandler } from './text-file.handler';
 import { ConvertImageFileHandler } from './image-convert.handler';
 import { CryptoHandlerModule } from '../crypto/crypto.module';
-import { MimeHandlerModule } from '../mime/mime.module';
 
 @Module({
     imports: [
-        CryptoHandlerModule, 
-        MimeHandlerModule,
+        CryptoHandlerModule,
     ],
     providers: [
         BaseFileHandler,
