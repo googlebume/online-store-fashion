@@ -7,10 +7,12 @@ export class MailerHandler {
 
     async sendTextEmail(to: string, subject: string, text: string){
         const transporter = nodemailer.createTransport({
-            service: 'gmail',
+            host: process.env.SMTP_HOST,
+            port: Number(process.env.SMTP_PORT) || 587,
+            secure: process.env.SMTP_SECURE === 'true',
             auth: {
-                user: process.env.SEND_EMAIL_MAIL,
-                pass: process.env.SEND_EMAIL_APP_PASS,
+                user: process.env.SMTP_USER,
+                pass: process.env.SMTP_PASS,
             },
         });
 

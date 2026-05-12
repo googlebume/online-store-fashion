@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { GoogleLogin, GoogleOAuthProvider } from '@react-oauth/google';
 import { useFetch } from '@packages/shared/src/utils/hooks/useFetch';
@@ -8,6 +8,7 @@ import { shopRoutes } from '@packages/shared/src/routes/shop';
 import Cookies from '@packages/shared/src/utils/cookies';
 import { api } from '@packages/shared/src/routes/api';
 import { trackAnalytics } from '@packages/shared/src/utils/analytics/trackAnalytics';
+import cl from './SignWithGoogle.module.scss';
 
 const cookies = new Cookies();
 
@@ -59,6 +60,8 @@ const SignWithGoogle = () => {
   const authFetch = useFetch<Record<string, any>, GoogleAuthResponse>();
   const [clientId, setClientId] = useState<string | null>(null);
   const [googleAuthError, setGoogleAuthError] = useState<string | null>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [buttonWidth, setButtonWidth] = useState<number>(400);
 
   useEffect(() => {
     fetchData({
@@ -77,6 +80,12 @@ const SignWithGoogle = () => {
       setClientId(response.clientId);
     }
   }, [response]);
+
+  useEffect(() => {
+    if (!clientId || !containerRef.current) return;
+    const width = containerRef.current.offsetWidth;
+    if (width > 0) setButtonWidth(width);
+  }, [clientId]);
 
   useEffect(() => {
     if (clientIdError) {
@@ -143,26 +152,25 @@ const SignWithGoogle = () => {
     });
   };
 
-  if (isLoading) return <div>Loading...</div>;
-
-  if (clientIdError || !clientId) {
-    return <div>Google sign-in is unavailable</div>;
-  }
-
   return (
-    <>
-      <GoogleOAuthProvider clientId={clientId}>
-        <GoogleLogin
-          useOneTap={false}
-          onSuccess={handleSuccess}
-          onError={() => {
-            console.error('Google popup login failed');
-            setGoogleAuthError('Google popup login failed');
-          }}
-        />
-      </GoogleOAuthProvider>
-      {googleAuthError && <div>{googleAuthError}</div>}
-    </>
+    <div ref={containerRef} className={cl.wrapper}>
+      {clientId ? (
+        <GoogleOAuthProvider clientId={clientId}>
+          <GoogleLogin
+            useOneTap={false}
+            width={buttonWidth}
+            onSuccess={handleSuccess}
+            onError={() => {
+              console.error('Google popup login failed');
+              setGoogleAuthError('Google popup login failed');
+            }}
+          />
+        </GoogleOAuthProvider>
+      ) : (
+        <div className={cl.placeholder} />
+      )}
+      {googleAuthError && <div className={cl.error}>{googleAuthError}</div>}
+    </div>
   );
 };
 
