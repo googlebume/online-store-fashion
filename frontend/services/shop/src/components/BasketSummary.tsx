@@ -10,7 +10,6 @@ import { trackAnalytics } from '@packages/shared/src/utils/analytics/trackAnalyt
 import type { PromoPricingDto } from '@shop/utils/api/orderPromo.api';
 import { trackPromoOrderCompleted } from '@packages/shared/src/utils/analytics/promoAnalytics';
 import Cookies from '@packages/shared/src/utils/cookies';
-import { api } from '@packages/shared/src/routes/api';
 
 const cookies = new Cookies();
 
