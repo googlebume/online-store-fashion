@@ -17,6 +17,12 @@ if [ -z "$SERVICE" ]; then
   exit 1
 fi
 
+# Map logical names to Railway internal service names (run: railway service list to refresh)
+case "$SERVICE" in
+  database) RAILWAY_SERVICE="f22db772-d65f-48cd-99cf-efd44145ca1c" ;;
+  *)         RAILWAY_SERVICE="$SERVICE" ;;
+esac
+
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 SERVICE_DOCKERFILE="$SCRIPT_DIR/services/$SERVICE/Dockerfile"
 
@@ -56,6 +62,9 @@ EOF
 
 echo "→ Uploading snapshot for $SERVICE..."
 cd "$TMPDIR"
-railway link --project aa4ce1a0-4f71-4c9f-9c97-919f6d891bd5 --environment production --service "$SERVICE" 2>&1 | tail -1
-railway up --service "$SERVICE" --detach 2>&1
+railway up \
+  --project aa4ce1a0-4f71-4c9f-9c97-919f6d891bd5 \
+  --environment ed2d56b5-ec43-49e2-8b92-9073e374e319 \
+  --service "$RAILWAY_SERVICE" \
+  --detach 2>&1
 echo "→ Done. Watch logs: railway logs --service $SERVICE"

@@ -9,6 +9,9 @@ COPY services ./services
 RUN npm install
 RUN npm run build -w packages/shared && npm run build -w packages/config && npm run build -w services/database
 
-EXPOSE 5001 5002
+EXPOSE 5000 5001
 
-CMD ["npm", "run", "start:prod", "-w", "services/database"]
+COPY services/database/docker-entrypoint.sh /docker-entrypoint.sh
+RUN chmod +x /docker-entrypoint.sh
+
+ENTRYPOINT ["/docker-entrypoint.sh"]

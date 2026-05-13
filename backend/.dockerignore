@@ -3,5 +3,13 @@ npm-debug.log
 **/node_modules
 **/dist
 **/.env
+**/.env.*
+!**/.env.example
 .git
 .gitignore
+**/coverage
+**/*.log
+**/test
+services/database/dev.db
+services/database/prisma/dev.db
+services/database/prisma/generated
