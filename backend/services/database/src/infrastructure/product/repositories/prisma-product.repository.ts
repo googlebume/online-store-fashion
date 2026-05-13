@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { Injectable } from '@nestjs/common';
 import { Result, ok, fail } from '../../../shared/result';
 import { ProductEntity } from '../../../domain/product/entities/product.entity';

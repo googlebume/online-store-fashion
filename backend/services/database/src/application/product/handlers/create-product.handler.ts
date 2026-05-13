@@ -7,10 +7,14 @@ import { ProductName } from '../../../domain/product/value-objects/product-name.
 import { Price } from '../../../domain/product/value-objects/price.vo';
 import { Discount } from '../../../domain/product/value-objects/discount.vo';
 import { PRODUCT_REPOSITORY_PORT, IProductRepository } from '../../../domain/product/ports/product-repository.port';
+import { RedisCacheService } from '../../../infrastructure/shared/cache/redis-cache.service';
 
 @Injectable()
 export class CreateProductHandler {
-  constructor(@Inject(PRODUCT_REPOSITORY_PORT) private readonly productRepository: IProductRepository) {}
+  constructor(
+    @Inject(PRODUCT_REPOSITORY_PORT) private readonly productRepository: IProductRepository,
+    private readonly cache: RedisCacheService,
+  ) {}
 
   async execute(command: CreateProductCommand): Promise<Result<ProductEntity, Error>> {
     const nameResult = ProductName.create(command.name);
@@ -32,6 +36,8 @@ export class CreateProductHandler {
       command.image || '',
     );
 
-    return this.productRepository.save(product);
+    const result = await this.productRepository.save(product);
+    if (result.ok) await this.cache.invalidateProducts();
+    return result;
   }
 }

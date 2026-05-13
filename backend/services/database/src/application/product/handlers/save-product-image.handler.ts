@@ -3,6 +3,7 @@ import { Result, fail } from '../../../shared/result';
 import { SaveProductImageCommand } from '../commands/save-product-image.command';
 import { PRODUCT_REPOSITORY_PORT, IProductRepository } from '../../../domain/product/ports/product-repository.port';
 import { IMAGE_STORAGE_PORT, IImageStorage } from '../../ports/image-storage.port';
+import { RedisCacheService } from '../../../infrastructure/shared/cache/redis-cache.service';
 import * as path from 'path';
 
 @Injectable()
@@ -10,10 +11,11 @@ export class SaveProductImageHandler {
   constructor(
     @Inject(PRODUCT_REPOSITORY_PORT) private readonly productRepository: IProductRepository,
     @Inject(IMAGE_STORAGE_PORT) private readonly imageStorage: IImageStorage,
+    private readonly cache: RedisCacheService,
   ) {}
 
   async execute(command: SaveProductImageCommand): Promise<Result<string, Error>> {
-    const imagesDir = path.resolve(process.cwd(), 'products');
+    const imagesDir = process.env.PRODUCTS_DIR ?? path.resolve(process.cwd(), 'products');
     console.log('[SaveProductImageHandler] Executing with productId:', command.productId);
     console.log('[SaveProductImageHandler] Buffer length (base64):', command.buffer.length);
     console.log('[SaveProductImageHandler] Mimetype:', command.mimetype);
@@ -42,6 +44,7 @@ export class SaveProductImageHandler {
     const updateResult = await this.productRepository.update(command.productId, { image: saveResult.url });
     if (!updateResult.ok) return fail(updateResult.error);
 
+    await this.cache.invalidateProducts();
     return { ok: true, value: saveResult.url };
   }
 }

@@ -25,14 +25,22 @@ export class PrismaService extends PrismaClient implements OnModuleInit, OnModul
   }
 
   private async normalizeProductImageUrls() {
-    // Strip any origin prefix, keeping only the relative path "products/<filename>"
-    const result = await this.$executeRaw`
+    // Strip http(s)://host/ prefix, keeping only the relative path "products/<filename>"
+    const r1 = await this.$executeRaw`
       UPDATE "Products"
       SET "image" = regexp_replace("image", '^https?://[^/]+/', '')
       WHERE "image" ~ '^https?://'
     `;
-    if (Number(result) > 0) {
-      this.logger.warn(`[normalizeProductImageUrls] Normalized ${result} product image URL(s) to relative paths`);
+    if (Number(r1) > 0) {
+      this.logger.warn(`[normalizeProductImageUrls] Stripped http origin from ${r1} product image URL(s)`);
+    }
+
+    // Strip any absolute filesystem prefix like /app/services/database/products/ → products/
+    const r2 = await this.$executeRawUnsafe(
+      `UPDATE "Products" SET "image" = regexp_replace("image", '^/.*?/(products/.+)$', '\\1') WHERE "image" ~ '^/.*/products/'`
+    );
+    if (Number(r2) > 0) {
+      this.logger.warn(`[normalizeProductImageUrls] Stripped absolute fs path from ${r2} product image URL(s)`);
     }
   }
 

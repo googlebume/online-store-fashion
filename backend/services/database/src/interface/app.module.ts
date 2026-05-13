@@ -10,8 +10,9 @@ import { FilesHandlerModule } from '@packages/shared/utils/libs/files/files.modu
 import { CryptoHandlerModule } from '@packages/shared/utils/libs/crypto/crypto.module';
 import { MimeHandlerModule } from '@packages/shared/utils/libs/mime/mime.module';
 import { PrismaService } from '../infrastructure/shared/prisma/prisma.service';
+import { RedisCacheModule } from '../infrastructure/shared/cache/redis-cache.module';
 
-const productsPath = join(process.cwd(), 'products');
+const productsPath = process.env.PRODUCTS_DIR ?? join(process.cwd(), 'products');
 
 @Module({
   imports: [
@@ -20,6 +21,7 @@ const productsPath = join(process.cwd(), 'products');
     OrderModule,
     AnalyticsModule,
     ReviewModule,
+    RedisCacheModule,
     FilesHandlerModule,
     CryptoHandlerModule,
     MimeHandlerModule,

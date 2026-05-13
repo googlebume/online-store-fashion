@@ -30,6 +30,7 @@ export class AnalyticsController {
           productId: data.productId,
           views: data.metrics?.views || 0,
           clicks: data.metrics?.clicks || 0,
+          orders: data.metrics?.orders || 0,
           purchases: data.metrics?.purchases || 0,
           reviews: 0,
           maxRating: 0,

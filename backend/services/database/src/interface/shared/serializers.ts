@@ -18,18 +18,25 @@ export class Serializers {
     };
   }
 
-  static productToObject(entity: ProductEntity): any {
+  static productToObject(entity: ProductEntity | any): any {
+    // Cached plain objects store data under `props` (class instance own properties after JSON round-trip)
+    const props = entity.props;
+    const name     = entity.name     ?? props?.name;
+    const price    = entity.price    ?? props?.price;
+    const discount = entity.discount ?? props?.discount;
+    const attrs    = entity.attributes ?? props?.attributes;
+
     return {
       id: entity.id,
-      name: entity.name.toString(),
-      description: entity.description,
-      price: entity.price.value,
-      discount: entity.discount.percent,
-      brand: entity.brand,
-      image: entity.image,
-      attributes: entity.attributes?.map(attr => this.attributesToObject(attr)),
-      createdAt: entity.createdAt,
-      updatedAt: entity.updatedAt,
+      name: name?.value ?? String(name ?? ''),
+      description: entity.description ?? props?.description,
+      price: price?.value ?? price,
+      discount: discount?.percent ?? discount,
+      brand: entity.brand ?? props?.brand,
+      image: entity.image ?? props?.image,
+      attributes: attrs?.map((attr: any) => this.attributesToObject(attr)),
+      createdAt: entity.createdAt ?? props?.createdAt,
+      updatedAt: entity.updatedAt ?? props?.updatedAt,
     };
   }
 

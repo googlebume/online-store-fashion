@@ -1,15 +1,14 @@
 import { Injectable, OnModuleInit, OnModuleDestroy, Logger } from '@nestjs/common';
-import { PrismaBetterSqlite3 } from '@prisma/adapter-better-sqlite3';
-
-const { PrismaClient } = require('@prisma/client');
+import { PrismaPg } from '@prisma/adapter-pg';
+import { PrismaClient } from '../prisma/generated';
 
 @Injectable()
 export class PrismaService extends PrismaClient implements OnModuleInit, OnModuleDestroy {
     private readonly logger = new Logger(PrismaService.name);
 
     constructor() {
-        const adapter = new PrismaBetterSqlite3({
-            url: process.env.DATABASE_URL || 'file:./prisma/dev.db',
+        const adapter = new PrismaPg({
+            connectionString: process.env.DATABASE_URL,
         });
 
         super({ adapter });
@@ -40,7 +39,7 @@ export class PrismaService extends PrismaClient implements OnModuleInit, OnModul
 
         for (const { from, to } of legacyStatusMap) {
             const result = await this.$executeRawUnsafe(
-                `UPDATE "Order" SET "status" = '${to}' WHERE lower("status") = '${from}'`
+                `UPDATE "Order" SET "status" = '${to}'::"OrderStatus" WHERE lower("status"::text) = '${from}'`
             );
 
             if (Number(result) > 0) {

@@ -9,7 +9,11 @@
   "compilerOptions": {
     "outDir": "./dist",
     "removeComments": true,
-    "sourceMap": true
+    "sourceMap": true,
+    "paths": {
+      "@prisma/client": ["./prisma/generated/index"],
+      "@packages/shared/*": ["../../packages/shared/dist/*"]
+    }
   },
   "include": ["src"]
 }

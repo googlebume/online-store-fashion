@@ -3,6 +3,7 @@ import { Result, fail } from '../../../shared/result';
 import { UpdateProductImageCommand } from '../commands/update-product-image.command';
 import { PRODUCT_REPOSITORY_PORT, IProductRepository } from '../../../domain/product/ports/product-repository.port';
 import { IMAGE_STORAGE_PORT, IImageStorage } from '../../ports/image-storage.port';
+import { RedisCacheService } from '../../../infrastructure/shared/cache/redis-cache.service';
 import * as path from 'path';
 
 @Injectable()
@@ -10,6 +11,7 @@ export class UpdateProductImageHandler {
   constructor(
     @Inject(PRODUCT_REPOSITORY_PORT) private readonly productRepository: IProductRepository,
     @Inject(IMAGE_STORAGE_PORT) private readonly imageStorage: IImageStorage,
+    private readonly cache: RedisCacheService,
   ) {}
 
   async execute(command: UpdateProductImageCommand): Promise<Result<string, Error>> {
@@ -19,7 +21,7 @@ export class UpdateProductImageHandler {
     const productResult = await this.productRepository.findById(command.productId);
     if (!productResult.ok) return fail(productResult.error);
 
-    const imagesDir = path.resolve(process.cwd(), 'products');
+    const imagesDir = process.env.PRODUCTS_DIR ?? path.resolve(process.cwd(), 'products');
     const oldImagePath = productResult.value.image ? path.join(imagesDir, path.basename(productResult.value.image)) : null;
     console.log('[UpdateProductImageHandler] Old image path:', oldImagePath);
 
@@ -45,6 +47,7 @@ export class UpdateProductImageHandler {
     const updateResult = await this.productRepository.update(command.productId, { image: saveResult.url });
     if (!updateResult.ok) return fail(updateResult.error);
 
+    await this.cache.invalidateProducts();
     return { ok: true, value: saveResult.url };
   }
 }
