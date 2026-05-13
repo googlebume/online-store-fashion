@@ -275,6 +275,19 @@
 }
 
 @media (max-width: 640px) {
+  .headerRow {
+    flex-wrap: wrap;
+  }
+
+  .headerTitles {
+    width: 100%;
+  }
+
+  .headerActions {
+    width: 100%;
+    justify-content: flex-start;
+  }
+
   .itemRow {
     grid-template-columns: 1fr;
     gap: 2px;

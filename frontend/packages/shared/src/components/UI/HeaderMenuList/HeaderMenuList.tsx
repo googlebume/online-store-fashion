@@ -1,11 +1,10 @@
 import React, { useState } from 'react';
 import { api } from '../../../routes/api'
-import { Routes, Route, Outlet, Link } from 'react-router-dom';
-import {UserViewDataType} from '@/utils/types/userData.type';
+import { Link } from 'react-router-dom';
 
 import { headerMenuItems } from "../../../utils/constants/headerMenuItems";
 import cl from './HeaderMenuList.module.scss'
-import UserProfileCard from '../UserProfileCard/UserProfileCard';
+import UserAuthBlock from '../UserAuthBlock/UserAuthBlock';
 
 
 const HeaderMenuList = () => {
@@ -36,7 +35,7 @@ const HeaderMenuList = () => {
                 }
             </ul>
 
-            <UserProfileCard url='register'/>
+            <UserAuthBlock loginUrl='register' />
         </nav >
     );
 };

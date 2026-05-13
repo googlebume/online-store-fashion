@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import cl from './FileUploader.module.scss'
+import { getProductImageUrl } from '../../../../utils/api/productServiceUrl';
 
 type FileUploaderType = {
     data?: {
@@ -24,7 +25,7 @@ const FileUploader: React.FC<FileUploaderType> = ({
 }) => {
     const {
         image = '',
-        placeholder = 'Завантажити файл'
+        placeholder = 'пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ'
     } = data;
 
     const {
@@ -64,7 +65,7 @@ const FileUploader: React.FC<FileUploaderType> = ({
                 accept={inputType === 'image' ? 'image/*' : '*'}
                 className={cl.uploader}
                 style={{
-                    backgroundImage: `url(${imagePreview || image})`,
+                    backgroundImage: `url(${imagePreview || getProductImageUrl(image)})`,
                 }}
                 onChange={e => {
                     onChange(handleImageLoaded(e))

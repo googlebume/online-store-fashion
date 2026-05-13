@@ -133,8 +133,8 @@ const AsideList: React.FC<Props> = ({
             >
                 <ul className={cl.catalog__category}>
                     {section.links.map((item, index) => (
-                        <Link to={item.href} key={`${item.href}-${index}`}>
-                            <li className={cl.category__item} key={`${item.href}-${index}`}>
+                        <li className={cl.category__item} key={`${item.href}-${index}`}>
+                            <Link to={item.href} className={cl.category__item_link}>
                                 <span className={cl.category__item_content}>
                                     {item.icon && typeof item.icon === 'string' ? (
                                         <img
@@ -147,8 +147,8 @@ const AsideList: React.FC<Props> = ({
                                     ) : null}
                                     {item.text}
                                 </span>
-                            </li>
-                        </Link>
+                            </Link>
+                        </li>
                     ))}
                 </ul>
             </aside>

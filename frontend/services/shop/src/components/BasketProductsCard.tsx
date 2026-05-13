@@ -6,6 +6,7 @@ import TrashIcon from '@packages/shared/src/assets/images/icons/trashIcon.svg'
 import DescriptionPrice from './UI/DescriptionPrice/DescriptionPrice';
 import { removeFromCart } from '@shop/state/basketState';
 import { ProductType } from '@packages/shared/src/utils/types/prosuctData.type';
+import { getProductImageUrl } from '@packages/shared/src/utils/api/productServiceUrl';
 
 interface BasketProductsCardProps {
     data: ProductType & {
@@ -22,7 +23,7 @@ const BasketProductsCard: React.FC<BasketProductsCardProps> = ({ data }) => {
         <div className={cl.cartItem}>
             <div className={cl.productView}>
                 <img 
-                    src={data.image}
+                    src={getProductImageUrl(data.image)}
                     className={cl.image} 
                     alt={data.name} />
             </div>

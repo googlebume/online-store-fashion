@@ -87,6 +87,50 @@
   min-width: 80px;
 }
 
+@media (max-width: 640px) {
+  .userCard {
+    flex-wrap: wrap;
+    gap: 8px;
+    padding: 12px;
+  }
+
+  .userName {
+    min-width: 0;
+    flex: 1 1 calc(100% - 60px);
+  }
+
+  .userEmail {
+    flex: 1 1 100%;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .userRole {
+    flex-shrink: 0;
+  }
+
+  .createdDate {
+    min-width: 0;
+    flex: 1 1 auto;
+  }
+
+  .menuBtn {
+    margin-left: 0;
+  }
+}
+
+@media (max-width: 400px) {
+  .userCard {
+    border-radius: 20px;
+  }
+
+  .userRole,
+  .createdDate {
+    font-size: 11px;
+  }
+}
+
 .menuBtn {
   width: 32px;
   height: 32px;

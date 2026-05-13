@@ -7,6 +7,7 @@ import {
 } from '@packages/shared/src/services/analyticsDashboardApi';
 import Button from '@packages/shared/src/components/UI/Button/Button';
 import cl from './AdminAnalytics.module.scss';
+import { getProductImageUrl } from '@packages/shared/src/utils/api/productServiceUrl';
 
 function formatUaDate(iso: string): string {
   try {
@@ -207,7 +208,7 @@ const AdminAnalytics = () => {
               {p.image ? (
                 <img
                   className={cl.productThumb}
-                  src={p.image.startsWith('http') ? p.image : `${window.location.origin}${p.image}`}
+                  src={getProductImageUrl(p.image)}
                   alt=""
                 />
               ) : (

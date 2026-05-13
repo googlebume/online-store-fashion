@@ -43,9 +43,10 @@
             transition: all 0.2s ease;
         }
 
-        a {
+        .category__item_link {
             text-decoration: none;
             color: colors.$black;
+            display: block;
         }
 
         .category__item_content {

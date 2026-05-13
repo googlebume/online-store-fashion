@@ -8,7 +8,7 @@ import { Link } from 'react-router-dom';
 
 const CompanyLogo = () => {
     return (
-        <Link to={`http://localhost:3000/${api}/shop`}>
+        <Link to={`/${api}/shop`}>
             <div className={cl.header__company}>
                 <div className={cl.company__logo}>
                     <img className={cl.logo__img} src={shopLogo} alt="companyLogo" />

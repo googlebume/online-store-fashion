@@ -3,6 +3,7 @@ import variables from '@packages/shared/src/utils/styles/colorScheme';
 import cl from '@packages/shared/src/utils/styles/modules/ProductCard.module.scss';
 import React, { useState, useEffect, useRef } from 'react';
 import { Link, useLocation } from 'react-router-dom';
+import { getProductImageUrl } from '../utils/api/productServiceUrl';
 import DescriptionPrice from '../../../../services/shop/src/components/UI/DescriptionPrice/DescriptionPrice';
 import { addToCart } from '../state/basketState';
 import { adminProductsAction } from '../utils/constants/actionsMenu';
@@ -40,16 +41,12 @@ const ProductCard: React.FC<ProductCardProp> = ({ data, prevLocation }) => {
     }, [isOpen]);
 
     const parseImageUrl = (name: string) => {
-        let parsedName: string = name.split(' ').join('-');
-        let locationPath: string = window.location.pathname;
-
-        if (
-            locationPath.split('/').includes('product') &&
-            prevLocation?.split('/').includes('product')
-        ) {
+        const parsedName = name.split(' ').join('-');
+        const locationPath = window.location.pathname;
+        if (locationPath.split('/').includes('product')) {
             return `/fashion/shop/product/${parsedName}`;
         }
-        return 'product' + '/' + parsedName;
+        return 'product/' + parsedName;
     };
 
     const handleCartClick = (e: React.MouseEvent) => {
@@ -63,7 +60,7 @@ const ProductCard: React.FC<ProductCardProp> = ({ data, prevLocation }) => {
         <article className={cl.product__card}>
             <Link to={location.pathname.includes('admin') ? null : parseImageUrl(data.name)}>
                 <div className={cl.product__img}>
-                    <img src={data.image} alt={`${data.name}`} />
+                    <img src={getProductImageUrl(data.image)} alt={`${data.name}`} />
                     {data.discount && <DisplayDiscount discount={data.discount} />}
                 </div>
                 <div className={cl.product__description}>

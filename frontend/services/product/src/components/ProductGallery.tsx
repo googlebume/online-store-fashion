@@ -1,6 +1,7 @@
 import React, { useState, useRef } from 'react';
 import cl from '@/utils/styles/modules/ProductGallery.module.scss'
 import ProductGalleryThumbnail from './UI/ProductGalleryThumbnail/ProductGalleryThumbnail';
+import { getProductImageUrl } from '@packages/shared/src/utils/api/productServiceUrl';
 
 interface GalleryInterface {
     image: string;
@@ -48,7 +49,7 @@ const ProductGallery: React.FC<GalleryInterface> = ({image, alt}) => {
                 style={{ overflow: 'hidden' }}
             >
                 <img
-                    src={image}
+                    src={getProductImageUrl(image)}
                     alt={alt}
                     className={cl.mainImage}
                     style={imageStyle}
