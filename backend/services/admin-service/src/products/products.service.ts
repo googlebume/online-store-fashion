@@ -44,6 +44,7 @@ export class ProductsService {
     try {
       const price = typeof data.price === 'string' ? Number(data.price) : data.price;
       const discount = typeof data.discount === 'string' ? Number(data.discount) : data.discount;
+      const attributes = typeof data.attributes === 'string' ? JSON.parse(data.attributes) : data.attributes;
       const payload = {
         id: data.id,
         name: data.name,
@@ -51,6 +52,7 @@ export class ProductsService {
         price,
         discount,
         brand: data.brand || '',
+        attributes,
       };
 
       const response = await this.rpc('edit_product', payload);

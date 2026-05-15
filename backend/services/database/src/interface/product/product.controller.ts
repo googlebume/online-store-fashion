@@ -43,7 +43,7 @@ export class ProductController {
   @MessagePattern('get_products')
   async getProducts() {
     console.log('[ProductController] get_products called');
-    const result = await this.getAllProductsHandler.execute(new GetAllProductsQuery(false));
+    const result = await this.getAllProductsHandler.execute(new GetAllProductsQuery(true));
     console.log('[ProductController] getAllProductsHandler result.ok:', result.ok);
     if (!result.ok) {
       console.error('[ProductController] Error:', result.error.message);

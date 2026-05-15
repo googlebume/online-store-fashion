@@ -7,53 +7,45 @@
         position: absolute;
         opacity: 0;
         visibility: hidden;
-        transform: scale(0.8) translateY(10px);
-        
-        width: 24px;
-        height: 24px;
-        left: 0;
-        bottom: 0;
-        border-radius: 50%;
-        transition: all 0.3s ease;
-        z-index: 10;
-        
-        background-color: transparent;
-        padding: 0;
+        top: calc(100% + 6px);
+        right: 0;
+        z-index: 100;
 
-        transform: scale(1) translateY(0);
-        
-        backdrop-filter: blur(8px);
-        border-radius: 10px;
-        padding: 2px 18px 2px 2px;
         width: fit-content;
         height: auto;
-        transition: all 0.3s ease;
-        
+        border-radius: 10px;
+        padding: 2px 18px 2px 2px;
+        background-color: colors.$milkish;
+        border: 1px solid colors.$gray;
+        backdrop-filter: blur(8px);
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.10);
+        transition: opacity 0.2s ease, visibility 0.2s ease;
+
         .option {
             width: 100%;
+            white-space: nowrap;
             padding: 8px;
             border-radius: 8px;
             border-left: 1px solid colors.$gray;
             background-color: transparent;
             color: colors.$black;
+            cursor: pointer;
             transition: all 0.2s ease;
-            
+
             &:not(:last-child) {
                 margin-bottom: 4px;
             }
-            
+
             &:hover {
                 border-left: 2px solid colors.$yellow;
                 padding-left: 10px;
-                background-color: colors.$white, 5%;
                 transform: translateX(6px);
             }
         }
     }
-    
+
     .open {
         visibility: visible;
         opacity: 1;
     }
 }
-

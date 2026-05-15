@@ -194,11 +194,39 @@ export class PrismaProductRepository implements IProductRepository {
       const product = await this.prisma.products.findUnique({ where: { id } });
       if (!product) return fail(new ProductNotFoundError(id));
 
+      const { attributes, ...productFields } = partial;
+
       const updated = await this.prisma.products.update({
         where: { id },
-        data: partial,
+        data: productFields,
+        include: { attributes: true },
       });
-      return ok(ProductMapper.toDomain(updated));
+
+      if (attributes && typeof attributes === 'object') {
+        const { type, category, color, size, brand, material, countryOfOrigin, weight } = attributes;
+        const attrData: Record<string, any> = {};
+        if (type !== undefined) attrData.type = type;
+        if (category !== undefined) attrData.category = category;
+        if (color !== undefined) attrData.color = color;
+        if (size !== undefined) attrData.size = size;
+        if (brand !== undefined) attrData.brand = brand;
+        if (material !== undefined) attrData.material = material;
+        if (countryOfOrigin !== undefined) attrData.countryOfOrigin = countryOfOrigin;
+        if (weight !== undefined) attrData.weight = Number(weight);
+
+        if (Object.keys(attrData).length > 0) {
+          await this.prisma.attributes.updateMany({
+            where: { productsId: id },
+            data: attrData,
+          });
+        }
+      }
+
+      const withAttrs = await this.prisma.products.findUnique({
+        where: { id },
+        include: { attributes: true },
+      });
+      return ok(ProductMapper.toDomain(withAttrs));
     } catch (error) {
       return fail(new Error(`Failed to update product: ${error}`));
     }

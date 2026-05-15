@@ -4,12 +4,27 @@
   width: 100%;
   display: grid;
   gap: 20px;
+  padding-bottom: 20px;
 }
 
 .topBar {
   display: flex;
   align-items: center;
   justify-content: space-between;
+}
+
+.backLink {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  font-size: 14px;
+  color: colors.$ashDarkenedText;
+  transition: color 0.15s;
+
+  &:hover {
+    color: colors.$black;
+  }
 }
 
 .header {

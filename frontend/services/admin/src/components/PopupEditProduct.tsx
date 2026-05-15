@@ -38,7 +38,15 @@ const PopupEditProduct = <T extends 'edit' | 'add'>({ ...props }: PopupEditProdu
         };
     }, []);
 
-    const [productData, setProductData] = useState<ProductType>(initialData);
+    const normalizedInitial: ProductType = isEditMode
+        ? {
+              ...initialData,
+              attributes: Array.isArray(initialData.attributes)
+                  ? initialData.attributes[0] ?? ({} as any)
+                  : (initialData.attributes ?? ({} as any)),
+          }
+        : initialData;
+    const [productData, setProductData] = useState<ProductType>(normalizedInitial);
     const [productImage, setProductImage] = useState<File | null>(null);
 
     function handleProdDataChange(field: keyof ProductType, value: string | number | File, attr?: keyof ProductAttrType) {

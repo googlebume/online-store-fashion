@@ -124,12 +124,7 @@ const AdminProductDetail = () => {
   return (
     <div className={cl.layout}>
       <div className={cl.topBar}>
-        <Button
-          variant="submit-secondary"
-          type="button"
-          text="Назад до товарів"
-          onClick={() => navigate(-1)}
-        />
+        <button className={cl.backLink} onClick={() => navigate(-1)}>Назад до товарів</button>
         <ActionsMenu
           actionList={adminProductsAction(product, setSelectedProduct, setDeletedProduct)}
           ref={menuRef}
