@@ -2,6 +2,7 @@ import React, { useEffect, useState, createContext, useContext, Dispatch, SetSta
 import type { ProductType } from "@packages/shared/src/utils/types/prosuctData.type";
 import { useFetch } from '@packages/shared/src/utils/hooks/useFetch';
 import { useLocation } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 import ProductCard from '@packages/shared/src/components/ProductCard';
 import PopupEditProduct from '../../components/PopupEditProduct';
 
@@ -12,6 +13,8 @@ import Button from '@packages/shared/src/components/UI/Button/Button';
 import PlusIcon from '@packages/shared/src/assets/images/icons/plusIcon.svg';
 
 import Cookies from '@packages/shared/src/utils/cookies';
+import { setProducts } from '@packages/shared/src/store';
+import type { RootState } from '@packages/shared/src/store';
 
 export const ProdContext = createContext<{
     setSelectedProduct: Dispatch<SetStateAction<ProductType | null>>;
@@ -35,7 +38,10 @@ export const useProdContext = () => {
 
 const AdminProducts = () => {
     const location = useLocation();
+    const dispatch = useDispatch();
     const { response, error, isLoading, fetchData } = useFetch<null, ProductType[]>();
+    const filteredProducts = useSelector((state: RootState) => state.filteredProducts.filteredProducts);
+    const filtersActive = useSelector((state: RootState) => state.filteredProducts.filtersActive);
     const [lastOfPath, setLastOfPath] = useState('');
     const [selectedProduct, setSelectedProduct] = useState<ProductType | null>(null);
     const [deletedProduct, setDeletedProduct] = useState<ProductType | null>(null);
@@ -65,8 +71,10 @@ const AdminProducts = () => {
     }, [lastOfPath]);
 
     useEffect(() => {
-        console.log(response);
-    }, [response]);
+        if (Array.isArray(response)) {
+            dispatch(setProducts(response));
+        }
+    }, [response, dispatch]);
 
     if (lastOfPath === 'users') {
         return null;
@@ -141,15 +149,15 @@ const AdminProducts = () => {
             <div className={cl.overview__prod}>
                 <ProdContext.Provider value={{ setSelectedProduct, selectedProduct, setDeletedProduct, deletedProduct }}>
 
-                    {Array.isArray(returnFiltered) && returnFiltered.length > 0
-                        ? returnFiltered.map((prod, index) => (
+                    {(() => {
+                        const baseList = filtersActive ? filteredProducts : (Array.isArray(response) ? response : []);
+                        const displayList = Array.isArray(returnFiltered) && returnFiltered.length > 0
+                            ? returnFiltered.filter((p) => !filtersActive || filteredProducts.some((fp) => fp.id === p.id))
+                            : baseList;
+                        return displayList.map((prod, index) => (
                             <ProductCard key={prod.id || index} data={prod as ProductType} />
-                        ))
-                        : Array.isArray(response) && response.length > 0
-                            ? response.map((prod, index) => (
-                                <ProductCard key={prod.id || index} data={prod as ProductType} />
-                            ))
-                            : null}
+                        ));
+                    })()}
 
                     {selectedProduct !== null && (
                         <PopupEditProduct

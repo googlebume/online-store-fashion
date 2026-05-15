@@ -1,5 +1,6 @@
 import { Module } from '@nestjs/common';
 import { ProductReviewsController } from './product-reviews.controller';
+import { AdminReviewsController } from './admin-reviews.controller';
 import { ProductReviewsService } from './product-reviews.service';
 import { DatabaseReviewGateway } from '../infrastructure/reviews/database-review.gateway';
 import { PRODUCT_REVIEW_GATEWAY } from '../domain/reviews/product-review.gateway.port';
@@ -8,7 +9,7 @@ import { ProductCardsLinksModule } from '../product-cards-links/product-cards-li
 
 @Module({
   imports: [ProductCardsLinksModule],
-  controllers: [ProductReviewsController],
+  controllers: [ProductReviewsController, AdminReviewsController],
   providers: [
     ProductReviewsService,
     DatabaseClientProvider,

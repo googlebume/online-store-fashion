@@ -10,6 +10,11 @@ export type ReviewDto = {
   createdAt: string;
 };
 
+export type UserReviewDto = ReviewDto & {
+  productId: string;
+  productName: string;
+};
+
 export type ReviewStatsDto = {
   totalReviews: number;
   averageRating: number;
@@ -30,6 +35,12 @@ export interface IProductReviewGateway {
     limit: number,
   ): Promise<{ success: boolean; data?: ReviewDto[]; meta?: ReviewsListMeta; message?: string }>;
 
+  listReviewsByUser(
+    userId: string,
+    page: number,
+    limit: number,
+  ): Promise<{ success: boolean; data?: UserReviewDto[]; meta?: ReviewsListMeta; message?: string }>;
+
   createReview(payload: {
     userId: string;
     productId: string;
@@ -39,4 +50,5 @@ export interface IProductReviewGateway {
   }): Promise<{ success: boolean; data?: ReviewDto; message?: string }>;
 
   getStats(productId: string): Promise<{ success: boolean; data?: ReviewStatsDto; message?: string }>;
+  deleteReview(reviewId: string): Promise<{ success: boolean; message?: string }>;
 }

@@ -8,6 +8,12 @@
     display: flex;
     min-height: 60vh;
 
+    .aside {
+        display: flex;
+        flex-direction: column;
+        flex-shrink: 0;
+    }
+
     .content {
         flex: 1;
         max-width: calc(consts.$clientWidth - consts.$asideWidth + 8px);

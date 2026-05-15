@@ -46,6 +46,22 @@ export class ProductReviewsService {
     return result.data;
   }
 
+  async listByUserId(userId: string, page: number, limit: number) {
+    const result = await this.reviewsGateway.listReviewsByUser(userId, page, limit);
+    if (!result.success) {
+      throw new HttpException(result.message || 'Не вдалося завантажити відгуки', HttpStatus.BAD_REQUEST);
+    }
+    return { data: result.data ?? [], meta: result.meta };
+  }
+
+  async deleteReview(reviewId: string): Promise<{ success: boolean; message?: string }> {
+    const result = await this.reviewsGateway.deleteReview(reviewId);
+    if (!result.success) {
+      throw new HttpException(result.message || 'Не вдалося видалити відгук', HttpStatus.BAD_REQUEST);
+    }
+    return { success: true };
+  }
+
   async createForProductName(
     name: string,
     body: { userId: string; reviewTitle: string; text: string; stars: number },

@@ -7,6 +7,7 @@ import {
   ProductReviewStats,
   REVIEW_REPOSITORY_PORT,
   ReviewListResult,
+  UserReviewListResult,
 } from '../../../domain/review/ports/review-repository.port';
 import { ReviewEntity } from '../../../domain/review/entities/review.entity';
 import { DuplicateProductReviewError } from '../../../domain/review/exceptions/review.exceptions';
@@ -76,6 +77,37 @@ export class PrismaReviewRepository implements IReviewRepository {
       return ok({ items, total });
     } catch (error) {
       return fail(new Error(`Не вдалося отримати відгуки: ${error}`));
+    }
+  }
+
+  async findByUserId(userId: string, skip: number, take: number): Promise<Result<UserReviewListResult, Error>> {
+    try {
+      const [rows, total] = await this.prisma.$transaction([
+        this.prisma.reviews.findMany({
+          where: { userId },
+          include: { product: { select: { name: true } } },
+          orderBy: { createdAt: 'desc' },
+          skip,
+          take,
+        }),
+        this.prisma.reviews.count({ where: { userId } }),
+      ]);
+
+      const items = rows.map((row) => ({
+        id: row.id,
+        userId: row.userId,
+        userName: row.userName,
+        reviewTitle: row.reviewTitle,
+        text: row.rewiew,
+        stars: row.stars,
+        createdAt: row.createdAt.toISOString(),
+        productId: row.productId,
+        productName: row.product.name,
+      }));
+
+      return ok({ items, total });
+    } catch (error) {
+      return fail(new Error(`Не вдалося отримати відгуки користувача: ${error}`));
     }
   }
 
@@ -156,6 +188,22 @@ export class PrismaReviewRepository implements IReviewRepository {
         minRating: aggregate._min.stars ?? 0,
       },
     });
+  }
+
+  async deleteById(reviewId: string): Promise<Result<void, Error>> {
+    try {
+      const row = await this.prisma.reviews.findUnique({ where: { id: reviewId } });
+      if (!row) {
+        return fail(new Error('Відгук не знайдено'));
+      }
+      await this.prisma.$transaction(async tx => {
+        await tx.reviews.delete({ where: { id: reviewId } });
+        await this.syncProductAnalytics(tx, row.productId);
+      });
+      return ok(undefined as unknown as void);
+    } catch (error) {
+      return fail(new Error(`Не вдалося видалити відгук: ${error}`));
+    }
   }
 
   private isUniqueViolation(error: unknown): boolean {

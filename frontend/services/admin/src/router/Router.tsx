@@ -10,6 +10,8 @@ import { LazyAdminProducts } from "@/pages/AdminProducts/AdminProducts.lazy";
 import { AdminIndexLazy } from "@/pages/AdminIndex/AdminIndex.lazy";
 import { LazyAdminOrders } from "@/pages/AdminOrders/AdminOrders.lazy";
 import { LazyAdminPromoCodes } from "@/pages/AdminPromoCodes/AdminPromoCodes.lazy";
+import { LazyAdminProductDetail } from "@/pages/AdminProductDetail/AdminProductDetail.lazy";
+import { LazyAdminUserDetail } from "@/pages/AdminUserDetail/AdminUserDetail.lazy";
 
 // import Cookies from "@packages/shared/src/utils/cookies"
 
@@ -55,6 +57,14 @@ const routes = [
                 index: true,
                 path: `${adminRoutes.analytics}`,
                 element: <Suspense fallback={'Loading...'}><LazyAdminAnalytics /></Suspense>
+            },
+            {
+                path: `${adminRoutes.productDetail}`,
+                element: <Suspense fallback={'Loading...'}><LazyAdminProductDetail /></Suspense>
+            },
+            {
+                path: `${adminRoutes.userDetail}`,
+                element: <Suspense fallback={'Loading...'}><LazyAdminUserDetail /></Suspense>
             },
         ]
     },

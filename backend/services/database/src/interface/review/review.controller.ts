@@ -3,9 +3,13 @@ import { MessagePattern, Payload } from '@nestjs/microservices';
 import { Serializers } from '../shared/serializers';
 import { CreateReviewHandler } from '../../application/review/handlers/create-review.handler';
 import { ListReviewsByProductHandler } from '../../application/review/handlers/list-reviews-by-product.handler';
+import { ListReviewsByUserHandler } from '../../application/review/handlers/list-reviews-by-user.handler';
 import { GetProductReviewStatsHandler } from '../../application/review/handlers/get-product-review-stats.handler';
+import { DeleteReviewHandler } from '../../application/review/handlers/delete-review.handler';
 import { CreateReviewCommand } from '../../application/review/commands/create-review.command';
+import { DeleteReviewCommand } from '../../application/review/commands/delete-review.command';
 import { ListReviewsByProductQuery } from '../../application/review/queries/list-reviews-by-product.query';
+import { ListReviewsByUserQuery } from '../../application/review/queries/list-reviews-by-user.query';
 import { GetProductReviewStatsQuery } from '../../application/review/queries/get-product-review-stats.query';
 
 @Controller()
@@ -13,7 +17,9 @@ export class ReviewController {
   constructor(
     private readonly createReview: CreateReviewHandler,
     private readonly listReviews: ListReviewsByProductHandler,
+    private readonly listUserReviews: ListReviewsByUserHandler,
     private readonly getStats: GetProductReviewStatsHandler,
+    private readonly deleteReview: DeleteReviewHandler,
   ) {}
 
   @MessagePattern('get_product_reviews')
@@ -80,5 +86,40 @@ export class ReviewController {
       return { success: false, message: result.error.message };
     }
     return { success: true, data: result.value };
+  }
+
+  @MessagePattern('delete_review')
+  async handleDeleteReview(@Payload() data: { reviewId: string }) {
+    const result = await this.deleteReview.execute(new DeleteReviewCommand(data.reviewId));
+    if (!result.ok) {
+      return { success: false, message: result.error.message };
+    }
+    return { success: true };
+  }
+
+  @MessagePattern('get_user_reviews')
+  async handleGetUserReviews(
+    @Payload() data: { userId: string; page?: number; limit?: number },
+  ) {
+    const page = Math.max(1, data.page ?? 1);
+    const limit = Math.min(50, Math.max(1, data.limit ?? 10));
+
+    const result = await this.listUserReviews.execute(
+      new ListReviewsByUserQuery(data.userId, page, limit),
+    );
+    if (!result.ok) {
+      return { success: false, message: result.error.message };
+    }
+
+    return {
+      success: true,
+      data: result.value.items,
+      meta: {
+        total: result.value.total,
+        page,
+        limit,
+        hasMore: page * limit < result.value.total,
+      },
+    };
   }
 }

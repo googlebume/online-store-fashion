@@ -1,9 +1,57 @@
-.overview__prod {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-    min-width: 0;
-    gap: 8px 6px;
+@use '@packages/shared/src/utils/styles/colorScheme' as colors;
+
+.overview {
     width: 100%;
+}
+
+.toolbar {
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: center;
+    gap: 10px;
     margin-bottom: 16px;
+    min-width: 0;
+}
+
+.searchInput {
+    flex: 1;
+    min-width: 0;
+    height: 42px;
+    padding: 0 14px;
+    border: 1px solid colors.$gray;
+    border-radius: 12px;
+    background: colors.$milkish;
+    font-size: 14px;
+    color: colors.$black;
+    outline: none;
+    transition: border-color 0.15s;
+
+    &::placeholder {
+        color: colors.$ashDarkenedText;
+    }
+
+    &:hover,
+    &:focus {
+        border-color: colors.$ashDarkenedText;
+    }
+}
+
+.roleFilter {
+    flex: 0 0 auto;
+    height: 42px;
+    padding: 0 12px;
+    border: 1px solid colors.$gray;
+    border-radius: 12px;
+    background: colors.$milkish;
+    font-size: 14px;
+    color: colors.$black;
+    cursor: pointer;
+    outline: none;
+    transition: border-color 0.15s;
+
+    &:hover,
+    &:focus {
+        border-color: colors.$ashDarkenedText;
+    }
 }
 

@@ -1,0 +1,258 @@
+@use '@packages/shared/src/utils/styles/colorScheme' as colors;
+
+.layout {
+  width: 100%;
+  display: grid;
+  gap: 20px;
+}
+
+.backBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+  color: colors.$ashDarkenedText;
+  padding: 4px 0;
+  transition: color 0.15s;
+
+  &:hover {
+    color: colors.$black;
+  }
+}
+
+.header {
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
+  border: 1px solid colors.$gray;
+  border-radius: 24px;
+  background: colors.$milkish;
+  padding: 20px;
+}
+
+.productImage {
+  width: 140px;
+  height: 140px;
+  object-fit: cover;
+  border-radius: 16px;
+  background: colors.$gray;
+  flex-shrink: 0;
+}
+
+.productInfo {
+  flex: 1;
+  min-width: 0;
+}
+
+.productName {
+  margin: 0 0 8px;
+  font-size: 22px;
+  font-weight: 700;
+  color: colors.$black;
+}
+
+.productMeta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 16px;
+  font-size: 14px;
+  color: colors.$ashDarkenedText;
+  margin: 0;
+}
+
+.price {
+  font-size: 18px;
+  font-weight: 600;
+  color: colors.$black;
+}
+
+.statsRow {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(120px, 1fr));
+  gap: 12px;
+}
+
+.statCard {
+  border: 1px solid colors.$gray;
+  border-radius: 20px;
+  background: colors.$milkish;
+  padding: 16px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.statLabel {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: colors.$ashDarkenedText;
+  font-weight: 600;
+}
+
+.statValue {
+  font-size: 28px;
+  font-weight: 700;
+  color: colors.$black;
+  line-height: 1.1;
+}
+
+.section {
+  border: 1px solid colors.$gray;
+  border-radius: 24px;
+  background: colors.$milkish;
+  padding: 20px;
+}
+
+.sectionTitle {
+  margin: 0 0 16px;
+  font-size: 16px;
+  font-weight: 600;
+  color: colors.$black;
+}
+
+.reviewStats {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.avgRating {
+  font-size: 40px;
+  font-weight: 700;
+  color: colors.$black;
+  line-height: 1;
+}
+
+.ratingMeta {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.stars {
+  display: flex;
+  gap: 2px;
+  font-size: 20px;
+}
+
+.star {
+  color: colors.$gray;
+
+  &.filled {
+    color: colors.$yellow;
+  }
+}
+
+.ratingLabel {
+  font-size: 13px;
+  color: colors.$ashDarkenedText;
+}
+
+.ratingBars {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.ratingBar {
+  display: grid;
+  grid-template-columns: 16px 16px 1fr 28px;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: colors.$ashDarkenedText;
+}
+
+.barContainer {
+  height: 8px;
+  border-radius: 4px;
+  background: rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+}
+
+.barFill {
+  height: 100%;
+  border-radius: 4px;
+  background: colors.$yellow;
+  min-width: 2px;
+}
+
+.reviewList {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.reviewItem {
+  border-bottom: 1px solid colors.$gray;
+  padding-bottom: 16px;
+
+  &:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+  }
+}
+
+.reviewHeader {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 6px;
+  flex-wrap: wrap;
+}
+
+.reviewerName {
+  font-weight: 500;
+  font-size: 14px;
+  color: colors.$black;
+}
+
+.reviewDate {
+  font-size: 12px;
+  color: colors.$ashDarkenedText;
+  margin-left: auto;
+}
+
+.reviewText {
+  font-size: 14px;
+  color: colors.$black;
+  margin: 0;
+  line-height: 1.5;
+}
+
+.loadMoreBtn {
+  margin-top: 12px;
+  display: block;
+  width: 100%;
+  padding: 10px;
+  border: 1px solid colors.$gray;
+  border-radius: 12px;
+  background: colors.$milkish;
+  cursor: pointer;
+  font-size: 14px;
+  color: colors.$ashDarkenedText;
+  transition: background 0.15s;
+
+  &:hover {
+    background: colors.$gray;
+  }
+}
+
+.empty {
+  padding: 24px;
+  text-align: center;
+  color: colors.$ashDarkenedText;
+  font-size: 14px;
+}
+
+.loading {
+  padding: 24px;
+  text-align: center;
+  color: colors.$ashDarkenedText;
+  font-size: 14px;
+}

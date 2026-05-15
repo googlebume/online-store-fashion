@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import cl from '@/utils/styles/modules/UserCard.module.scss';
 import userIcon from '@packages/shared/src/assets/images/icons/userIcon.png';
 
@@ -10,11 +11,12 @@ import { useUsersContext } from '@/pages/AdminUsers/AdminUsers';
 const UserCard: React.FC<{ users: UserDataType[] }> = ({ users=[] }) => {
     const { setSelectedUser, setDeletedUser } = useUsersContext();
     const menuRef = useRef<HTMLDivElement>(null);
+    const navigate = useNavigate();
 
     return (
         <>
             {users.map((props: UserDataType, index: number) => (
-                <div key={index} className={cl.userCard}>
+                <div key={index} className={cl.userCard} onClick={() => navigate(`/fashion/admin/users/${props.id}`)} style={{ cursor: 'pointer' }}>
                     <div className={cl.avatar}>
                         {props.avatar ? (
                             <img src={props.avatar} alt={props.name} />

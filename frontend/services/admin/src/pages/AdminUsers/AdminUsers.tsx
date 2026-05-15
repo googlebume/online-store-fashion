@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState, useContext, createContext, Dispatch, SetStateAction } from 'react';
+import React, { useCallback, useEffect, useState, useContext, createContext, Dispatch, SetStateAction, useMemo } from 'react';
 import type { UserDataType } from '@packages/shared/src/utils/types/userData.type';
 import { useFetch } from '@packages/shared/src/utils/hooks/useFetch';
 import { useLocation } from 'react-router-dom';
@@ -35,6 +35,8 @@ const AdminUsers = () => {
     const [lastOfPath, setLastOfPath] = useState('');
     const [selectedUser, setSelectedUser] = useState<UserDataType | null>(null);
     const [deletedUser, setDeletedUser] = useState<UserDataType | null>(null);
+    const [searchTerm, setSearchTerm] = useState<string>('');
+    const [roleFilter, setRoleFilter] = useState<string>('');
 
     const cookies = new Cookies();
 
@@ -76,6 +78,34 @@ const AdminUsers = () => {
             });
     }, [deletedUser, loadUsers]);
 
+    const allUsers = Array.isArray(response) ? (response as UserDataType[]) : [];
+
+    const displayUsers = useMemo(() => {
+        let result = allUsers;
+        if (searchTerm.trim()) {
+            const term = searchTerm.trim().toLowerCase();
+            result = result.filter(
+                (u) => u.name.toLowerCase().includes(term) || u.email.toLowerCase().includes(term),
+            );
+        }
+        if (roleFilter) {
+            result = result.filter((u) => {
+                const roles = Array.isArray(u.role) ? u.role : [u.role];
+                return roles.some((r) => r === roleFilter);
+            });
+        }
+        return result;
+    }, [searchTerm, allUsers, roleFilter]);
+
+    const uniqueRoles = useMemo(() => {
+        const roles = new Set<string>();
+        allUsers.forEach((u) => {
+            const r = Array.isArray(u.role) ? u.role : [u.role];
+            r.forEach((role) => roles.add(role));
+        });
+        return Array.from(roles).sort();
+    }, [allUsers]);
+
     if (lastOfPath !== 'users') {
         return null;
     }
@@ -83,8 +113,29 @@ const AdminUsers = () => {
     return (
         <div className={cl.overview}>
             <UsersContext.Provider value={{ setSelectedUser, selectedUser, setDeletedUser, deletedUser }}>
-                {response && Array.isArray(response) && response.length > 0 && (
-                    <UserCard users={response as UserDataType[]} />
+                {response && (
+                    <div className={cl.toolbar}>
+                        <input
+                            type="text"
+                            className={cl.searchInput}
+                            placeholder="Пошук за ім'ям або email…"
+                            value={searchTerm}
+                            onChange={(e) => setSearchTerm(e.target.value)}
+                        />
+                        <select
+                            className={cl.roleFilter}
+                            value={roleFilter}
+                            onChange={(e) => setRoleFilter(e.target.value)}
+                        >
+                            <option value="">Усі ролі</option>
+                            {uniqueRoles.map((role) => (
+                                <option key={role} value={role}>{role}</option>
+                            ))}
+                        </select>
+                    </div>
+                )}
+                {displayUsers.length > 0 && (
+                    <UserCard users={displayUsers} />
                 )}
                 {selectedUser ? (
                     <PopupEditUser

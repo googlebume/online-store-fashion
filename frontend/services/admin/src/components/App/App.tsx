@@ -1,18 +1,23 @@
-import React, {useState} from 'react';
+import React from 'react';
 import cl from './App.module.scss'
-import {Link, Outlet} from "react-router-dom";
-import {deepMerge} from '@packages/shared/src/utils/deepMerge'
+import { Outlet, useLocation } from "react-router-dom";
 import { administrationListItems } from '@/utils/constants/administrationList';
 
 import AsideList from '@packages/shared/src/components/AsideList';
 import AnalyticsRouteTracker from '@packages/shared/src/components/AnalyticsRouteTracker';
+import FiltersStickyBar from '@packages/shared/src/components/FiltersStickyBar';
 
 export const App = () => {
-    // deepMerge()
+    const location = useLocation();
+    const isProductsPage = location.pathname === '/fashion/admin/products';
+
     return (
         <div className={cl.wrapper}>
             <AnalyticsRouteTracker />
-            <AsideList section={ administrationListItems } enableMobileAsideDrawer />
+            <div className={cl.aside}>
+                <AsideList section={ administrationListItems } enableMobileAsideDrawer />
+                {isProductsPage && <FiltersStickyBar />}
+            </div>
             <div className={cl.content}>
                     <Outlet />
             </div>
