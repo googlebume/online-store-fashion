@@ -14,6 +14,9 @@ interface EnvVariables {
 }
 
 export default (env: EnvVariables) => {
+    const isDev = (env.mode ?? 'development') === 'development';
+    const svcUrl = (v: string | undefined) => isDev ? '' : (v?.trim() || '');
+
     const paths: BuildPaths = {
         output: path.resolve(__dirname, 'build'),
         entry: path.resolve(__dirname, 'src', 'index.tsx'),
@@ -53,16 +56,11 @@ export default (env: EnvVariables) => {
         },
     }))
 
-    const productBase =
-        process.env.PRODUCT_SERVICE_URL?.trim() ||
-        process.env.VITE_PRODUCT_SERVICE_URL?.trim() ||
-        ''
-
     config.plugins!.push(
         new webpack.DefinePlugin({
-            __PRODUCT_SERVICE_BASE_URL__: JSON.stringify(productBase),
-            __ANALYTICS_SERVICE_URL__: JSON.stringify(process.env.ANALYTICS_SERVICE_URL?.trim() || ''),
-            __DATABASE_SERVICE_BASE_URL__: JSON.stringify(process.env.DATABASE_SERVICE_URL?.trim() || ''),
+            __PRODUCT_SERVICE_BASE_URL__: JSON.stringify(svcUrl(process.env.PRODUCT_SERVICE_URL) || svcUrl(process.env.VITE_PRODUCT_SERVICE_URL)),
+            __ANALYTICS_SERVICE_URL__: JSON.stringify(svcUrl(process.env.ANALYTICS_SERVICE_URL)),
+            __DATABASE_SERVICE_BASE_URL__: JSON.stringify(svcUrl(process.env.DATABASE_SERVICE_URL)),
         }),
     )
 

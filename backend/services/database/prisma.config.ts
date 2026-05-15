@@ -1,10 +1,11 @@
 import { defineConfig } from '@prisma/config';
 import { config } from 'dotenv';
 
-config({ path: '.env.development' });
+const isProd = process.env.NODE_ENV === 'production';
+config({ path: isProd ? '.env' : '.env.development' });
 
 export default defineConfig({
-  schema: './prisma/schema.prisma',
+  schema: isProd ? './prisma/schema.prod.prisma' : './prisma/schema.prisma',
   datasource: {
     url: process.env.DATABASE_URL as string,
   },

@@ -1,3 +1,8 @@
+import { config } from 'dotenv';
+if (process.env.NODE_ENV !== 'production') {
+  config({ path: '.env.development' });
+}
+
 import { NestFactory } from '@nestjs/core';
 import { Transport } from '@nestjs/microservices';
 import { AppModule } from './interface/app.module';

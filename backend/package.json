@@ -19,6 +19,8 @@
     "start:backend": "mkdir -p node_modules/@prisma/client && rm -f node_modules/@prisma/client/.prisma && ln -sf ../../../.prisma node_modules/@prisma/client/ && npm run build:all && concurrently \"npm run build:shared:watch\" \"npm run build:config:watch\" \"npm run start:database\" \"npm run start:productService\" \"npm run start:authService\" \"npm run start:adminService\" \"npm run start:orderService\" \"npm run start:analyticsService\"",
     "start:dev": "npm run start:backend",
     "prisma:generate": "cd services/database && npx prisma generate",
+    "prisma:generate:prod": "cd services/database && NODE_ENV=production npx prisma generate",
+    "prisma:push": "cd services/database && npx prisma db push",
     "prisma": "cd services/database && npx prisma studio",
     "seed": "npm run seed -w database"
   },

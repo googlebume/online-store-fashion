@@ -213,6 +213,7 @@ exports.Prisma.ProducsAnalyticsScalarFieldEnum = {
   views: 'views',
   clicks: 'clicks',
   orders: 'orders',
+  purchases: 'purchases',
   reviews: 'reviews',
   maxRating: 'maxRating',
   minRating: 'minRating',

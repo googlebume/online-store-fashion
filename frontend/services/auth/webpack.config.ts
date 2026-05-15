@@ -14,6 +14,9 @@ interface EnvVariables {
 }
 
 export default (env: EnvVariables) => {
+    const isDev = (env.mode ?? 'development') === 'development';
+    const svcUrl = (v: string | undefined) => isDev ? '' : (v?.trim() || '');
+
     const paths: BuildPaths = {
         output: path.resolve(__dirname, 'build'),
         entry: path.resolve(__dirname, 'src', 'index.tsx'),
@@ -31,8 +34,8 @@ export default (env: EnvVariables) => {
     })
 
     config.plugins!.push(new webpack.DefinePlugin({
-        __AUTH_SERVICE_URL__: JSON.stringify(process.env.AUTH_SERVICE_URL?.trim() || ""),
-        __ANALYTICS_SERVICE_URL__: JSON.stringify(process.env.ANALYTICS_SERVICE_URL?.trim() || ""),
+        __AUTH_SERVICE_URL__: JSON.stringify(svcUrl(process.env.AUTH_SERVICE_URL)),
+        __ANALYTICS_SERVICE_URL__: JSON.stringify(svcUrl(process.env.ANALYTICS_SERVICE_URL)),
     }))
 
     config.plugins.push(new webpack.container.ModuleFederationPlugin({

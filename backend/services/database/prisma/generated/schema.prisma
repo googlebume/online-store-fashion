@@ -7,12 +7,10 @@
 generator client {
   provider = "prisma-client-js"
   output   = "./generated"
-  // output   = "../../../node_modules/.prisma/client"
 }
 
 datasource db {
   provider = "sqlite"
-  // url      = env("DATABASE_URL")
 }
 
 model Products {
@@ -198,6 +196,7 @@ model ProducsAnalytics {
   views     Int
   clicks    Int
   orders    Int
+  purchases Int    @default(0)
   reviews   Int
   maxRating Float
   minRating Float

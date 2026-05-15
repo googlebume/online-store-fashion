@@ -11386,6 +11386,7 @@ export namespace Prisma {
     views: number | null
     clicks: number | null
     orders: number | null
+    purchases: number | null
     reviews: number | null
     maxRating: number | null
     minRating: number | null
@@ -11395,6 +11396,7 @@ export namespace Prisma {
     views: number | null
     clicks: number | null
     orders: number | null
+    purchases: number | null
     reviews: number | null
     maxRating: number | null
     minRating: number | null
@@ -11406,6 +11408,7 @@ export namespace Prisma {
     views: number | null
     clicks: number | null
     orders: number | null
+    purchases: number | null
     reviews: number | null
     maxRating: number | null
     minRating: number | null
@@ -11419,6 +11422,7 @@ export namespace Prisma {
     views: number | null
     clicks: number | null
     orders: number | null
+    purchases: number | null
     reviews: number | null
     maxRating: number | null
     minRating: number | null
@@ -11432,6 +11436,7 @@ export namespace Prisma {
     views: number
     clicks: number
     orders: number
+    purchases: number
     reviews: number
     maxRating: number
     minRating: number
@@ -11445,6 +11450,7 @@ export namespace Prisma {
     views?: true
     clicks?: true
     orders?: true
+    purchases?: true
     reviews?: true
     maxRating?: true
     minRating?: true
@@ -11454,6 +11460,7 @@ export namespace Prisma {
     views?: true
     clicks?: true
     orders?: true
+    purchases?: true
     reviews?: true
     maxRating?: true
     minRating?: true
@@ -11465,6 +11472,7 @@ export namespace Prisma {
     views?: true
     clicks?: true
     orders?: true
+    purchases?: true
     reviews?: true
     maxRating?: true
     minRating?: true
@@ -11478,6 +11486,7 @@ export namespace Prisma {
     views?: true
     clicks?: true
     orders?: true
+    purchases?: true
     reviews?: true
     maxRating?: true
     minRating?: true
@@ -11491,6 +11500,7 @@ export namespace Prisma {
     views?: true
     clicks?: true
     orders?: true
+    purchases?: true
     reviews?: true
     maxRating?: true
     minRating?: true
@@ -11591,6 +11601,7 @@ export namespace Prisma {
     views: number
     clicks: number
     orders: number
+    purchases: number
     reviews: number
     maxRating: number
     minRating: number
@@ -11623,6 +11634,7 @@ export namespace Prisma {
     views?: boolean
     clicks?: boolean
     orders?: boolean
+    purchases?: boolean
     reviews?: boolean
     maxRating?: boolean
     minRating?: boolean
@@ -11637,6 +11649,7 @@ export namespace Prisma {
     views?: boolean
     clicks?: boolean
     orders?: boolean
+    purchases?: boolean
     reviews?: boolean
     maxRating?: boolean
     minRating?: boolean
@@ -11651,6 +11664,7 @@ export namespace Prisma {
     views?: boolean
     clicks?: boolean
     orders?: boolean
+    purchases?: boolean
     reviews?: boolean
     maxRating?: boolean
     minRating?: boolean
@@ -11665,6 +11679,7 @@ export namespace Prisma {
     views?: boolean
     clicks?: boolean
     orders?: boolean
+    purchases?: boolean
     reviews?: boolean
     maxRating?: boolean
     minRating?: boolean
@@ -11672,7 +11687,7 @@ export namespace Prisma {
     updatedAt?: boolean
   }
 
-  export type ProducsAnalyticsOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "productId" | "views" | "clicks" | "orders" | "reviews" | "maxRating" | "minRating" | "createdAt" | "updatedAt", ExtArgs["result"]["producsAnalytics"]>
+  export type ProducsAnalyticsOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "productId" | "views" | "clicks" | "orders" | "purchases" | "reviews" | "maxRating" | "minRating" | "createdAt" | "updatedAt", ExtArgs["result"]["producsAnalytics"]>
   export type ProducsAnalyticsInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     product?: boolean | ProductsDefaultArgs<ExtArgs>
   }
@@ -11694,6 +11709,7 @@ export namespace Prisma {
       views: number
       clicks: number
       orders: number
+      purchases: number
       reviews: number
       maxRating: number
       minRating: number
@@ -12128,6 +12144,7 @@ export namespace Prisma {
     readonly views: FieldRef<"ProducsAnalytics", 'Int'>
     readonly clicks: FieldRef<"ProducsAnalytics", 'Int'>
     readonly orders: FieldRef<"ProducsAnalytics", 'Int'>
+    readonly purchases: FieldRef<"ProducsAnalytics", 'Int'>
     readonly reviews: FieldRef<"ProducsAnalytics", 'Int'>
     readonly maxRating: FieldRef<"ProducsAnalytics", 'Float'>
     readonly minRating: FieldRef<"ProducsAnalytics", 'Float'>
@@ -13883,6 +13900,7 @@ export namespace Prisma {
     views: 'views',
     clicks: 'clicks',
     orders: 'orders',
+    purchases: 'purchases',
     reviews: 'reviews',
     maxRating: 'maxRating',
     minRating: 'minRating',
@@ -14689,6 +14707,7 @@ export namespace Prisma {
     views?: IntFilter<"ProducsAnalytics"> | number
     clicks?: IntFilter<"ProducsAnalytics"> | number
     orders?: IntFilter<"ProducsAnalytics"> | number
+    purchases?: IntFilter<"ProducsAnalytics"> | number
     reviews?: IntFilter<"ProducsAnalytics"> | number
     maxRating?: FloatFilter<"ProducsAnalytics"> | number
     minRating?: FloatFilter<"ProducsAnalytics"> | number
@@ -14703,6 +14722,7 @@ export namespace Prisma {
     views?: SortOrder
     clicks?: SortOrder
     orders?: SortOrder
+    purchases?: SortOrder
     reviews?: SortOrder
     maxRating?: SortOrder
     minRating?: SortOrder
@@ -14720,6 +14740,7 @@ export namespace Prisma {
     views?: IntFilter<"ProducsAnalytics"> | number
     clicks?: IntFilter<"ProducsAnalytics"> | number
     orders?: IntFilter<"ProducsAnalytics"> | number
+    purchases?: IntFilter<"ProducsAnalytics"> | number
     reviews?: IntFilter<"ProducsAnalytics"> | number
     maxRating?: FloatFilter<"ProducsAnalytics"> | number
     minRating?: FloatFilter<"ProducsAnalytics"> | number
@@ -14734,6 +14755,7 @@ export namespace Prisma {
     views?: SortOrder
     clicks?: SortOrder
     orders?: SortOrder
+    purchases?: SortOrder
     reviews?: SortOrder
     maxRating?: SortOrder
     minRating?: SortOrder
@@ -14755,6 +14777,7 @@ export namespace Prisma {
     views?: IntWithAggregatesFilter<"ProducsAnalytics"> | number
     clicks?: IntWithAggregatesFilter<"ProducsAnalytics"> | number
     orders?: IntWithAggregatesFilter<"ProducsAnalytics"> | number
+    purchases?: IntWithAggregatesFilter<"ProducsAnalytics"> | number
     reviews?: IntWithAggregatesFilter<"ProducsAnalytics"> | number
     maxRating?: FloatWithAggregatesFilter<"ProducsAnalytics"> | number
     minRating?: FloatWithAggregatesFilter<"ProducsAnalytics"> | number
@@ -15518,6 +15541,7 @@ export namespace Prisma {
     views: number
     clicks: number
     orders: number
+    purchases?: number
     reviews: number
     maxRating: number
     minRating: number
@@ -15532,6 +15556,7 @@ export namespace Prisma {
     views: number
     clicks: number
     orders: number
+    purchases?: number
     reviews: number
     maxRating: number
     minRating: number
@@ -15544,6 +15569,7 @@ export namespace Prisma {
     views?: IntFieldUpdateOperationsInput | number
     clicks?: IntFieldUpdateOperationsInput | number
     orders?: IntFieldUpdateOperationsInput | number
+    purchases?: IntFieldUpdateOperationsInput | number
     reviews?: IntFieldUpdateOperationsInput | number
     maxRating?: FloatFieldUpdateOperationsInput | number
     minRating?: FloatFieldUpdateOperationsInput | number
@@ -15558,6 +15584,7 @@ export namespace Prisma {
     views?: IntFieldUpdateOperationsInput | number
     clicks?: IntFieldUpdateOperationsInput | number
     orders?: IntFieldUpdateOperationsInput | number
+    purchases?: IntFieldUpdateOperationsInput | number
     reviews?: IntFieldUpdateOperationsInput | number
     maxRating?: FloatFieldUpdateOperationsInput | number
     minRating?: FloatFieldUpdateOperationsInput | number
@@ -15571,6 +15598,7 @@ export namespace Prisma {
     views: number
     clicks: number
     orders: number
+    purchases?: number
     reviews: number
     maxRating: number
     minRating: number
@@ -15583,6 +15611,7 @@ export namespace Prisma {
     views?: IntFieldUpdateOperationsInput | number
     clicks?: IntFieldUpdateOperationsInput | number
     orders?: IntFieldUpdateOperationsInput | number
+    purchases?: IntFieldUpdateOperationsInput | number
     reviews?: IntFieldUpdateOperationsInput | number
     maxRating?: FloatFieldUpdateOperationsInput | number
     minRating?: FloatFieldUpdateOperationsInput | number
@@ -15596,6 +15625,7 @@ export namespace Prisma {
     views?: IntFieldUpdateOperationsInput | number
     clicks?: IntFieldUpdateOperationsInput | number
     orders?: IntFieldUpdateOperationsInput | number
+    purchases?: IntFieldUpdateOperationsInput | number
     reviews?: IntFieldUpdateOperationsInput | number
     maxRating?: FloatFieldUpdateOperationsInput | number
     minRating?: FloatFieldUpdateOperationsInput | number
@@ -16515,6 +16545,7 @@ export namespace Prisma {
     views?: SortOrder
     clicks?: SortOrder
     orders?: SortOrder
+    purchases?: SortOrder
     reviews?: SortOrder
     maxRating?: SortOrder
     minRating?: SortOrder
@@ -16526,6 +16557,7 @@ export namespace Prisma {
     views?: SortOrder
     clicks?: SortOrder
     orders?: SortOrder
+    purchases?: SortOrder
     reviews?: SortOrder
     maxRating?: SortOrder
     minRating?: SortOrder
@@ -16537,6 +16569,7 @@ export namespace Prisma {
     views?: SortOrder
     clicks?: SortOrder
     orders?: SortOrder
+    purchases?: SortOrder
     reviews?: SortOrder
     maxRating?: SortOrder
     minRating?: SortOrder
@@ -16550,6 +16583,7 @@ export namespace Prisma {
     views?: SortOrder
     clicks?: SortOrder
     orders?: SortOrder
+    purchases?: SortOrder
     reviews?: SortOrder
     maxRating?: SortOrder
     minRating?: SortOrder
@@ -16561,6 +16595,7 @@ export namespace Prisma {
     views?: SortOrder
     clicks?: SortOrder
     orders?: SortOrder
+    purchases?: SortOrder
     reviews?: SortOrder
     maxRating?: SortOrder
     minRating?: SortOrder
@@ -17805,6 +17840,7 @@ export namespace Prisma {
     views: number
     clicks: number
     orders: number
+    purchases?: number
     reviews: number
     maxRating: number
     minRating: number
@@ -17817,6 +17853,7 @@ export namespace Prisma {
     views: number
     clicks: number
     orders: number
+    purchases?: number
     reviews: number
     maxRating: number
     minRating: number
@@ -17939,6 +17976,7 @@ export namespace Prisma {
     views?: IntFieldUpdateOperationsInput | number
     clicks?: IntFieldUpdateOperationsInput | number
     orders?: IntFieldUpdateOperationsInput | number
+    purchases?: IntFieldUpdateOperationsInput | number
     reviews?: IntFieldUpdateOperationsInput | number
     maxRating?: FloatFieldUpdateOperationsInput | number
     minRating?: FloatFieldUpdateOperationsInput | number
@@ -17951,6 +17989,7 @@ export namespace Prisma {
     views?: IntFieldUpdateOperationsInput | number
     clicks?: IntFieldUpdateOperationsInput | number
     orders?: IntFieldUpdateOperationsInput | number
+    purchases?: IntFieldUpdateOperationsInput | number
     reviews?: IntFieldUpdateOperationsInput | number
     maxRating?: FloatFieldUpdateOperationsInput | number
     minRating?: FloatFieldUpdateOperationsInput | number

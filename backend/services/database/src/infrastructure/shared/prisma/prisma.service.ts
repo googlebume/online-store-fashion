@@ -1,23 +1,38 @@
+import * as path from 'path';
 import { Injectable, OnModuleInit, OnModuleDestroy, Logger } from '@nestjs/common';
-import { PrismaPg } from '@prisma/adapter-pg';
 import { PrismaClient } from '../../../../prisma/generated';
+
+function buildClientOptions(): ConstructorParameters<typeof PrismaClient>[0] {
+  const url = process.env.DATABASE_URL ?? 'file:./dev.db';
+
+  if (url.startsWith('file:') || url.startsWith('libsql:')) {
+    const { PrismaLibSql } = require('@prisma/adapter-libsql') as typeof import('@prisma/adapter-libsql');
+    // LibSQL requires an absolute path for local file URLs
+    const absUrl = url.startsWith('file:.') ? 'file:' + path.resolve(url.slice(5)) : url;
+    return { adapter: new PrismaLibSql({ url: absUrl }) };
+  }
+
+  const { PrismaPg } = require('@prisma/adapter-pg') as typeof import('@prisma/adapter-pg');
+  return { adapter: new PrismaPg({ connectionString: url }) };
+}
 
 @Injectable()
 export class PrismaService extends PrismaClient implements OnModuleInit, OnModuleDestroy {
   private readonly logger = new Logger(PrismaService.name);
+  private readonly isSqlite: boolean;
 
   constructor() {
-    const adapter = new PrismaPg({
-      connectionString: process.env.DATABASE_URL,
-    });
-
-    super({ adapter });
+    const url = process.env.DATABASE_URL ?? 'file:./dev.db';
+    super(buildClientOptions());
+    this.isSqlite = url.startsWith('file:') || url.startsWith('libsql:');
   }
 
   async onModuleInit() {
     await this.$connect();
-    await this.normalizeLegacyOrderStatuses();
-    await this.normalizeProductImageUrls();
+    if (!this.isSqlite) {
+      await this.normalizeLegacyOrderStatuses();
+      await this.normalizeProductImageUrls();
+    }
   }
 
   async onModuleDestroy() {
@@ -25,7 +40,6 @@ export class PrismaService extends PrismaClient implements OnModuleInit, OnModul
   }
 
   private async normalizeProductImageUrls() {
-    // Strip http(s)://host/ prefix, keeping only the relative path "products/<filename>"
     const r1 = await this.$executeRaw`
       UPDATE "Products"
       SET "image" = regexp_replace("image", '^https?://[^/]+/', '')
@@ -35,7 +49,6 @@ export class PrismaService extends PrismaClient implements OnModuleInit, OnModul
       this.logger.warn(`[normalizeProductImageUrls] Stripped http origin from ${r1} product image URL(s)`);
     }
 
-    // Strip any absolute filesystem prefix like /app/services/database/products/ → products/
     const r2 = await this.$executeRawUnsafe(
       `UPDATE "Products" SET "image" = regexp_replace("image", '^/.*?/(products/.+)$', '\\1') WHERE "image" ~ '^/.*/products/'`
     );
@@ -62,7 +75,6 @@ export class PrismaService extends PrismaClient implements OnModuleInit, OnModul
       const result = await this.$executeRawUnsafe(
         `UPDATE "Order" SET "status" = '${to}'::"OrderStatus" WHERE lower("status"::text) = '${from}'`
       );
-
       if (Number(result) > 0) {
         this.logger.warn(`[normalizeLegacyOrderStatuses] Updated ${result} order(s): "${from}" -> "${to}"`);
       }
