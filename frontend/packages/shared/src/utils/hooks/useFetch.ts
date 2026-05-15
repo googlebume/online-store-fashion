@@ -74,6 +74,14 @@ export const useFetch = <T = any, R = any>(): UseFetchReturn<R> => {
         data = null;
       }
 
+      if (res.status === 401 && !isPublicEndpoint) {
+        cookies.removeCookie('token', `/${api}`);
+        if (typeof window !== 'undefined') {
+          window.location.assign(`/${api}/register`);
+        }
+        return;
+      }
+
       if (!res.ok) {
         if (data && typeof data === 'object' && (data.message || data.error)) {
           throw new Error(data.message || data.error);

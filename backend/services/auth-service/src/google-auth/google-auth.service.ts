@@ -73,6 +73,26 @@ export class GoogleAuthService {
     });
 
     if (!createResult.success || !createResult.user) {
+      const isAlreadyExists =
+        typeof createResult.message === 'string' &&
+        createResult.message.toLowerCase().includes('already exists');
+
+      if (isAlreadyExists) {
+        const retryResult = await this.userIdentityService.getUserByEmail(email);
+        if (retryResult.user) {
+          const token = await this.tokenService.generateToken({
+            id: retryResult.user.id,
+            email: retryResult.user.email,
+            role: this.userIdentityService.normalizeRoles(retryResult.user.role),
+            name:
+              retryResult.user.name != null && String(retryResult.user.name).trim()
+                ? String(retryResult.user.name)
+                : undefined,
+          });
+          return { success: true, isNewUser: false, user: retryResult.user, token };
+        }
+      }
+
       throw new HttpException(
         createResult.message || 'Failed to create user from Google account',
         HttpStatus.CONFLICT,
