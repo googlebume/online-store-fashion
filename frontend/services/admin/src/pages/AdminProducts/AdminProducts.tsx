@@ -101,6 +101,14 @@ const AdminProducts = () => {
     }, [selectedProduct, isPopupOpen]);
 
     const [returnFiltered, setReturnFiltered] = useState<ProductType[]>([]);
+    const allList = Array.isArray(response) ? response : [];
+    const searchActive = returnFiltered.length > 0 && returnFiltered.length < allList.length;
+    const displayList = (() => {
+        const base = filtersActive ? filteredProducts : allList;
+        if (!searchActive) return base;
+        const baseIds = new Set(base.map((p) => String(p.id)));
+        return returnFiltered.filter((p) => baseIds.has(String(p.id)));
+    })();
 
     useEffect(() => {
         if (!deletedProduct) return;
@@ -149,15 +157,9 @@ const AdminProducts = () => {
             <div className={cl.overview__prod}>
                 <ProdContext.Provider value={{ setSelectedProduct, selectedProduct, setDeletedProduct, deletedProduct }}>
 
-                    {(() => {
-                        const baseList = filtersActive ? filteredProducts : (Array.isArray(response) ? response : []);
-                        const displayList = Array.isArray(returnFiltered) && returnFiltered.length > 0
-                            ? returnFiltered.filter((p) => !filtersActive || filteredProducts.some((fp) => fp.id === p.id))
-                            : baseList;
-                        return displayList.map((prod, index) => (
-                            <ProductCard key={prod.id || index} data={prod as ProductType} />
-                        ));
-                    })()}
+                    {displayList.map((prod, index) => (
+                        <ProductCard key={prod.id || index} data={prod as ProductType} />
+                    ))}
 
                     {selectedProduct !== null && (
                         <PopupEditProduct

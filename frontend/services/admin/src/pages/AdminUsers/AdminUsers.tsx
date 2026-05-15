@@ -5,6 +5,8 @@ import { useLocation } from 'react-router-dom';
 import UserCard from '@/components/UserCard';
 import Cookies from '@packages/shared/src/utils/cookies';
 import PopupEditUser from '@/components/PopupEditUser';
+import Button from '@packages/shared/src/components/UI/Button/Button';
+import magnifyingGlass from '@packages/shared/src/assets/images/icons/magnifyingGlassIcon.svg?url';
 
 import cl from './AdminUsers.module.scss';
 import { backendOriginForPort } from '@packages/shared/src/config/backendOrigin';
@@ -115,13 +117,18 @@ const AdminUsers = () => {
             <UsersContext.Provider value={{ setSelectedUser, selectedUser, setDeletedUser, deletedUser }}>
                 {response && (
                     <div className={cl.toolbar}>
-                        <input
-                            type="text"
-                            className={cl.searchInput}
-                            placeholder="Пошук за ім'ям або email…"
-                            value={searchTerm}
-                            onChange={(e) => setSearchTerm(e.target.value)}
-                        />
+                        <div className={cl.searchWrap}>
+                            <input
+                                type="text"
+                                className={cl.searchInput}
+                                placeholder="Пошук за ім'ям або email…"
+                                value={searchTerm}
+                                onChange={(e) => setSearchTerm(e.target.value)}
+                            />
+                            <div className={cl.searchIcon}>
+                                <Button variant="icon" img={magnifyingGlass} width={24} ariaLabel="Пошук" />
+                            </div>
+                        </div>
                         <select
                             className={cl.roleFilter}
                             value={roleFilter}

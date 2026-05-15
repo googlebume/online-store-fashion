@@ -6,21 +6,10 @@
   gap: 20px;
 }
 
-.backBtn {
-  display: inline-flex;
+.topBar {
+  display: flex;
   align-items: center;
-  gap: 6px;
-  background: none;
-  border: none;
-  cursor: pointer;
-  font-size: 14px;
-  color: colors.$ashDarkenedText;
-  padding: 4px 0;
-  transition: color 0.15s;
-
-  &:hover {
-    color: colors.$black;
-  }
+  justify-content: space-between;
 }
 
 .userHeader {
@@ -207,37 +196,18 @@
   font-weight: 500;
   background: rgba(0, 0, 0, 0.06);
   color: colors.$black;
+  text-decoration: none;
+  transition: background 0.15s;
+
+  &:hover {
+    background: colors.$yellow;
+  }
 }
 
 .reviewDate {
   font-size: 12px;
   color: colors.$ashDarkenedText;
   margin-left: auto;
-}
-
-.deleteReviewBtn {
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-  padding: 4px 10px;
-  border: 1px solid rgba(220, 38, 38, 0.3);
-  border-radius: 8px;
-  background: none;
-  color: #dc2626;
-  font-size: 12px;
-  cursor: pointer;
-  transition: background 0.15s, border-color 0.15s;
-  white-space: nowrap;
-
-  &:hover:not(:disabled) {
-    background: rgba(220, 38, 38, 0.07);
-    border-color: #dc2626;
-  }
-
-  &:disabled {
-    opacity: 0.45;
-    cursor: not-allowed;
-  }
 }
 
 .reviewTitle {
@@ -256,20 +226,7 @@
 
 .loadMoreBtn {
   margin-top: 12px;
-  display: block;
   width: 100%;
-  padding: 10px;
-  border: 1px solid colors.$gray;
-  border-radius: 12px;
-  background: colors.$milkish;
-  cursor: pointer;
-  font-size: 14px;
-  color: colors.$ashDarkenedText;
-  transition: background 0.15s;
-
-  &:hover {
-    background: colors.$gray;
-  }
 }
 
 .empty {

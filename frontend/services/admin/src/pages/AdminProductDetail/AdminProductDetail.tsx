@@ -1,12 +1,18 @@
-import React, { useCallback, useEffect, useState } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
+import { Link, useParams, useNavigate } from 'react-router-dom';
 import cl from './AdminProductDetail.module.scss';
 import { useFetch } from '@packages/shared/src/utils/hooks/useFetch';
 import { getProductServiceBaseUrl, getProductImageUrl } from '@packages/shared/src/utils/api/productServiceUrl';
 import { backendOriginForPort } from '@packages/shared/src/config/backendOrigin';
 import { fetchAnalyticsDashboard } from '@packages/shared/src/services/analyticsDashboardApi';
+import Cookies from '@packages/shared/src/utils/cookies';
+import Button from '@packages/shared/src/components/UI/Button/Button';
+import ActionsMenu from '@packages/shared/src/components/UI/ActionsMenu/ActionsMenu';
+import PopupEditProduct from '@/components/PopupEditProduct';
+import { adminProductsAction } from '@packages/shared/src/utils/constants/actionsMenu';
 import type { ProductType } from '@packages/shared/src/utils/types/prosuctData.type';
 import type { ProductReviewStats, ProductReviewItem, ReviewsListResponse } from '@packages/shared/src/types/reviews.types';
+import { api } from '@packages/shared/src/routes/api';
 
 function formatRelativeTimeUk(iso: string): string {
   const d = new Date(iso);
@@ -21,26 +27,35 @@ function formatRelativeTimeUk(iso: string): string {
   return d.toLocaleDateString('uk-UA');
 }
 
-function renderStars(rating: number, cl: any) {
+function renderStars(rating: number, styles: any) {
   return Array.from({ length: 5 }, (_, i) => (
-    <span key={i} className={`${cl.star} ${i < rating ? cl.filled : ''}`}>★</span>
+    <span key={i} className={`${styles.star} ${i < rating ? styles.filled : ''}`}>★</span>
   ));
 }
 
 const AdminProductDetail = () => {
   const { productId } = useParams<{ productId: string }>();
   const navigate = useNavigate();
+  const popupRef = useRef<HTMLDivElement>(null);
+  const menuRef = useRef<HTMLDivElement>(null);
+
   const [product, setProduct] = useState<ProductType | null>(null);
   const [analyticsStats, setAnalyticsStats] = useState<{ views: number; clicks: number; orders: number } | null>(null);
   const [page, setPage] = useState(1);
   const [reviews, setReviews] = useState<ProductReviewItem[]>([]);
+  const [selectedProduct, setSelectedProduct] = useState<ProductType | null>(null);
+  const [deletedProduct, setDeletedProduct] = useState<ProductType | null>(null);
 
   const { response: productsResponse, fetchData: fetchProducts } = useFetch<null, ProductType[]>();
   const { response: statsResponse, fetchData: fetchStats } = useFetch<null, ProductReviewStats>();
   const { response: listResponse, isLoading: listLoading, fetchData: fetchList } = useFetch<null, ReviewsListResponse>();
 
-  useEffect(() => {
+  const loadProducts = useCallback(() => {
     fetchProducts({ method: 'GET', url: 'admin/products', port: 5004 });
+  }, [fetchProducts]);
+
+  useEffect(() => {
+    loadProducts();
   }, []);
 
   useEffect(() => {
@@ -54,16 +69,8 @@ const AdminProductDetail = () => {
     setPage(1);
     setReviews([]);
     const name = encodeURIComponent(product.name);
-    fetchStats({
-      method: 'GET',
-      url: `shop/product/${name}/reviews/stats`,
-      baseUrl: getProductServiceBaseUrl(),
-    });
-    fetchList({
-      method: 'GET',
-      url: `shop/product/${name}/reviews?page=1&limit=10`,
-      baseUrl: getProductServiceBaseUrl(),
-    });
+    fetchStats({ method: 'GET', url: `shop/product/${name}/reviews/stats`, baseUrl: getProductServiceBaseUrl() });
+    fetchList({ method: 'GET', url: `shop/product/${name}/reviews?page=1&limit=10`, baseUrl: getProductServiceBaseUrl() });
     fetchAnalyticsDashboard().then((dash) => {
       const entry = dash.topProductsByViews.find((p) => p.productId === productId);
       if (entry) setAnalyticsStats({ views: entry.views, clicks: entry.clicks, orders: entry.orders });
@@ -73,11 +80,7 @@ const AdminProductDetail = () => {
   useEffect(() => {
     if (!product || page === 1) return;
     const name = encodeURIComponent(product.name);
-    fetchList({
-      method: 'GET',
-      url: `shop/product/${name}/reviews?page=${page}&limit=10`,
-      baseUrl: getProductServiceBaseUrl(),
-    });
+    fetchList({ method: 'GET', url: `shop/product/${name}/reviews?page=${page}&limit=10`, baseUrl: getProductServiceBaseUrl() });
   }, [page]);
 
   useEffect(() => {
@@ -85,12 +88,25 @@ const AdminProductDetail = () => {
     const res = listResponse as ReviewsListResponse;
     if (!Array.isArray(res.data)) return;
     const resPage = res.meta?.page ?? 1;
-    if (resPage <= 1) {
-      setReviews(res.data);
-    } else {
-      setReviews((prev) => [...prev, ...res.data]);
-    }
+    if (resPage <= 1) setReviews(res.data);
+    else setReviews((prev) => [...prev, ...res.data]);
   }, [listResponse]);
+
+  useEffect(() => {
+    if (!deletedProduct) return;
+    const cookies = new Cookies();
+    fetch(`${backendOriginForPort(5004)}/fashion/admin/products/delete/${deletedProduct.id}`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+        authorization: `Bearer ${cookies.getCookie('token')}`,
+      },
+    })
+      .then((r) => r.json())
+      .then((data) => {
+        if (data?.success === true) navigate(`/${api}/admin/products`);
+      });
+  }, [deletedProduct, navigate]);
 
   const stats =
     statsResponse && !('error' in statsResponse) && typeof (statsResponse as ProductReviewStats).totalReviews === 'number'
@@ -107,9 +123,19 @@ const AdminProductDetail = () => {
 
   return (
     <div className={cl.layout}>
-      <button type="button" className={cl.backBtn} onClick={() => navigate(-1)}>
-        ← Назад до товарів
-      </button>
+      <div className={cl.topBar}>
+        <Button
+          variant="submit-secondary"
+          type="button"
+          text="Назад до товарів"
+          onClick={() => navigate(-1)}
+        />
+        <ActionsMenu
+          actionList={adminProductsAction(product, setSelectedProduct, setDeletedProduct)}
+          ref={menuRef}
+          data={product}
+        />
+      </div>
 
       <div className={cl.header}>
         <img className={cl.productImage} src={getProductImageUrl(product.image)} alt={product.name} />
@@ -148,10 +174,12 @@ const AdminProductDetail = () => {
 
         {stats && stats.totalReviews > 0 && (
           <div className={cl.reviewStats}>
-            <span className={cl.avgRating}>{stats.averageRating.toFixed(1)}</span>
-            <div className={cl.ratingMeta}>
-              <div className={cl.stars}>{renderStars(Math.round(stats.averageRating), cl)}</div>
-              <span className={cl.ratingLabel}>Середня оцінка · {stats.totalReviews} відгуків</span>
+            <div className={cl.ratingSummary}>
+              <div className={cl.averageRating}>{stats.averageRating.toFixed(1)}</div>
+              <div className={cl.ratingDetails}>
+                <div className={cl.ratingStars}>{renderStars(Math.round(stats.averageRating), cl)}</div>
+                <div className={cl.ratingLabel}>Середня оцінка · {stats.totalReviews} відгуків</div>
+              </div>
             </div>
             <div className={cl.ratingBars}>
               {[5, 4, 3, 2, 1].map((star) => {
@@ -160,7 +188,7 @@ const AdminProductDetail = () => {
                 return (
                   <div key={star} className={cl.ratingBar}>
                     <span>{star}</span>
-                    <span>★</span>
+                    <span className={cl.starIcon}>★</span>
                     <div className={cl.barContainer}>
                       <div className={cl.barFill} style={{ width: `${pct}%` }} />
                     </div>
@@ -179,8 +207,14 @@ const AdminProductDetail = () => {
           {reviews.map((r) => (
             <div key={r.id} className={cl.reviewItem}>
               <div className={cl.reviewHeader}>
-                <div className={cl.stars}>{renderStars(r.stars, cl)}</div>
-                <span className={cl.reviewerName}>{r.userName}</span>
+                <div className={cl.reviewStars}>{renderStars(r.stars, cl)}</div>
+                <Link
+                  to={`/${api}/admin/users/${r.userId}`}
+                  className={cl.reviewerLink}
+                  onClick={(e) => e.stopPropagation()}
+                >
+                  {r.userName}
+                </Link>
                 <span className={cl.reviewDate}>{formatRelativeTimeUk(r.createdAt)}</span>
               </div>
               <p className={cl.reviewText}>{r.text}</p>
@@ -189,16 +223,26 @@ const AdminProductDetail = () => {
         </div>
 
         {listMeta?.meta?.hasMore && (
-          <button
+          <Button
+            variant="submit-secondary"
             type="button"
-            className={cl.loadMoreBtn}
-            onClick={() => setPage((p) => p + 1)}
+            text={listLoading ? 'Завантаження…' : 'Показати більше'}
             disabled={listLoading}
-          >
-            {listLoading ? 'Завантаження…' : 'Показати більше'}
-          </button>
+            onClick={() => setPage((p) => p + 1)}
+            className={cl.loadMoreBtn}
+          />
         )}
       </div>
+
+      {selectedProduct && (
+        <PopupEditProduct
+          data={selectedProduct}
+          popupRef={popupRef}
+          type="edit"
+          onSaved={loadProducts}
+          onClose={() => setSelectedProduct(null)}
+        />
+      )}
     </div>
   );
 };

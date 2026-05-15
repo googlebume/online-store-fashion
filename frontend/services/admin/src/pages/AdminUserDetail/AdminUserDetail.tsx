@@ -1,13 +1,19 @@
-import React, { useCallback, useEffect, useState } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
+import { Link, useParams, useNavigate } from 'react-router-dom';
 import cl from './AdminUserDetail.module.scss';
 import { useFetch } from '@packages/shared/src/utils/hooks/useFetch';
 import { getProductServiceBaseUrl } from '@packages/shared/src/utils/api/productServiceUrl';
+import { backendOriginForPort } from '@packages/shared/src/config/backendOrigin';
 import Cookies from '@packages/shared/src/utils/cookies';
+import Button from '@packages/shared/src/components/UI/Button/Button';
+import ActionsMenu from '@packages/shared/src/components/UI/ActionsMenu/ActionsMenu';
+import PopupEditUser from '@/components/PopupEditUser';
+import { adminUsersAction } from '@packages/shared/src/utils/constants/actionsMenu';
 import type { UserDataType } from '@packages/shared/src/utils/types/userData.type';
 import type { OrderDataType } from '@packages/shared/src/utils/types/orderData.type';
 import type { UserReviewItem, UserReviewsListResponse } from '@packages/shared/src/types/reviews.types';
 import userIcon from '@packages/shared/src/assets/images/icons/userIcon.png';
+import { api } from '@packages/shared/src/routes/api';
 
 const STATUS_LABELS: Record<string, string> = {
   Pending: 'Очікує',
@@ -32,21 +38,25 @@ function formatRelativeTimeUk(iso: string): string {
   return d.toLocaleDateString('uk-UA');
 }
 
-function renderStars(rating: number, cl: any) {
+function renderStars(rating: number, styles: any) {
   return Array.from({ length: 5 }, (_, i) => (
-    <span key={i} className={`${cl.star} ${i < rating ? cl.filled : ''}`}>★</span>
+    <span key={i} className={`${styles.star} ${i < rating ? styles.filled : ''}`}>★</span>
   ));
 }
 
 const AdminUserDetail = () => {
   const { userId } = useParams<{ userId: string }>();
   const navigate = useNavigate();
+  const menuRef = useRef<HTMLDivElement>(null);
+
   const [user, setUser] = useState<UserDataType | null>(null);
   const [orders, setOrders] = useState<OrderDataType[]>([]);
   const [reviews, setReviews] = useState<UserReviewItem[]>([]);
   const [reviewPage, setReviewPage] = useState(1);
   const [hasMoreReviews, setHasMoreReviews] = useState(false);
   const [deletingReviewId, setDeletingReviewId] = useState<string | null>(null);
+  const [selectedUser, setSelectedUser] = useState<UserDataType | null>(null);
+  const [deletedUser, setDeletedUser] = useState<UserDataType | null>(null);
 
   const { response: usersResponse, fetchData: fetchUsers } = useFetch<null, UserDataType[]>();
   const { response: ordersResponse, fetchData: fetchOrders } = useFetch<null, OrderDataType[]>();
@@ -91,6 +101,34 @@ const AdminUserDetail = () => {
     }
   }, [reviewsResponse]);
 
+  useEffect(() => {
+    if (!deletedUser) return;
+    const cookies = new Cookies();
+    fetch(`${backendOriginForPort(5004)}/fashion/admin/users/delete/${deletedUser.id}`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+        authorization: `Bearer ${cookies.getCookie('token')}`,
+      },
+    })
+      .then((r) => r.json())
+      .then((data) => {
+        if (data?.success === true) {
+          navigate(`/${api}/admin/users`);
+        }
+      });
+  }, [deletedUser, navigate]);
+
+  const loadMoreReviews = () => {
+    const nextPage = reviewPage + 1;
+    setReviewPage(nextPage);
+    fetchReviews({
+      method: 'GET',
+      url: `admin/reviews/by-user/${userId}?page=${nextPage}&limit=10`,
+      baseUrl: getProductServiceBaseUrl(),
+    });
+  };
+
   const handleDeleteReview = useCallback(async (reviewId: string) => {
     setDeletingReviewId(reviewId);
     try {
@@ -111,25 +149,25 @@ const AdminUserDetail = () => {
     }
   }, []);
 
-  const loadMoreReviews = () => {
-    const nextPage = reviewPage + 1;
-    setReviewPage(nextPage);
-    fetchReviews({
-      method: 'GET',
-      url: `admin/reviews/by-user/${userId}?page=${nextPage}&limit=10`,
-      baseUrl: getProductServiceBaseUrl(),
-    });
-  };
-
   if (!user) {
     return <div className={cl.loading}>Завантаження…</div>;
   }
 
   return (
     <div className={cl.layout}>
-      <button type="button" className={cl.backBtn} onClick={() => navigate(-1)}>
-        ← Назад до користувачів
-      </button>
+      <div className={cl.topBar}>
+        <Button
+          variant="submit-secondary"
+          type="button"
+          text="Назад до користувачів"
+          onClick={() => navigate(-1)}
+        />
+        <ActionsMenu
+          actionList={adminUsersAction(user, setSelectedUser, setDeletedUser)}
+          ref={menuRef}
+          data={user}
+        />
+      </div>
 
       <div className={cl.userHeader}>
         <div className={cl.avatar}>
@@ -190,16 +228,21 @@ const AdminUserDetail = () => {
               <div key={r.id} className={cl.reviewItem}>
                 <div className={cl.reviewHeader}>
                   <div className={cl.reviewStars}>{renderStars(r.stars, cl)}</div>
-                  <span className={cl.reviewProductTag}>{r.productName}</span>
+                  <Link
+                    to={`/${api}/admin/products/${r.productId}`}
+                    className={cl.reviewProductTag}
+                    onClick={(e) => e.stopPropagation()}
+                  >
+                    {r.productName}
+                  </Link>
                   <span className={cl.reviewDate}>{formatRelativeTimeUk(r.createdAt)}</span>
-                  <button
+                  <Button
+                    variant="trash"
                     type="button"
-                    className={cl.deleteReviewBtn}
+                    text="Видалити"
                     disabled={deletingReviewId === r.id}
                     onClick={() => handleDeleteReview(r.id)}
-                  >
-                    {deletingReviewId === r.id ? '…' : '✕ Видалити'}
-                  </button>
+                  />
                 </div>
                 {r.reviewTitle && <p className={cl.reviewTitle}>{r.reviewTitle}</p>}
                 <p className={cl.reviewText}>{r.text}</p>
@@ -208,16 +251,24 @@ const AdminUserDetail = () => {
           </div>
         )}
         {hasMoreReviews && (
-          <button
+          <Button
+            variant="submit-secondary"
             type="button"
-            className={cl.loadMoreBtn}
-            onClick={loadMoreReviews}
+            text={reviewsLoading ? 'Завантаження…' : 'Показати більше'}
             disabled={reviewsLoading}
-          >
-            {reviewsLoading ? 'Завантаження…' : 'Показати більше'}
-          </button>
+            onClick={loadMoreReviews}
+            className={cl.loadMoreBtn}
+          />
         )}
       </div>
+
+      {selectedUser && (
+        <PopupEditUser
+          user={selectedUser}
+          onClose={() => setSelectedUser(null)}
+          onSaved={() => fetchUsers({ method: 'GET', url: 'admin/users', port: 5004 })}
+        />
+      )}
     </div>
   );
 };

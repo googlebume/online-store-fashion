@@ -6,26 +6,15 @@
   gap: 20px;
 }
 
-.backBtn {
-  display: inline-flex;
+.topBar {
+  display: flex;
   align-items: center;
-  gap: 6px;
-  background: none;
-  border: none;
-  cursor: pointer;
-  font-size: 14px;
-  color: colors.$ashDarkenedText;
-  padding: 4px 0;
-  transition: color 0.15s;
-
-  &:hover {
-    color: colors.$black;
-  }
+  justify-content: space-between;
 }
 
 .header {
   display: flex;
-  gap: 20px;
+  gap: 24px;
   align-items: flex-start;
   border: 1px solid colors.$gray;
   border-radius: 24px;
@@ -34,12 +23,12 @@
 }
 
 .productImage {
-  width: 140px;
-  height: 140px;
+  width: 180px;
+  height: 180px;
   object-fit: cover;
   border-radius: 16px;
-  background: colors.$gray;
   flex-shrink: 0;
+  border: 1px solid colors.$gray;
 }
 
 .productInfo {
@@ -54,50 +43,52 @@
   color: colors.$black;
 }
 
-.productMeta {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px 16px;
-  font-size: 14px;
-  color: colors.$ashDarkenedText;
-  margin: 0;
-}
-
 .price {
   font-size: 18px;
   font-weight: 600;
   color: colors.$black;
+  margin: 0 0 12px;
+}
+
+.productMeta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+
+  span {
+    padding: 4px 10px;
+    border-radius: 10px;
+    font-size: 12px;
+    background: rgba(0, 0, 0, 0.06);
+    color: colors.$black;
+  }
 }
 
 .statsRow {
   display: grid;
-  grid-template-columns: repeat(3, minmax(120px, 1fr));
+  grid-template-columns: repeat(3, 1fr);
   gap: 12px;
 }
 
 .statCard {
   border: 1px solid colors.$gray;
-  border-radius: 20px;
+  border-radius: 16px;
   background: colors.$milkish;
-  padding: 16px 18px;
+  padding: 16px;
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 4px;
 }
 
 .statLabel {
   font-size: 12px;
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
   color: colors.$ashDarkenedText;
-  font-weight: 600;
 }
 
 .statValue {
-  font-size: 28px;
+  font-size: 24px;
   font-weight: 700;
   color: colors.$black;
-  line-height: 1.1;
 }
 
 .section {
@@ -115,37 +106,36 @@
 }
 
 .reviewStats {
-  display: flex;
-  align-items: center;
-  gap: 16px;
+  background: #fff;
+  padding: 20px;
+  border-radius: 16px;
+  border: 1px solid colors.$gray;
   margin-bottom: 20px;
 }
 
-.avgRating {
-  font-size: 40px;
-  font-weight: 700;
-  color: colors.$black;
-  line-height: 1;
+.ratingSummary {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 16px;
 }
 
-.ratingMeta {
+.averageRating {
+  font-size: 36px;
+  font-weight: bold;
+  color: colors.$black;
+}
+
+.ratingDetails {
   display: flex;
   flex-direction: column;
   gap: 4px;
 }
 
-.stars {
+.ratingStars {
   display: flex;
   gap: 2px;
-  font-size: 20px;
-}
-
-.star {
-  color: colors.$gray;
-
-  &.filled {
-    color: colors.$yellow;
-  }
+  font-size: 18px;
 }
 
 .ratingLabel {
@@ -160,26 +150,49 @@
 }
 
 .ratingBar {
-  display: grid;
-  grid-template-columns: 16px 16px 1fr 28px;
+  display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 6px;
   font-size: 13px;
   color: colors.$ashDarkenedText;
+
+  span:first-child {
+    width: 16px;
+    text-align: right;
+  }
+}
+
+.starIcon {
+  color: colors.$yellow;
 }
 
 .barContainer {
-  height: 8px;
-  border-radius: 4px;
+  flex: 1;
   background: rgba(0, 0, 0, 0.08);
+  height: 8px;
+  border-radius: 999px;
   overflow: hidden;
 }
 
 .barFill {
-  height: 100%;
-  border-radius: 4px;
   background: colors.$yellow;
-  min-width: 2px;
+  height: 100%;
+  border-radius: 999px;
+  transition: width 0.3s;
+}
+
+.star {
+  color: colors.$gray;
+
+  &.filled {
+    color: colors.$yellow;
+  }
+}
+
+.reviewStars {
+  display: flex;
+  gap: 1px;
+  font-size: 16px;
 }
 
 .reviewList {
@@ -202,14 +215,23 @@
   display: flex;
   align-items: center;
   gap: 10px;
-  margin-bottom: 6px;
+  margin-bottom: 4px;
   flex-wrap: wrap;
 }
 
-.reviewerName {
+.reviewerLink {
+  font-size: 13px;
   font-weight: 500;
-  font-size: 14px;
   color: colors.$black;
+  text-decoration: none;
+  padding: 2px 8px;
+  border-radius: 8px;
+  background: rgba(0, 0, 0, 0.06);
+  transition: background 0.15s;
+
+  &:hover {
+    background: colors.$yellow;
+  }
 }
 
 .reviewDate {
@@ -227,24 +249,11 @@
 
 .loadMoreBtn {
   margin-top: 12px;
-  display: block;
   width: 100%;
-  padding: 10px;
-  border: 1px solid colors.$gray;
-  border-radius: 12px;
-  background: colors.$milkish;
-  cursor: pointer;
-  font-size: 14px;
-  color: colors.$ashDarkenedText;
-  transition: background 0.15s;
-
-  &:hover {
-    background: colors.$gray;
-  }
 }
 
 .empty {
-  padding: 24px;
+  padding: 16px;
   text-align: center;
   color: colors.$ashDarkenedText;
   font-size: 14px;
