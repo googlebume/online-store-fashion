@@ -2,50 +2,46 @@
 
 .menuMom {
     position: relative;
+}
 
-    .menu {
-        position: absolute;
-        opacity: 0;
-        visibility: hidden;
-        top: calc(100% + 6px);
-        right: 0;
-        z-index: 100;
+.menu {
+    position: absolute;
+    top: calc(100% + 6px);
+    right: 0;
+    z-index: 100;
+    min-width: 140px;
+    width: max-content;
+    padding: 6px;
+    border-radius: 10px;
+    background: #fff;
+    border: 1px solid colors.$gray;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.18s ease, visibility 0.18s ease;
+}
 
-        width: fit-content;
-        height: auto;
-        border-radius: 10px;
-        padding: 2px 18px 2px 2px;
-        background-color: colors.$milkish;
-        border: 1px solid colors.$gray;
-        backdrop-filter: blur(8px);
-        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.10);
-        transition: opacity 0.2s ease, visibility 0.2s ease;
+.open {
+    opacity: 1;
+    visibility: visible;
+}
 
-        .option {
-            width: 100%;
-            white-space: nowrap;
-            padding: 8px;
-            border-radius: 8px;
-            border-left: 1px solid colors.$gray;
-            background-color: transparent;
-            color: colors.$black;
-            cursor: pointer;
-            transition: all 0.2s ease;
+.option {
+    display: block;
+    width: 100%;
+    padding: 8px 12px;
+    border-radius: 6px;
+    border-left: 2px solid transparent;
+    background: transparent;
+    color: colors.$black;
+    font-size: 14px;
+    cursor: pointer;
+    transition: border-color 0.15s, padding-left 0.15s, background 0.15s;
+    white-space: nowrap;
 
-            &:not(:last-child) {
-                margin-bottom: 4px;
-            }
-
-            &:hover {
-                border-left: 2px solid colors.$yellow;
-                padding-left: 10px;
-                transform: translateX(6px);
-            }
-        }
-    }
-
-    .open {
-        visibility: visible;
-        opacity: 1;
+    &:hover {
+        border-left-color: colors.$yellow;
+        background: rgba(0, 0, 0, 0.04);
+        padding-left: 14px;
     }
 }
