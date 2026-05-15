@@ -50,7 +50,6 @@ const BasketSummary: React.FC<BasketSummaryProps> = ({
         if (promoCheckoutBlocked) {
             return;
         }
-        setAuthError(false);
         const orderProducts = getCartItems()
         setProducts(orderProducts)
 
