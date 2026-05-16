@@ -21,9 +21,11 @@ const ColorOptions = ({ colorsList, curentColor, setCurrentColor }: ColorOptions
     return (
         <div className={cl.colorOptions}>
             {colorsList.map((color) => {
-                const matchedColor = filterColorDitchs.find(
-                    (ditch) => ditch.colorTxt.toLowerCase() === color.color.toLowerCase()
-                );
+                const matchedColor = color.color
+                    ? filterColorDitchs.find(
+                          (ditch) => ditch.colorTxt.toLowerCase() === color.color.toLowerCase()
+                      )
+                    : undefined;
 
                 const bgColor = matchedColor?.color || '#000';
 

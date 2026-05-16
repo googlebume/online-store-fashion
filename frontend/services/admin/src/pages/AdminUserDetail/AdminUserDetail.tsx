@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState, useMemo } from 'react';
 import { Link, useParams, useNavigate } from 'react-router-dom';
 import cl from './AdminUserDetail.module.scss';
 import { useFetch } from '@packages/shared/src/utils/hooks/useFetch';
@@ -8,22 +8,13 @@ import Cookies from '@packages/shared/src/utils/cookies';
 import Button from '@packages/shared/src/components/UI/Button/Button';
 import ActionsMenu from '@packages/shared/src/components/UI/ActionsMenu/ActionsMenu';
 import PopupEditUser from '@/components/PopupEditUser';
+import OrderCard from '@/components/OrderCard';
 import { adminUsersAction } from '@packages/shared/src/utils/constants/actionsMenu';
 import type { UserDataType } from '@packages/shared/src/utils/types/userData.type';
-import type { OrderDataType } from '@packages/shared/src/utils/types/orderData.type';
+import type { OrderDataType, OrderStatus } from '@packages/shared/src/utils/types/orderData.type';
 import type { UserReviewItem, UserReviewsListResponse } from '@packages/shared/src/types/reviews.types';
 import userIcon from '@packages/shared/src/assets/images/icons/userIcon.png';
 import { api } from '@packages/shared/src/routes/api';
-
-const STATUS_LABELS: Record<string, string> = {
-  Pending: 'Очікує',
-  Processing: 'Обробляється',
-  Accepted: 'Прийнято',
-  Received: 'Отримано',
-  Delivered: 'Доставлено',
-  Declined: 'Відхилено',
-  Canceled: 'Скасовано',
-};
 
 function formatRelativeTimeUk(iso: string): string {
   const d = new Date(iso);
@@ -51,12 +42,15 @@ const AdminUserDetail = () => {
 
   const [user, setUser] = useState<UserDataType | null>(null);
   const [orders, setOrders] = useState<OrderDataType[]>([]);
+  const [savingOrderIds, setSavingOrderIds] = useState<Record<string, boolean>>({});
   const [reviews, setReviews] = useState<UserReviewItem[]>([]);
   const [reviewPage, setReviewPage] = useState(1);
   const [hasMoreReviews, setHasMoreReviews] = useState(false);
   const [deletingReviewId, setDeletingReviewId] = useState<string | null>(null);
   const [selectedUser, setSelectedUser] = useState<UserDataType | null>(null);
   const [deletedUser, setDeletedUser] = useState<UserDataType | null>(null);
+
+  const cookies = useMemo(() => new Cookies(), []);
 
   const { response: usersResponse, fetchData: fetchUsers } = useFetch<null, UserDataType[]>();
   const { response: ordersResponse, fetchData: fetchOrders } = useFetch<null, OrderDataType[]>();
@@ -149,6 +143,29 @@ const AdminUserDetail = () => {
     }
   }, []);
 
+  const updateStatus = useCallback(async (orderId: string, status: OrderStatus) => {
+    setSavingOrderIds((prev) => ({ ...prev, [orderId]: true }));
+    try {
+      const res = await fetch(`${backendOriginForPort(5004)}/fashion/admin/orders/status`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          authorization: `Bearer ${cookies.getCookie('token')}`,
+        },
+        body: JSON.stringify({ orderId, status }),
+      });
+      const payload = await res.json();
+      if (!res.ok || payload?.success === false) {
+        throw new Error(payload?.message || 'Не вдалося оновити статус');
+      }
+      setOrders((prev) => prev.map((o) => (o.id === orderId ? { ...o, status } : o)));
+    } catch (err) {
+      console.error('[AdminUserDetail] update status error:', err);
+    } finally {
+      setSavingOrderIds((prev) => ({ ...prev, [orderId]: false }));
+    }
+  }, [cookies]);
+
   if (!user) {
     return <div className={cl.loading}>Завантаження…</div>;
   }
@@ -191,23 +208,12 @@ const AdminUserDetail = () => {
         ) : (
           <div className={cl.ordersList}>
             {orders.map((order) => (
-              <div key={order.id} className={cl.orderCard}>
-                <div className={cl.orderHeader}>
-                  <span className={cl.orderId}>#{order.id.slice(0, 8)}</span>
-                  <span className={cl.orderDate}>{new Date(order.createdAt).toLocaleDateString('uk-UA')}</span>
-                  <span className={cl.orderStatusBadge}>
-                    {STATUS_LABELS[order.status] || order.status}
-                  </span>
-                </div>
-                <div className={cl.orderMeta}>
-                  <span>Доставка: {order.deliveryMethod}</span>
-                  <span>Email: {order.email}</span>
-                  {order.promoCode && <span>Промокод: {order.promoCode}</span>}
-                </div>
-                <p className={cl.orderTotal}>
-                  Сума: {order.total.toFixed(2)} ₴ · {order.items?.length ?? 0} товарів
-                </p>
-              </div>
+              <OrderCard
+                key={order.id}
+                order={order}
+                isSaving={Boolean(savingOrderIds[order.id])}
+                onUpdateStatus={updateStatus}
+              />
             ))}
           </div>
         )}
