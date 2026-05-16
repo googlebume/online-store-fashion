@@ -96,7 +96,6 @@ export const useFetch = <T = any, R = any>(): UseFetchReturn<R> => {
       setResponse(data);
     } catch (err: any) {
       setError(err);
-      setResponse({ error: err.message } as any);
     } finally {
       setIsLoading(false);
     }

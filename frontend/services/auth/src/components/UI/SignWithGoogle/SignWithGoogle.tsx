@@ -62,6 +62,7 @@ const SignWithGoogle = () => {
   const [googleAuthError, setGoogleAuthError] = useState<string | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const [buttonWidth, setButtonWidth] = useState<number>(400);
+  const authInFlightRef = useRef(false);
 
   useEffect(() => {
     fetchData({
@@ -100,6 +101,7 @@ const SignWithGoogle = () => {
 
     console.log('Google auth backend response:', authFetch.response);
 
+    authInFlightRef.current = false;
     if (authFetch.response.success && authFetch.response.user) {
       const backendUser = authFetch.response.user;
       const currentUser: UserDataType = {
@@ -137,11 +139,14 @@ const SignWithGoogle = () => {
 
   useEffect(() => {
     if (!authFetch.error) return;
+    authInFlightRef.current = false;
     console.error('Google auth request error:', authFetch.error);
     setGoogleAuthError(authFetch.error.message || 'Google sign-in failed');
   }, [authFetch.error]);
 
   const handleSuccess = (credentialResponse: any) => {
+    if (authInFlightRef.current) return;
+    authInFlightRef.current = true;
     setGoogleAuthError(null);
     console.log('Google credential response received:', credentialResponse);
     authFetch.fetchData({
