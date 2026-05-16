@@ -54,7 +54,9 @@ export class PrismaUserRepository implements IUserRepository {
       return ok(UserMapper.toDomain(created));
     } catch (error: any) {
       if (error.code === 'P2002') {
-        return fail(new DuplicateEmailError(user.email.value));
+        const field = error.meta?.target?.[0] ?? '';
+        if (field === 'email') return fail(new DuplicateEmailError(user.email.value));
+        return fail(new Error(`User with name '${user.name}' already exists`));
       }
       return fail(new Error(`Failed to save user: ${error}`));
     }

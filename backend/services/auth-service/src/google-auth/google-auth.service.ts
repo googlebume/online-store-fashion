@@ -39,6 +39,7 @@ export class GoogleAuthService {
     }
 
     const existingUserResult = await this.userIdentityService.getUserByEmail(email);
+    console.log(`[GoogleAuth] getUserByEmail(${email}):`, JSON.stringify({ success: existingUserResult.success, hasUser: !!existingUserResult.user, message: existingUserResult.message }));
 
     if (
       !existingUserResult.success &&
@@ -66,11 +67,14 @@ export class GoogleAuthService {
       };
     }
 
+    const resolvedName = this.resolveGoogleName(payload, email);
+    console.log(`[GoogleAuth] createUser name='${resolvedName}' email='${email}'`);
     const createResult = await this.userIdentityService.createUser({
-      name: this.resolveGoogleName(payload, email),
+      name: resolvedName,
       email,
       password: randomBytes(32).toString('hex'),
     });
+    console.log(`[GoogleAuth] createUser result:`, JSON.stringify({ success: createResult.success, hasUser: !!createResult.user, message: createResult.message }));
 
     if (!createResult.success || !createResult.user) {
       const isAlreadyExists =
