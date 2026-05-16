@@ -6,7 +6,6 @@ import { getProductServiceBaseUrl, getProductImageUrl } from '@packages/shared/s
 import { backendOriginForPort } from '@packages/shared/src/config/backendOrigin';
 import { fetchAnalyticsDashboard } from '@packages/shared/src/services/analyticsDashboardApi';
 import Cookies from '@packages/shared/src/utils/cookies';
-import Button from '@packages/shared/src/components/UI/Button/Button';
 import ActionsMenu from '@packages/shared/src/components/UI/ActionsMenu/ActionsMenu';
 import PopupEditProduct from '@/components/PopupEditProduct';
 import { adminProductsAction } from '@packages/shared/src/utils/constants/actionsMenu';
@@ -183,7 +182,7 @@ const AdminProductDetail = () => {
                 return (
                   <div key={star} className={cl.ratingBar}>
                     <span>{star}</span>
-                    <span className={cl.starIcon}>★</span>
+                    <i>★</i>
                     <div className={cl.barContainer}>
                       <div className={cl.barFill} style={{ width: `${pct}%` }} />
                     </div>
@@ -197,15 +196,15 @@ const AdminProductDetail = () => {
 
         <div className={cl.reviewList}>
           {reviews.length === 0 && !listLoading && (
-            <p className={cl.empty}>Відгуків ще немає.</p>
+            <p className={cl.empty}>Ще ніхто не залишив відгук.</p>
           )}
           {reviews.map((r) => (
             <div key={r.id} className={cl.reviewItem}>
               <div className={cl.reviewHeader}>
-                <div className={cl.reviewStars}>{renderStars(r.stars, cl)}</div>
+                <div className={cl.reviewRating}>{renderStars(r.stars, cl)}</div>
                 <Link
                   to={`/${api}/admin/users/${r.userId}`}
-                  className={cl.reviewerLink}
+                  className={cl.reviewerName}
                   onClick={(e) => e.stopPropagation()}
                 >
                   {r.userName}
@@ -218,14 +217,14 @@ const AdminProductDetail = () => {
         </div>
 
         {listMeta?.meta?.hasMore && (
-          <Button
-            variant="submit-secondary"
+          <button
             type="button"
-            text={listLoading ? 'Завантаження…' : 'Показати більше'}
+            className={cl.loadMoreBtn}
             disabled={listLoading}
             onClick={() => setPage((p) => p + 1)}
-            className={cl.loadMoreBtn}
-          />
+          >
+            {listLoading ? 'Завантаження…' : 'Показати більше'}
+          </button>
         )}
       </div>
 
