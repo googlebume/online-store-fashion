@@ -7,3 +7,57 @@
       flex-direction: row;
     }
   }
+
+@keyframes prodSkelShimmer {
+  0%   { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+.skeleton {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  width: 100%;
+
+  @media (min-width: 1024px) {
+    flex-direction: row;
+  }
+}
+
+.skeletonGallery {
+  width: 100%;
+  height: 580px;
+  border-radius: 8px;
+  background: linear-gradient(90deg, #f0f0f0 25%, #e4e4e4 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: prodSkelShimmer 1.4s ease-in-out infinite;
+
+  @media (min-width: 1024px) {
+    width: 50%;
+    flex-shrink: 0;
+  }
+}
+
+.skeletonInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+
+  @media (min-width: 1024px) {
+    width: 50%;
+  }
+}
+
+.skeletonLine {
+  border-radius: 6px;
+  background: linear-gradient(90deg, #f0f0f0 25%, #e4e4e4 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: prodSkelShimmer 1.4s ease-in-out infinite;
+}
+
+.skeletonTitle  { height: 32px; width: 70%; }
+.skeletonPrice  { height: 24px; width: 30%; }
+.skeletonText   { height: 14px; width: 100%; }
+.skeletonTextSm { height: 14px; width: 80%; }
+.skeletonBtn    { height: 48px; width: 100%; border-radius: 8px; margin-top: 8px; }

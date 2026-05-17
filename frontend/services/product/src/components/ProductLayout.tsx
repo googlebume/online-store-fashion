@@ -173,6 +173,24 @@ const ProductLayout = () => {
         return variant ?? product;
     }, [product, allResponce, currentColor]);
 
+    if (isLoading || (!product && !error)) {
+        return (
+            <div className={cl.skeleton}>
+                <div className={cl.skeletonGallery} />
+                <div className={cl.skeletonInfo}>
+                    <div className={`${cl.skeletonLine} ${cl.skeletonTitle}`} />
+                    <div className={`${cl.skeletonLine} ${cl.skeletonPrice}`} />
+                    <div className={`${cl.skeletonLine} ${cl.skeletonText}`} />
+                    <div className={`${cl.skeletonLine} ${cl.skeletonText}`} />
+                    <div className={`${cl.skeletonLine} ${cl.skeletonTextSm}`} />
+                    <div className={`${cl.skeletonLine} ${cl.skeletonText}`} />
+                    <div className={`${cl.skeletonLine} ${cl.skeletonTextSm}`} />
+                    <div className={`${cl.skeletonLine} ${cl.skeletonBtn}`} />
+                </div>
+            </div>
+        );
+    }
+
     return (
         <div className={cl.productLayout}>
             {product && productForCart && (
