@@ -1,18 +1,22 @@
 import { Injectable } from '@nestjs/common';
-import { Resend } from 'resend';
+import * as nodemailer from 'nodemailer';
 
 @Injectable()
 export class MailerHandler {
-    constructor() {}
+    private readonly transporter = nodemailer.createTransport({
+        service: 'gmail',
+        auth: {
+            user: process.env.GMAIL_USER,
+            pass: process.env.GMAIL_APP_PASSWORD,
+        },
+    });
 
     async sendTextEmail(to: string, subject: string, text: string): Promise<void> {
-        const resend = new Resend(process.env.RESEND_API_KEY);
-        const { error } = await resend.emails.send({
-            from: 'onboarding@resend.dev',
+        await this.transporter.sendMail({
+            from: `"Fashion Store" <${process.env.GMAIL_USER}>`,
             to,
             subject,
             text,
         });
-        if (error) throw new Error(error.message);
     }
 }
