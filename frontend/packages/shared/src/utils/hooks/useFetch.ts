@@ -45,6 +45,8 @@ export const useFetch = <T = any, R = any>(): UseFetchReturn<R> => {
         'login/confirm',
         'google/clientid',
         'google/auth',
+        'forgot-password/init',
+        'forgot-password/confirm',
       ]);
 
       const isPublicEndpoint = publicEndpoints.has(url);

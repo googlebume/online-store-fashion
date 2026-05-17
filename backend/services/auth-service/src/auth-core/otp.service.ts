@@ -4,7 +4,7 @@ import { map } from 'rxjs/operators';
 import { randomUUID } from 'crypto';
 import { MailerHandler } from '@packages/shared/utils/libs/mailer/mailer.handler';
 
-export type AuthFlowType = 'register' | 'login';
+export type AuthFlowType = 'register' | 'login' | 'reset-password';
 
 type OtpSession = {
   flowId: string;

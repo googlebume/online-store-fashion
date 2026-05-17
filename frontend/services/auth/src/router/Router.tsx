@@ -4,6 +4,7 @@ import { Suspense } from 'react';
 import { Register } from '@/pages/Register';
 import { Login } from '@/pages/Login';
 import { Verify } from '@/pages/Verify';
+import { ResetPassword } from '@/pages/ResetPassword';
 import { api } from '@packages/shared/src/routes/api';
 
 const routes = [
@@ -36,6 +37,14 @@ const routes = [
         element: (
           <Suspense fallback={'Loading...'}>
             <Verify />
+          </Suspense>
+        ),
+      },
+      {
+        path: 'reset-password',
+        element: (
+          <Suspense fallback={'Loading...'}>
+            <ResetPassword />
           </Suspense>
         ),
       },

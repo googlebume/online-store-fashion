@@ -105,6 +105,9 @@ const Login = () => {
           />
           <Terms />
           <Button text={isLoading ? 'Loading...' : 'Увійти'} />
+          <div className={cl.forgotLink}>
+            <a href="#" onClick={(e) => { e.preventDefault(); navigate(`/${api}/reset-password`); }}>Забули пароль?</a>
+          </div>
           {isError && <ErrorMassage massage={errorMessage} />}
         </div>
         <LoginLink type="login" onClick={() => navigate(`/${api}/register`)} />

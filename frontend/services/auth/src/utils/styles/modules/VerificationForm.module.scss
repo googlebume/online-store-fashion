@@ -1,5 +1,25 @@
 @use '@packages/shared/src/utils/styles/colorScheme' as colors;
 
+.verifyContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.timer {
+  text-align: center;
+  color: colors.$ashDarkened;
+  font-size: 0.875rem;
+  margin: 8px 0 16px;
+}
+
+.error {
+  color: #e53e3e;
+  font-size: 0.875rem;
+  text-align: center;
+  margin-top: 8px;
+}
+
 .codeInputContainer {
   display: flex;
   justify-content: center;

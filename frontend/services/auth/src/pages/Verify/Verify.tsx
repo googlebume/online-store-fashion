@@ -160,10 +160,13 @@ const Verify: React.FC<VerificationCodeInputProps> = ({
       return;
     }
 
+    const url = event === 'register' ? 'register/confirm'
+               : event === 'reset-password' ? 'forgot-password/confirm'
+               : 'login/confirm';
     fetchData({
       method: 'POST',
       port: 5003,
-      url: event === 'register' ? 'register/confirm' : 'login/confirm',
+      url,
       body: { code: userCode, flowId },
     });
   };
@@ -203,31 +206,34 @@ const Verify: React.FC<VerificationCodeInputProps> = ({
   }, [flowId]);
 
   return (
-    <>
-      <form className={`${cl.codeInputContainer} ${className}`} onSubmit={handleSubmit}>
-        {Array.from({ length }, (_, index) => (
-          <input
-            key={index}
-            ref={(el) => (inputRefs.current[index] = el)}
-            type="text"
-            inputMode="numeric"
-            pattern="\d*"
-            maxLength={1}
-            value={code[index] || ''}
-            onChange={(e) => updateCode(index, e.target.value)}
-            onKeyDown={(e) => handleKey(index, e)}
-            onPaste={index === 0 ? handlePaste : undefined}
-            onFocus={(e) => e.target.select()}
-            disabled={disabled || !flowId}
-            aria-label={`Digit ${index + 1} of verification code`}
-            className={cl.codeInput}
-            autoComplete="one-time-code"
-          />
-        ))}
+    <div className={cl.verifyContainer}>
+      <form className={className} onSubmit={handleSubmit}>
+        <div className={cl.codeInputContainer}>
+          {Array.from({ length }, (_, index) => (
+            <input
+              key={index}
+              ref={(el) => (inputRefs.current[index] = el)}
+              type="text"
+              inputMode="numeric"
+              pattern="\d*"
+              maxLength={1}
+              value={code[index] || ''}
+              onChange={(e) => updateCode(index, e.target.value)}
+              onKeyDown={(e) => handleKey(index, e)}
+              onPaste={index === 0 ? handlePaste : undefined}
+              onFocus={(e) => e.target.select()}
+              disabled={disabled || !flowId}
+              aria-label={`Digit ${index + 1} of verification code`}
+              className={cl.codeInput}
+              autoComplete="one-time-code"
+            />
+          ))}
+        </div>
+        <p className={cl.timer}>{convertedTime}</p>
         <Button text={isLoading ? 'Loading...' : 'Перевірити'} />
       </form>
-      {isError ? <div className={cl.error}>{errorMessage}</div> : <p>{convertedTime}</p>}
-    </>
+      {isError && <div className={cl.error}>{errorMessage}</div>}
+    </div>
   );
 };
 
