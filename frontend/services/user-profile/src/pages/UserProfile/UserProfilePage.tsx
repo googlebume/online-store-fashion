@@ -334,7 +334,16 @@ const UserProfilePage = () => {
         </div>
 
         {ordersRequest.isLoading ? (
-          <p className={cl.muted}>Завантаження замовлень...</p>
+          <div className={cl.ordersList}>
+            {Array.from({ length: 3 }, (_, i) => (
+              <article key={i} className={cl.skeletonOrder}>
+                <div className={cl.skeletonLine} style={{ height: 20, width: '50%' }} />
+                <div className={cl.skeletonLine} style={{ height: 14, width: '30%' }} />
+                <div className={cl.skeletonLine} style={{ height: 60 }} />
+                <div className={cl.skeletonLine} style={{ height: 40, width: '40%' }} />
+              </article>
+            ))}
+          </div>
         ) : null}
 
         {shouldShowOrdersFetchError(ordersRequest.error, orders.length) ? (

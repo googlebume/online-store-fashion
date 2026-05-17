@@ -3,9 +3,9 @@ import { Link } from 'react-router-dom';
 
 import cl from './UsefuelLinks.module.scss'
 
-const UsefuelLinks = ({ title, links }) => {
+const UsefuelLinks = ({ title, links, id }) => {
     return (
-        <div className={cl.info__block}>
+        <div className={cl.info__block} id={id}>
             <div className={cl.block__title}>
                 <h3>{title}</h3>
             </div>

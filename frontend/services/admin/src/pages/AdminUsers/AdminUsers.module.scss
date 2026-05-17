@@ -70,3 +70,39 @@
         border-color: colors.$golden;
     }
 }
+
+/* --- Skeleton --- */
+@keyframes adminSkelShimmer {
+    0%   { background-position: -200% 0; }
+    100% { background-position:  200% 0; }
+}
+
+.skeletonUser {
+    width: 100%;
+    background: colors.$white;
+    border-radius: 40px;
+    border: 1px solid colors.$gray;
+    padding: 16px;
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    margin-bottom: 8px;
+}
+
+.skeletonCircle {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    background: linear-gradient(90deg, #f0f0f0 25%, #e4e4e4 50%, #f0f0f0 75%);
+    background-size: 200% 100%;
+    animation: adminSkelShimmer 1.4s ease-in-out infinite;
+}
+
+.skeletonBar {
+    height: 14px;
+    border-radius: 4px;
+    background: linear-gradient(90deg, #f0f0f0 25%, #e4e4e4 50%, #f0f0f0 75%);
+    background-size: 200% 100%;
+    animation: adminSkelShimmer 1.4s ease-in-out infinite;
+}

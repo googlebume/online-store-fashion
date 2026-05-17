@@ -264,6 +264,28 @@
   color: colors.$ashDarkenedText;
 }
 
+@keyframes profSkelShimmer {
+  0%   { background-position: -200% 0; }
+  100% { background-position:  200% 0; }
+}
+
+.skeletonOrder {
+  border: 1px solid colors.$gray;
+  border-radius: 12px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  background: colors.$white;
+}
+
+.skeletonLine {
+  border-radius: 4px;
+  background: linear-gradient(90deg, #f0f0f0 25%, #e4e4e4 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: profSkelShimmer 1.4s ease-in-out infinite;
+}
+
 @media (max-width: 900px) {
   .grid {
     grid-template-columns: 1fr;

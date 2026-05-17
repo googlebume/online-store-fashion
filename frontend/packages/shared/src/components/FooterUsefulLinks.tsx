@@ -11,7 +11,7 @@ const FooterUsefulLinks = () => {
                 flexWrap: 'wrap'
             }}>
                 {footerUsefulLinks.map((block, index) => (
-                    <UsefuelLinks key={index} title={block.title} links={block.links} />
+                    <UsefuelLinks key={index} id={index === 0 ? 'footer-buyers' : undefined} title={block.title} links={block.links} />
                 ))}
             </div>
         </>

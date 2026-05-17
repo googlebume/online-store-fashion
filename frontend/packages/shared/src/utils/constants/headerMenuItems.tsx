@@ -17,13 +17,15 @@ export const headerMenuItems = [
   },
   {
     title: "Покупцям",
-    link: "/buyers",
+    link: "#footer-buyers",
     icon: <AboutIcon height='24px' width='24px' color={`${variables.yellow}`}/>,
+    isAnchor: true,
   },
   {
     title: "Зв'язок",
-    link: "/contact",
+    link: "#footer-contact",
     icon: <ContactIcon height='24px' width='24px' color={`${variables.yellow}`}/>,
+    isAnchor: true,
   },
 ];
 

@@ -1,6 +1,7 @@
 import React, { useEffect, useMemo } from "react";
 import cl from "@/utils/styles/modules/ProductShopList.module.scss";
 import ProductCard from "@packages/shared/src/components/ProductCard";
+import ProductCardSkeleton from "@packages/shared/src/components/ProductCardSkeleton";
 import { useFetch } from "@packages/shared/src/utils/hooks/useFetch";
 import { ProductType } from "@packages/shared/src/utils/types/prosuctData.type";
 import { batch, useDispatch, useSelector } from "react-redux";
@@ -24,7 +25,7 @@ const ProductShopList = () => {
         (state: RootState) => state.filteredProducts.filtersActive
     );
 
-    const { response, error, fetchData } = useFetch<null, {meta:any, loaded:ProductType[]}>();
+    const { response, error, isLoading, fetchData } = useFetch<null, {meta:any, loaded:ProductType[]}>();
 
     useEffect(() => {
         fetchData({
@@ -105,6 +106,9 @@ const ProductShopList = () => {
                     <p className={cl.catalogErrorTech}>{error.message}</p>
                 </div>
             ) : null}
+            {!error && isLoading && list.length === 0
+                ? Array.from({ length: 12 }, (_, i) => <ProductCardSkeleton key={i} />)
+                : null}
             {!error &&
                 list.map((card) => (
                     <ProductCard key={card.id} data={card} />

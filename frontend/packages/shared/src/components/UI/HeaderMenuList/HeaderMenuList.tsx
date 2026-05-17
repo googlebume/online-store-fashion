@@ -27,9 +27,23 @@ const HeaderMenuList = () => {
                                 : null
                             }
 
-                            <Link className={cl.menu__link} to={item.link}>
-                                {item.title}
-                            </Link>
+                            {item.isAnchor ? (
+                                <a
+                                    className={cl.menu__link}
+                                    href={item.link}
+                                    onClick={(e) => {
+                                        e.preventDefault();
+                                        const el = document.querySelector(item.link);
+                                        if (el) el.scrollIntoView({ behavior: 'smooth' });
+                                    }}
+                                >
+                                    {item.title}
+                                </a>
+                            ) : (
+                                <Link className={cl.menu__link} to={item.link}>
+                                    {item.title}
+                                </Link>
+                            )}
                         </li>
                     ))
                 }

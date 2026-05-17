@@ -33,7 +33,7 @@ export const useUsersContext = () => {
 
 const AdminUsers = () => {
     const location = useLocation();
-    const { response, fetchData } = useFetch<null, UserDataType[]>();
+    const { response, isLoading, fetchData } = useFetch<null, UserDataType[]>();
     const [lastOfPath, setLastOfPath] = useState('');
     const [selectedUser, setSelectedUser] = useState<UserDataType | null>(null);
     const [deletedUser, setDeletedUser] = useState<UserDataType | null>(null);
@@ -141,6 +141,17 @@ const AdminUsers = () => {
                         </select>
                     </div>
                 )}
+                {isLoading && allUsers.length === 0
+                    ? Array.from({ length: 5 }, (_, i) => (
+                        <div key={i} className={cl.skeletonUser}>
+                            <div className={cl.skeletonCircle} />
+                            <div className={cl.skeletonBar} style={{ width: '120px' }} />
+                            <div className={cl.skeletonBar} style={{ flex: 1 }} />
+                            <div className={cl.skeletonBar} style={{ width: '60px' }} />
+                            <div className={cl.skeletonBar} style={{ width: '80px' }} />
+                        </div>
+                    ))
+                    : null}
                 {displayUsers.length > 0 && (
                     <UserCard users={displayUsers} />
                 )}

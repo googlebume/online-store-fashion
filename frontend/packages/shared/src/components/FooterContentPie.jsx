@@ -11,7 +11,7 @@ const FooterContentPie = () => {
     return (
         <div className={cl.footer__content}>
             <div className={cl.content__info}>
-                <div className={cl.info__about}>
+                <div className={cl.info__about} id="footer-contact">
                     <CompanyLogo />
                     <ContactPhoneNumber />
                 </div>

@@ -61,3 +61,25 @@
     grid-template-columns: 1fr;
   }
 }
+
+@keyframes ordSkelShimmer {
+  0%   { background-position: -200% 0; }
+  100% { background-position:  200% 0; }
+}
+
+.skeletonCard {
+  border: 1px solid colors.$gray;
+  border-radius: 16px;
+  background: colors.$white;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.skeletonLine {
+  border-radius: 6px;
+  background: linear-gradient(90deg, #f0f0f0 25%, #e4e4e4 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: ordSkelShimmer 1.4s ease-in-out infinite;
+}

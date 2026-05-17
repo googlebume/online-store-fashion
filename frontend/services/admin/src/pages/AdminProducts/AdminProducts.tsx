@@ -4,6 +4,7 @@ import { useFetch } from '@packages/shared/src/utils/hooks/useFetch';
 import { useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import ProductCard from '@packages/shared/src/components/ProductCard';
+import ProductCardSkeleton from '@packages/shared/src/components/ProductCardSkeleton';
 import PopupEditProduct from '../../components/PopupEditProduct';
 
 import cl from './AdminProducts.module.scss';
@@ -157,9 +158,11 @@ const AdminProducts = () => {
             <div className={cl.overview__prod}>
                 <ProdContext.Provider value={{ setSelectedProduct, selectedProduct, setDeletedProduct, deletedProduct }}>
 
-                    {displayList.map((prod, index) => (
-                        <ProductCard key={prod.id || index} data={prod as ProductType} />
-                    ))}
+                    {isLoading && displayList.length === 0
+                        ? Array.from({ length: 8 }, (_, i) => <ProductCardSkeleton key={i} />)
+                        : displayList.map((prod, index) => (
+                            <ProductCard key={prod.id || index} data={prod as ProductType} />
+                        ))}
 
                     {selectedProduct !== null && (
                         <PopupEditProduct

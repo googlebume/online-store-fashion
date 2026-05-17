@@ -83,7 +83,24 @@ const AdminOrders = () => {
   };
 
   if (isLoading && orders.length === 0) {
-    return <div className={cl.empty}>Завантаження замовлень...</div>;
+    return (
+      <section className={cl.layout}>
+        <div className={cl.toolbar}>
+          <h2 className={cl.title}>Замовлення</h2>
+        </div>
+        <div className={cl.grid}>
+          {Array.from({ length: 4 }, (_, i) => (
+            <div key={i} className={cl.skeletonCard}>
+              <div className={cl.skeletonLine} style={{ height: 24, width: '60%' }} />
+              <div className={cl.skeletonLine} style={{ height: 14, width: '40%' }} />
+              <div className={cl.skeletonLine} style={{ height: 80 }} />
+              <div className={cl.skeletonLine} style={{ height: 60 }} />
+              <div className={cl.skeletonLine} style={{ height: 40, width: '50%', marginTop: 8 }} />
+            </div>
+          ))}
+        </div>
+      </section>
+    );
   }
 
   if (loadError) {
